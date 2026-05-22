@@ -16,6 +16,7 @@ import { Route as PropiedadesRouteImport } from './routes/propiedades'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as MantenimientoRouteImport } from './routes/mantenimiento'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as LandingRouteImport } from './routes/landing'
 import { Route as FinanzasRouteImport } from './routes/finanzas'
 import { Route as EdificiosRouteImport } from './routes/edificios'
 import { Route as ConfiguracionRouteImport } from './routes/configuracion'
@@ -60,6 +61,11 @@ const MantenimientoRoute = MantenimientoRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LandingRoute = LandingRouteImport.update({
+  id: '/landing',
+  path: '/landing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FinanzasRoute = FinanzasRouteImport.update({
@@ -122,6 +128,7 @@ export interface FileRoutesByFullPath {
   '/configuracion': typeof ConfiguracionRoute
   '/edificios': typeof EdificiosRouteWithChildren
   '/finanzas': typeof FinanzasRoute
+  '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
   '/mantenimiento': typeof MantenimientoRoute
   '/pipeline': typeof PipelineRoute
@@ -140,6 +147,7 @@ export interface FileRoutesByTo {
   '/comunicaciones': typeof ComunicacionesRoute
   '/configuracion': typeof ConfiguracionRoute
   '/finanzas': typeof FinanzasRoute
+  '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
   '/mantenimiento': typeof MantenimientoRoute
   '/pipeline': typeof PipelineRoute
@@ -160,6 +168,7 @@ export interface FileRoutesById {
   '/configuracion': typeof ConfiguracionRoute
   '/edificios': typeof EdificiosRouteWithChildren
   '/finanzas': typeof FinanzasRoute
+  '/landing': typeof LandingRoute
   '/login': typeof LoginRoute
   '/mantenimiento': typeof MantenimientoRoute
   '/pipeline': typeof PipelineRoute
@@ -181,6 +190,7 @@ export interface FileRouteTypes {
     | '/configuracion'
     | '/edificios'
     | '/finanzas'
+    | '/landing'
     | '/login'
     | '/mantenimiento'
     | '/pipeline'
@@ -199,6 +209,7 @@ export interface FileRouteTypes {
     | '/comunicaciones'
     | '/configuracion'
     | '/finanzas'
+    | '/landing'
     | '/login'
     | '/mantenimiento'
     | '/pipeline'
@@ -218,6 +229,7 @@ export interface FileRouteTypes {
     | '/configuracion'
     | '/edificios'
     | '/finanzas'
+    | '/landing'
     | '/login'
     | '/mantenimiento'
     | '/pipeline'
@@ -238,6 +250,7 @@ export interface RootRouteChildren {
   ConfiguracionRoute: typeof ConfiguracionRoute
   EdificiosRoute: typeof EdificiosRouteWithChildren
   FinanzasRoute: typeof FinanzasRoute
+  LandingRoute: typeof LandingRoute
   LoginRoute: typeof LoginRoute
   MantenimientoRoute: typeof MantenimientoRoute
   PipelineRoute: typeof PipelineRoute
@@ -296,6 +309,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/landing': {
+      id: '/landing'
+      path: '/landing'
+      fullPath: '/landing'
+      preLoaderRoute: typeof LandingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/finanzas': {
@@ -394,6 +414,7 @@ const rootRouteChildren: RootRouteChildren = {
   ConfiguracionRoute: ConfiguracionRoute,
   EdificiosRoute: EdificiosRouteWithChildren,
   FinanzasRoute: FinanzasRoute,
+  LandingRoute: LandingRoute,
   LoginRoute: LoginRoute,
   MantenimientoRoute: MantenimientoRoute,
   PipelineRoute: PipelineRoute,
