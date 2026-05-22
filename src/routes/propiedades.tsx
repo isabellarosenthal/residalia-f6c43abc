@@ -73,7 +73,18 @@ function PropiedadesPage() {
             <h1 className="font-display font-extrabold text-2xl text-[#2d1200]">Propiedades en Venta / Renta</h1>
             <p className="text-sm text-[#9a7060]">Catálogo comercial de unidades publicadas</p>
           </div>
+          <div className="inline-flex rounded-lg border border-[#e8ddd8] bg-white p-0.5">
+            <Button size="sm" variant="ghost" onClick={() => setView("table")}
+              className={`h-8 px-3 ${view === "table" ? "bg-[#f5ede8] text-[#2d1200]" : "text-[#9a7060]"}`}>
+              <TableIcon className="w-4 h-4 mr-1" /> Tabla
+            </Button>
+            <Button size="sm" variant="ghost" onClick={() => setView("cards")}
+              className={`h-8 px-3 ${view === "cards" ? "bg-[#f5ede8] text-[#2d1200]" : "text-[#9a7060]"}`}>
+              <LayoutGrid className="w-4 h-4 mr-1" /> Cards
+            </Button>
+          </div>
         </div>
+
 
         <div className="flex flex-wrap gap-2 bg-white border border-[#e8ddd8] rounded-xl p-3">
           <div className="relative flex-1 min-w-[220px]">
