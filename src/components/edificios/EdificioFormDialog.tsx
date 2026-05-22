@@ -18,13 +18,14 @@ const schema = z.object({
   moneda: z.string().min(1).max(5),
   cuota_base: z.coerce.number().min(0).default(0),
 });
-type FormVals = z.infer<typeof schema>;
+type FormVals = z.input<typeof schema>;
+type FormOut = z.output<typeof schema>;
 
 export function EdificioFormDialog({
   open, onOpenChange, edificio,
 }: { open: boolean; onOpenChange: (v: boolean) => void; edificio?: Condominio | null }) {
   const save = useSaveEdificio();
-  const form = useForm<FormVals>({
+  const form = useForm<FormVals, any, FormOut>({
     resolver: zodResolver(schema),
     mode: "onChange",
     defaultValues: { nombre: "", tipo: "edificio", direccion: "", ciudad: "", departamento: "", moneda: "L", cuota_base: 0 },
@@ -44,7 +45,7 @@ export function EdificioFormDialog({
     }
   }, [open, edificio, form]);
 
-  const onSubmit = async (vals: FormVals) => {
+  const onSubmit = async (vals: FormOut) => {
     await save.mutateAsync({
       id: edificio?.id,
       nombre: vals.nombre,
