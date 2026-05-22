@@ -93,6 +93,7 @@ export function AccesosTable({ edificioId, onEdit }: { edificioId: string; onEdi
           </TableBody>
         </Table>
       </div>
+      <PaseDialog open={!!pase} onOpenChange={(v) => !v && setPase(null)} acceso={pase} />
     </div>
   );
 }
