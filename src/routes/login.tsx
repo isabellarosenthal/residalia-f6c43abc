@@ -48,7 +48,7 @@ function LoginPage() {
             <Building className="w-6 h-6 text-white" />
           </div>
           <div className="font-display font-extrabold text-2xl">
-            <span className="text-[#2d1200]">Habita</span><span className="text-[#c94f0c]">Cloud</span>
+            <span className="text-[#2d1200]">Prop</span><span className="text-[#c94f0c]">Cloud</span>
           </div>
         </div>
         <p className="text-center text-sm text-[#9a7060] mb-8">Administración de condominios y CRM inmobiliario</p>

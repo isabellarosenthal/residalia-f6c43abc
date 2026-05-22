@@ -60,7 +60,7 @@ export function Sidebar() {
           <Building className="w-5 h-5 text-white" />
         </div>
         <div className="font-display font-extrabold text-xl leading-none">
-          <span className="text-white">Habita</span><span className="text-[#c94f0c]">Cloud</span>
+          <span className="text-white">Prop</span><span className="text-[#c94f0c]">Cloud</span>
         </div>
       </div>
 

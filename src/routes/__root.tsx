@@ -9,7 +9,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Habita Cloud — Administración de condominios y CRM inmobiliario" },
+      { title: "Prop Cloud — Administración de condominios y CRM inmobiliario" },
       { name: "description", content: "Plataforma unificada de administración de condominios y CRM inmobiliario para Centroamérica." },
     ],
     links: [{ rel: "stylesheet", href: appCss }],
