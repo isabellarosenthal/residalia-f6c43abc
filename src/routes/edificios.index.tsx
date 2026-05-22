@@ -9,16 +9,31 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { EdificioCard } from "@/components/edificios/EdificioCard";
 import { EdificiosTable } from "@/components/edificios/EdificiosTable";
 import { EdificioFormDialog } from "@/components/edificios/EdificioFormDialog";
-import { useEdificios } from "@/lib/queries";
+import { useEdificios, useUnidades } from "@/lib/queries";
 
 export const Route = createFileRoute("/edificios/")({ component: EdificiosPage });
 
 function EdificiosPage() {
   const { data: edificios = [], isLoading } = useEdificios();
+  const { data: allUnidades = [] } = useUnidades();
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [tipo, setTipo] = useState("all");
   const [view, setView] = useState<"grid" | "table">("grid");
+
+  const statsMap = useMemo(() => {
+    const m = new Map<string, { total: number; ocupadas: number; disponibles: number; enVenta: number; enRenta: number }>();
+    for (const u of allUnidades) {
+      const s = m.get(u.condominio_id) ?? { total: 0, ocupadas: 0, disponibles: 0, enVenta: 0, enRenta: 0 };
+      s.total++;
+      if (u.estado_administrativo === "ocupada") s.ocupadas++;
+      if (u.estado_administrativo === "disponible") s.disponibles++;
+      if (u.estado_comercial === "en_venta" || u.estado_comercial === "en_venta_y_renta") s.enVenta++;
+      if (u.estado_comercial === "en_renta" || u.estado_comercial === "en_venta_y_renta") s.enRenta++;
+      m.set(u.condominio_id, s);
+    }
+    return m;
+  }, [allUnidades]);
 
   const filtered = useMemo(() => {
     return edificios.filter((e) => {
@@ -27,6 +42,7 @@ function EdificiosPage() {
       return true;
     });
   }, [edificios, search, tipo]);
+
 
   return (
     <AppShell>
