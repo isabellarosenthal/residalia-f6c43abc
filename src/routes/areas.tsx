@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useState, useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus, CalendarRange } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
@@ -9,8 +9,10 @@ import { AreasGrid } from "@/components/areas/AreasGrid";
 import { ReservasTable } from "@/components/areas/ReservasTable";
 import { useEdificios, type AreaComun, type Reserva } from "@/lib/queries";
 
-const AreaFormDialog = lazy(() => import("@/components/areas/AreaFormDialog").then(m => ({ default: m.AreaFormDialog })));
-const ReservaFormDialog = lazy(() => import("@/components/areas/ReservaFormDialog").then(m => ({ default: m.ReservaFormDialog })));
+const loadAreaDialog = () => import("@/components/areas/AreaFormDialog");
+const loadResDialog = () => import("@/components/areas/ReservaFormDialog");
+const AreaFormDialog = lazy(() => loadAreaDialog().then(m => ({ default: m.AreaFormDialog })));
+const ReservaFormDialog = lazy(() => loadResDialog().then(m => ({ default: m.ReservaFormDialog })));
 
 export const Route = createFileRoute("/areas")({ component: AreasPage });
 
@@ -21,6 +23,25 @@ function AreasPage() {
   const [areaEdit, setAreaEdit] = useState<AreaComun | null>(null);
   const [resOpen, setResOpen] = useState(false);
   const [resEdit, setResEdit] = useState<Reserva | null>(null);
+  const [areaLoading, setAreaLoading] = useState(false);
+  const [resLoading, setResLoading] = useState(false);
+
+  useEffect(() => { loadAreaDialog(); loadResDialog(); }, []);
+
+  const openArea = async (a: AreaComun | null) => {
+    setAreaEdit(a);
+    setAreaLoading(true);
+    await loadAreaDialog();
+    setAreaLoading(false);
+    setAreaOpen(true);
+  };
+  const openRes = async (r: Reserva | null) => {
+    setResEdit(r);
+    setResLoading(true);
+    await loadResDialog();
+    setResLoading(false);
+    setResOpen(true);
+  };
 
   return (
     <AppShell>
@@ -49,19 +70,19 @@ function AreasPage() {
             </TabsList>
             <TabsContent value="areas" className="space-y-4 pt-4">
               <div className="flex justify-end">
-                <Button onClick={() => { setAreaEdit(null); setAreaOpen(true); }} className="bg-[#c94f0c] hover:bg-[#a33d08]">
-                  <Plus className="w-4 h-4 mr-1" />Nueva área
+                <Button onClick={() => openArea(null)} disabled={areaLoading} className="bg-[#c94f0c] hover:bg-[#a33d08]">
+                  <Plus className="w-4 h-4 mr-1" />{areaLoading ? "Cargando..." : "Nueva área"}
                 </Button>
               </div>
-              <AreasGrid edificioId={edificioId} onEdit={(a) => { setAreaEdit(a); setAreaOpen(true); }} />
+              <AreasGrid edificioId={edificioId} onEdit={(a) => openArea(a)} />
             </TabsContent>
             <TabsContent value="reservas" className="space-y-4 pt-4">
               <div className="flex justify-end">
-                <Button onClick={() => { setResEdit(null); setResOpen(true); }} className="bg-[#c94f0c] hover:bg-[#a33d08]">
-                  <Plus className="w-4 h-4 mr-1" />Nueva reserva
+                <Button onClick={() => openRes(null)} disabled={resLoading} className="bg-[#c94f0c] hover:bg-[#a33d08]">
+                  <Plus className="w-4 h-4 mr-1" />{resLoading ? "Cargando..." : "Nueva reserva"}
                 </Button>
               </div>
-              <ReservasTable edificioId={edificioId} onEdit={(r) => { setResEdit(r); setResOpen(true); }} />
+              <ReservasTable edificioId={edificioId} onEdit={(r) => openRes(r)} />
             </TabsContent>
           </Tabs>
         )}
