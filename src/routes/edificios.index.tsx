@@ -15,7 +15,7 @@ export const Route = createFileRoute("/edificios/")({ component: EdificiosPage }
 
 function EdificiosPage() {
   const { data: edificios = [], isLoading } = useEdificios();
-  const { data: allUnidades = [] } = useUnidades();
+  const { data: allUnidades = [] } = useUnidades(undefined, "stats");
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [tipo, setTipo] = useState("all");
