@@ -302,7 +302,9 @@ export type Database = {
           departamento: string | null
           direccion: string | null
           id: string
+          latitud: number | null
           logo_url: string | null
+          longitud: number | null
           moneda: string
           nombre: string
           pais: string
@@ -318,7 +320,9 @@ export type Database = {
           departamento?: string | null
           direccion?: string | null
           id?: string
+          latitud?: number | null
           logo_url?: string | null
+          longitud?: number | null
           moneda?: string
           nombre: string
           pais?: string
@@ -334,7 +338,9 @@ export type Database = {
           departamento?: string | null
           direccion?: string | null
           id?: string
+          latitud?: number | null
           logo_url?: string | null
+          longitud?: number | null
           moneda?: string
           nombre?: string
           pais?: string
