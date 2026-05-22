@@ -205,14 +205,3 @@ function PropiedadesPage() {
     </AppShell>
   );
 }
-
-      </div>
-
-      <Suspense fallback={null}>
-        {open && edit && (
-          <UnidadFormDialog open={open} onOpenChange={setOpen} edificioId={edit.condominio_id} unidad={edit} />
-        )}
-      </Suspense>
-    </AppShell>
-  );
-}
