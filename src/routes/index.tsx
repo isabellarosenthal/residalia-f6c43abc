@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/layout/AppShell";
 import { Card, KpiCard, Badge } from "@/components/ui-pentos";
@@ -5,6 +6,7 @@ import { useAuth } from "@/lib/auth-context";
 import { Wallet, AlertTriangle, KeyRound, Wrench, Tag, UserPlus, TrendingUp, CheckCircle2 } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, ReferenceLine } from "recharts";
 import { fmtL } from "@/lib/format";
+import { OnboardingWizard, useShouldShowOnboarding } from "@/components/onboarding/OnboardingWizard";
 
 export const Route = createFileRoute("/")({ component: Dashboard });
 
