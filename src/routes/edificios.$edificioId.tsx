@@ -78,6 +78,7 @@ function EdificioDetail() {
           <TabsList className="bg-[#f5ede8]">
             <TabsTrigger value="resumen">Resumen</TabsTrigger>
             <TabsTrigger value="unidades">Unidades ({total})</TabsTrigger>
+            <TabsTrigger value="residentes">Residentes</TabsTrigger>
             <TabsTrigger value="config">Configuración</TabsTrigger>
           </TabsList>
 
