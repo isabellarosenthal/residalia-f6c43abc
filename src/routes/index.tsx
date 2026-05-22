@@ -29,9 +29,13 @@ function Dashboard() {
   const hour = new Date().getHours();
   const saludo = hour < 12 ? "Buenos días" : hour < 19 ? "Buenas tardes" : "Buenas noches";
   const firstName = (profile?.full_name ?? "").split(" ")[0] || "Bienvenido";
+  const shouldShow = useShouldShowOnboarding();
+  const [wizardOpen, setWizardOpen] = useState(false);
+  useEffect(() => { if (shouldShow) setWizardOpen(true); }, [shouldShow]);
 
   return (
     <AppShell>
+      <OnboardingWizard open={wizardOpen} onClose={() => setWizardOpen(false)} />
       <div className="space-y-6 max-w-[1400px] mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
