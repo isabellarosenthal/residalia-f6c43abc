@@ -28,7 +28,7 @@ export function Topbar() {
   return (
     <header className="h-16 bg-white border-b border-[#e8ddd8] flex items-center px-6 gap-4 sticky top-0 z-20">
       <div className="flex-1 min-w-0">
-        <div className="text-[11px] uppercase tracking-widest text-[#9a7060] font-semibold">Habita Cloud</div>
+        <div className="text-[11px] uppercase tracking-widest text-[#9a7060] font-semibold">Prop Cloud</div>
         <div className="font-display font-bold text-[#2d1200] truncate">{title}</div>
       </div>
       <button className="hidden md:flex items-center gap-2 text-sm text-[#4a2800] px-3 py-1.5 rounded-full border border-[#e8ddd8] hover:bg-[#f5ede8] transition-colors">
