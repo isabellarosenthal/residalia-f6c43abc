@@ -301,6 +301,38 @@ export type Database = {
           },
         ]
       }
+      condominio_members: {
+        Row: {
+          condominio_id: string
+          created_at: string
+          id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          condominio_id: string
+          created_at?: string
+          id?: string
+          role?: string
+          user_id: string
+        }
+        Update: {
+          condominio_id?: string
+          created_at?: string
+          id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "condominio_members_condominio_id_fkey"
+            columns: ["condominio_id"]
+            isOneToOne: false
+            referencedRelation: "condominios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       condominios: {
         Row: {
           activo: boolean
@@ -1119,6 +1151,8 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      can_access_condominio: { Args: { _condo_id: string }; Returns: boolean }
+      can_manage_condominio: { Args: { _condo_id: string }; Returns: boolean }
       get_user_role: {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["app_role"]
