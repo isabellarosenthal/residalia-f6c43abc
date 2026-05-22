@@ -23,6 +23,25 @@ function AreasPage() {
   const [areaEdit, setAreaEdit] = useState<AreaComun | null>(null);
   const [resOpen, setResOpen] = useState(false);
   const [resEdit, setResEdit] = useState<Reserva | null>(null);
+  const [areaLoading, setAreaLoading] = useState(false);
+  const [resLoading, setResLoading] = useState(false);
+
+  useEffect(() => { loadAreaDialog(); loadResDialog(); }, []);
+
+  const openArea = async (a: AreaComun | null) => {
+    setAreaEdit(a);
+    setAreaLoading(true);
+    await loadAreaDialog();
+    setAreaLoading(false);
+    setAreaOpen(true);
+  };
+  const openRes = async (r: Reserva | null) => {
+    setResEdit(r);
+    setResLoading(true);
+    await loadResDialog();
+    setResLoading(false);
+    setResOpen(true);
+  };
 
   return (
     <AppShell>
