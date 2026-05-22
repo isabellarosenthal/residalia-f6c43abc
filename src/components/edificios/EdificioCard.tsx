@@ -74,8 +74,13 @@ export function EdificioCard({ edificio, stats }: { edificio: Condominio; stats?
           </div>
         </Card>
       </div>
-      <EdificioFormDialog open={editOpen} onOpenChange={setEditOpen} edificio={edificio} />
+      {editOpen && (
+        <Suspense fallback={null}>
+          <EdificioFormDialog open={editOpen} onOpenChange={setEditOpen} edificio={edificio} />
+        </Suspense>
+      )}
     </>
+
   );
 }
 
