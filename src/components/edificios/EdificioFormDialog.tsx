@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -8,6 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useSaveEdificio, type Condominio } from "@/lib/queries";
+import { DEPARTAMENTOS, ciudadesDe } from "@/lib/honduras-geo";
+import { AddressMapPicker } from "./AddressMapPicker";
 
 const schema = z.object({
   nombre: z.string().min(2, "Nombre muy corto").max(120),
@@ -15,6 +17,8 @@ const schema = z.object({
   direccion: z.string().max(255).optional().or(z.literal("")),
   ciudad: z.string().max(80).optional().or(z.literal("")),
   departamento: z.string().max(80).optional().or(z.literal("")),
+  latitud: z.number().nullable().optional(),
+  longitud: z.number().nullable().optional(),
   moneda: z.string().min(1).max(5),
   cuota_base: z.coerce.number().min(0).default(0),
 });
@@ -28,7 +32,10 @@ export function EdificioFormDialog({
   const form = useForm<FormVals, any, FormOut>({
     resolver: zodResolver(schema),
     mode: "onChange",
-    defaultValues: { nombre: "", tipo: "edificio", direccion: "", ciudad: "", departamento: "", moneda: "L", cuota_base: 0 },
+    defaultValues: {
+      nombre: "", tipo: "edificio", direccion: "", ciudad: "", departamento: "",
+      latitud: null, longitud: null, moneda: "L", cuota_base: 0,
+    },
   });
 
   useEffect(() => {
@@ -39,11 +46,16 @@ export function EdificioFormDialog({
         direccion: edificio?.direccion ?? "",
         ciudad: edificio?.ciudad ?? "",
         departamento: edificio?.departamento ?? "",
+        latitud: (edificio as any)?.latitud ?? null,
+        longitud: (edificio as any)?.longitud ?? null,
         moneda: edificio?.moneda ?? "L",
         cuota_base: edificio?.cuota_base ?? 0,
       });
     }
   }, [open, edificio, form]);
+
+  const departamento = form.watch("departamento") ?? "";
+  const ciudades = useMemo(() => ciudadesDe(departamento), [departamento]);
 
   const onSubmit = async (vals: FormOut) => {
     await save.mutateAsync({
@@ -53,15 +65,17 @@ export function EdificioFormDialog({
       direccion: vals.direccion || null,
       ciudad: vals.ciudad || null,
       departamento: vals.departamento || null,
+      latitud: vals.latitud ?? null,
+      longitud: vals.longitud ?? null,
       moneda: vals.moneda,
       cuota_base: vals.cuota_base,
-    });
+    } as any);
     onOpenChange(false);
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[560px]">
+      <DialogContent className="sm:max-w-[640px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="font-display text-xl text-[#2d1200]">{edificio ? "Editar edificio" : "Nuevo edificio"}</DialogTitle>
         </DialogHeader>
@@ -99,17 +113,68 @@ export function EdificioFormDialog({
 
           <div>
             <Label>Dirección</Label>
-            <Input {...form.register("direccion")} placeholder="Col. Las Colinas, calle 14" />
+            <AddressMapPicker
+              value={{
+                direccion: form.watch("direccion") ?? "",
+                latitud: (form.watch("latitud") as number | null) ?? null,
+                longitud: (form.watch("longitud") as number | null) ?? null,
+              }}
+              onChange={(v) => {
+                form.setValue("direccion", v.direccion, { shouldValidate: true });
+                form.setValue("latitud", v.latitud);
+                form.setValue("longitud", v.longitud);
+              }}
+              onGeoFound={(g) => {
+                if (g.departamento) {
+                  // Map google admin name to our list if it matches
+                  const match = DEPARTAMENTOS.find(
+                    (d) => d.toLowerCase() === g.departamento!.toLowerCase()
+                      || d.toLowerCase() === g.departamento!.toLowerCase().replace(/^departamento de /, ""),
+                  );
+                  if (match) form.setValue("departamento", match, { shouldValidate: true });
+                }
+                if (g.ciudad) {
+                  const deptoNow = form.getValues("departamento") ?? "";
+                  const cityList = ciudadesDe(deptoNow);
+                  const cityMatch = cityList.find((c) => c.toLowerCase() === g.ciudad!.toLowerCase());
+                  if (cityMatch) form.setValue("ciudad", cityMatch, { shouldValidate: true });
+                }
+              }}
+            />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <Label>Ciudad</Label>
-              <Input {...form.register("ciudad")} placeholder="Tegucigalpa" />
+              <Label>Departamento</Label>
+              <Select
+                value={form.watch("departamento") || ""}
+                onValueChange={(v) => {
+                  form.setValue("departamento", v, { shouldValidate: true });
+                  form.setValue("ciudad", "", { shouldValidate: true });
+                }}
+              >
+                <SelectTrigger><SelectValue placeholder="Selecciona…" /></SelectTrigger>
+                <SelectContent className="max-h-72">
+                  {DEPARTAMENTOS.map((d) => (
+                    <SelectItem key={d} value={d}>{d}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div>
-              <Label>Departamento</Label>
-              <Input {...form.register("departamento")} placeholder="Francisco Morazán" />
+              <Label>Ciudad / Municipio</Label>
+              <Select
+                value={form.watch("ciudad") || ""}
+                onValueChange={(v) => form.setValue("ciudad", v, { shouldValidate: true })}
+                disabled={!departamento}
+              >
+                <SelectTrigger><SelectValue placeholder={departamento ? "Selecciona…" : "Elige depto. primero"} /></SelectTrigger>
+                <SelectContent className="max-h-72">
+                  {ciudades.map((c) => (
+                    <SelectItem key={c} value={c}>{c}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
 
