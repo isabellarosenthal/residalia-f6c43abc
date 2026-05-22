@@ -68,7 +68,11 @@ export function EdificiosTable({ edificios, statsMap }: { edificios: Condominio[
           </TableBody>
         </Table>
       </div>
-      <EdificioFormDialog open={!!edit} onOpenChange={(v) => !v && setEdit(null)} edificio={edit} />
+      {edit && (
+        <Suspense fallback={null}>
+          <EdificioFormDialog open={!!edit} onOpenChange={(v) => !v && setEdit(null)} edificio={edit} />
+        </Suspense>
+      )}
     </>
   );
 }
