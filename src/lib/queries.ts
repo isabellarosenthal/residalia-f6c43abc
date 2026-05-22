@@ -188,7 +188,7 @@ export function useSaveResidente() {
       }
       // Sincronizar unidad: si tiene unidad asignada, marcar al residente como propietario/inquilino
       if (saved.unidad_id) {
-        const patch: Record<string, any> = { estado_administrativo: "ocupada" };
+        const patch: Database["public"]["Tables"]["unidades"]["Update"] = { estado_administrativo: "ocupada" };
         if (saved.tipo === "propietario") patch.propietario_id = saved.id;
         if (saved.tipo === "inquilino") patch.inquilino_id = saved.id;
         await supabase.from("unidades").update(patch).eq("id", saved.unidad_id);
