@@ -168,6 +168,25 @@ export function useBulkCreateUnidades() {
   });
 }
 
+export function useBulkUpdateUnidades() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ ids, patch }: { ids: string[]; patch: Partial<UnidadInsert> }) => {
+      const { error } = await supabase.from("unidades").update(patch).in("id", ids);
+      if (error) throw error;
+      return ids.length;
+    },
+    onSuccess: (n) => {
+      qc.invalidateQueries({ queryKey: ["unidades"] });
+      qc.invalidateQueries({ queryKey: ["edificios"] });
+      toast.success(`${n} unidades actualizadas`);
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error en actualización masiva"),
+  });
+}
+
+
+
 // ============ RESIDENTES (CRUD) ============
 export type ResidenteInsert = Database["public"]["Tables"]["residentes"]["Insert"];
 
