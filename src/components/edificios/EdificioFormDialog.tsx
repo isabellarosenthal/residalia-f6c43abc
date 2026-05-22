@@ -33,7 +33,7 @@ export function EdificioFormDialog({
     mode: "onChange",
     defaultValues: {
       nombre: "", tipo: "edificio", direccion: "", ciudad: "", departamento: "",
-      latitud: null, longitud: null, moneda: "L", cuota_base: 0,
+      maps_url: "", moneda: "L", cuota_base: 0,
     },
   });
 
@@ -45,8 +45,7 @@ export function EdificioFormDialog({
         direccion: edificio?.direccion ?? "",
         ciudad: edificio?.ciudad ?? "",
         departamento: edificio?.departamento ?? "",
-        latitud: (edificio as any)?.latitud ?? null,
-        longitud: (edificio as any)?.longitud ?? null,
+        maps_url: (edificio as any)?.maps_url ?? "",
         moneda: edificio?.moneda ?? "L",
         cuota_base: edificio?.cuota_base ?? 0,
       });
@@ -64,13 +63,13 @@ export function EdificioFormDialog({
       direccion: vals.direccion || null,
       ciudad: vals.ciudad || null,
       departamento: vals.departamento || null,
-      latitud: vals.latitud ?? null,
-      longitud: vals.longitud ?? null,
+      maps_url: vals.maps_url || null,
       moneda: vals.moneda,
       cuota_base: vals.cuota_base,
     } as any);
     onOpenChange(false);
   };
+
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
