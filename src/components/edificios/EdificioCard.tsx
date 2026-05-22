@@ -40,17 +40,21 @@ export function EdificioCard({ edificio }: { edificio: Condominio }) {
           >
             <Pencil className="w-3.5 h-3.5" />
           </button>
-          <EdificioPlaceholder id={edificio.id} tipo={edificio.tipo} className="h-32" />
           <div className="p-5 flex-1 flex flex-col">
-            <div className="flex items-start justify-between gap-2">
-              <h3 className="font-display font-bold text-lg text-[#2d1200] group-hover:text-[#c94f0c] transition-colors">{edificio.nombre}</h3>
-              {edificio.activo ? <Badge variant="success">Activo</Badge> : <Badge variant="neutral">Inactivo</Badge>}
-            </div>
-            <div className="mt-1 flex items-center gap-1 text-xs text-[#9a7060]">
-              <MapPin className="w-3 h-3" />
-              <span>{edificio.ciudad ?? "—"}{edificio.departamento ? `, ${edificio.departamento}` : ""}</span>
-              <span className="mx-1">·</span>
-              <span className="capitalize">{edificio.tipo}</span>
+            <div className="flex items-start gap-3">
+              <EdificioPlaceholder id={edificio.id} tipo={edificio.tipo} className="w-10 h-10 rounded-lg flex-shrink-人0" />
+              <div className="flex-1 min-w-0">
+                <div className="flex items-start justify-between gap-2">
+                  <h3 className="font-display font-bold text-lg text-[#2d1200] group-hover:text-[#c94f0c] transition-colors">{edificio.nombre}</h3>
+                  {edificio.activo ? <Badge variant="success">Activo</Badge> : <Badge variant="neutral">Inactivo</Badge>}
+                </div>
+                <div className="mt-0.5 flex items-center gap-1 text-xs text-[#9a7060]">
+                  <MapPin className="w-3 h-3" />
+                  <span>{edificio.ciudad ?? "—"}{edificio.departamento ? `, ${edificio.departamento}` : ""}</span>
+                  <span className="mx-1">·</span>
+                  <span className="capitalize">{edificio.tipo}</span>
+                </div>
+              </div>
             </div>
 
             <div className="mt-4 grid grid-cols-4 gap-2 text-center">
