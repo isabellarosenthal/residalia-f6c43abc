@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { MapPin, Home, Tag, Building2, Pencil, ChevronRight } from "lucide-react";
 import { Card, Badge } from "@/components/ui-pentos";
 import { EdificioPlaceholder } from "./EdificioPlaceholder";
-import { EdificioFormDialog } from "./EdificioFormDialog";
 import { type Condominio } from "@/lib/queries";
+
+const EdificioFormDialog = lazy(() =>
+  import("./EdificioFormDialog").then((m) => ({ default: m.EdificioFormDialog }))
+);
 
 export type EdificioStats = { total: number; ocupadas: number; enVenta: number; enRenta: number };
 
