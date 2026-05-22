@@ -4,16 +4,17 @@ import { MapPin, Home, Tag, Building2, Pencil, ChevronRight } from "lucide-react
 import { Card, Badge } from "@/components/ui-pentos";
 import { EdificioPlaceholder } from "./EdificioPlaceholder";
 import { EdificioFormDialog } from "./EdificioFormDialog";
-import { useUnidades, type Condominio } from "@/lib/queries";
+import { type Condominio } from "@/lib/queries";
 
-export function EdificioCard({ edificio }: { edificio: Condominio }) {
+export type EdificioStats = { total: number; ocupadas: number; enVenta: number; enRenta: number };
+
+export function EdificioCard({ edificio, stats }: { edificio: Condominio; stats?: EdificioStats }) {
   const navigate = useNavigate();
-  const { data: unidades = [] } = useUnidades(edificio.id);
   const [editOpen, setEditOpen] = useState(false);
-  const total = unidades.length;
-  const ocupadas = unidades.filter((u) => u.estado_administrativo === "ocupada").length;
-  const enVenta = unidades.filter((u) => u.estado_comercial === "en_venta" || u.estado_comercial === "en_venta_y_renta").length;
-  const enRenta = unidades.filter((u) => u.estado_comercial === "en_renta" || u.estado_comercial === "en_venta_y_renta").length;
+  const total = stats?.total ?? 0;
+  const ocupadas = stats?.ocupadas ?? 0;
+  const enVenta = stats?.enVenta ?? 0;
+  const enRenta = stats?.enRenta ?? 0;
   const ocupacion = total > 0 ? Math.round((ocupadas / total) * 100) : 0;
   const openUnidades = () => navigate({ to: "/edificios/$edificioId", params: { edificioId: edificio.id } });
 
