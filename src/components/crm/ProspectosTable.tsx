@@ -66,7 +66,7 @@ export function ProspectosTable({
             <thead className="bg-[#fdfbf8] text-[#9a7060]">
               <tr>
                 <Th>Nombre</Th><Th>Contacto</Th><Th>Tipo</Th><Th>Temp.</Th><Th>Etapa</Th>
-                <Th>Presupuesto</Th><Th>Origen</Th><Th>Último contacto</Th><Th></Th>
+                <Th>Presupuesto</Th><Th>Origen</Th><Th>Último contacto</Th><Th> </Th>
               </tr>
             </thead>
             <tbody>
