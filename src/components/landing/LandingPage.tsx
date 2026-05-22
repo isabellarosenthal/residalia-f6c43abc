@@ -4,6 +4,7 @@ import {
   Building2, TrendingUp, FileText, BarChart3, ShieldCheck, Zap, Clock, HeartHandshake,
   Server,
 } from "lucide-react";
+import heroCondo from "@/assets/hero-condo.jpg";
 
 const PLANS = [
   {
@@ -73,29 +74,43 @@ export function LandingPage() {
       </header>
 
       {/* Hero */}
-      <section className="max-w-5xl mx-auto px-6 pt-20 pb-16 text-center">
-        <span className="inline-block text-xs font-semibold uppercase tracking-wider bg-[#f5ede8] text-[#c94f0c] px-3 py-1 rounded-full mb-5">
-          Hecho en Honduras 🇭🇳
-        </span>
-        <h1 className="font-display font-extrabold text-4xl md:text-6xl tracking-tight leading-[1.05]">
-          Administra tu condominio<br />sin hojas de cálculo.
-        </h1>
-        <p className="mt-6 text-lg text-[#6b4a3a] max-w-2xl mx-auto">
-          Cobros, accesos, residentes, mantenimiento y propiedades en venta o renta —
-          todo desde un solo panel con CRM inmobiliario integrado.
-        </p>
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <Link to="/login" className="inline-flex items-center gap-2 bg-[#c94f0c] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#a33d08]">
-            Crear mi cuenta gratis <ArrowRight className="w-4 h-4" />
-          </Link>
-          <a href="#planes" className="inline-flex items-center gap-2 border border-[#e8ddd8] bg-white px-6 py-3 rounded-full font-semibold text-[#4a2800] hover:border-[#c94f0c]">
-            Ver planes
-          </a>
-        </div>
-        <div className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-[#9a7060]">
-          <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-[#2d6a2d]" /> Sin tarjeta de crédito</span>
-          <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-[#2d6a2d]" /> Configuración en 5 minutos</span>
-          <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-[#2d6a2d]" /> Soporte en español</span>
+      <section className="max-w-6xl mx-auto px-6 pt-16 pb-16">
+        <div className="grid md:grid-cols-2 gap-10 items-center">
+          <div className="text-center md:text-left">
+            <span className="inline-block text-xs font-semibold uppercase tracking-wider bg-[#f5ede8] text-[#c94f0c] px-3 py-1 rounded-full mb-5">
+              Hecho en Honduras 🇭🇳
+            </span>
+            <h1 className="font-display font-extrabold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-[1.05]">
+              Administra tu condominio <span className="text-[#c94f0c]">sin hojas de cálculo</span>. 🏢
+            </h1>
+            <p className="mt-6 text-lg text-[#6b4a3a] max-w-xl mx-auto md:mx-0">
+              💰 Cobros, 🔑 accesos, 👥 residentes, 🔧 mantenimiento y 🏘️ propiedades en venta o renta —
+              todo desde un solo panel con CRM inmobiliario integrado.
+            </p>
+            <div className="mt-8 flex flex-wrap justify-center md:justify-start gap-3">
+              <Link to="/login" className="inline-flex items-center gap-2 bg-[#c94f0c] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#a33d08]">
+                Crear mi cuenta gratis <ArrowRight className="w-4 h-4" />
+              </Link>
+              <a href="#planes" className="inline-flex items-center gap-2 border border-[#e8ddd8] bg-white px-6 py-3 rounded-full font-semibold text-[#4a2800] hover:border-[#c94f0c]">
+                Ver planes
+              </a>
+            </div>
+            <div className="mt-6 flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-2 text-sm text-[#9a7060]">
+              <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-[#2d6a2d]" /> Sin tarjeta de crédito</span>
+              <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-[#2d6a2d]" /> Listo en 5 minutos</span>
+              <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-[#2d6a2d]" /> Soporte en español</span>
+            </div>
+          </div>
+          <div className="relative">
+            <div className="absolute -inset-4 bg-gradient-to-tr from-[#c94f0c]/20 via-[#f5ede8] to-transparent rounded-3xl blur-2xl" />
+            <img
+              src={heroCondo}
+              alt="Ilustración de condominio administrado con PropCloud"
+              width={1024}
+              height={1024}
+              className="relative rounded-3xl w-full shadow-xl border border-[#e8ddd8]"
+            />
+          </div>
         </div>
       </section>
 
@@ -128,19 +143,22 @@ export function LandingPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {[
-            { i: Wallet, t: "Cobros y estados de cuenta", d: "Genera cuotas mensuales en lote, registra pagos, emite recibos y controla morosidad en tiempo real." },
-            { i: KeyRound, t: "Control de accesos con QR", d: "Autoriza visitantes con códigos QR de un solo uso, controla entradas y salidas, lleva bitácora completa." },
-            { i: Users, t: "Residentes y unidades", d: "Lleva un padrón limpio de propietarios, inquilinos, vehículos y personas autorizadas por cada unidad." },
-            { i: Wrench, t: "Mantenimiento e incidencias", d: "Levanta tickets, asigna proveedores, controla costos estimados vs reales y cierra órdenes con evidencia." },
-            { i: MessageSquare, t: "Comunicados al condominio", d: "Envía avisos por grupo de residentes — emergencias, asambleas, cortes de servicio — con historial completo." },
-            { i: Calendar, t: "Reserva de áreas comunes", d: "Salón social, gimnasio, piscina o cancha: los residentes ven disponibilidad y reservan en minutos." },
-            { i: Building2, t: "CRM inmobiliario", d: "Pública las unidades en venta o renta, captura prospectos por origen, asígnales agente y precio." },
-            { i: TrendingUp, t: "Pipeline y agenda", d: "Arrastra prospectos entre etapas (nuevo → visita → oferta → cierre) y agenda visitas con recordatorios." },
-            { i: BarChart3, t: "Reportes y KPIs", d: "Flujo de caja, ocupación, cartera vencida, conversión del pipeline. Exporta a PDF o CSV." },
+            { i: Wallet, e: "💰", t: "Cobros y estados de cuenta", d: "Genera cuotas mensuales en lote, registra pagos, emite recibos y controla morosidad en tiempo real." },
+            { i: KeyRound, e: "🔑", t: "Control de accesos con QR", d: "Autoriza visitantes con códigos QR de un solo uso, controla entradas y salidas, lleva bitácora completa." },
+            { i: Users, e: "👨‍👩‍👧", t: "Residentes y unidades", d: "Lleva un padrón limpio de propietarios, inquilinos, vehículos y personas autorizadas por cada unidad." },
+            { i: Wrench, e: "🔧", t: "Mantenimiento e incidencias", d: "Levanta tickets, asigna proveedores, controla costos estimados vs reales y cierra órdenes con evidencia." },
+            { i: MessageSquare, e: "📣", t: "Comunicados al condominio", d: "Envía avisos por grupo de residentes — emergencias, asambleas, cortes de servicio — con historial completo." },
+            { i: Calendar, e: "🏊", t: "Reserva de áreas comunes", d: "Salón social, gimnasio, piscina o cancha: los residentes ven disponibilidad y reservan en minutos." },
+            { i: Building2, e: "🏘️", t: "CRM inmobiliario", d: "Pública las unidades en venta o renta, captura prospectos por origen, asígnales agente y precio." },
+            { i: TrendingUp, e: "📈", t: "Pipeline y agenda", d: "Arrastra prospectos entre etapas (nuevo → visita → oferta → cierre) y agenda visitas con recordatorios." },
+            { i: BarChart3, e: "📊", t: "Reportes y KPIs", d: "Flujo de caja, ocupación, cartera vencida, conversión del pipeline. Exporta a PDF o CSV." },
           ].map((f) => (
             <div key={f.t} className="bg-white rounded-2xl border border-[#e8ddd8] p-6 hover:border-[#c94f0c] hover:shadow-md transition">
-              <div className="w-11 h-11 rounded-xl bg-[#f5ede8] flex items-center justify-center text-[#c94f0c] mb-4">
-                <f.i className="w-5 h-5" />
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-11 h-11 rounded-xl bg-[#f5ede8] flex items-center justify-center text-[#c94f0c]">
+                  <f.i className="w-5 h-5" />
+                </div>
+                <span className="text-2xl" aria-hidden>{f.e}</span>
               </div>
               <h3 className="font-display font-bold text-lg">{f.t}</h3>
               <p className="text-sm text-[#6b4a3a] mt-1.5">{f.d}</p>
@@ -158,13 +176,16 @@ export function LandingPage() {
           </div>
           <ol className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {[
-              { n: "1", t: "Crea tu cuenta", d: "Te volvés dueño de tu propio espacio aislado. Nadie más ve tus datos." },
-              { n: "2", t: "Registra tu edificio", d: "Nombre, dirección, moneda y cuota base. Genera unidades en lote." },
-              { n: "3", t: "Invita residentes", d: "Asóciales sus unidades, vehículos y datos de contacto." },
-              { n: "4", t: "Genera tu primer cobro", d: "Un clic para emitir las cuotas del mes a todas las unidades ocupadas." },
+              { n: "1", e: "🧾", t: "Crea tu cuenta", d: "Te volvés dueño de tu propio espacio aislado. Nadie más ve tus datos." },
+              { n: "2", e: "🏢", t: "Registra tu edificio", d: "Nombre, dirección, moneda y cuota base. Genera unidades en lote." },
+              { n: "3", e: "✉️", t: "Invita residentes", d: "Asóciales sus unidades, vehículos y datos de contacto." },
+              { n: "4", e: "💸", t: "Genera tu primer cobro", d: "Un clic para emitir las cuotas del mes a todas las unidades ocupadas." },
             ].map((s) => (
               <li key={s.n} className="relative">
-                <div className="w-10 h-10 rounded-full bg-[#c94f0c] text-white font-display font-extrabold flex items-center justify-center mb-3">{s.n}</div>
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-full bg-[#c94f0c] text-white font-display font-extrabold flex items-center justify-center">{s.n}</div>
+                  <span className="text-3xl" aria-hidden>{s.e}</span>
+                </div>
                 <h3 className="font-display font-bold text-lg">{s.t}</h3>
                 <p className="text-sm text-[#6b4a3a] mt-1">{s.d}</p>
               </li>
