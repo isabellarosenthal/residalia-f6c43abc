@@ -113,34 +113,28 @@ export function EdificioFormDialog({
 
           <div>
             <Label>Dirección</Label>
-            <AddressMapPicker
-              value={{
-                direccion: form.watch("direccion") ?? "",
-                latitud: (form.watch("latitud") as number | null) ?? null,
-                longitud: (form.watch("longitud") as number | null) ?? null,
-              }}
-              onChange={(v) => {
-                form.setValue("direccion", v.direccion, { shouldValidate: true });
-                form.setValue("latitud", v.latitud);
-                form.setValue("longitud", v.longitud);
-              }}
-              onGeoFound={(g) => {
-                if (g.departamento) {
-                  // Map google admin name to our list if it matches
-                  const match = DEPARTAMENTOS.find(
-                    (d) => d.toLowerCase() === g.departamento!.toLowerCase()
-                      || d.toLowerCase() === g.departamento!.toLowerCase().replace(/^departamento de /, ""),
-                  );
-                  if (match) form.setValue("departamento", match, { shouldValidate: true });
-                }
-                if (g.ciudad) {
-                  const deptoNow = form.getValues("departamento") ?? "";
-                  const cityList = ciudadesDe(deptoNow);
-                  const cityMatch = cityList.find((c) => c.toLowerCase() === g.ciudad!.toLowerCase());
-                  if (cityMatch) form.setValue("ciudad", cityMatch, { shouldValidate: true });
-                }
-              }}
+            <Input
+              {...form.register("direccion")}
+              placeholder="Ej: Col. Lomas del Guijarro, Tegucigalpa"
             />
+            <div className="mt-2 flex gap-2">
+              <Input
+                placeholder="Enlace de Google Maps (opcional)"
+                value={(form.watch("maps_url") as string) ?? ""}
+                onChange={(e) => form.setValue("maps_url", e.target.value, { shouldValidate: true })}
+              />
+              {form.watch("maps_url") ? (
+                <a
+                  href={form.watch("maps_url") as string}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center h-10 px-3 rounded-md border border-[#e8ddd8] text-[#c94f0c] hover:bg-[#fdeee5]"
+                  title="Abrir en Google Maps"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                </a>
+              ) : null}
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
