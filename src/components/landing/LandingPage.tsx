@@ -102,15 +102,16 @@ export function LandingPage() {
             </div>
           </div>
           <div className="relative">
-            <div className="absolute -inset-4 bg-gradient-to-tr from-[#c94f0c]/20 via-[#f5ede8] to-transparent rounded-3xl blur-2xl" />
             <img
               src={heroCondo}
               alt="Ilustración de condominio administrado con PropCloud"
               width={1024}
               height={1024}
-              className="relative rounded-3xl w-full shadow-xl border border-[#e8ddd8]"
+              className="relative w-full mix-blend-multiply opacity-95"
+              style={{ maskImage: 'radial-gradient(ellipse at center, black 55%, transparent 85%)', WebkitMaskImage: 'radial-gradient(ellipse at center, black 55%, transparent 85%)' }}
             />
           </div>
+
         </div>
       </section>
 
