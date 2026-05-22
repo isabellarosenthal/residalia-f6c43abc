@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui-pentos";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { LogOut, Pencil, Trash2, Search } from "lucide-react";
+import { LogOut, Pencil, Trash2, Search, QrCode } from "lucide-react";
 import { useAccesos, useUnidades, useDeleteAcceso, useMarcarSalida, type Acceso } from "@/lib/queries";
+import { PaseDialog } from "./PaseDialog";
 
 const fmtDT = (s: string | null) => s ? new Date(s).toLocaleString("es-HN", { dateStyle: "short", timeStyle: "short" }) : "—";
 
