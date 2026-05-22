@@ -167,3 +167,219 @@ export function useBulkCreateUnidades() {
     onError: (e: any) => toast.error(e?.message ?? "Error en generación masiva"),
   });
 }
+
+// ============ RESIDENTES (CRUD) ============
+export type ResidenteInsert = Database["public"]["Tables"]["residentes"]["Insert"];
+
+export function useSaveResidente() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: ResidenteInsert & { id?: string }) => {
+      let saved;
+      if (input.id) {
+        const { id, ...rest } = input;
+        const { data, error } = await supabase.from("residentes").update(rest).eq("id", id).select().single();
+        if (error) throw error;
+        saved = data;
+      } else {
+        const { data, error } = await supabase.from("residentes").insert(input).select().single();
+        if (error) throw error;
+        saved = data;
+      }
+      // Sincronizar unidad: si tiene unidad asignada, marcar al residente como propietario/inquilino
+      if (saved.unidad_id) {
+        const patch: Record<string, any> = { estado_administrativo: "ocupada" };
+        if (saved.tipo === "propietario") patch.propietario_id = saved.id;
+        if (saved.tipo === "inquilino") patch.inquilino_id = saved.id;
+        await supabase.from("unidades").update(patch).eq("id", saved.unidad_id);
+      }
+      return saved;
+    },
+    onSuccess: (_d, vars) => {
+      qc.invalidateQueries({ queryKey: ["residentes-list"] });
+      qc.invalidateQueries({ queryKey: ["residentes-map"] });
+      qc.invalidateQueries({ queryKey: ["unidades"] });
+      toast.success(vars.id ? "Residente actualizado" : "Residente creado");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error guardando residente"),
+  });
+}
+
+export function useDeleteResidente() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("residentes").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["residentes-list"] });
+      qc.invalidateQueries({ queryKey: ["residentes-map"] });
+      toast.success("Residente eliminado");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error eliminando"),
+  });
+}
+
+// ============ COBROS ============
+export type Cobro = Database["public"]["Tables"]["cobros"]["Row"];
+export type CobroInsert = Database["public"]["Tables"]["cobros"]["Insert"];
+
+export function useCobros(edificioId?: string) {
+  return useQuery({
+    queryKey: ["cobros", edificioId ?? "all"],
+    queryFn: async (): Promise<Cobro[]> => {
+      let q = supabase.from("cobros").select("*").order("fecha_vencimiento", { ascending: false });
+      if (edificioId) q = q.eq("condominio_id", edificioId);
+      const { data, error } = await q;
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
+
+export function useSaveCobro() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: CobroInsert & { id?: string }) => {
+      if (input.id) {
+        const { id, ...rest } = input;
+        const { data, error } = await supabase.from("cobros").update(rest).eq("id", id).select().single();
+        if (error) throw error;
+        return data;
+      }
+      const { data, error } = await supabase.from("cobros").insert(input).select().single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (_d, vars) => {
+      qc.invalidateQueries({ queryKey: ["cobros"] });
+      toast.success(vars.id ? "Cobro actualizado" : "Cobro creado");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error guardando cobro"),
+  });
+}
+
+export function useMarcarPagado() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, metodo }: { id: string; metodo: string }) => {
+      const recibo = `R-${Date.now().toString().slice(-8)}`;
+      const { data, error } = await supabase
+        .from("cobros")
+        .update({ estado: "pagado", fecha_pago: new Date().toISOString().slice(0, 10), metodo_pago: metodo, recibo_numero: recibo })
+        .eq("id", id)
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (d) => {
+      qc.invalidateQueries({ queryKey: ["cobros"] });
+      toast.success(`Pagado · Recibo ${d.recibo_numero}`);
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error marcando pago"),
+  });
+}
+
+export function useDeleteCobro() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("cobros").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["cobros"] });
+      toast.success("Cobro eliminado");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error eliminando"),
+  });
+}
+
+export function useGenerarCobrosMensuales() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ edificioId, mes, concepto, vencimiento }: { edificioId: string; mes: string; concepto: string; vencimiento: string }) => {
+      const { data: unidades, error: e1 } = await supabase
+        .from("unidades")
+        .select("id, numero, mantenimiento_mensual, propietario_id, inquilino_id, condominio_id")
+        .eq("condominio_id", edificioId);
+      if (e1) throw e1;
+      const { data: edif } = await supabase.from("condominios").select("cuota_base").eq("id", edificioId).single();
+      const baseCuota = edif?.cuota_base ?? 0;
+      const rows: CobroInsert[] = (unidades ?? []).map((u) => ({
+        condominio_id: u.condominio_id,
+        unidad_id: u.id,
+        residente_id: u.inquilino_id ?? u.propietario_id ?? null,
+        concepto: `${concepto} ${mes} · Unidad ${u.numero}`,
+        monto: Number(u.mantenimiento_mensual ?? baseCuota ?? 0),
+        fecha_vencimiento: vencimiento,
+        estado: "pendiente" as const,
+      }));
+      if (rows.length === 0) return [];
+      const { data, error } = await supabase.from("cobros").insert(rows).select();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (d) => {
+      qc.invalidateQueries({ queryKey: ["cobros"] });
+      toast.success(`${d?.length ?? 0} cobros generados`);
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error generando cobros"),
+  });
+}
+
+// ============ EGRESOS ============
+export type Egreso = Database["public"]["Tables"]["egresos"]["Row"];
+export type EgresoInsert = Database["public"]["Tables"]["egresos"]["Insert"];
+
+export function useEgresos(edificioId?: string) {
+  return useQuery({
+    queryKey: ["egresos", edificioId ?? "all"],
+    queryFn: async (): Promise<Egreso[]> => {
+      let q = supabase.from("egresos").select("*").order("fecha", { ascending: false });
+      if (edificioId) q = q.eq("condominio_id", edificioId);
+      const { data, error } = await q;
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
+
+export function useSaveEgreso() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: EgresoInsert & { id?: string }) => {
+      if (input.id) {
+        const { id, ...rest } = input;
+        const { data, error } = await supabase.from("egresos").update(rest).eq("id", id).select().single();
+        if (error) throw error;
+        return data;
+      }
+      const { data, error } = await supabase.from("egresos").insert(input).select().single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (_d, vars) => {
+      qc.invalidateQueries({ queryKey: ["egresos"] });
+      toast.success(vars.id ? "Egreso actualizado" : "Egreso registrado");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error guardando egreso"),
+  });
+}
+
+export function useDeleteEgreso() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("egresos").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["egresos"] });
+      toast.success("Egreso eliminado");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error eliminando"),
+  });
+}
