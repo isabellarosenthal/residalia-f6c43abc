@@ -561,3 +561,126 @@ export function useDeleteReserva() {
     onError: (e: any) => toast.error(e?.message ?? "Error eliminando"),
   });
 }
+
+// ============ PROSPECTOS (CRM) ============
+export type Prospecto = Database["public"]["Tables"]["prospectos"]["Row"];
+export type ProspectoInsert = Database["public"]["Tables"]["prospectos"]["Insert"];
+export type EtapaPipeline = Database["public"]["Enums"]["etapa_pipeline"];
+export type TemperaturaProspecto = Database["public"]["Enums"]["temperatura_prospecto"];
+export type TipoProspecto = Database["public"]["Enums"]["tipo_prospecto"];
+
+export const ETAPAS_PIPELINE: EtapaPipeline[] = [
+  "nuevo", "contactado", "interesado", "visita_agendada", "negociacion", "cierre", "ganado", "perdido",
+];
+
+export function useProspectos(edificioId?: string) {
+  return useQuery({
+    queryKey: ["prospectos", edificioId ?? "all"],
+    queryFn: async (): Promise<Prospecto[]> => {
+      let q = supabase.from("prospectos").select("*").order("created_at", { ascending: false });
+      if (edificioId) q = q.eq("condominio_id", edificioId);
+      const { data, error } = await q;
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
+
+export function useSaveProspecto() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: ProspectoInsert & { id?: string }) => {
+      if (input.id) {
+        const { id, ...rest } = input;
+        const { data, error } = await supabase.from("prospectos").update(rest).eq("id", id).select().single();
+        if (error) throw error;
+        return data;
+      }
+      const { data, error } = await supabase.from("prospectos").insert(input).select().single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (_d, vars) => {
+      qc.invalidateQueries({ queryKey: ["prospectos"] });
+      toast.success(vars.id ? "Prospecto actualizado" : "Prospecto creado");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error guardando prospecto"),
+  });
+}
+
+export function useUpdateEtapa() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, etapa }: { id: string; etapa: EtapaPipeline }) => {
+      const { error } = await supabase.from("prospectos").update({ etapa_pipeline: etapa, ultimo_contacto: new Date().toISOString() }).eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["prospectos"] }),
+    onError: (e: any) => toast.error(e?.message ?? "Error moviendo prospecto"),
+  });
+}
+
+export function useDeleteProspecto() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("prospectos").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["prospectos"] });
+      toast.success("Prospecto eliminado");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error eliminando"),
+  });
+}
+
+// ============ ACTIVIDADES CRM ============
+export type Actividad = Database["public"]["Tables"]["actividades_crm"]["Row"];
+export type ActividadInsert = Database["public"]["Tables"]["actividades_crm"]["Insert"];
+
+export function useActividades(prospectoId?: string) {
+  return useQuery({
+    queryKey: ["actividades", prospectoId ?? "none"],
+    enabled: !!prospectoId,
+    queryFn: async (): Promise<Actividad[]> => {
+      if (!prospectoId) return [];
+      const { data, error } = await supabase.from("actividades_crm").select("*").eq("prospecto_id", prospectoId).order("fecha_actividad", { ascending: false });
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
+
+export function useSaveActividad() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: ActividadInsert) => {
+      const { data, error } = await supabase.from("actividades_crm").insert(input).select().single();
+      if (error) throw error;
+      await supabase.from("prospectos").update({ ultimo_contacto: new Date().toISOString() }).eq("id", input.prospecto_id);
+      return data;
+    },
+    onSuccess: (_d, vars) => {
+      qc.invalidateQueries({ queryKey: ["actividades", vars.prospecto_id] });
+      qc.invalidateQueries({ queryKey: ["prospectos"] });
+      toast.success("Actividad registrada");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error guardando actividad"),
+  });
+}
+
+export function useDeleteActividad() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id }: { id: string; prospectoId: string }) => {
+      const { error } = await supabase.from("actividades_crm").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: (_d, vars) => {
+      qc.invalidateQueries({ queryKey: ["actividades", vars.prospectoId] });
+      toast.success("Actividad eliminada");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error eliminando"),
+  });
+}
