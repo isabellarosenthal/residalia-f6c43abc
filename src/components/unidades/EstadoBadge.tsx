@@ -2,8 +2,8 @@ import { Badge } from "@/components/ui-pentos";
 
 export function EstadoAdminBadge({ value }: { value: "ocupada" | "disponible" | "vacia" }) {
   const map = {
-    ocupada: { v: "success" as const, l: "Ocupada" },
-    disponible: { v: "warning" as const, l: "Disponible" },
+    ocupada: { v: "neutral" as const, l: "Ocupada" },
+    disponible: { v: "success" as const, l: "Disponible" },
     vacia: { v: "neutral" as const, l: "Vacía" },
   };
   const c = map[value];
