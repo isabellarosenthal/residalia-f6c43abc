@@ -6,16 +6,18 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui-pentos";
 import { EdificioFormDialog } from "./EdificioFormDialog";
 import { fmtL } from "@/lib/format";
-import { useUnidades, type Condominio } from "@/lib/queries";
+import { type Condominio } from "@/lib/queries";
+import type { EdificioStats } from "./EdificioCard";
 
-function Row({ edificio, onEdit }: { edificio: Condominio; onEdit: () => void }) {
+type StatsExt = EdificioStats & { disponibles: number };
+
+function Row({ edificio, stats, onEdit }: { edificio: Condominio; stats?: StatsExt; onEdit: () => void }) {
   const navigate = useNavigate();
-  const { data: unidades = [] } = useUnidades(edificio.id);
-  const total = unidades.length;
-  const ocupadas = unidades.filter((u) => u.estado_administrativo === "ocupada").length;
-  const disponibles = unidades.filter((u) => u.estado_administrativo === "disponible").length;
-  const enVenta = unidades.filter((u) => u.estado_comercial === "en_venta" || u.estado_comercial === "en_venta_y_renta").length;
-  const enRenta = unidades.filter((u) => u.estado_comercial === "en_renta" || u.estado_comercial === "en_venta_y_renta").length;
+  const total = stats?.total ?? 0;
+  const ocupadas = stats?.ocupadas ?? 0;
+  const disponibles = stats?.disponibles ?? 0;
+  const enVenta = stats?.enVenta ?? 0;
+  const enRenta = stats?.enRenta ?? 0;
   const ocupacion = total > 0 ? Math.round((ocupadas / total) * 100) : 0;
   const go = () => navigate({ to: "/edificios/$edificioId", params: { edificioId: edificio.id } });
   return (
@@ -40,7 +42,7 @@ function Row({ edificio, onEdit }: { edificio: Condominio; onEdit: () => void })
   );
 }
 
-export function EdificiosTable({ edificios }: { edificios: Condominio[] }) {
+export function EdificiosTable({ edificios, statsMap }: { edificios: Condominio[]; statsMap?: Map<string, StatsExt> }) {
   const [edit, setEdit] = useState<Condominio | null>(null);
   return (
     <>
@@ -59,7 +61,7 @@ export function EdificiosTable({ edificios }: { edificios: Condominio[] }) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {edificios.map((e) => <Row key={e.id} edificio={e} onEdit={() => setEdit(e)} />)}
+            {edificios.map((e) => <Row key={e.id} edificio={e} stats={statsMap?.get(e.id)} onEdit={() => setEdit(e)} />)}
           </TableBody>
         </Table>
       </div>
