@@ -17,8 +17,7 @@ const schema = z.object({
   direccion: z.string().max(255).optional().or(z.literal("")),
   ciudad: z.string().max(80).optional().or(z.literal("")),
   departamento: z.string().max(80).optional().or(z.literal("")),
-  latitud: z.number().nullable().optional(),
-  longitud: z.number().nullable().optional(),
+  maps_url: z.string().max(500).optional().or(z.literal("")),
   moneda: z.string().min(1).max(5),
   cuota_base: z.coerce.number().min(0).default(0),
 });
