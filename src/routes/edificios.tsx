@@ -1,17 +1,6 @@
-import { useState, useMemo } from "react";
-import { createFileRoute } from "@tanstack/react-router";
-import { Plus, Search, Building2, LayoutGrid, List } from "lucide-react";
-import { AppShell } from "@/components/layout/AppShell";
-import { EmptyState } from "@/components/ui-pentos";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { EdificioCard } from "@/components/edificios/EdificioCard";
-import { EdificiosTable } from "@/components/edificios/EdificiosTable";
-import { EdificioFormDialog } from "@/components/edificios/EdificioFormDialog";
-import { useEdificios } from "@/lib/queries";
+import { Outlet, createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/edificios")({ component: EdificiosPage });
+export const Route = createFileRoute("/edificios")({ component: Outlet });
 
 function EdificiosPage() {
   const { data: edificios = [], isLoading } = useEdificios();
