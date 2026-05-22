@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ChevronLeft, Plus, Pencil, Trash2, MapPin, Building2, Layers, Home, Tag, FileText } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
@@ -6,12 +6,13 @@ import { Card, KpiCard } from "@/components/ui-pentos";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { EdificioPlaceholder } from "@/components/edificios/EdificioPlaceholder";
-import { EdificioFormDialog } from "@/components/edificios/EdificioFormDialog";
 import { UnidadesTable } from "@/components/unidades/UnidadesTable";
-import { UnidadFormDialog } from "@/components/unidades/UnidadFormDialog";
-import { GenerarUnidadesDialog } from "@/components/unidades/GenerarUnidadesDialog";
 import { useEdificio, useUnidades, useDeleteEdificio, type Unidad } from "@/lib/queries";
 import { fmtL } from "@/lib/format";
+
+const EdificioFormDialog = lazy(() => import("@/components/edificios/EdificioFormDialog").then(m => ({ default: m.EdificioFormDialog })));
+const UnidadFormDialog = lazy(() => import("@/components/unidades/UnidadFormDialog").then(m => ({ default: m.UnidadFormDialog })));
+const GenerarUnidadesDialog = lazy(() => import("@/components/unidades/GenerarUnidadesDialog").then(m => ({ default: m.GenerarUnidadesDialog })));
 
 export const Route = createFileRoute("/edificios/$edificioId")({ component: EdificioDetail });
 
