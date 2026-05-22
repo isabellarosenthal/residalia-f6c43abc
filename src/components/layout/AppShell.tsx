@@ -1,0 +1,32 @@
+import { type ReactNode, useEffect } from "react";
+import { useNavigate } from "@tanstack/react-router";
+import { useAuth } from "@/lib/auth-context";
+import { Sidebar } from "./Sidebar";
+import { Topbar } from "./Topbar";
+
+export function AppShell({ children }: { children: ReactNode }) {
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && !user) navigate({ to: "/login" });
+  }, [user, loading, navigate]);
+
+  if (loading || !user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#faf9f7]">
+        <div className="text-[#9a7060] text-sm">Cargando…</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen flex bg-[#faf9f7]">
+      <Sidebar />
+      <div className="flex-1 flex flex-col min-w-0">
+        <Topbar />
+        <main className="flex-1 overflow-y-auto p-6">{children}</main>
+      </div>
+    </div>
+  );
+}

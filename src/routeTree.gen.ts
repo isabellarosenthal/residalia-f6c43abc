@@ -9,8 +9,92 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ResidentesRouteImport } from './routes/residentes'
+import { Route as ReportesRouteImport } from './routes/reportes'
+import { Route as ProspectosRouteImport } from './routes/prospectos'
+import { Route as PropiedadesRouteImport } from './routes/propiedades'
+import { Route as PipelineRouteImport } from './routes/pipeline'
+import { Route as MantenimientoRouteImport } from './routes/mantenimiento'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as FinanzasRouteImport } from './routes/finanzas'
+import { Route as EdificiosRouteImport } from './routes/edificios'
+import { Route as ConfiguracionRouteImport } from './routes/configuracion'
+import { Route as ComunicacionesRouteImport } from './routes/comunicaciones'
+import { Route as AreasRouteImport } from './routes/areas'
+import { Route as AgendaRouteImport } from './routes/agenda'
+import { Route as AccesosRouteImport } from './routes/accesos'
 import { Route as IndexRouteImport } from './routes/index'
 
+const ResidentesRoute = ResidentesRouteImport.update({
+  id: '/residentes',
+  path: '/residentes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportesRoute = ReportesRouteImport.update({
+  id: '/reportes',
+  path: '/reportes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProspectosRoute = ProspectosRouteImport.update({
+  id: '/prospectos',
+  path: '/prospectos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PropiedadesRoute = PropiedadesRouteImport.update({
+  id: '/propiedades',
+  path: '/propiedades',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PipelineRoute = PipelineRouteImport.update({
+  id: '/pipeline',
+  path: '/pipeline',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MantenimientoRoute = MantenimientoRouteImport.update({
+  id: '/mantenimiento',
+  path: '/mantenimiento',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FinanzasRoute = FinanzasRouteImport.update({
+  id: '/finanzas',
+  path: '/finanzas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EdificiosRoute = EdificiosRouteImport.update({
+  id: '/edificios',
+  path: '/edificios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConfiguracionRoute = ConfiguracionRouteImport.update({
+  id: '/configuracion',
+  path: '/configuracion',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComunicacionesRoute = ComunicacionesRouteImport.update({
+  id: '/comunicaciones',
+  path: '/comunicaciones',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AreasRoute = AreasRouteImport.update({
+  id: '/areas',
+  path: '/areas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgendaRoute = AgendaRouteImport.update({
+  id: '/agenda',
+  path: '/agenda',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccesosRoute = AccesosRouteImport.update({
+  id: '/accesos',
+  path: '/accesos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +103,228 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/accesos': typeof AccesosRoute
+  '/agenda': typeof AgendaRoute
+  '/areas': typeof AreasRoute
+  '/comunicaciones': typeof ComunicacionesRoute
+  '/configuracion': typeof ConfiguracionRoute
+  '/edificios': typeof EdificiosRoute
+  '/finanzas': typeof FinanzasRoute
+  '/login': typeof LoginRoute
+  '/mantenimiento': typeof MantenimientoRoute
+  '/pipeline': typeof PipelineRoute
+  '/propiedades': typeof PropiedadesRoute
+  '/prospectos': typeof ProspectosRoute
+  '/reportes': typeof ReportesRoute
+  '/residentes': typeof ResidentesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/accesos': typeof AccesosRoute
+  '/agenda': typeof AgendaRoute
+  '/areas': typeof AreasRoute
+  '/comunicaciones': typeof ComunicacionesRoute
+  '/configuracion': typeof ConfiguracionRoute
+  '/edificios': typeof EdificiosRoute
+  '/finanzas': typeof FinanzasRoute
+  '/login': typeof LoginRoute
+  '/mantenimiento': typeof MantenimientoRoute
+  '/pipeline': typeof PipelineRoute
+  '/propiedades': typeof PropiedadesRoute
+  '/prospectos': typeof ProspectosRoute
+  '/reportes': typeof ReportesRoute
+  '/residentes': typeof ResidentesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/accesos': typeof AccesosRoute
+  '/agenda': typeof AgendaRoute
+  '/areas': typeof AreasRoute
+  '/comunicaciones': typeof ComunicacionesRoute
+  '/configuracion': typeof ConfiguracionRoute
+  '/edificios': typeof EdificiosRoute
+  '/finanzas': typeof FinanzasRoute
+  '/login': typeof LoginRoute
+  '/mantenimiento': typeof MantenimientoRoute
+  '/pipeline': typeof PipelineRoute
+  '/propiedades': typeof PropiedadesRoute
+  '/prospectos': typeof ProspectosRoute
+  '/reportes': typeof ReportesRoute
+  '/residentes': typeof ResidentesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/accesos'
+    | '/agenda'
+    | '/areas'
+    | '/comunicaciones'
+    | '/configuracion'
+    | '/edificios'
+    | '/finanzas'
+    | '/login'
+    | '/mantenimiento'
+    | '/pipeline'
+    | '/propiedades'
+    | '/prospectos'
+    | '/reportes'
+    | '/residentes'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/accesos'
+    | '/agenda'
+    | '/areas'
+    | '/comunicaciones'
+    | '/configuracion'
+    | '/edificios'
+    | '/finanzas'
+    | '/login'
+    | '/mantenimiento'
+    | '/pipeline'
+    | '/propiedades'
+    | '/prospectos'
+    | '/reportes'
+    | '/residentes'
+  id:
+    | '__root__'
+    | '/'
+    | '/accesos'
+    | '/agenda'
+    | '/areas'
+    | '/comunicaciones'
+    | '/configuracion'
+    | '/edificios'
+    | '/finanzas'
+    | '/login'
+    | '/mantenimiento'
+    | '/pipeline'
+    | '/propiedades'
+    | '/prospectos'
+    | '/reportes'
+    | '/residentes'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccesosRoute: typeof AccesosRoute
+  AgendaRoute: typeof AgendaRoute
+  AreasRoute: typeof AreasRoute
+  ComunicacionesRoute: typeof ComunicacionesRoute
+  ConfiguracionRoute: typeof ConfiguracionRoute
+  EdificiosRoute: typeof EdificiosRoute
+  FinanzasRoute: typeof FinanzasRoute
+  LoginRoute: typeof LoginRoute
+  MantenimientoRoute: typeof MantenimientoRoute
+  PipelineRoute: typeof PipelineRoute
+  PropiedadesRoute: typeof PropiedadesRoute
+  ProspectosRoute: typeof ProspectosRoute
+  ReportesRoute: typeof ReportesRoute
+  ResidentesRoute: typeof ResidentesRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/residentes': {
+      id: '/residentes'
+      path: '/residentes'
+      fullPath: '/residentes'
+      preLoaderRoute: typeof ResidentesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reportes': {
+      id: '/reportes'
+      path: '/reportes'
+      fullPath: '/reportes'
+      preLoaderRoute: typeof ReportesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prospectos': {
+      id: '/prospectos'
+      path: '/prospectos'
+      fullPath: '/prospectos'
+      preLoaderRoute: typeof ProspectosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/propiedades': {
+      id: '/propiedades'
+      path: '/propiedades'
+      fullPath: '/propiedades'
+      preLoaderRoute: typeof PropiedadesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pipeline': {
+      id: '/pipeline'
+      path: '/pipeline'
+      fullPath: '/pipeline'
+      preLoaderRoute: typeof PipelineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mantenimiento': {
+      id: '/mantenimiento'
+      path: '/mantenimiento'
+      fullPath: '/mantenimiento'
+      preLoaderRoute: typeof MantenimientoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/finanzas': {
+      id: '/finanzas'
+      path: '/finanzas'
+      fullPath: '/finanzas'
+      preLoaderRoute: typeof FinanzasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/edificios': {
+      id: '/edificios'
+      path: '/edificios'
+      fullPath: '/edificios'
+      preLoaderRoute: typeof EdificiosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/configuracion': {
+      id: '/configuracion'
+      path: '/configuracion'
+      fullPath: '/configuracion'
+      preLoaderRoute: typeof ConfiguracionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/comunicaciones': {
+      id: '/comunicaciones'
+      path: '/comunicaciones'
+      fullPath: '/comunicaciones'
+      preLoaderRoute: typeof ComunicacionesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/areas': {
+      id: '/areas'
+      path: '/areas'
+      fullPath: '/areas'
+      preLoaderRoute: typeof AreasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agenda': {
+      id: '/agenda'
+      path: '/agenda'
+      fullPath: '/agenda'
+      preLoaderRoute: typeof AgendaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/accesos': {
+      id: '/accesos'
+      path: '/accesos'
+      fullPath: '/accesos'
+      preLoaderRoute: typeof AccesosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +337,20 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccesosRoute: AccesosRoute,
+  AgendaRoute: AgendaRoute,
+  AreasRoute: AreasRoute,
+  ComunicacionesRoute: ComunicacionesRoute,
+  ConfiguracionRoute: ConfiguracionRoute,
+  EdificiosRoute: EdificiosRoute,
+  FinanzasRoute: FinanzasRoute,
+  LoginRoute: LoginRoute,
+  MantenimientoRoute: MantenimientoRoute,
+  PipelineRoute: PipelineRoute,
+  PropiedadesRoute: PropiedadesRoute,
+  ProspectosRoute: ProspectosRoute,
+  ReportesRoute: ReportesRoute,
+  ResidentesRoute: ResidentesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
