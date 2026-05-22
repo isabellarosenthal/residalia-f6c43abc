@@ -83,6 +83,7 @@ export function AccesosTable({ edificioId, onEdit }: { edificioId: string; onEdi
                 <TableCell className="text-sm">{fmtDT(a.fecha_salida)}</TableCell>
                 <TableCell>{a.fecha_salida ? <Badge variant="neutral">Salió</Badge> : <Badge variant="success">Dentro</Badge>}</TableCell>
                 <TableCell className="text-right">
+                  <Button size="sm" variant="ghost" title="Ver / compartir pase" onClick={() => setPase(a)} className="h-8 w-8 p-0 text-[#c94f0c]"><QrCode className="w-4 h-4" /></Button>
                   {!a.fecha_salida && <Button size="sm" variant="ghost" title="Registrar salida" onClick={() => salir.mutate(a.id)} className="h-8 w-8 p-0 text-[#2d6a2d]"><LogOut className="w-4 h-4" /></Button>}
                   <Button size="sm" variant="ghost" onClick={() => onEdit(a)} className="h-8 w-8 p-0"><Pencil className="w-4 h-4" /></Button>
                   <Button size="sm" variant="ghost" onClick={() => { if (confirm("¿Eliminar registro?")) del.mutate(a.id); }} className="h-8 w-8 p-0 text-[#c0392b] hover:text-[#c0392b]"><Trash2 className="w-4 h-4" /></Button>
