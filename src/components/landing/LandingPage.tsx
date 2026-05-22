@@ -74,7 +74,7 @@ export function LandingPage() {
       </header>
 
       {/* Hero */}
-      <section className="max-w-6xl mx-auto px-6 pt-16 pb-16">
+      <section className="max-w-6xl mx-auto px-6 pt-8 pb-10">
         <div className="grid md:grid-cols-2 gap-10 items-center">
           <div className="text-center md:text-left">
             <span className="inline-block text-xs font-semibold uppercase tracking-wider bg-[#f5ede8] text-[#c94f0c] px-3 py-1 rounded-full mb-5">
@@ -102,15 +102,16 @@ export function LandingPage() {
             </div>
           </div>
           <div className="relative">
-            <div className="absolute -inset-4 bg-gradient-to-tr from-[#c94f0c]/20 via-[#f5ede8] to-transparent rounded-3xl blur-2xl" />
             <img
               src={heroCondo}
               alt="Ilustración de condominio administrado con PropCloud"
               width={1024}
               height={1024}
-              className="relative rounded-3xl w-full shadow-xl border border-[#e8ddd8]"
+              className="relative w-full mix-blend-multiply opacity-95"
+              style={{ maskImage: 'radial-gradient(ellipse at center, black 55%, transparent 85%)', WebkitMaskImage: 'radial-gradient(ellipse at center, black 55%, transparent 85%)' }}
             />
           </div>
+
         </div>
       </section>
 
