@@ -9,8 +9,10 @@ import { AreasGrid } from "@/components/areas/AreasGrid";
 import { ReservasTable } from "@/components/areas/ReservasTable";
 import { useEdificios, type AreaComun, type Reserva } from "@/lib/queries";
 
-const AreaFormDialog = lazy(() => import("@/components/areas/AreaFormDialog").then(m => ({ default: m.AreaFormDialog })));
-const ReservaFormDialog = lazy(() => import("@/components/areas/ReservaFormDialog").then(m => ({ default: m.ReservaFormDialog })));
+const loadAreaDialog = () => import("@/components/areas/AreaFormDialog");
+const loadResDialog = () => import("@/components/areas/ReservaFormDialog");
+const AreaFormDialog = lazy(() => loadAreaDialog().then(m => ({ default: m.AreaFormDialog })));
+const ReservaFormDialog = lazy(() => loadResDialog().then(m => ({ default: m.ReservaFormDialog })));
 
 export const Route = createFileRoute("/areas")({ component: AreasPage });
 
