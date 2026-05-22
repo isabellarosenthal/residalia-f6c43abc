@@ -1,0 +1,1 @@
+ALTER TABLE public.condominios ADD COLUMN IF NOT EXISTS latitud numeric, ADD COLUMN IF NOT EXISTS longitud numeric;
