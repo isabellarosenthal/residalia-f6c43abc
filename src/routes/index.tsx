@@ -7,8 +7,16 @@ import { Wallet, AlertTriangle, KeyRound, Wrench, Tag, UserPlus, TrendingUp, Che
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, ReferenceLine } from "recharts";
 import { fmtL } from "@/lib/format";
 import { OnboardingWizard, useShouldShowOnboarding } from "@/components/onboarding/OnboardingWizard";
+import { LandingPage } from "@/components/landing/LandingPage";
 
-export const Route = createFileRoute("/")({ component: Dashboard });
+export const Route = createFileRoute("/")({ component: Home });
+
+function Home() {
+  const { user, loading } = useAuth();
+  if (loading) return null;
+  if (!user) return <LandingPage />;
+  return <Dashboard />;
+}
 
 const recaudacion = [
   { mes: "Dic", monto: 42000, meta: 60000 },
