@@ -18,9 +18,20 @@ const schema = z.object({
   qr_code: z.string().max(120).optional().or(z.literal("")),
   fecha_entrada: z.string().min(1, "Requerido"),
   fecha_salida: z.string().optional().or(z.literal("")),
+  usos_maximos: z.coerce.number().int().min(1).max(999),
+  minutos_max_estadia: z.coerce.number().int().min(0).max(10080).optional().or(z.literal("")),
 });
 type FormVals = z.input<typeof schema>;
 type FormOut = z.output<typeof schema>;
+
+// Tiempos máximos sugeridos por tipo (en minutos). null = sin límite
+const MINUTOS_DEFAULT: Record<string, number | null> = {
+  delivery: 15,
+  proveedor: 120,
+  servicio: 240,
+  visita: null,
+  otro: null,
+};
 
 const nowLocal = () => {
   const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
@@ -38,9 +49,11 @@ export function AccesoFormDialog({
       condominio_id: defaultCondominioId ?? "", unidad_id: null,
       visitante_nombre: "", tipo: "visita", metodo: "manual", qr_code: "",
       fecha_entrada: nowLocal(), fecha_salida: "",
+      usos_maximos: 1, minutos_max_estadia: "",
     },
   });
   const condominioId = form.watch("condominio_id");
+  const tipo = form.watch("tipo");
   const { data: unidades = [] } = useUnidades(condominioId || undefined);
 
   useEffect(() => {
@@ -54,8 +67,17 @@ export function AccesoFormDialog({
       qr_code: acceso?.qr_code ?? "",
       fecha_entrada: acceso?.fecha_entrada ? new Date(acceso.fecha_entrada).toISOString().slice(0, 16) : nowLocal(),
       fecha_salida: acceso?.fecha_salida ? new Date(acceso.fecha_salida).toISOString().slice(0, 16) : "",
+      usos_maximos: acceso?.usos_maximos ?? 1,
+      minutos_max_estadia: acceso?.minutos_max_estadia ?? "",
     });
   }, [open, acceso, defaultCondominioId, form]);
+
+  // Al cambiar tipo, autoajusta el tiempo máximo si el usuario no editó el valor
+  useEffect(() => {
+    if (acceso) return; // no pisar en edición
+    const def = MINUTOS_DEFAULT[tipo];
+    form.setValue("minutos_max_estadia", def == null ? "" : String(def) as any);
+  }, [tipo, acceso, form]);
 
   const genCodigo = () => {
     const r = Math.random().toString(36).slice(2, 8).toUpperCase();
@@ -72,6 +94,8 @@ export function AccesoFormDialog({
       qr_code: v.qr_code?.trim() || acceso?.qr_code || genCodigo(),
       fecha_entrada: new Date(v.fecha_entrada).toISOString(),
       fecha_salida: v.fecha_salida ? new Date(v.fecha_salida).toISOString() : null,
+      usos_maximos: v.usos_maximos,
+      minutos_max_estadia: v.minutos_max_estadia === "" || v.minutos_max_estadia == null ? null : Number(v.minutos_max_estadia),
     });
     onOpenChange(false);
   };
@@ -92,7 +116,7 @@ export function AccesoFormDialog({
           <div className="grid grid-cols-2 gap-3">
             <div>
               <Label>Tipo</Label>
-              <Select value={form.watch("tipo")} onValueChange={(v) => form.setValue("tipo", v)}>
+              <Select value={tipo} onValueChange={(v) => form.setValue("tipo", v)}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="visita">Visita</SelectItem>
@@ -129,6 +153,18 @@ export function AccesoFormDialog({
           <div className="grid grid-cols-2 gap-3">
             <div><Label>Entrada *</Label><Input type="datetime-local" {...form.register("fecha_entrada")} /></div>
             <div><Label>Salida</Label><Input type="datetime-local" {...form.register("fecha_salida")} /></div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <Label>Entradas permitidas *</Label>
+              <Input type="number" min={1} {...form.register("usos_maximos")} />
+              <p className="text-xs text-[#9a7060] mt-1">Por defecto 1 (un solo ingreso)</p>
+            </div>
+            <div>
+              <Label>Tiempo máx. adentro (min)</Label>
+              <Input type="number" min={0} placeholder="Sin límite" {...form.register("minutos_max_estadia")} />
+              <p className="text-xs text-[#9a7060] mt-1">Delivery: 15 min sugerido</p>
+            </div>
           </div>
           <div><Label>Código del pase</Label><Input {...form.register("qr_code")} placeholder="Se genera automáticamente si lo dejas vacío" /></div>
           <DialogFooter>

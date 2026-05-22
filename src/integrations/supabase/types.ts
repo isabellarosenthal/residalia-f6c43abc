@@ -23,9 +23,12 @@ export type Database = {
           fecha_salida: string | null
           id: string
           metodo: string | null
+          minutos_max_estadia: number | null
           qr_code: string | null
           tipo: string | null
           unidad_id: string | null
+          usos_actuales: number
+          usos_maximos: number
           visitante_nombre: string
         }
         Insert: {
@@ -36,9 +39,12 @@ export type Database = {
           fecha_salida?: string | null
           id?: string
           metodo?: string | null
+          minutos_max_estadia?: number | null
           qr_code?: string | null
           tipo?: string | null
           unidad_id?: string | null
+          usos_actuales?: number
+          usos_maximos?: number
           visitante_nombre: string
         }
         Update: {
@@ -49,9 +55,12 @@ export type Database = {
           fecha_salida?: string | null
           id?: string
           metodo?: string | null
+          minutos_max_estadia?: number | null
           qr_code?: string | null
           tipo?: string | null
           unidad_id?: string | null
+          usos_actuales?: number
+          usos_maximos?: number
           visitante_nombre?: string
         }
         Relationships: [
