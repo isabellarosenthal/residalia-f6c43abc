@@ -24,6 +24,7 @@ import { Route as AreasRouteImport } from './routes/areas'
 import { Route as AgendaRouteImport } from './routes/agenda'
 import { Route as AccesosRouteImport } from './routes/accesos'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EdificiosEdificioIdRouteImport } from './routes/edificios.$edificioId'
 
 const ResidentesRoute = ResidentesRouteImport.update({
   id: '/residentes',
@@ -100,6 +101,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EdificiosEdificioIdRoute = EdificiosEdificioIdRouteImport.update({
+  id: '/$edificioId',
+  path: '/$edificioId',
+  getParentRoute: () => EdificiosRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -108,7 +114,7 @@ export interface FileRoutesByFullPath {
   '/areas': typeof AreasRoute
   '/comunicaciones': typeof ComunicacionesRoute
   '/configuracion': typeof ConfiguracionRoute
-  '/edificios': typeof EdificiosRoute
+  '/edificios': typeof EdificiosRouteWithChildren
   '/finanzas': typeof FinanzasRoute
   '/login': typeof LoginRoute
   '/mantenimiento': typeof MantenimientoRoute
@@ -117,6 +123,7 @@ export interface FileRoutesByFullPath {
   '/prospectos': typeof ProspectosRoute
   '/reportes': typeof ReportesRoute
   '/residentes': typeof ResidentesRoute
+  '/edificios/$edificioId': typeof EdificiosEdificioIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -125,7 +132,7 @@ export interface FileRoutesByTo {
   '/areas': typeof AreasRoute
   '/comunicaciones': typeof ComunicacionesRoute
   '/configuracion': typeof ConfiguracionRoute
-  '/edificios': typeof EdificiosRoute
+  '/edificios': typeof EdificiosRouteWithChildren
   '/finanzas': typeof FinanzasRoute
   '/login': typeof LoginRoute
   '/mantenimiento': typeof MantenimientoRoute
@@ -134,6 +141,7 @@ export interface FileRoutesByTo {
   '/prospectos': typeof ProspectosRoute
   '/reportes': typeof ReportesRoute
   '/residentes': typeof ResidentesRoute
+  '/edificios/$edificioId': typeof EdificiosEdificioIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -143,7 +151,7 @@ export interface FileRoutesById {
   '/areas': typeof AreasRoute
   '/comunicaciones': typeof ComunicacionesRoute
   '/configuracion': typeof ConfiguracionRoute
-  '/edificios': typeof EdificiosRoute
+  '/edificios': typeof EdificiosRouteWithChildren
   '/finanzas': typeof FinanzasRoute
   '/login': typeof LoginRoute
   '/mantenimiento': typeof MantenimientoRoute
@@ -152,6 +160,7 @@ export interface FileRoutesById {
   '/prospectos': typeof ProspectosRoute
   '/reportes': typeof ReportesRoute
   '/residentes': typeof ResidentesRoute
+  '/edificios/$edificioId': typeof EdificiosEdificioIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -171,6 +180,7 @@ export interface FileRouteTypes {
     | '/prospectos'
     | '/reportes'
     | '/residentes'
+    | '/edificios/$edificioId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -188,6 +198,7 @@ export interface FileRouteTypes {
     | '/prospectos'
     | '/reportes'
     | '/residentes'
+    | '/edificios/$edificioId'
   id:
     | '__root__'
     | '/'
@@ -205,6 +216,7 @@ export interface FileRouteTypes {
     | '/prospectos'
     | '/reportes'
     | '/residentes'
+    | '/edificios/$edificioId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -214,7 +226,7 @@ export interface RootRouteChildren {
   AreasRoute: typeof AreasRoute
   ComunicacionesRoute: typeof ComunicacionesRoute
   ConfiguracionRoute: typeof ConfiguracionRoute
-  EdificiosRoute: typeof EdificiosRoute
+  EdificiosRoute: typeof EdificiosRouteWithChildren
   FinanzasRoute: typeof FinanzasRoute
   LoginRoute: typeof LoginRoute
   MantenimientoRoute: typeof MantenimientoRoute
@@ -332,8 +344,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/edificios/$edificioId': {
+      id: '/edificios/$edificioId'
+      path: '/$edificioId'
+      fullPath: '/edificios/$edificioId'
+      preLoaderRoute: typeof EdificiosEdificioIdRouteImport
+      parentRoute: typeof EdificiosRoute
+    }
   }
 }
+
+interface EdificiosRouteChildren {
+  EdificiosEdificioIdRoute: typeof EdificiosEdificioIdRoute
+}
+
+const EdificiosRouteChildren: EdificiosRouteChildren = {
+  EdificiosEdificioIdRoute: EdificiosEdificioIdRoute,
+}
+
+const EdificiosRouteWithChildren = EdificiosRoute._addFileChildren(
+  EdificiosRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -342,7 +373,7 @@ const rootRouteChildren: RootRouteChildren = {
   AreasRoute: AreasRoute,
   ComunicacionesRoute: ComunicacionesRoute,
   ConfiguracionRoute: ConfiguracionRoute,
-  EdificiosRoute: EdificiosRoute,
+  EdificiosRoute: EdificiosRouteWithChildren,
   FinanzasRoute: FinanzasRoute,
   LoginRoute: LoginRoute,
   MantenimientoRoute: MantenimientoRoute,
@@ -355,3 +386,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

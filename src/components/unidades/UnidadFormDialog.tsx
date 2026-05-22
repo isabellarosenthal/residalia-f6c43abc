@@ -1,0 +1,216 @@
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useSaveUnidad, type Unidad } from "@/lib/queries";
+
+const schema = z.object({
+  numero: z.string().min(1, "Requerido").max(20),
+  piso: z.coerce.number().int().optional().nullable(),
+  tipo: z.string().max(40).optional().or(z.literal("")),
+  habitaciones: z.coerce.number().int().min(0).default(0),
+  banos: z.coerce.number().int().min(0).default(0),
+  banos_visita: z.coerce.number().int().min(0).default(0),
+  parqueos: z.coerce.number().int().min(0).default(0),
+  area_m2_construccion: z.coerce.number().min(0).optional().nullable(),
+  area_m2_terreno: z.coerce.number().min(0).optional().nullable(),
+  estado_administrativo: z.enum(["ocupada", "disponible", "vacia"]),
+  mantenimiento_mensual: z.coerce.number().min(0).optional().nullable(),
+  fecha_disponibilidad: z.string().optional().or(z.literal("")),
+  estado_comercial: z.enum(["ocupada", "disponible", "en_venta", "en_renta", "en_venta_y_renta", "reservada"]),
+  precio_venta: z.coerce.number().min(0).optional().nullable(),
+  precio_renta: z.coerce.number().min(0).optional().nullable(),
+  deposito: z.coerce.number().min(0).optional().nullable(),
+  precio_negociable: z.boolean().default(false),
+  descripcion_comercial: z.string().max(2000).optional().or(z.literal("")),
+});
+type FormVals = z.infer<typeof schema>;
+
+export function UnidadFormDialog({
+  open, onOpenChange, edificioId, unidad,
+}: { open: boolean; onOpenChange: (v: boolean) => void; edificioId: string; unidad?: Unidad | null }) {
+  const save = useSaveUnidad();
+  const form = useForm<FormVals>({
+    resolver: zodResolver(schema),
+    mode: "onChange",
+    defaultValues: {
+      numero: "", piso: null, tipo: "apartamento",
+      habitaciones: 0, banos: 0, banos_visita: 0, parqueos: 0,
+      area_m2_construccion: null, area_m2_terreno: null,
+      estado_administrativo: "disponible", mantenimiento_mensual: null, fecha_disponibilidad: "",
+      estado_comercial: "disponible", precio_venta: null, precio_renta: null, deposito: null,
+      precio_negociable: false, descripcion_comercial: "",
+    },
+  });
+
+  useEffect(() => {
+    if (!open) return;
+    form.reset({
+      numero: unidad?.numero ?? "",
+      piso: unidad?.piso ?? null,
+      tipo: unidad?.tipo ?? "apartamento",
+      habitaciones: unidad?.habitaciones ?? 0,
+      banos: unidad?.banos ?? 0,
+      banos_visita: unidad?.banos_visita ?? 0,
+      parqueos: unidad?.parqueos ?? 0,
+      area_m2_construccion: unidad?.area_m2_construccion ?? null,
+      area_m2_terreno: unidad?.area_m2_terreno ?? null,
+      estado_administrativo: unidad?.estado_administrativo ?? "disponible",
+      mantenimiento_mensual: unidad?.mantenimiento_mensual ?? null,
+      fecha_disponibilidad: unidad?.fecha_disponibilidad ?? "",
+      estado_comercial: unidad?.estado_comercial ?? "disponible",
+      precio_venta: unidad?.precio_venta ?? null,
+      precio_renta: unidad?.precio_renta ?? null,
+      deposito: unidad?.deposito ?? null,
+      precio_negociable: unidad?.precio_negociable ?? false,
+      descripcion_comercial: unidad?.descripcion_comercial ?? "",
+    });
+  }, [open, unidad, form]);
+
+  const onSubmit = async (v: FormVals) => {
+    await save.mutateAsync({
+      id: unidad?.id,
+      condominio_id: edificioId,
+      numero: v.numero,
+      piso: v.piso ?? null,
+      tipo: v.tipo || null,
+      habitaciones: v.habitaciones,
+      banos: v.banos,
+      banos_visita: v.banos_visita,
+      parqueos: v.parqueos,
+      area_m2_construccion: v.area_m2_construccion ?? null,
+      area_m2_terreno: v.area_m2_terreno ?? null,
+      estado_administrativo: v.estado_administrativo,
+      mantenimiento_mensual: v.mantenimiento_mensual ?? null,
+      fecha_disponibilidad: v.fecha_disponibilidad || null,
+      estado_comercial: v.estado_comercial,
+      precio_venta: v.precio_venta ?? null,
+      precio_renta: v.precio_renta ?? null,
+      deposito: v.deposito ?? null,
+      precio_negociable: v.precio_negociable,
+      descripcion_comercial: v.descripcion_comercial || null,
+    });
+    onOpenChange(false);
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-[680px] max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="font-display text-xl text-[#2d1200]">{unidad ? `Editar unidad #${unidad.numero}` : "Nueva unidad"}</DialogTitle>
+        </DialogHeader>
+
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <Tabs defaultValue="datos">
+            <TabsList className="grid grid-cols-3 w-full bg-[#f5ede8]">
+              <TabsTrigger value="datos">Datos generales</TabsTrigger>
+              <TabsTrigger value="admin">Administración</TabsTrigger>
+              <TabsTrigger value="crm">Comercial / CRM</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="datos" className="space-y-3 pt-4">
+              <div className="grid grid-cols-3 gap-3">
+                <div>
+                  <Label>Número *</Label>
+                  <Input {...form.register("numero")} placeholder="101" />
+                </div>
+                <div>
+                  <Label>Piso</Label>
+                  <Input type="number" {...form.register("piso")} />
+                </div>
+                <div>
+                  <Label>Tipo</Label>
+                  <Select value={form.watch("tipo") || ""} onValueChange={(v) => form.setValue("tipo", v)}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="apartamento">Apartamento</SelectItem>
+                      <SelectItem value="penthouse">Penthouse</SelectItem>
+                      <SelectItem value="casa">Casa</SelectItem>
+                      <SelectItem value="local">Local</SelectItem>
+                      <SelectItem value="oficina">Oficina</SelectItem>
+                      <SelectItem value="bodega">Bodega</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <div className="grid grid-cols-4 gap-3">
+                <div><Label>Habitaciones</Label><Input type="number" min={0} {...form.register("habitaciones")} /></div>
+                <div><Label>Baños</Label><Input type="number" min={0} {...form.register("banos")} /></div>
+                <div><Label>B. visita</Label><Input type="number" min={0} {...form.register("banos_visita")} /></div>
+                <div><Label>Parqueos</Label><Input type="number" min={0} {...form.register("parqueos")} /></div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div><Label>m² construcción</Label><Input type="number" step="0.01" {...form.register("area_m2_construccion")} /></div>
+                <div><Label>m² terreno</Label><Input type="number" step="0.01" {...form.register("area_m2_terreno")} /></div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="admin" className="space-y-3 pt-4">
+              <div>
+                <Label>Estado administrativo *</Label>
+                <Select value={form.watch("estado_administrativo")} onValueChange={(v) => form.setValue("estado_administrativo", v as any)}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="disponible">Disponible</SelectItem>
+                    <SelectItem value="ocupada">Ocupada</SelectItem>
+                    <SelectItem value="vacia">Vacía</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div><Label>Mantenimiento mensual</Label><Input type="number" step="0.01" {...form.register("mantenimiento_mensual")} /></div>
+                <div><Label>Fecha disponibilidad</Label><Input type="date" {...form.register("fecha_disponibilidad")} /></div>
+              </div>
+              <p className="text-xs text-[#9a7060]">Propietario e inquilino se asignan desde el módulo de Residentes.</p>
+            </TabsContent>
+
+            <TabsContent value="crm" className="space-y-3 pt-4">
+              <div>
+                <Label>Estado comercial *</Label>
+                <Select value={form.watch("estado_comercial")} onValueChange={(v) => form.setValue("estado_comercial", v as any)}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="disponible">Disponible</SelectItem>
+                    <SelectItem value="en_venta">En venta</SelectItem>
+                    <SelectItem value="en_renta">En renta</SelectItem>
+                    <SelectItem value="en_venta_y_renta">En venta y renta</SelectItem>
+                    <SelectItem value="reservada">Reservada</SelectItem>
+                    <SelectItem value="ocupada">Ocupada (no comercial)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid grid-cols-3 gap-3">
+                <div><Label>Precio venta</Label><Input type="number" step="0.01" {...form.register("precio_venta")} /></div>
+                <div><Label>Precio renta</Label><Input type="number" step="0.01" {...form.register("precio_renta")} /></div>
+                <div><Label>Depósito</Label><Input type="number" step="0.01" {...form.register("deposito")} /></div>
+              </div>
+              <div className="flex items-center justify-between border border-[#e8ddd8] rounded-lg p-3">
+                <Label className="text-sm">Precio negociable</Label>
+                <Switch checked={form.watch("precio_negociable")} onCheckedChange={(v) => form.setValue("precio_negociable", v)} />
+              </div>
+              <div>
+                <Label>Descripción comercial</Label>
+                <Textarea rows={3} {...form.register("descripcion_comercial")} placeholder="Hermoso apartamento con vista panorámica…" />
+              </div>
+            </TabsContent>
+          </Tabs>
+
+          <DialogFooter>
+            <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
+            <Button type="submit" disabled={!form.formState.isValid || save.isPending} className="bg-[#c94f0c] hover:bg-[#a33d08]">
+              {save.isPending ? "Guardando…" : "Guardar unidad"}
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+}
