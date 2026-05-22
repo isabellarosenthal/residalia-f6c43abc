@@ -176,13 +176,16 @@ export function LandingPage() {
           </div>
           <ol className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {[
-              { n: "1", t: "Crea tu cuenta", d: "Te volvés dueño de tu propio espacio aislado. Nadie más ve tus datos." },
-              { n: "2", t: "Registra tu edificio", d: "Nombre, dirección, moneda y cuota base. Genera unidades en lote." },
-              { n: "3", t: "Invita residentes", d: "Asóciales sus unidades, vehículos y datos de contacto." },
-              { n: "4", t: "Genera tu primer cobro", d: "Un clic para emitir las cuotas del mes a todas las unidades ocupadas." },
+              { n: "1", e: "🧾", t: "Crea tu cuenta", d: "Te volvés dueño de tu propio espacio aislado. Nadie más ve tus datos." },
+              { n: "2", e: "🏢", t: "Registra tu edificio", d: "Nombre, dirección, moneda y cuota base. Genera unidades en lote." },
+              { n: "3", e: "✉️", t: "Invita residentes", d: "Asóciales sus unidades, vehículos y datos de contacto." },
+              { n: "4", e: "💸", t: "Genera tu primer cobro", d: "Un clic para emitir las cuotas del mes a todas las unidades ocupadas." },
             ].map((s) => (
               <li key={s.n} className="relative">
-                <div className="w-10 h-10 rounded-full bg-[#c94f0c] text-white font-display font-extrabold flex items-center justify-center mb-3">{s.n}</div>
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-full bg-[#c94f0c] text-white font-display font-extrabold flex items-center justify-center">{s.n}</div>
+                  <span className="text-3xl" aria-hidden>{s.e}</span>
+                </div>
                 <h3 className="font-display font-bold text-lg">{s.t}</h3>
                 <p className="text-sm text-[#6b4a3a] mt-1">{s.d}</p>
               </li>
