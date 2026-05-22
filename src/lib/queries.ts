@@ -383,3 +383,181 @@ export function useDeleteEgreso() {
     onError: (e: any) => toast.error(e?.message ?? "Error eliminando"),
   });
 }
+
+// ============ ACCESOS ============
+export type Acceso = Database["public"]["Tables"]["accesos"]["Row"];
+export type AccesoInsert = Database["public"]["Tables"]["accesos"]["Insert"];
+
+export function useAccesos(edificioId?: string) {
+  return useQuery({
+    queryKey: ["accesos", edificioId ?? "all"],
+    queryFn: async (): Promise<Acceso[]> => {
+      let q = supabase.from("accesos").select("*").order("fecha_entrada", { ascending: false, nullsFirst: false }).order("created_at", { ascending: false }).limit(500);
+      if (edificioId) q = q.eq("condominio_id", edificioId);
+      const { data, error } = await q;
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
+
+export function useSaveAcceso() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: AccesoInsert & { id?: string }) => {
+      if (input.id) {
+        const { id, ...rest } = input;
+        const { data, error } = await supabase.from("accesos").update(rest).eq("id", id).select().single();
+        if (error) throw error;
+        return data;
+      }
+      const { data, error } = await supabase.from("accesos").insert(input).select().single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (_d, vars) => {
+      qc.invalidateQueries({ queryKey: ["accesos"] });
+      toast.success(vars.id ? "Acceso actualizado" : "Acceso registrado");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error guardando acceso"),
+  });
+}
+
+export function useMarcarSalida() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { data, error } = await supabase.from("accesos").update({ fecha_salida: new Date().toISOString() }).eq("id", id).select().single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["accesos"] });
+      toast.success("Salida registrada");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error registrando salida"),
+  });
+}
+
+export function useDeleteAcceso() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("accesos").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["accesos"] });
+      toast.success("Acceso eliminado");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error eliminando"),
+  });
+}
+
+// ============ ÁREAS COMUNES ============
+export type AreaComun = Database["public"]["Tables"]["areas_comunes"]["Row"];
+export type AreaComunInsert = Database["public"]["Tables"]["areas_comunes"]["Insert"];
+
+export function useAreas(edificioId?: string) {
+  return useQuery({
+    queryKey: ["areas", edificioId ?? "all"],
+    queryFn: async (): Promise<AreaComun[]> => {
+      let q = supabase.from("areas_comunes").select("*").order("nombre");
+      if (edificioId) q = q.eq("condominio_id", edificioId);
+      const { data, error } = await q;
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
+
+export function useSaveArea() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: AreaComunInsert & { id?: string }) => {
+      if (input.id) {
+        const { id, ...rest } = input;
+        const { data, error } = await supabase.from("areas_comunes").update(rest).eq("id", id).select().single();
+        if (error) throw error;
+        return data;
+      }
+      const { data, error } = await supabase.from("areas_comunes").insert(input).select().single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (_d, vars) => {
+      qc.invalidateQueries({ queryKey: ["areas"] });
+      toast.success(vars.id ? "Área actualizada" : "Área creada");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error guardando área"),
+  });
+}
+
+export function useDeleteArea() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("areas_comunes").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["areas"] });
+      toast.success("Área eliminada");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error eliminando"),
+  });
+}
+
+// ============ RESERVAS ============
+export type Reserva = Database["public"]["Tables"]["reservas"]["Row"];
+export type ReservaInsert = Database["public"]["Tables"]["reservas"]["Insert"];
+
+export function useReservas(edificioId?: string) {
+  return useQuery({
+    queryKey: ["reservas", edificioId ?? "all"],
+    queryFn: async (): Promise<Reserva[]> => {
+      let q = supabase.from("reservas").select("*").order("fecha_inicio", { ascending: false }).limit(500);
+      if (edificioId) q = q.eq("condominio_id", edificioId);
+      const { data, error } = await q;
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
+
+export function useSaveReserva() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: ReservaInsert & { id?: string }) => {
+      if (input.id) {
+        const { id, ...rest } = input;
+        const { data, error } = await supabase.from("reservas").update(rest).eq("id", id).select().single();
+        if (error) throw error;
+        return data;
+      }
+      const { data, error } = await supabase.from("reservas").insert(input).select().single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (_d, vars) => {
+      qc.invalidateQueries({ queryKey: ["reservas"] });
+      toast.success(vars.id ? "Reserva actualizada" : "Reserva creada");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error guardando reserva"),
+  });
+}
+
+export function useDeleteReserva() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("reservas").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["reservas"] });
+      toast.success("Reserva eliminada");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error eliminando"),
+  });
+}
