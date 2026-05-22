@@ -70,19 +70,19 @@ function AreasPage() {
             </TabsList>
             <TabsContent value="areas" className="space-y-4 pt-4">
               <div className="flex justify-end">
-                <Button onClick={() => { setAreaEdit(null); setAreaOpen(true); }} className="bg-[#c94f0c] hover:bg-[#a33d08]">
-                  <Plus className="w-4 h-4 mr-1" />Nueva área
+                <Button onClick={() => openArea(null)} disabled={areaLoading} className="bg-[#c94f0c] hover:bg-[#a33d08]">
+                  <Plus className="w-4 h-4 mr-1" />{areaLoading ? "Cargando..." : "Nueva área"}
                 </Button>
               </div>
-              <AreasGrid edificioId={edificioId} onEdit={(a) => { setAreaEdit(a); setAreaOpen(true); }} />
+              <AreasGrid edificioId={edificioId} onEdit={(a) => openArea(a)} />
             </TabsContent>
             <TabsContent value="reservas" className="space-y-4 pt-4">
               <div className="flex justify-end">
-                <Button onClick={() => { setResEdit(null); setResOpen(true); }} className="bg-[#c94f0c] hover:bg-[#a33d08]">
-                  <Plus className="w-4 h-4 mr-1" />Nueva reserva
+                <Button onClick={() => openRes(null)} disabled={resLoading} className="bg-[#c94f0c] hover:bg-[#a33d08]">
+                  <Plus className="w-4 h-4 mr-1" />{resLoading ? "Cargando..." : "Nueva reserva"}
                 </Button>
               </div>
-              <ReservasTable edificioId={edificioId} onEdit={(r) => { setResEdit(r); setResOpen(true); }} />
+              <ReservasTable edificioId={edificioId} onEdit={(r) => openRes(r)} />
             </TabsContent>
           </Tabs>
         )}
