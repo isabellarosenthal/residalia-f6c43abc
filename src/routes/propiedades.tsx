@@ -133,13 +133,79 @@ function PropiedadesPage() {
         ) : (
           <>
             <p className="text-xs text-[#9a7060]">{filtered.length} {filtered.length === 1 ? "propiedad" : "propiedades"}</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {filtered.map((u) => (
-                <PropiedadCard key={u.id} unidad={u} edificio={edMap.get(u.condominio_id)} onEdit={openEdit} />
-              ))}
-            </div>
+            {view === "cards" ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {filtered.map((u) => (
+                  <PropiedadCard key={u.id} unidad={u} edificio={edMap.get(u.condominio_id)} onEdit={openEdit} />
+                ))}
+              </div>
+            ) : (
+              <div className="bg-white border border-[#e8ddd8] rounded-2xl overflow-hidden">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-[#f5ede8] hover:bg-[#f5ede8]">
+                      <TableHead className="text-[#2d1200] font-semibold">Unidad</TableHead>
+                      <TableHead className="text-[#2d1200] font-semibold">Edificio</TableHead>
+                      <TableHead className="text-[#2d1200] font-semibold">Tipo</TableHead>
+                      <TableHead className="text-[#2d1200] font-semibold">Características</TableHead>
+                      <TableHead className="text-[#2d1200] font-semibold">Estado</TableHead>
+                      <TableHead className="text-[#2d1200] font-semibold text-right">Venta</TableHead>
+                      <TableHead className="text-[#2d1200] font-semibold text-right">Renta/mes</TableHead>
+                      <TableHead className="text-right" />
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filtered.map((u) => {
+                      const ed = edMap.get(u.condominio_id);
+                      return (
+                        <TableRow key={u.id}>
+                          <TableCell>
+                            <div className="font-semibold text-[#2d1200]">#{u.numero}</div>
+                            <div className="text-xs text-[#9a7060]">{u.piso != null ? `Piso ${u.piso}` : "—"}</div>
+                          </TableCell>
+                          <TableCell className="text-sm text-[#2d1200]">
+                            {ed?.nombre ?? "—"}
+                            <div className="text-xs text-[#9a7060]">{ed?.ciudad ?? ""}</div>
+                          </TableCell>
+                          <TableCell className="capitalize text-sm">{u.tipo ?? "—"}</TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-3 text-xs text-[#4a2800]">
+                              <span className="flex items-center gap-1"><BedDouble className="w-3.5 h-3.5 text-[#9a7060]" />{u.habitaciones ?? 0}</span>
+                              <span className="flex items-center gap-1"><Bath className="w-3.5 h-3.5 text-[#9a7060]" />{u.banos ?? 0}</span>
+                              <span className="flex items-center gap-1"><Car className="w-3.5 h-3.5 text-[#9a7060]" />{u.parqueos ?? 0}</span>
+                            </div>
+                            {u.area_m2_construccion && <div className="text-xs text-[#9a7060] mt-0.5">{u.area_m2_construccion} m²</div>}
+                          </TableCell>
+                          <TableCell><EstadoComercialBadge value={u.estado_comercial} /></TableCell>
+                          <TableCell className="text-right text-sm font-semibold text-[#c94f0c]">
+                            {u.precio_venta ? fmtL(u.precio_venta) : <span className="text-[#9a7060] font-normal">—</span>}
+                          </TableCell>
+                          <TableCell className="text-right text-sm text-[#2d1200]">
+                            {u.precio_renta ? fmtL(u.precio_renta) : <span className="text-[#9a7060]">—</span>}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <Button size="sm" variant="ghost" onClick={() => openEdit(u)} className="h-8 w-8 p-0"><Pencil className="w-4 h-4" /></Button>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </div>
+            )}
           </>
         )}
+      </div>
+
+      <Suspense fallback={null}>
+        {open && edit && (
+          <UnidadFormDialog open={open} onOpenChange={setOpen} edificioId={edit.condominio_id} unidad={edit} />
+        )}
+      </Suspense>
+    </AppShell>
+  );
+}
+
       </div>
 
       <Suspense fallback={null}>
