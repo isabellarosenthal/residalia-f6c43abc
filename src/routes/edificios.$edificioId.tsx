@@ -142,9 +142,11 @@ function EdificioDetail() {
         </Tabs>
       </div>
 
-      <EdificioFormDialog open={editOpen} onOpenChange={setEditOpen} edificio={edificio} />
-      <UnidadFormDialog open={unidadOpen} onOpenChange={setUnidadOpen} edificioId={edificio.id} unidad={unidadEdit} />
-      <GenerarUnidadesDialog open={bulkOpen} onOpenChange={setBulkOpen} edificioId={edificio.id} />
+      <Suspense fallback={null}>
+        {editOpen && <EdificioFormDialog open={editOpen} onOpenChange={setEditOpen} edificio={edificio} />}
+        {unidadOpen && <UnidadFormDialog open={unidadOpen} onOpenChange={setUnidadOpen} edificioId={edificio.id} unidad={unidadEdit} />}
+        {bulkOpen && <GenerarUnidadesDialog open={bulkOpen} onOpenChange={setBulkOpen} edificioId={edificio.id} />}
+      </Suspense>
     </AppShell>
   );
 }
