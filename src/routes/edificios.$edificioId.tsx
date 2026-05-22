@@ -73,7 +73,7 @@ function EdificioDetail() {
           </div>
         </Card>
 
-        <Tabs defaultValue="resumen">
+        <Tabs defaultValue="unidades">
           <TabsList className="bg-[#f5ede8]">
             <TabsTrigger value="resumen">Resumen</TabsTrigger>
             <TabsTrigger value="unidades">Unidades ({total})</TabsTrigger>
