@@ -40,7 +40,6 @@ export function UnidadesTable({ edificioId, onEdit }: { edificioId: string; onEd
   }, [unidades, search, admin, comercial]);
 
   const allChecked = filtered.length > 0 && filtered.every((u) => selected.has(u.id));
-  const someChecked = filtered.some((u) => selected.has(u.id));
 
   const toggle = (id: string) => {
     setSelected((s) => {
