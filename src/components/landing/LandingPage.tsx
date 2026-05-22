@@ -74,7 +74,7 @@ export function LandingPage() {
       </header>
 
       {/* Hero */}
-      <section className="max-w-6xl mx-auto px-6 pt-16 pb-16">
+      <section className="max-w-6xl mx-auto px-6 pt-8 pb-10">
         <div className="grid md:grid-cols-2 gap-10 items-center">
           <div className="text-center md:text-left">
             <span className="inline-block text-xs font-semibold uppercase tracking-wider bg-[#f5ede8] text-[#c94f0c] px-3 py-1 rounded-full mb-5">
