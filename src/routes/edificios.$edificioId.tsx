@@ -7,12 +7,15 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { EdificioPlaceholder } from "@/components/edificios/EdificioPlaceholder";
 import { UnidadesTable } from "@/components/unidades/UnidadesTable";
-import { useEdificio, useUnidades, useDeleteEdificio, type Unidad } from "@/lib/queries";
+import { ResidentesTable } from "@/components/residentes/ResidentesTable";
+import { useEdificio, useUnidades, useDeleteEdificio, type Unidad, type Residente } from "@/lib/queries";
 import { fmtL } from "@/lib/format";
 
 const EdificioFormDialog = lazy(() => import("@/components/edificios/EdificioFormDialog").then(m => ({ default: m.EdificioFormDialog })));
 const UnidadFormDialog = lazy(() => import("@/components/unidades/UnidadFormDialog").then(m => ({ default: m.UnidadFormDialog })));
 const GenerarUnidadesDialog = lazy(() => import("@/components/unidades/GenerarUnidadesDialog").then(m => ({ default: m.GenerarUnidadesDialog })));
+const ResidenteFormDialog = lazy(() => import("@/components/residentes/ResidenteFormDialog").then(m => ({ default: m.ResidenteFormDialog })));
+
 
 export const Route = createFileRoute("/edificios/$edificioId")({ component: EdificioDetail });
 
@@ -26,6 +29,8 @@ function EdificioDetail() {
   const [unidadOpen, setUnidadOpen] = useState(false);
   const [unidadEdit, setUnidadEdit] = useState<Unidad | null>(null);
   const [bulkOpen, setBulkOpen] = useState(false);
+  const [residenteOpen, setResidenteOpen] = useState(false);
+  const [residenteEdit, setResidenteEdit] = useState<Residente | null>(null);
 
   if (isLoading) {
     return <AppShell><div className="h-72 shimmer rounded-2xl" /></AppShell>;
@@ -78,6 +83,7 @@ function EdificioDetail() {
           <TabsList className="bg-[#f5ede8]">
             <TabsTrigger value="resumen">Resumen</TabsTrigger>
             <TabsTrigger value="unidades">Unidades ({total})</TabsTrigger>
+            <TabsTrigger value="residentes">Residentes</TabsTrigger>
             <TabsTrigger value="config">Configuración</TabsTrigger>
           </TabsList>
 
@@ -115,6 +121,14 @@ function EdificioDetail() {
             <UnidadesTable edificioId={edificio.id} onEdit={(u) => { setUnidadEdit(u); setUnidadOpen(true); }} />
           </TabsContent>
 
+          <TabsContent value="residentes" className="space-y-4 pt-4">
+            <div className="flex justify-end">
+              <Button onClick={() => { setResidenteEdit(null); setResidenteOpen(true); }} className="bg-[#c94f0c] hover:bg-[#a33d08]"><Plus className="w-4 h-4 mr-1" />Nuevo residente</Button>
+            </div>
+            <ResidentesTable search="" edificioId={edificio.id} tipo="all" estado="all" onEdit={(r) => { setResidenteEdit(r); setResidenteOpen(true); }} />
+          </TabsContent>
+
+
           <TabsContent value="config" className="space-y-4 pt-4">
             <Card className="p-5 space-y-3">
               <div className="flex items-center justify-between">
@@ -146,6 +160,7 @@ function EdificioDetail() {
         {editOpen && <EdificioFormDialog open={editOpen} onOpenChange={setEditOpen} edificio={edificio} />}
         {unidadOpen && <UnidadFormDialog open={unidadOpen} onOpenChange={setUnidadOpen} edificioId={edificio.id} unidad={unidadEdit} />}
         {bulkOpen && <GenerarUnidadesDialog open={bulkOpen} onOpenChange={setBulkOpen} edificioId={edificio.id} />}
+        {residenteOpen && <ResidenteFormDialog open={residenteOpen} onOpenChange={setResidenteOpen} residente={residenteEdit} defaultCondominioId={edificio.id} />}
       </Suspense>
     </AppShell>
   );

@@ -1,3 +1,96 @@
+import { lazy, Suspense, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { ComingSoon } from "@/components/layout/ComingSoon";
-export const Route = createFileRoute("/finanzas")({ component: () => <ComingSoon title="Finanzas" /> });
+import { Plus, Wallet, Layers } from "lucide-react";
+import { AppShell } from "@/components/layout/AppShell";
+import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { FinanzasResumen } from "@/components/finanzas/FinanzasResumen";
+import { CobrosTable } from "@/components/finanzas/CobrosTable";
+import { EgresosTable } from "@/components/finanzas/EgresosTable";
+import { EstadoCuentaUnidad } from "@/components/finanzas/EstadoCuentaUnidad";
+import { useEdificios, type Cobro, type Egreso } from "@/lib/queries";
+
+const CobroFormDialog = lazy(() => import("@/components/finanzas/CobroFormDialog").then(m => ({ default: m.CobroFormDialog })));
+const EgresoFormDialog = lazy(() => import("@/components/finanzas/EgresoFormDialog").then(m => ({ default: m.EgresoFormDialog })));
+const GenerarCobrosDialog = lazy(() => import("@/components/finanzas/GenerarCobrosDialog").then(m => ({ default: m.GenerarCobrosDialog })));
+
+export const Route = createFileRoute("/finanzas")({ component: FinanzasPage });
+
+function FinanzasPage() {
+  const { data: edificios = [] } = useEdificios();
+  const [edificioId, setEdificioId] = useState("all");
+  const [cobroOpen, setCobroOpen] = useState(false);
+  const [cobroEdit, setCobroEdit] = useState<Cobro | null>(null);
+  const [egresoOpen, setEgresoOpen] = useState(false);
+  const [egresoEdit, setEgresoEdit] = useState<Egreso | null>(null);
+  const [genOpen, setGenOpen] = useState(false);
+
+  return (
+    <AppShell>
+      <div className="space-y-5 max-w-[1400px] mx-auto">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h1 className="font-display font-extrabold text-2xl text-[#2d1200]">Finanzas</h1>
+            <p className="text-sm text-[#9a7060]">Cobros, egresos y estados de cuenta</p>
+          </div>
+          <Select value={edificioId} onValueChange={setEdificioId}>
+            <SelectTrigger className="w-[260px]"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Todos los edificios</SelectItem>
+              {edificios.map((e) => <SelectItem key={e.id} value={e.id}>{e.nombre}</SelectItem>)}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <Tabs defaultValue="resumen">
+          <TabsList className="bg-[#f5ede8]">
+            <TabsTrigger value="resumen">Resumen</TabsTrigger>
+            <TabsTrigger value="cobros">Cobros</TabsTrigger>
+            <TabsTrigger value="egresos">Egresos</TabsTrigger>
+            <TabsTrigger value="estado">Estado de cuenta</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="resumen" className="pt-4">
+            <FinanzasResumen edificioId={edificioId} />
+          </TabsContent>
+
+          <TabsContent value="cobros" className="space-y-4 pt-4">
+            <div className="flex flex-wrap gap-2 justify-end">
+              <Button variant="outline" disabled={edificioId === "all"} onClick={() => setGenOpen(true)}>
+                <Layers className="w-4 h-4 mr-1" />Generar mensuales
+              </Button>
+              <Button onClick={() => { setCobroEdit(null); setCobroOpen(true); }} className="bg-[#c94f0c] hover:bg-[#a33d08]">
+                <Plus className="w-4 h-4 mr-1" />Nuevo cobro
+              </Button>
+            </div>
+            <CobrosTable edificioId={edificioId} onEdit={(c) => { setCobroEdit(c); setCobroOpen(true); }} />
+          </TabsContent>
+
+          <TabsContent value="egresos" className="space-y-4 pt-4">
+            <div className="flex justify-end">
+              <Button onClick={() => { setEgresoEdit(null); setEgresoOpen(true); }} className="bg-[#c94f0c] hover:bg-[#a33d08]">
+                <Plus className="w-4 h-4 mr-1" />Nuevo egreso
+              </Button>
+            </div>
+            <EgresosTable edificioId={edificioId} onEdit={(e) => { setEgresoEdit(e); setEgresoOpen(true); }} />
+          </TabsContent>
+
+          <TabsContent value="estado" className="pt-4">
+            <EstadoCuentaUnidad edificioId={edificioId} />
+          </TabsContent>
+        </Tabs>
+
+        {edificios.length === 0 && (
+          <div className="text-center text-[#9a7060] py-10"><Wallet className="w-8 h-8 mx-auto mb-2" />Crea un edificio primero para empezar a gestionar finanzas.</div>
+        )}
+      </div>
+
+      <Suspense fallback={null}>
+        {cobroOpen && <CobroFormDialog open={cobroOpen} onOpenChange={setCobroOpen} cobro={cobroEdit} defaultCondominioId={edificioId !== "all" ? edificioId : undefined} />}
+        {egresoOpen && <EgresoFormDialog open={egresoOpen} onOpenChange={setEgresoOpen} egreso={egresoEdit} defaultCondominioId={edificioId !== "all" ? edificioId : undefined} />}
+        {genOpen && edificioId !== "all" && <GenerarCobrosDialog open={genOpen} onOpenChange={setGenOpen} edificioId={edificioId} />}
+      </Suspense>
+    </AppShell>
+  );
+}
