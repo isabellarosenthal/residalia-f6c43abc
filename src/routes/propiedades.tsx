@@ -1,9 +1,13 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Search, Tag, Building2 } from "lucide-react";
+import { Search, Tag, Building2, LayoutGrid, Table as TableIcon, Pencil, BedDouble, Bath, Car } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { EstadoComercialBadge } from "@/components/unidades/EstadoBadge";
+import { fmtL } from "@/lib/format";
 import { useUnidades, useEdificios, type Unidad } from "@/lib/queries";
 import { PropiedadCard } from "@/components/propiedades/PropiedadCard";
 
@@ -11,6 +15,10 @@ const loadForm = () => import("@/components/unidades/UnidadFormDialog");
 const UnidadFormDialog = lazy(() => loadForm().then((m) => ({ default: m.UnidadFormDialog })));
 
 export const Route = createFileRoute("/propiedades")({ component: PropiedadesPage });
+
+type View = "table" | "cards";
+const VIEW_KEY = "propiedades:view";
+
 
 type Tipo = "todas" | "venta" | "renta";
 
