@@ -18,6 +18,7 @@ export function AccesosTable({ edificioId, onEdit }: { edificioId: string; onEdi
   const [estado, setEstado] = useState("all");
   const [tipo, setTipo] = useState("all");
   const [search, setSearch] = useState("");
+  const [pase, setPase] = useState<Acceso | null>(null);
 
   const uniMap = useMemo(() => new Map(unidades.map((u) => [u.id, u.numero])), [unidades]);
 
