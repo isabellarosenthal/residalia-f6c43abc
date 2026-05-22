@@ -283,6 +283,28 @@ export function LandingPage() {
         </Link>
       </section>
 
+      {/* Ecosystem */}
+      <section className="border-t border-[#e8ddd8] bg-white py-10">
+        <div className="max-w-5xl mx-auto px-6 text-center">
+          <p className="text-xs uppercase tracking-wider text-[#9a7060] mb-4">Parte del ecosistema</p>
+          <div className="flex flex-wrap justify-center items-center gap-6 md:gap-10">
+            <a href="https://zafra.cloud" target="_blank" rel="noopener noreferrer" className="text-[#2d1200] font-display font-extrabold text-lg hover:text-[#c94f0c] transition">
+              Zafra Cloud
+            </a>
+            <span className="text-[#e8ddd8] hidden md:inline">|</span>
+            <a href="https://firmax.cloud" target="_blank" rel="noopener noreferrer" className="text-[#6b4a3a] font-semibold text-sm hover:text-[#c94f0c] transition">
+              Firmax Cloud
+            </a>
+            <a href="https://trabajoshonduras.com" target="_blank" rel="noopener noreferrer" className="text-[#6b4a3a] font-semibold text-sm hover:text-[#c94f0c] transition">
+              Trabajos Honduras
+            </a>
+            <a href="https://propcloud.app" target="_blank" rel="noopener noreferrer" className="text-[#c94f0c] font-semibold text-sm hover:text-[#a33d08] transition">
+              PropCloud
+            </a>
+          </div>
+        </div>
+      </section>
+
       <footer className="border-t border-[#e8ddd8] py-8 text-center text-sm text-[#9a7060]">
         © {new Date().getFullYear()} PropCloud · Hecho en Honduras 🇭🇳
       </footer>
