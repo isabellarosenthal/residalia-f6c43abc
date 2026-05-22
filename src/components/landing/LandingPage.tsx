@@ -283,30 +283,90 @@ export function LandingPage() {
         </Link>
       </section>
 
-      {/* Ecosystem */}
-      <section className="border-t border-[#e8ddd8] bg-white py-10">
-        <div className="max-w-5xl mx-auto px-6 text-center">
-          <p className="text-xs uppercase tracking-wider text-[#9a7060] mb-4">Parte del ecosistema</p>
-          <div className="flex flex-wrap justify-center items-center gap-6 md:gap-10">
-            <a href="https://zafra.cloud" target="_blank" rel="noopener noreferrer" className="text-[#2d1200] font-display font-extrabold text-lg hover:text-[#c94f0c] transition">
-              Zafra Cloud
-            </a>
-            <span className="text-[#e8ddd8] hidden md:inline">|</span>
-            <a href="https://firmax.cloud" target="_blank" rel="noopener noreferrer" className="text-[#6b4a3a] font-semibold text-sm hover:text-[#c94f0c] transition">
-              Firmax Cloud
-            </a>
-            <a href="https://trabajoshonduras.com" target="_blank" rel="noopener noreferrer" className="text-[#6b4a3a] font-semibold text-sm hover:text-[#c94f0c] transition">
-              Trabajos Honduras
-            </a>
-            <a href="https://propcloud.app" target="_blank" rel="noopener noreferrer" className="text-[#c94f0c] font-semibold text-sm hover:text-[#a33d08] transition">
-              PropCloud
-            </a>
+      {/* Footer estilo Firmax */}
+      <footer className="border-t border-[#e8ddd8] bg-[#fffaf5]">
+        <div className="max-w-6xl mx-auto px-6 py-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+            {/* Col 1: Marca */}
+            <div className="space-y-4">
+              <div className="font-display font-extrabold text-2xl text-[#2d1200]">PropCloud</div>
+              <p className="text-sm text-[#6b4a3a] leading-relaxed">
+                Plataforma de administración de condominios y propiedades para Centroamérica.
+              </p>
+            </div>
+
+            {/* Col 2: Ecosistema */}
+            <div className="space-y-4">
+              <h4 className="text-sm font-semibold text-[#2d1200] uppercase tracking-wider">Ecosistema Zafra Cloud</h4>
+              <ul className="space-y-3 text-sm">
+                {[
+                  { name: "Zafra Cloud", desc: "ERP, facturación electrónica y contabilidad", url: "https://home.zafra.cloud", icon: Building2 },
+                  { name: "Firmax Cloud", desc: "Firma digital de documentos", url: "https://firmax.cloud", icon: FileText },
+                  { name: "PropCloud", desc: "Administración de condominios", url: "https://propcloud.app", icon: KeyRound },
+                  { name: "Trabajos Honduras", desc: "Reclutamiento y vacantes", url: "https://trabajoshonduras.com", icon: Users },
+                ].map((l) => {
+                  const Icon = l.icon;
+                  return (
+                    <li key={l.name}>
+                      <a href={l.url} target="_blank" rel="noopener noreferrer" className="group flex items-start gap-2 text-[#6b4a3a] hover:text-[#c94f0c] transition">
+                        <Icon className="h-4 w-4 mt-0.5 text-[#c94f0c]/70 group-hover:text-[#c94f0c] flex-shrink-0" />
+                        <div>
+                          <span className="font-medium text-[#2d1200] group-hover:text-[#c94f0c]">{l.name}</span>
+                          <p className="text-xs text-[#9a7060]">{l.desc}</p>
+                        </div>
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+
+            {/* Col 3: PropCloud */}
+            <div className="space-y-4">
+              <h4 className="text-sm font-semibold text-[#2d1200] uppercase tracking-wider">PropCloud</h4>
+              <ul className="space-y-2.5 text-sm">
+                <li><a href="#planes" className="text-[#6b4a3a] hover:text-[#c94f0c] transition">Planes</a></li>
+                <li><a href="#como-funciona" className="text-[#6b4a3a] hover:text-[#c94f0c] transition">Cómo funciona</a></li>
+                <li><Link to="/login" className="text-[#6b4a3a] hover:text-[#c94f0c] transition">Iniciar sesión</Link></li>
+                <li><Link to="/login" className="text-[#6b4a3a] hover:text-[#c94f0c] transition">Crear cuenta</Link></li>
+              </ul>
+            </div>
+
+            {/* Col 4: Contacto */}
+            <div className="space-y-4">
+              <h4 className="text-sm font-semibold text-[#2d1200] uppercase tracking-wider">Contacto</h4>
+              <ul className="space-y-3 text-sm">
+                <li>
+                  <a href="mailto:info@zafra.cloud" className="flex items-center gap-2 text-[#6b4a3a] hover:text-[#c94f0c] transition">
+                    <MessageSquare className="h-4 w-4 flex-shrink-0" />
+                    info@zafra.cloud
+                  </a>
+                </li>
+                <li>
+                  <a href="https://wa.me/50494103488" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#6b4a3a] hover:text-[#c94f0c] transition">
+                    <MessageSquare className="h-4 w-4 flex-shrink-0" />
+                    WhatsApp ventas
+                  </a>
+                </li>
+                <li>
+                  <a href="https://wa.me/50494460058" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#6b4a3a] hover:text-[#c94f0c] transition">
+                    <MessageSquare className="h-4 w-4 flex-shrink-0" />
+                    +504 9446-0058
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-      </section>
 
-      <footer className="border-t border-[#e8ddd8] py-8 text-center text-sm text-[#9a7060]">
-        © {new Date().getFullYear()} PropCloud · Hecho en Honduras 🇭🇳
+        <div className="border-t border-[#e8ddd8]">
+          <div className="max-w-6xl mx-auto px-6 py-5">
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-[#9a7060]">
+              <p>© {new Date().getFullYear()} New Technology, S.A. Parte de <a href="https://home.zafra.cloud" target="_blank" rel="noopener noreferrer" className="text-[#c94f0c] hover:underline">Zafra Cloud</a>.</p>
+              <p className="flex items-center gap-1.5">Hecho con ❤️ en Honduras 🇭🇳</p>
+            </div>
+          </div>
+        </div>
       </footer>
     </div>
   );
