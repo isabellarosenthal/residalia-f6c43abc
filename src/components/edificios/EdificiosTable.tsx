@@ -9,6 +9,7 @@ import { fmtL } from "@/lib/format";
 import { useUnidades, type Condominio } from "@/lib/queries";
 
 function Row({ edificio, onEdit }: { edificio: Condominio; onEdit: () => void }) {
+  const navigate = useNavigate();
   const { data: unidades = [] } = useUnidades(edificio.id);
   const total = unidades.length;
   const ocupadas = unidades.filter((u) => u.estado_administrativo === "ocupada").length;
@@ -16,12 +17,11 @@ function Row({ edificio, onEdit }: { edificio: Condominio; onEdit: () => void })
   const enVenta = unidades.filter((u) => u.estado_comercial === "en_venta" || u.estado_comercial === "en_venta_y_renta").length;
   const enRenta = unidades.filter((u) => u.estado_comercial === "en_renta" || u.estado_comercial === "en_venta_y_renta").length;
   const ocupacion = total > 0 ? Math.round((ocupadas / total) * 100) : 0;
+  const go = () => navigate({ to: "/edificios/$edificioId", params: { edificioId: edificio.id } });
   return (
-    <TableRow>
+    <TableRow onClick={go} className="cursor-pointer hover:bg-[#faf6f3]">
       <TableCell>
-        <Link to="/edificios/$edificioId" params={{ edificioId: edificio.id }} className="font-semibold text-[#2d1200] hover:text-[#c94f0c]">
-          {edificio.nombre}
-        </Link>
+        <div className="font-semibold text-[#2d1200]">{edificio.nombre}</div>
         <div className="text-xs text-[#9a7060] flex items-center gap-1 mt-0.5">
           <MapPin className="w-3 h-3" />
           {edificio.ciudad ?? "—"}{edificio.departamento ? `, ${edificio.departamento}` : ""}
@@ -34,7 +34,7 @@ function Row({ edificio, onEdit }: { edificio: Condominio; onEdit: () => void })
       <TableCell className="text-sm">{fmtL(edificio.cuota_base ?? 0)}</TableCell>
       <TableCell>{edificio.activo ? <Badge variant="success">Activo</Badge> : <Badge variant="neutral">Inactivo</Badge>}</TableCell>
       <TableCell className="text-right">
-        <Button size="sm" variant="ghost" onClick={onEdit} className="h-8 w-8 p-0"><Pencil className="w-4 h-4" /></Button>
+        <Button size="sm" variant="ghost" onClick={(e) => { e.stopPropagation(); onEdit(); }} className="h-8 w-8 p-0"><Pencil className="w-4 h-4" /></Button>
       </TableCell>
     </TableRow>
   );
