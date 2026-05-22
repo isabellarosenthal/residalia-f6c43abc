@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import {
   Check, ArrowRight, Wallet, KeyRound, Users, Wrench, MessageSquare, Calendar,
   Building2, TrendingUp, FileText, BarChart3, ShieldCheck, Zap, Clock, HeartHandshake,
+  Server,
 } from "lucide-react";
 
 const PLANS = [
@@ -302,6 +303,7 @@ export function LandingPage() {
                 {[
                   { name: "Zafra Cloud", desc: "ERP, facturación electrónica y contabilidad", url: "https://home.zafra.cloud", icon: Building2 },
                   { name: "Firmax Cloud", desc: "Firma digital de documentos", url: "https://firmax.cloud", icon: FileText },
+                  { name: "TecniCloud", desc: "Infraestructura cloud y servidores", url: "https://tecnicloud.com", icon: Server },
                   { name: "PropCloud", desc: "Administración de condominios", url: "https://propcloud.app", icon: KeyRound },
                   { name: "Trabajos Honduras", desc: "Reclutamiento y vacantes", url: "https://trabajoshonduras.com", icon: Users },
                 ].map((l) => {
