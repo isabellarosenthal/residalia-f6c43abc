@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useSaveUnidad, type Unidad } from "@/lib/queries";
+import { useSaveUnidad, useResidentes, type Unidad } from "@/lib/queries";
 
 const schema = z.object({
   numero: z.string().min(1, "Requerido").max(20),
@@ -31,6 +31,8 @@ const schema = z.object({
   deposito: z.coerce.number().min(0).optional().nullable(),
   precio_negociable: z.boolean().default(false),
   descripcion_comercial: z.string().max(2000).optional().or(z.literal("")),
+  propietario_id: z.string().nullable().optional(),
+  inquilino_id: z.string().nullable().optional(),
 });
 type FormVals = z.input<typeof schema>;
 type FormOut = z.output<typeof schema>;
@@ -39,6 +41,7 @@ export function UnidadFormDialog({
   open, onOpenChange, edificioId, unidad,
 }: { open: boolean; onOpenChange: (v: boolean) => void; edificioId: string; unidad?: Unidad | null }) {
   const save = useSaveUnidad();
+  const { data: residentes = [] } = useResidentes();
   const form = useForm<FormVals, any, FormOut>({
     resolver: zodResolver(schema),
     mode: "onChange",
@@ -49,6 +52,7 @@ export function UnidadFormDialog({
       estado_administrativo: "disponible", mantenimiento_mensual: null, fecha_disponibilidad: "",
       estado_comercial: "disponible", precio_venta: null, precio_renta: null, deposito: null,
       precio_negociable: false, descripcion_comercial: "",
+      propietario_id: null, inquilino_id: null,
     },
   });
 
@@ -73,6 +77,8 @@ export function UnidadFormDialog({
       deposito: unidad?.deposito ?? null,
       precio_negociable: unidad?.precio_negociable ?? false,
       descripcion_comercial: unidad?.descripcion_comercial ?? "",
+      propietario_id: unidad?.propietario_id ?? null,
+      inquilino_id: unidad?.inquilino_id ?? null,
     });
   }, [open, unidad, form]);
 
@@ -98,6 +104,8 @@ export function UnidadFormDialog({
       deposito: v.deposito ?? null,
       precio_negociable: v.precio_negociable,
       descripcion_comercial: v.descripcion_comercial || null,
+      propietario_id: v.propietario_id || null,
+      inquilino_id: v.inquilino_id || null,
     });
     onOpenChange(false);
   };
@@ -170,7 +178,39 @@ export function UnidadFormDialog({
                 <div><Label>Mantenimiento mensual</Label><Input type="number" step="0.01" {...form.register("mantenimiento_mensual")} /></div>
                 <div><Label>Fecha disponibilidad</Label><Input type="date" {...form.register("fecha_disponibilidad")} /></div>
               </div>
-              <p className="text-xs text-[#9a7060]">Propietario e inquilino se asignan desde el módulo de Residentes.</p>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <Label>Propietario</Label>
+                  <Select
+                    value={form.watch("propietario_id") ?? "__none__"}
+                    onValueChange={(v) => form.setValue("propietario_id", v === "__none__" ? null : v)}
+                  >
+                    <SelectTrigger><SelectValue placeholder="Sin asignar" /></SelectTrigger>
+                    <SelectContent className="max-h-72">
+                      <SelectItem value="__none__">Sin asignar</SelectItem>
+                      {residentes.map((r) => (
+                        <SelectItem key={r.id} value={r.id}>{r.nombre} {r.apellido ?? ""}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label>Inquilino</Label>
+                  <Select
+                    value={form.watch("inquilino_id") ?? "__none__"}
+                    onValueChange={(v) => form.setValue("inquilino_id", v === "__none__" ? null : v)}
+                  >
+                    <SelectTrigger><SelectValue placeholder="Sin asignar" /></SelectTrigger>
+                    <SelectContent className="max-h-72">
+                      <SelectItem value="__none__">Sin asignar</SelectItem>
+                      {residentes.map((r) => (
+                        <SelectItem key={r.id} value={r.id}>{r.nombre} {r.apellido ?? ""}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <p className="text-xs text-[#9a7060]">Si la persona aún no existe, créala primero desde el módulo de Residentes.</p>
             </TabsContent>
 
             <TabsContent value="crm" className="space-y-3 pt-4">

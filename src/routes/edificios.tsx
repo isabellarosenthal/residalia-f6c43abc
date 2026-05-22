@@ -1,12 +1,13 @@
 import { useState, useMemo } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Plus, Search, Building2 } from "lucide-react";
+import { Plus, Search, Building2, LayoutGrid, List } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import { EmptyState } from "@/components/ui-pentos";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { EdificioCard } from "@/components/edificios/EdificioCard";
+import { EdificiosTable } from "@/components/edificios/EdificiosTable";
 import { EdificioFormDialog } from "@/components/edificios/EdificioFormDialog";
 import { useEdificios } from "@/lib/queries";
 
@@ -17,6 +18,7 @@ function EdificiosPage() {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [tipo, setTipo] = useState("all");
+  const [view, setView] = useState<"grid" | "table">("grid");
 
   const filtered = useMemo(() => {
     return edificios.filter((e) => {
@@ -54,6 +56,10 @@ function EdificiosPage() {
               <SelectItem value="condominio_horizontal">Condominio horizontal</SelectItem>
             </SelectContent>
           </Select>
+          <div className="inline-flex rounded-lg border border-[#e8ddd8] bg-white overflow-hidden">
+            <button type="button" onClick={() => setView("grid")} className={`px-3 py-2 text-sm flex items-center gap-1 ${view === "grid" ? "bg-[#c94f0c] text-white" : "text-[#4a2800] hover:bg-[#faf4f0]"}`}><LayoutGrid className="w-4 h-4" />Tarjetas</button>
+            <button type="button" onClick={() => setView("table")} className={`px-3 py-2 text-sm flex items-center gap-1 ${view === "table" ? "bg-[#c94f0c] text-white" : "text-[#4a2800] hover:bg-[#faf4f0]"}`}><List className="w-4 h-4" />Tabla</button>
+          </div>
         </div>
 
         {isLoading ? (
@@ -67,10 +73,12 @@ function EdificiosPage() {
             hint={edificios.length === 0 ? "Crea tu primer edificio para empezar a administrar unidades, residentes y operaciones." : "Prueba con otros filtros."}
             action={edificios.length === 0 ? <Button onClick={() => setOpen(true)} className="bg-[#c94f0c] hover:bg-[#a33d08]"><Plus className="w-4 h-4 mr-1" />Crear edificio</Button> : null}
           />
-        ) : (
+        ) : view === "grid" ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {filtered.map((e) => <EdificioCard key={e.id} edificio={e} />)}
           </div>
+        ) : (
+          <EdificiosTable edificios={filtered} />
         )}
 
         <EdificioFormDialog open={open} onOpenChange={setOpen} />
