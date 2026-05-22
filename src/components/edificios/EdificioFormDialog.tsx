@@ -2,6 +2,7 @@ import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { ExternalLink } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useSaveEdificio, type Condominio } from "@/lib/queries";
 import { DEPARTAMENTOS, ciudadesDe } from "@/lib/honduras-geo";
-import { AddressMapPicker } from "./AddressMapPicker";
 
 const schema = z.object({
   nombre: z.string().min(2, "Nombre muy corto").max(120),
