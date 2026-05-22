@@ -17,7 +17,13 @@ const GenerarUnidadesDialog = lazy(() => import("@/components/unidades/GenerarUn
 const ResidenteFormDialog = lazy(() => import("@/components/residentes/ResidenteFormDialog").then(m => ({ default: m.ResidenteFormDialog })));
 
 
-export const Route = createFileRoute("/edificios/$edificioId")({ component: EdificioDetail });
+import { EdificioDetailSkeleton } from "@/components/edificios/EdificiosSkeleton";
+
+export const Route = createFileRoute("/edificios/$edificioId")({
+  component: EdificioDetail,
+  pendingComponent: EdificioDetailSkeleton,
+  pendingMs: 0,
+});
 
 function EdificioDetail() {
   const { edificioId } = Route.useParams();
