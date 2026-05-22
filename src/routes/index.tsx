@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/layout/AppShell";
 import { Card, KpiCard, Badge } from "@/components/ui-pentos";
@@ -5,6 +6,7 @@ import { useAuth } from "@/lib/auth-context";
 import { Wallet, AlertTriangle, KeyRound, Wrench, Tag, UserPlus, TrendingUp, CheckCircle2 } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, ReferenceLine } from "recharts";
 import { fmtL } from "@/lib/format";
+import { OnboardingWizard, useShouldShowOnboarding } from "@/components/onboarding/OnboardingWizard";
 
 export const Route = createFileRoute("/")({ component: Dashboard });
 
@@ -27,9 +29,13 @@ function Dashboard() {
   const hour = new Date().getHours();
   const saludo = hour < 12 ? "Buenos días" : hour < 19 ? "Buenas tardes" : "Buenas noches";
   const firstName = (profile?.full_name ?? "").split(" ")[0] || "Bienvenido";
+  const shouldShow = useShouldShowOnboarding();
+  const [wizardOpen, setWizardOpen] = useState(false);
+  useEffect(() => { if (shouldShow) setWizardOpen(true); }, [shouldShow]);
 
   return (
     <AppShell>
+      <OnboardingWizard open={wizardOpen} onClose={() => setWizardOpen(false)} />
       <div className="space-y-6 max-w-[1400px] mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
