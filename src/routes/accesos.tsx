@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useState, useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus, KeyRound } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
@@ -7,7 +7,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { AccesosTable } from "@/components/accesos/AccesosTable";
 import { useEdificios, type Acceso } from "@/lib/queries";
 
-const AccesoFormDialog = lazy(() => import("@/components/accesos/AccesoFormDialog").then(m => ({ default: m.AccesoFormDialog })));
+const loadDialog = () => import("@/components/accesos/AccesoFormDialog");
+const AccesoFormDialog = lazy(() => loadDialog().then(m => ({ default: m.AccesoFormDialog })));
 
 export const Route = createFileRoute("/accesos")({ component: AccesosPage });
 
@@ -16,6 +17,9 @@ function AccesosPage() {
   const [edificioId, setEdificioId] = useState("all");
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState<Acceso | null>(null);
+
+  // Precarga el chunk del formulario para que el primer click sea instantáneo
+  useEffect(() => { loadDialog(); }, []);
 
   return (
     <AppShell>
