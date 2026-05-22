@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui-pentos";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { LogOut, Pencil, Trash2, Search } from "lucide-react";
+import { LogOut, Pencil, Trash2, Search, QrCode } from "lucide-react";
 import { useAccesos, useUnidades, useDeleteAcceso, useMarcarSalida, type Acceso } from "@/lib/queries";
+import { PaseDialog } from "./PaseDialog";
 
 const fmtDT = (s: string | null) => s ? new Date(s).toLocaleString("es-HN", { dateStyle: "short", timeStyle: "short" }) : "—";
 
@@ -17,6 +18,7 @@ export function AccesosTable({ edificioId, onEdit }: { edificioId: string; onEdi
   const [estado, setEstado] = useState("all");
   const [tipo, setTipo] = useState("all");
   const [search, setSearch] = useState("");
+  const [pase, setPase] = useState<Acceso | null>(null);
 
   const uniMap = useMemo(() => new Map(unidades.map((u) => [u.id, u.numero])), [unidades]);
 
@@ -81,6 +83,7 @@ export function AccesosTable({ edificioId, onEdit }: { edificioId: string; onEdi
                 <TableCell className="text-sm">{fmtDT(a.fecha_salida)}</TableCell>
                 <TableCell>{a.fecha_salida ? <Badge variant="neutral">Salió</Badge> : <Badge variant="success">Dentro</Badge>}</TableCell>
                 <TableCell className="text-right">
+                  <Button size="sm" variant="ghost" title="Ver / compartir pase" onClick={() => setPase(a)} className="h-8 w-8 p-0 text-[#c94f0c]"><QrCode className="w-4 h-4" /></Button>
                   {!a.fecha_salida && <Button size="sm" variant="ghost" title="Registrar salida" onClick={() => salir.mutate(a.id)} className="h-8 w-8 p-0 text-[#2d6a2d]"><LogOut className="w-4 h-4" /></Button>}
                   <Button size="sm" variant="ghost" onClick={() => onEdit(a)} className="h-8 w-8 p-0"><Pencil className="w-4 h-4" /></Button>
                   <Button size="sm" variant="ghost" onClick={() => { if (confirm("¿Eliminar registro?")) del.mutate(a.id); }} className="h-8 w-8 p-0 text-[#c0392b] hover:text-[#c0392b]"><Trash2 className="w-4 h-4" /></Button>
@@ -90,6 +93,7 @@ export function AccesosTable({ edificioId, onEdit }: { edificioId: string; onEdi
           </TableBody>
         </Table>
       </div>
+      <PaseDialog open={!!pase} onOpenChange={(v) => !v && setPase(null)} acceso={pase} />
     </div>
   );
 }

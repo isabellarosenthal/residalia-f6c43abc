@@ -57,6 +57,11 @@ export function AccesoFormDialog({
     });
   }, [open, acceso, defaultCondominioId, form]);
 
+  const genCodigo = () => {
+    const r = Math.random().toString(36).slice(2, 8).toUpperCase();
+    return `PASE-${r}`;
+  };
+
   const onSubmit = async (v: FormOut) => {
     await save.mutateAsync({
       id: acceso?.id,
@@ -64,7 +69,7 @@ export function AccesoFormDialog({
       unidad_id: v.unidad_id || null,
       visitante_nombre: v.visitante_nombre,
       tipo: v.tipo, metodo: v.metodo,
-      qr_code: v.qr_code || null,
+      qr_code: v.qr_code?.trim() || acceso?.qr_code || genCodigo(),
       fecha_entrada: new Date(v.fecha_entrada).toISOString(),
       fecha_salida: v.fecha_salida ? new Date(v.fecha_salida).toISOString() : null,
     });
@@ -125,7 +130,7 @@ export function AccesoFormDialog({
             <div><Label>Entrada *</Label><Input type="datetime-local" {...form.register("fecha_entrada")} /></div>
             <div><Label>Salida</Label><Input type="datetime-local" {...form.register("fecha_salida")} /></div>
           </div>
-          <div><Label>QR / código</Label><Input {...form.register("qr_code")} placeholder="opcional" /></div>
+          <div><Label>Código del pase</Label><Input {...form.register("qr_code")} placeholder="Se genera automáticamente si lo dejas vacío" /></div>
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
             <Button type="submit" disabled={save.isPending} className="bg-[#c94f0c] hover:bg-[#a33d08]">{save.isPending ? "Guardando…" : "Guardar"}</Button>
