@@ -31,8 +31,14 @@ function PropiedadesPage() {
   const [habs, setHabs] = useState("any");
   const [edit, setEdit] = useState<Unidad | null>(null);
   const [open, setOpen] = useState(false);
+  const [view, setView] = useState<View>(() => {
+    if (typeof window === "undefined") return "table";
+    return (localStorage.getItem(VIEW_KEY) as View) || "table";
+  });
 
   useEffect(() => { loadForm(); }, []);
+  useEffect(() => { try { localStorage.setItem(VIEW_KEY, view); } catch {} }, [view]);
+
 
   const edMap = useMemo(() => new Map(edificios.map((e) => [e.id, e])), [edificios]);
 
