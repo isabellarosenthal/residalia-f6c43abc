@@ -100,7 +100,11 @@ function EdificiosPage() {
           <EdificiosTable edificios={filtered} statsMap={statsMap} />
         )}
 
-        <EdificioFormDialog open={open} onOpenChange={setOpen} />
+        {open && (
+          <Suspense fallback={null}>
+            <EdificioFormDialog open={open} onOpenChange={setOpen} />
+          </Suspense>
+        )}
       </div>
     </AppShell>
   );
