@@ -1,13 +1,16 @@
 import { useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { Pencil, MapPin } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui-pentos";
-import { EdificioFormDialog } from "./EdificioFormDialog";
 import { fmtL } from "@/lib/format";
 import { type Condominio } from "@/lib/queries";
 import type { EdificioStats } from "./EdificioCard";
+
+const EdificioFormDialog = lazy(() =>
+  import("./EdificioFormDialog").then((m) => ({ default: m.EdificioFormDialog }))
+);
 
 type StatsExt = EdificioStats & { disponibles: number };
 

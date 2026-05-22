@@ -7,14 +7,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { EdificioCard } from "@/components/edificios/EdificioCard";
-import { EdificiosTable } from "@/components/edificios/EdificiosTable";
+import { EdificiosSkeleton } from "@/components/edificios/EdificiosSkeleton";
 import { useEdificios, useUnidades } from "@/lib/queries";
 
+const EdificiosTable = lazy(() =>
+  import("@/components/edificios/EdificiosTable").then((m) => ({ default: m.EdificiosTable }))
+);
 const EdificioFormDialog = lazy(() =>
   import("@/components/edificios/EdificioFormDialog").then((m) => ({ default: m.EdificioFormDialog }))
 );
 
-export const Route = createFileRoute("/edificios/")({ component: EdificiosPage });
+export const Route = createFileRoute("/edificios/")({
+  component: EdificiosPage,
+  pendingComponent: EdificiosSkeleton,
+  pendingMs: 0,
+});
 
 function EdificiosPage() {
   const { data: edificios = [], isLoading } = useEdificios();
@@ -97,7 +104,9 @@ function EdificiosPage() {
             {filtered.map((e) => <EdificioCard key={e.id} edificio={e} stats={statsMap.get(e.id)} />)}
           </div>
         ) : (
-          <EdificiosTable edificios={filtered} statsMap={statsMap} />
+          <Suspense fallback={<div className="h-72 rounded-2xl shimmer" />}>
+            <EdificiosTable edificios={filtered} statsMap={statsMap} />
+          </Suspense>
         )}
 
         {open && (
