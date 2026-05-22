@@ -42,7 +42,7 @@ export function EdificioCard({ edificio }: { edificio: Condominio }) {
           </button>
           <div className="p-5 flex-1 flex flex-col">
             <div className="flex items-start gap-3">
-              <EdificioPlaceholder id={edificio.id} tipo={edificio.tipo} className="w-10 h-10 rounded-lg flex-shrink-人0" />
+              <EdificioPlaceholder id={edificio.id} tipo={edificio.tipo} className="w-10 h-10 rounded-lg flex-shrink-0" />
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="font-display font-bold text-lg text-[#2d1200] group-hover:text-[#c94f0c] transition-colors">{edificio.nombre}</h3>
