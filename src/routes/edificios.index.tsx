@@ -91,10 +91,10 @@ function EdificiosPage() {
           />
         ) : view === "grid" ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filtered.map((e) => <EdificioCard key={e.id} edificio={e} />)}
+            {filtered.map((e) => <EdificioCard key={e.id} edificio={e} stats={statsMap.get(e.id)} />)}
           </div>
         ) : (
-          <EdificiosTable edificios={filtered} />
+          <EdificiosTable edificios={filtered} statsMap={statsMap} />
         )}
 
         <EdificioFormDialog open={open} onOpenChange={setOpen} />
