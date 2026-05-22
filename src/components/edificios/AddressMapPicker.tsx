@@ -131,7 +131,7 @@ export function AddressMapPicker({
             const comps = place.address_components ?? [];
             const pick = (types: string[]) => {
               for (const t of types) {
-                const c = comps.find((c) => c.types.includes(t));
+                const c = comps.find((c: google.maps.GeocoderAddressComponent) => c.types.includes(t));
                 if (c) return c.long_name;
               }
               return null;
