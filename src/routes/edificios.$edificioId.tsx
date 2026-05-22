@@ -116,6 +116,14 @@ function EdificioDetail() {
             <UnidadesTable edificioId={edificio.id} onEdit={(u) => { setUnidadEdit(u); setUnidadOpen(true); }} />
           </TabsContent>
 
+          <TabsContent value="residentes" className="space-y-4 pt-4">
+            <div className="flex justify-end">
+              <Button onClick={() => { setResidenteEdit(null); setResidenteOpen(true); }} className="bg-[#c94f0c] hover:bg-[#a33d08]"><Plus className="w-4 h-4 mr-1" />Nuevo residente</Button>
+            </div>
+            <ResidentesTable search="" edificioId={edificio.id} tipo="all" estado="all" onEdit={(r) => { setResidenteEdit(r); setResidenteOpen(true); }} />
+          </TabsContent>
+
+
           <TabsContent value="config" className="space-y-4 pt-4">
             <Card className="p-5 space-y-3">
               <div className="flex items-center justify-between">
