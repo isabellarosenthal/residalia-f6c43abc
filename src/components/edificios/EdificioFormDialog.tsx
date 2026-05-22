@@ -2,6 +2,7 @@ import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { ExternalLink } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useSaveEdificio, type Condominio } from "@/lib/queries";
 import { DEPARTAMENTOS, ciudadesDe } from "@/lib/honduras-geo";
-import { AddressMapPicker } from "./AddressMapPicker";
 
 const schema = z.object({
   nombre: z.string().min(2, "Nombre muy corto").max(120),
@@ -17,8 +17,7 @@ const schema = z.object({
   direccion: z.string().max(255).optional().or(z.literal("")),
   ciudad: z.string().max(80).optional().or(z.literal("")),
   departamento: z.string().max(80).optional().or(z.literal("")),
-  latitud: z.number().nullable().optional(),
-  longitud: z.number().nullable().optional(),
+  maps_url: z.string().max(500).optional().or(z.literal("")),
   moneda: z.string().min(1).max(5),
   cuota_base: z.coerce.number().min(0).default(0),
 });
@@ -34,7 +33,7 @@ export function EdificioFormDialog({
     mode: "onChange",
     defaultValues: {
       nombre: "", tipo: "edificio", direccion: "", ciudad: "", departamento: "",
-      latitud: null, longitud: null, moneda: "L", cuota_base: 0,
+      maps_url: "", moneda: "L", cuota_base: 0,
     },
   });
 
@@ -46,8 +45,7 @@ export function EdificioFormDialog({
         direccion: edificio?.direccion ?? "",
         ciudad: edificio?.ciudad ?? "",
         departamento: edificio?.departamento ?? "",
-        latitud: (edificio as any)?.latitud ?? null,
-        longitud: (edificio as any)?.longitud ?? null,
+        maps_url: (edificio as any)?.maps_url ?? "",
         moneda: edificio?.moneda ?? "L",
         cuota_base: edificio?.cuota_base ?? 0,
       });
@@ -65,13 +63,13 @@ export function EdificioFormDialog({
       direccion: vals.direccion || null,
       ciudad: vals.ciudad || null,
       departamento: vals.departamento || null,
-      latitud: vals.latitud ?? null,
-      longitud: vals.longitud ?? null,
+      maps_url: vals.maps_url || null,
       moneda: vals.moneda,
       cuota_base: vals.cuota_base,
     } as any);
     onOpenChange(false);
   };
+
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -113,34 +111,28 @@ export function EdificioFormDialog({
 
           <div>
             <Label>Dirección</Label>
-            <AddressMapPicker
-              value={{
-                direccion: form.watch("direccion") ?? "",
-                latitud: (form.watch("latitud") as number | null) ?? null,
-                longitud: (form.watch("longitud") as number | null) ?? null,
-              }}
-              onChange={(v) => {
-                form.setValue("direccion", v.direccion, { shouldValidate: true });
-                form.setValue("latitud", v.latitud);
-                form.setValue("longitud", v.longitud);
-              }}
-              onGeoFound={(g) => {
-                if (g.departamento) {
-                  // Map google admin name to our list if it matches
-                  const match = DEPARTAMENTOS.find(
-                    (d) => d.toLowerCase() === g.departamento!.toLowerCase()
-                      || d.toLowerCase() === g.departamento!.toLowerCase().replace(/^departamento de /, ""),
-                  );
-                  if (match) form.setValue("departamento", match, { shouldValidate: true });
-                }
-                if (g.ciudad) {
-                  const deptoNow = form.getValues("departamento") ?? "";
-                  const cityList = ciudadesDe(deptoNow);
-                  const cityMatch = cityList.find((c) => c.toLowerCase() === g.ciudad!.toLowerCase());
-                  if (cityMatch) form.setValue("ciudad", cityMatch, { shouldValidate: true });
-                }
-              }}
+            <Input
+              {...form.register("direccion")}
+              placeholder="Ej: Col. Lomas del Guijarro, Tegucigalpa"
             />
+            <div className="mt-2 flex gap-2">
+              <Input
+                placeholder="Enlace de Google Maps (opcional)"
+                value={(form.watch("maps_url") as string) ?? ""}
+                onChange={(e) => form.setValue("maps_url", e.target.value, { shouldValidate: true })}
+              />
+              {form.watch("maps_url") ? (
+                <a
+                  href={form.watch("maps_url") as string}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center h-10 px-3 rounded-md border border-[#e8ddd8] text-[#c94f0c] hover:bg-[#fdeee5]"
+                  title="Abrir en Google Maps"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                </a>
+              ) : null}
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
