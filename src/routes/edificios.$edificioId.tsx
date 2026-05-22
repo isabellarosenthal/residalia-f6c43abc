@@ -7,12 +7,15 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { EdificioPlaceholder } from "@/components/edificios/EdificioPlaceholder";
 import { UnidadesTable } from "@/components/unidades/UnidadesTable";
-import { useEdificio, useUnidades, useDeleteEdificio, type Unidad } from "@/lib/queries";
+import { ResidentesTable } from "@/components/residentes/ResidentesTable";
+import { useEdificio, useUnidades, useDeleteEdificio, type Unidad, type Residente } from "@/lib/queries";
 import { fmtL } from "@/lib/format";
 
 const EdificioFormDialog = lazy(() => import("@/components/edificios/EdificioFormDialog").then(m => ({ default: m.EdificioFormDialog })));
 const UnidadFormDialog = lazy(() => import("@/components/unidades/UnidadFormDialog").then(m => ({ default: m.UnidadFormDialog })));
 const GenerarUnidadesDialog = lazy(() => import("@/components/unidades/GenerarUnidadesDialog").then(m => ({ default: m.GenerarUnidadesDialog })));
+const ResidenteFormDialog = lazy(() => import("@/components/residentes/ResidenteFormDialog").then(m => ({ default: m.ResidenteFormDialog })));
+
 
 export const Route = createFileRoute("/edificios/$edificioId")({ component: EdificioDetail });
 
@@ -26,6 +29,8 @@ function EdificioDetail() {
   const [unidadOpen, setUnidadOpen] = useState(false);
   const [unidadEdit, setUnidadEdit] = useState<Unidad | null>(null);
   const [bulkOpen, setBulkOpen] = useState(false);
+  const [residenteOpen, setResidenteOpen] = useState(false);
+  const [residenteEdit, setResidenteEdit] = useState<Residente | null>(null);
 
   if (isLoading) {
     return <AppShell><div className="h-72 shimmer rounded-2xl" /></AppShell>;
