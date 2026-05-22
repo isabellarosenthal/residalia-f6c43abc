@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { lazy, Suspense, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus, Search, Building2, LayoutGrid, List } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
@@ -8,8 +8,11 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { EdificioCard } from "@/components/edificios/EdificioCard";
 import { EdificiosTable } from "@/components/edificios/EdificiosTable";
-import { EdificioFormDialog } from "@/components/edificios/EdificioFormDialog";
 import { useEdificios, useUnidades } from "@/lib/queries";
+
+const EdificioFormDialog = lazy(() =>
+  import("@/components/edificios/EdificioFormDialog").then((m) => ({ default: m.EdificioFormDialog }))
+);
 
 export const Route = createFileRoute("/edificios/")({ component: EdificiosPage });
 
