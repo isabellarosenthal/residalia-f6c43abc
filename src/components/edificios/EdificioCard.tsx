@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { Link } from "@tanstack/react-router";
-import { MapPin, Home, Tag, Building2, Pencil } from "lucide-react";
+import { useNavigate } from "@tanstack/react-router";
+import { MapPin, Home, Tag, Building2, Pencil, ChevronRight } from "lucide-react";
 import { Card, Badge } from "@/components/ui-pentos";
 import { EdificioPlaceholder } from "./EdificioPlaceholder";
 import { EdificioFormDialog } from "./EdificioFormDialog";
 import { useUnidades, type Condominio } from "@/lib/queries";
 
 export function EdificioCard({ edificio }: { edificio: Condominio }) {
+  const navigate = useNavigate();
   const { data: unidades = [] } = useUnidades(edificio.id);
   const [editOpen, setEditOpen] = useState(false);
   const total = unidades.length;
@@ -14,18 +15,26 @@ export function EdificioCard({ edificio }: { edificio: Condominio }) {
   const enVenta = unidades.filter((u) => u.estado_comercial === "en_venta" || u.estado_comercial === "en_venta_y_renta").length;
   const enRenta = unidades.filter((u) => u.estado_comercial === "en_renta" || u.estado_comercial === "en_venta_y_renta").length;
   const ocupacion = total > 0 ? Math.round((ocupadas / total) * 100) : 0;
+  const openUnidades = () => navigate({ to: "/edificios/$edificioId", params: { edificioId: edificio.id } });
 
   return (
     <>
-      <Link
-        to="/edificios/$edificioId"
-        params={{ edificioId: edificio.id }}
-        className="group block transition-transform hover:-translate-y-0.5"
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={openUnidades}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openUnidades();
+          }
+        }}
+        className="group block cursor-pointer rounded-2xl transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#c94f0c]"
       >
         <Card className="overflow-hidden hover:shadow-md transition-shadow h-full flex flex-col relative">
           <button
             type="button"
-            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setEditOpen(true); }}
+            onClick={(e) => { e.stopPropagation(); setEditOpen(true); }}
             className="absolute top-2 right-2 z-10 bg-white/90 hover:bg-white text-[#4a2800] hover:text-[#c94f0c] rounded-full p-2 shadow-sm border border-[#f0e6df] opacity-0 group-hover:opacity-100 transition-opacity"
             title="Editar edificio"
           >
@@ -50,9 +59,13 @@ export function EdificioCard({ edificio }: { edificio: Condominio }) {
               <Stat icon={<Tag className="w-3.5 h-3.5" />} label="Venta" value={enVenta} accent="venta" />
               <Stat icon={<Tag className="w-3.5 h-3.5" />} label="Renta" value={enRenta} accent="renta" />
             </div>
+            <div className="mt-4 flex items-center justify-between rounded-lg border border-[#f0e6df] bg-[#fff7f2] px-3 py-2 text-sm font-semibold text-[#c94f0c]">
+              <span>Ver / crear unidades</span>
+              <ChevronRight className="w-4 h-4" />
+            </div>
           </div>
         </Card>
-      </Link>
+      </div>
       <EdificioFormDialog open={editOpen} onOpenChange={setEditOpen} edificio={edificio} />
     </>
   );
