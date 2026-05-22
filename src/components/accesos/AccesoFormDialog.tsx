@@ -57,6 +57,11 @@ export function AccesoFormDialog({
     });
   }, [open, acceso, defaultCondominioId, form]);
 
+  const genCodigo = () => {
+    const r = Math.random().toString(36).slice(2, 8).toUpperCase();
+    return `PASE-${r}`;
+  };
+
   const onSubmit = async (v: FormOut) => {
     await save.mutateAsync({
       id: acceso?.id,
@@ -64,7 +69,7 @@ export function AccesoFormDialog({
       unidad_id: v.unidad_id || null,
       visitante_nombre: v.visitante_nombre,
       tipo: v.tipo, metodo: v.metodo,
-      qr_code: v.qr_code || null,
+      qr_code: v.qr_code?.trim() || acceso?.qr_code || genCodigo(),
       fecha_entrada: new Date(v.fecha_entrada).toISOString(),
       fecha_salida: v.fecha_salida ? new Date(v.fecha_salida).toISOString() : null,
     });
