@@ -90,7 +90,9 @@ export function OnboardingWizard({ open, onClose }: Props) {
 
   const handleStep4 = async () => {
     if (!edificioId) return;
-    await generarCobros.mutateAsync({ condominio_id: edificioId, mes_iso: mes, concepto: "Mantenimiento" });
+    const [y, m] = mes.split("-");
+    const venc = `${y}-${m}-05`;
+    await generarCobros.mutateAsync({ edificioId, mes, concepto: "Mantenimiento", vencimiento: venc });
     toast.success("¡Listo! Tu edificio está operando 🎉");
     close();
     navigate({ to: "/" });
