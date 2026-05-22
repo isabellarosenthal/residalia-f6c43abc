@@ -81,7 +81,21 @@ export function AccesosTable({ edificioId, onEdit }: { edificioId: string; onEdi
                 <TableCell className="text-sm">{a.unidad_id ? `#${uniMap.get(a.unidad_id) ?? "—"}` : "—"}</TableCell>
                 <TableCell className="text-sm">{fmtDT(a.fecha_entrada)}</TableCell>
                 <TableCell className="text-sm">{fmtDT(a.fecha_salida)}</TableCell>
-                <TableCell>{a.fecha_salida ? <Badge variant="neutral">Salió</Badge> : <Badge variant="success">Dentro</Badge>}</TableCell>
+                <TableCell>
+                  {(() => {
+                    if (a.fecha_salida) return <Badge variant="neutral">Salió</Badge>;
+                    const usados = a.usos_actuales ?? 0;
+                    const max = a.usos_maximos ?? 1;
+                    if (usados >= max) return <Badge variant="danger">Pase agotado</Badge>;
+                    if (a.minutos_max_estadia && a.fecha_entrada) {
+                      const vence = new Date(a.fecha_entrada).getTime() + a.minutos_max_estadia * 60000;
+                      const restante = Math.round((vence - Date.now()) / 60000);
+                      if (restante <= 0) return <Badge variant="danger">Tiempo vencido</Badge>;
+                      return <Badge variant="success">Dentro · {restante} min</Badge>;
+                    }
+                    return <Badge variant="success">Dentro · {usados}/{max}</Badge>;
+                  })()}
+                </TableCell>
                 <TableCell className="text-right">
                   <Button size="sm" variant="ghost" title="Ver / compartir pase" onClick={() => setPase(a)} className="h-8 w-8 p-0 text-[#c94f0c]"><QrCode className="w-4 h-4" /></Button>
                   {!a.fecha_salida && <Button size="sm" variant="ghost" title="Registrar salida" onClick={() => salir.mutate(a.id)} className="h-8 w-8 p-0 text-[#2d6a2d]"><LogOut className="w-4 h-4" /></Button>}
