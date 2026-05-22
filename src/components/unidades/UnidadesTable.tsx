@@ -3,18 +3,32 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Search, Pencil, Trash2, BedDouble, Bath, Car } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Search, Pencil, Trash2, BedDouble, Bath, Car, X } from "lucide-react";
 import { EstadoAdminBadge, EstadoComercialBadge } from "./EstadoBadge";
 import { fmtL } from "@/lib/format";
-import { useUnidades, useDeleteUnidad, useResidentesMap, type Unidad } from "@/lib/queries";
+import {
+  useUnidades,
+  useDeleteUnidad,
+  useResidentesMap,
+  useResidentes,
+  useBulkUpdateUnidades,
+  type Unidad,
+} from "@/lib/queries";
+
+const ADMIN_OPTS = ["disponible", "ocupada", "vacia"] as const;
+const COMERCIAL_OPTS = ["disponible", "en_venta", "en_renta", "en_venta_y_renta", "reservada", "ocupada"] as const;
 
 export function UnidadesTable({ edificioId, onEdit }: { edificioId: string; onEdit: (u: Unidad) => void }) {
   const { data: unidades = [], isLoading } = useUnidades(edificioId);
   const { data: residentesMap } = useResidentesMap();
+  const { data: residentes = [] } = useResidentes();
   const del = useDeleteUnidad();
+  const bulk = useBulkUpdateUnidades();
   const [search, setSearch] = useState("");
   const [admin, setAdmin] = useState<string>("all");
   const [comercial, setComercial] = useState<string>("all");
+  const [selected, setSelected] = useState<Set<string>>(new Set());
 
   const filtered = useMemo(() => {
     return unidades.filter((u) => {
@@ -24,6 +38,36 @@ export function UnidadesTable({ edificioId, onEdit }: { edificioId: string; onEd
       return true;
     });
   }, [unidades, search, admin, comercial]);
+
+  const allChecked = filtered.length > 0 && filtered.every((u) => selected.has(u.id));
+  const someChecked = filtered.some((u) => selected.has(u.id));
+
+  const toggle = (id: string) => {
+    setSelected((s) => {
+      const n = new Set(s);
+      if (n.has(id)) n.delete(id); else n.add(id);
+      return n;
+    });
+  };
+  const toggleAll = () => {
+    setSelected((s) => {
+      if (allChecked) {
+        const n = new Set(s);
+        filtered.forEach((u) => n.delete(u.id));
+        return n;
+      }
+      const n = new Set(s);
+      filtered.forEach((u) => n.add(u.id));
+      return n;
+    });
+  };
+
+  const applyBulk = async (patch: Record<string, any>) => {
+    const ids = Array.from(selected);
+    if (!ids.length) return;
+    await bulk.mutateAsync({ ids, patch });
+    setSelected(new Set());
+  };
 
   return (
     <div className="space-y-4">
@@ -55,10 +99,49 @@ export function UnidadesTable({ edificioId, onEdit }: { edificioId: string; onEd
         </Select>
       </div>
 
+      {selected.size > 0 && (
+        <div className="flex flex-wrap items-center gap-2 bg-[#fff5ec] border border-[#f3d6bd] rounded-xl px-3 py-2">
+          <span className="text-sm font-semibold text-[#2d1200]">{selected.size} seleccionada{selected.size > 1 ? "s" : ""}</span>
+          <span className="text-xs text-[#9a7060]">·</span>
+          <Select onValueChange={(v) => applyBulk({ estado_administrativo: v })}>
+            <SelectTrigger className="h-8 w-[180px] bg-white"><SelectValue placeholder="Cambiar estado admin" /></SelectTrigger>
+            <SelectContent>
+              {ADMIN_OPTS.map((o) => <SelectItem key={o} value={o} className="capitalize">{o}</SelectItem>)}
+            </SelectContent>
+          </Select>
+          <Select onValueChange={(v) => applyBulk({ estado_comercial: v })}>
+            <SelectTrigger className="h-8 w-[200px] bg-white"><SelectValue placeholder="Cambiar estado comercial" /></SelectTrigger>
+            <SelectContent>
+              {COMERCIAL_OPTS.map((o) => <SelectItem key={o} value={o} className="capitalize">{o.replace(/_/g, " ")}</SelectItem>)}
+            </SelectContent>
+          </Select>
+          <Select onValueChange={(v) => applyBulk({ propietario_id: v === "__none__" ? null : v })}>
+            <SelectTrigger className="h-8 w-[200px] bg-white"><SelectValue placeholder="Asignar propietario" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="__none__">— Sin propietario —</SelectItem>
+              {residentes.map((r) => <SelectItem key={r.id} value={r.id}>{r.nombre} {r.apellido ?? ""}</SelectItem>)}
+            </SelectContent>
+          </Select>
+          <Select onValueChange={(v) => applyBulk({ inquilino_id: v === "__none__" ? null : v })}>
+            <SelectTrigger className="h-8 w-[200px] bg-white"><SelectValue placeholder="Asignar inquilino" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="__none__">— Sin inquilino —</SelectItem>
+              {residentes.map((r) => <SelectItem key={r.id} value={r.id}>{r.nombre} {r.apellido ?? ""}</SelectItem>)}
+            </SelectContent>
+          </Select>
+          <Button size="sm" variant="ghost" onClick={() => setSelected(new Set())} className="h-8">
+            <X className="w-4 h-4 mr-1" /> Limpiar
+          </Button>
+        </div>
+      )}
+
       <div className="bg-white border border-[#e8ddd8] rounded-2xl overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow className="bg-[#f5ede8] hover:bg-[#f5ede8]">
+              <TableHead className="w-10">
+                <Checkbox checked={allChecked} onCheckedChange={toggleAll} aria-label="Seleccionar todas" />
+              </TableHead>
               <TableHead className="text-[#2d1200] font-semibold">Unidad</TableHead>
               <TableHead className="text-[#2d1200] font-semibold">Tipo</TableHead>
               <TableHead className="text-[#2d1200] font-semibold">Características</TableHead>
@@ -71,13 +154,16 @@ export function UnidadesTable({ edificioId, onEdit }: { edificioId: string; onEd
           </TableHeader>
           <TableBody>
             {isLoading && (
-              <TableRow><TableCell colSpan={8} className="py-10 text-center text-[#9a7060]">Cargando unidades…</TableCell></TableRow>
+              <TableRow><TableCell colSpan={9} className="py-10 text-center text-[#9a7060]">Cargando unidades…</TableCell></TableRow>
             )}
             {!isLoading && filtered.length === 0 && (
-              <TableRow><TableCell colSpan={8} className="py-10 text-center text-[#9a7060]">Sin unidades para los filtros aplicados.</TableCell></TableRow>
+              <TableRow><TableCell colSpan={9} className="py-10 text-center text-[#9a7060]">Sin unidades para los filtros aplicados.</TableCell></TableRow>
             )}
             {filtered.map((u) => (
-              <TableRow key={u.id}>
+              <TableRow key={u.id} data-state={selected.has(u.id) ? "selected" : undefined}>
+                <TableCell>
+                  <Checkbox checked={selected.has(u.id)} onCheckedChange={() => toggle(u.id)} aria-label={`Seleccionar ${u.numero}`} />
+                </TableCell>
                 <TableCell>
                   <div className="font-semibold text-[#2d1200]">#{u.numero}</div>
                   <div className="text-xs text-[#9a7060]">{u.piso != null ? `Piso ${u.piso}` : "—"}</div>
