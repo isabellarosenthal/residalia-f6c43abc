@@ -89,6 +89,17 @@ export function useUnidades(edificioId?: string) {
   });
 }
 
+export function useResidentes() {
+  return useQuery({
+    queryKey: ["residentes-list"],
+    queryFn: async (): Promise<Residente[]> => {
+      const { data, error } = await supabase.from("residentes").select("*").order("nombre");
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
+
 export function useResidentesMap() {
   return useQuery({
     queryKey: ["residentes-map"],
