@@ -13,7 +13,7 @@ export function EstadoAdminBadge({ value }: { value: "ocupada" | "disponible" | 
 export function EstadoComercialBadge({ value }: { value: "ocupada" | "disponible" | "en_venta" | "en_renta" | "en_venta_y_renta" | "reservada" }) {
   const map = {
     ocupada: { v: "neutral" as const, l: "—" },
-    disponible: { v: "warning" as const, l: "Disponible" },
+    disponible: { v: "success" as const, l: "Disponible" },
     en_venta: { v: "venta" as const, l: "En venta" },
     en_renta: { v: "renta" as const, l: "En renta" },
     en_venta_y_renta: { v: "venta" as const, l: "Venta/Renta" },
