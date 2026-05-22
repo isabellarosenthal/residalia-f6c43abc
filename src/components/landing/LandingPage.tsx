@@ -105,12 +105,13 @@ export function LandingPage() {
             <img
               src={heroCondo}
               alt="Ilustración de condominio administrado con PropCloud"
-              width={1024}
+              width={1280}
               height={1024}
-              className="relative w-full mix-blend-multiply opacity-95"
-              style={{ maskImage: 'radial-gradient(ellipse at center, black 55%, transparent 85%)', WebkitMaskImage: 'radial-gradient(ellipse at center, black 55%, transparent 85%)' }}
+              className="relative w-full h-auto"
+              style={{ maskImage: 'radial-gradient(ellipse 70% 70% at center, black 50%, transparent 95%)', WebkitMaskImage: 'radial-gradient(ellipse 70% 70% at center, black 50%, transparent 95%)' }}
             />
           </div>
+
 
         </div>
       </section>
