@@ -23,31 +23,53 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, s) => {
-      setSession(s);
-      setUser(s?.user ?? null);
-      if (s?.user) {
-        setTimeout(async () => {
-          const [{ data: r }, { data: p }] = await Promise.all([
-            supabase.from("user_roles").select("role").eq("user_id", s.user.id).maybeSingle(),
-            supabase.from("profiles").select("full_name,email,avatar_url").eq("id", s.user.id).maybeSingle(),
-          ]);
-          setRole((r?.role as AppRole) ?? null);
-          setProfile(p as any);
-        }, 0);
-      } else {
+    let alive = true;
+    let currentUserId: string | null = null;
+    let metaLoadedFor: string | null = null;
+
+    const applySession = (nextSession: Session | null) => {
+      if (!alive) return;
+      currentUserId = nextSession?.user?.id ?? null;
+      setSession(nextSession);
+      setUser(nextSession?.user ?? null);
+      setLoading(false);
+      if (!nextSession?.user) {
+        metaLoadedFor = null;
         setRole(null);
         setProfile(null);
+      }
+    };
+
+    const loadUserMeta = async (userId: string) => {
+      if (metaLoadedFor === userId) return;
+      metaLoadedFor = userId;
+      const [{ data: r }, { data: p }] = await Promise.all([
+        supabase.from("user_roles").select("role").eq("user_id", userId).maybeSingle(),
+        supabase.from("profiles").select("full_name,email,avatar_url").eq("id", userId).maybeSingle(),
+      ]);
+      if (!alive || currentUserId !== userId) return;
+      setRole((r?.role as AppRole) ?? null);
+      setProfile(p as any);
+    };
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, s) => {
+      applySession(s);
+      if (s?.user) {
+        setTimeout(() => void loadUserMeta(s.user.id), 0);
       }
     });
 
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
+      applySession(session);
+      if (session?.user) void loadUserMeta(session.user.id);
+    }).catch(() => {
+      applySession(null);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      alive = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const signOut = async () => { await supabase.auth.signOut(); };
