@@ -4,6 +4,7 @@ import {
   Building2, TrendingUp, FileText, BarChart3, ShieldCheck, Zap, Clock, HeartHandshake,
   Server,
 } from "lucide-react";
+import heroCondo from "@/assets/hero-condo.jpg";
 
 const PLANS = [
   {
