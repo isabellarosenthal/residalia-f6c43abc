@@ -1,0 +1,1 @@
+ALTER TABLE public.condominios ADD COLUMN IF NOT EXISTS maps_url text;

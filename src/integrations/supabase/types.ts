@@ -305,6 +305,7 @@ export type Database = {
           latitud: number | null
           logo_url: string | null
           longitud: number | null
+          maps_url: string | null
           moneda: string
           nombre: string
           pais: string
@@ -323,6 +324,7 @@ export type Database = {
           latitud?: number | null
           logo_url?: string | null
           longitud?: number | null
+          maps_url?: string | null
           moneda?: string
           nombre: string
           pais?: string
@@ -341,6 +343,7 @@ export type Database = {
           latitud?: number | null
           logo_url?: string | null
           longitud?: number | null
+          maps_url?: string | null
           moneda?: string
           nombre?: string
           pais?: string
