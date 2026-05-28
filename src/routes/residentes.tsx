@@ -24,10 +24,12 @@ function ResidentesPage() {
   const { data: residentes = [] } = useResidentes();
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Residente | null>(null);
+  const [detail, setDetail] = useState<Residente | null>(null);
   const [search, setSearch] = useState("");
   const [edificioId, setEdificioId] = useState("all");
   const [tipo, setTipo] = useState("all");
   const [estado, setEstado] = useState("activos");
+
 
   return (
     <AppShell>
