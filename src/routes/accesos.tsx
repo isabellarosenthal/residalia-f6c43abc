@@ -1,6 +1,6 @@
 import { lazy, Suspense, useState, useEffect } from "react";
-import { createFileRoute } from "@tanstack/react-router";
-import { Plus, KeyRound } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Plus, KeyRound, ShieldCheck } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
