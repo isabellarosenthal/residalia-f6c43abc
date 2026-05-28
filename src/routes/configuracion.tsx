@@ -24,9 +24,13 @@ const ROLES: { value: AppRole; label: string }[] = [
   { value: "guardia", label: "Guardia" },
 ];
 
+const TENANT_ROLES = ROLES.filter(r => r.value !== "super_admin");
+
 function ConfiguracionPage() {
   const { role } = useAuth();
+  const { data: edificios = [] } = useEdificios();
   const isSuper = role === "super_admin";
+  const canManage = isSuper || edificios.length > 0;
 
   return (
     <AppShell>
@@ -46,13 +50,16 @@ function ConfiguracionPage() {
 
           <TabsContent value="perfil" className="pt-4"><PerfilTab /></TabsContent>
           <TabsContent value="edificios" className="pt-4"><EdificiosTab /></TabsContent>
-          <TabsContent value="usuarios" className="pt-4">{isSuper ? <UsuariosTab /> : <p className="text-sm text-[#9a7060] p-4">Solo super admins pueden gestionar usuarios.</p>}</TabsContent>
+          <TabsContent value="usuarios" className="pt-4">
+            {isSuper ? <UsuariosTab /> : canManage ? <TenantUsuariosTab edificios={edificios} /> : <p className="text-sm text-[#9a7060] p-4">No tienes edificios asignados.</p>}
+          </TabsContent>
           <TabsContent value="seguridad" className="pt-4"><SeguridadTab /></TabsContent>
         </Tabs>
       </div>
     </AppShell>
   );
 }
+
 
 function PerfilTab() {
   const { user, profile, role } = useAuth();
@@ -212,6 +219,97 @@ function UsuariosTab() {
                 <SelectTrigger className="w-[200px]"><SelectValue placeholder="Sin rol" /></SelectTrigger>
                 <SelectContent>{ROLES.map(rr => <SelectItem key={rr.value} value={rr.value}>{rr.label}</SelectItem>)}</SelectContent>
               </Select>
+            </div>
+          ))}
+        </div>
+      )}
+    </Card>
+  );
+}
+
+type Edif = { id: string; nombre: string };
+
+function TenantUsuariosTab({ edificios }: { edificios: Edif[] }) {
+  const [condoId, setCondoId] = useState<string>(edificios[0]?.id ?? "");
+  const [invite, setInvite] = useState({ email: "", role: "guardia" as AppRole });
+  const [members, setMembers] = useState<{ id: string; full_name: string; email: string; role: AppRole | null }[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const load = async (cid: string) => {
+    if (!cid) return;
+    setLoading(true);
+    const { data: mem } = await supabase.from("condominio_members").select("user_id").eq("condominio_id", cid);
+    const ids = (mem ?? []).map((m: any) => m.user_id);
+    if (ids.length === 0) { setMembers([]); setLoading(false); return; }
+    const [{ data: profiles }, { data: roles }] = await Promise.all([
+      supabase.from("profiles").select("id,full_name,email").in("id", ids),
+      supabase.from("user_roles").select("user_id,role").in("user_id", ids),
+    ]);
+    const rmap = new Map((roles ?? []).map((r: any) => [r.user_id, r.role as AppRole]));
+    setMembers((profiles ?? []).map((p: any) => ({ ...p, role: rmap.get(p.id) ?? null })));
+    setLoading(false);
+  };
+
+  useEffect(() => { void load(condoId); }, [condoId]);
+
+  const assign = async () => {
+    if (!invite.email || !condoId) return;
+    const { error } = await supabase.rpc("assign_user_to_condominio", {
+      _email: invite.email.trim(), _role: invite.role, _condo_id: condoId,
+    });
+    if (error) return toast.error(error.message);
+    toast.success("Usuario asignado");
+    setInvite({ email: "", role: "guardia" });
+    void load(condoId);
+  };
+
+  const remove = async (userId: string) => {
+    const { error } = await supabase.rpc("remove_user_from_condominio", { _user_id: userId, _condo_id: condoId });
+    if (error) return toast.error(error.message);
+    toast.success("Usuario removido del edificio");
+    void load(condoId);
+  };
+
+  return (
+    <Card className="p-5 space-y-4">
+      {edificios.length > 1 && (
+        <div className="flex items-center gap-2">
+          <Label className="whitespace-nowrap">Edificio</Label>
+          <Select value={condoId} onValueChange={setCondoId}>
+            <SelectTrigger className="w-[280px]"><SelectValue /></SelectTrigger>
+            <SelectContent>{edificios.map(e => <SelectItem key={e.id} value={e.id}>{e.nombre}</SelectItem>)}</SelectContent>
+          </Select>
+        </div>
+      )}
+
+      <div className="border border-dashed border-[#e8ddd8] rounded-xl p-4 bg-[#fffaf5]">
+        <div className="text-sm font-medium text-[#2d1200] mb-2">Invitar staff o guardia</div>
+        <p className="text-xs text-[#9a7060] mb-3">El usuario debe registrarse primero en /login con su email. Luego asígnale aquí su rol y edificio.</p>
+        <div className="flex flex-wrap gap-2">
+          <Input className="flex-1 min-w-[220px]" placeholder="email@ejemplo.com" value={invite.email} onChange={(e) => setInvite({ ...invite, email: e.target.value })} />
+          <Select value={invite.role} onValueChange={(v) => setInvite({ ...invite, role: v as AppRole })}>
+            <SelectTrigger className="w-[200px]"><SelectValue /></SelectTrigger>
+            <SelectContent>{TENANT_ROLES.map(r => <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>)}</SelectContent>
+          </Select>
+          <Button className="bg-[#c94f0c] hover:bg-[#a33d08]" onClick={assign}><Plus className="w-4 h-4 mr-1" />Asignar</Button>
+        </div>
+      </div>
+
+      <div className="text-xs text-[#9a7060]">Para invitar residentes, usa el módulo <a className="underline" href="/residentes">Residentes</a>.</div>
+
+      {loading ? <p className="text-sm text-[#9a7060]">Cargando…</p> : members.length === 0 ? (
+        <p className="text-sm text-[#9a7060]">Sin miembros en este edificio.</p>
+      ) : (
+        <div className="divide-y divide-[#f0e6e0]">
+          {members.map(m => (
+            <div key={m.id} className="py-3 flex items-center justify-between gap-3">
+              <div>
+                <div className="font-medium text-[#2d1200]">{m.full_name}</div>
+                <div className="text-xs text-[#9a7060]">{m.email} · {m.role ?? "sin rol"}</div>
+              </div>
+              <Button variant="outline" size="sm" className="text-[#c0392b] border-[#fbd9d0] hover:bg-[#fbeae6]" onClick={() => remove(m.id)}>
+                <Trash2 className="w-3 h-3 mr-1" />Quitar
+              </Button>
             </div>
           ))}
         </div>

@@ -1151,6 +1151,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      assign_user_to_condominio: {
+        Args: {
+          _condo_id: string
+          _email: string
+          _role: Database["public"]["Enums"]["app_role"]
+        }
+        Returns: string
+      }
       can_access_condominio: { Args: { _condo_id: string }; Returns: boolean }
       can_manage_condominio: { Args: { _condo_id: string }; Returns: boolean }
       get_user_role: {
@@ -1162,6 +1170,14 @@ export type Database = {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
+        Returns: boolean
+      }
+      remove_user_from_condominio: {
+        Args: { _condo_id: string; _user_id: string }
+        Returns: undefined
+      }
+      shares_managed_condominio_with: {
+        Args: { _target: string }
         Returns: boolean
       }
     }
