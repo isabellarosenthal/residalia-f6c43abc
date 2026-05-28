@@ -86,6 +86,9 @@ function AreasPage() {
               </div>
               <ReservasTable edificioId={edificioId} onEdit={(r) => openRes(r)} />
             </TabsContent>
+            <TabsContent value="calendario" className="space-y-4 pt-4">
+              <ReservasCalendar edificioId={edificioId} />
+            </TabsContent>
           </Tabs>
         )}
       </div>
