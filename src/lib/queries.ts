@@ -542,7 +542,7 @@ export function useValidarPase() {
       const { data, error } = await supabase
         .from("accesos")
         .select("*")
-        .eq("qr_code", c)
+        .ilike("qr_code", c)
         .order("created_at", { ascending: false })
         .limit(1)
         .maybeSingle();
