@@ -40,10 +40,17 @@ function ValidarPage() {
   }, [acceso]);
 
   const buscar = async () => {
+    const c = codigo.trim().toUpperCase();
+    if (!c) return;
     setNotFound(false);
-    const res = await validar.mutateAsync(codigo);
-    setAcceso(res);
-    if (!res) setNotFound(true);
+    setAcceso(null);
+    try {
+      const res = await validar.mutateAsync(c);
+      setAcceso(res);
+      if (!res) setNotFound(true);
+    } catch (e: any) {
+      toast.error(e?.message ?? "Error al validar el pase");
+    }
   };
 
   const onUsar = async () => {
