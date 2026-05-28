@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { AreasGrid } from "@/components/areas/AreasGrid";
 import { ReservasTable } from "@/components/areas/ReservasTable";
+import { ReservasCalendar } from "@/components/areas/ReservasCalendar";
 import { useEdificios, type AreaComun, type Reserva } from "@/lib/queries";
 
 const loadAreaDialog = () => import("@/components/areas/AreaFormDialog");
