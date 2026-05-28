@@ -12,8 +12,12 @@ import { useEdificios, useResidentes, type Residente } from "@/lib/queries";
 const ResidenteFormDialog = lazy(() =>
   import("@/components/residentes/ResidenteFormDialog").then((m) => ({ default: m.ResidenteFormDialog }))
 );
+const ResidenteDetailDialog = lazy(() =>
+  import("@/components/residentes/ResidenteDetailDialog").then((m) => ({ default: m.ResidenteDetailDialog }))
+);
 
 export const Route = createFileRoute("/residentes")({ component: ResidentesPage });
+
 
 function ResidentesPage() {
   const { data: edificios = [] } = useEdificios();
