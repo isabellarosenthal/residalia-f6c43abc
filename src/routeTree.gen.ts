@@ -25,6 +25,7 @@ import { Route as AgendaRouteImport } from './routes/agenda'
 import { Route as AccesosRouteImport } from './routes/accesos'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as EdificiosIndexRouteImport } from './routes/edificios.index'
+import { Route as ReciboCobroIdRouteImport } from './routes/recibo.$cobroId'
 import { Route as EdificiosEdificioIdRouteImport } from './routes/edificios.$edificioId'
 
 const ResidentesRoute = ResidentesRouteImport.update({
@@ -107,6 +108,11 @@ const EdificiosIndexRoute = EdificiosIndexRouteImport.update({
   path: '/',
   getParentRoute: () => EdificiosRoute,
 } as any)
+const ReciboCobroIdRoute = ReciboCobroIdRouteImport.update({
+  id: '/recibo/$cobroId',
+  path: '/recibo/$cobroId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EdificiosEdificioIdRoute = EdificiosEdificioIdRouteImport.update({
   id: '/$edificioId',
   path: '/$edificioId',
@@ -130,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/reportes': typeof ReportesRoute
   '/residentes': typeof ResidentesRoute
   '/edificios/$edificioId': typeof EdificiosEdificioIdRoute
+  '/recibo/$cobroId': typeof ReciboCobroIdRoute
   '/edificios/': typeof EdificiosIndexRoute
 }
 export interface FileRoutesByTo {
@@ -148,6 +155,7 @@ export interface FileRoutesByTo {
   '/reportes': typeof ReportesRoute
   '/residentes': typeof ResidentesRoute
   '/edificios/$edificioId': typeof EdificiosEdificioIdRoute
+  '/recibo/$cobroId': typeof ReciboCobroIdRoute
   '/edificios': typeof EdificiosIndexRoute
 }
 export interface FileRoutesById {
@@ -168,6 +176,7 @@ export interface FileRoutesById {
   '/reportes': typeof ReportesRoute
   '/residentes': typeof ResidentesRoute
   '/edificios/$edificioId': typeof EdificiosEdificioIdRoute
+  '/recibo/$cobroId': typeof ReciboCobroIdRoute
   '/edificios/': typeof EdificiosIndexRoute
 }
 export interface FileRouteTypes {
@@ -189,6 +198,7 @@ export interface FileRouteTypes {
     | '/reportes'
     | '/residentes'
     | '/edificios/$edificioId'
+    | '/recibo/$cobroId'
     | '/edificios/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -207,6 +217,7 @@ export interface FileRouteTypes {
     | '/reportes'
     | '/residentes'
     | '/edificios/$edificioId'
+    | '/recibo/$cobroId'
     | '/edificios'
   id:
     | '__root__'
@@ -226,6 +237,7 @@ export interface FileRouteTypes {
     | '/reportes'
     | '/residentes'
     | '/edificios/$edificioId'
+    | '/recibo/$cobroId'
     | '/edificios/'
   fileRoutesById: FileRoutesById
 }
@@ -245,6 +257,7 @@ export interface RootRouteChildren {
   ProspectosRoute: typeof ProspectosRoute
   ReportesRoute: typeof ReportesRoute
   ResidentesRoute: typeof ResidentesRoute
+  ReciboCobroIdRoute: typeof ReciboCobroIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -361,6 +374,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EdificiosIndexRouteImport
       parentRoute: typeof EdificiosRoute
     }
+    '/recibo/$cobroId': {
+      id: '/recibo/$cobroId'
+      path: '/recibo/$cobroId'
+      fullPath: '/recibo/$cobroId'
+      preLoaderRoute: typeof ReciboCobroIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/edificios/$edificioId': {
       id: '/edificios/$edificioId'
       path: '/$edificioId'
@@ -401,7 +421,18 @@ const rootRouteChildren: RootRouteChildren = {
   ProspectosRoute: ProspectosRoute,
   ReportesRoute: ReportesRoute,
   ResidentesRoute: ResidentesRoute,
+  ReciboCobroIdRoute: ReciboCobroIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
