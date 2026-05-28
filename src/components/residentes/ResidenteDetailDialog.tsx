@@ -13,7 +13,7 @@ import {
   useCobrosDeResidente, useEdificios, useUnidades,
   type Residente,
 } from "@/lib/queries";
-import { fmtMoney, fmtDate } from "@/lib/format";
+import { fmtL, fmtDate } from "@/lib/format";
 
 export function ResidenteDetailDialog({
   open, onOpenChange, residente,
@@ -167,16 +167,16 @@ function VehiculosTab({ residenteId }: { residenteId: string }) {
 function CuentaTab({ residenteId }: { residenteId: string }) {
   const { data: cobros = [], isLoading } = useCobrosDeResidente(residenteId);
   const pagado = cobros.filter((c) => c.estado === "pagado").reduce((s, c) => s + Number(c.monto), 0);
-  const pendiente = cobros.filter((c) => c.estado !== "pagado" && c.estado !== "anulado").reduce((s, c) => s + Number(c.monto), 0);
-  const vencidos = cobros.filter((c) => c.estado !== "pagado" && c.estado !== "anulado" && new Date(c.fecha_vencimiento) < new Date());
+  const pendiente = cobros.filter((c) => c.estado !== "pagado").reduce((s, c) => s + Number(c.monto), 0);
+  const vencidos = cobros.filter((c) => c.estado !== "pagado" && new Date(c.fecha_vencimiento) < new Date());
 
   if (isLoading) return <p className="text-sm text-[#9a7060]">Cargando…</p>;
 
   return (
     <div className="space-y-3">
       <div className="grid grid-cols-3 gap-2">
-        <div className="border border-[#e8ddd8] rounded-lg p-3"><div className="text-xs text-[#9a7060]">Pagado</div><div className="font-semibold text-[#2d1200]">{fmtMoney(pagado)}</div></div>
-        <div className="border border-[#e8ddd8] rounded-lg p-3"><div className="text-xs text-[#9a7060]">Pendiente</div><div className="font-semibold text-[#2d1200]">{fmtMoney(pendiente)}</div></div>
+        <div className="border border-[#e8ddd8] rounded-lg p-3"><div className="text-xs text-[#9a7060]">Pagado</div><div className="font-semibold text-[#2d1200]">{fmtL(pagado)}</div></div>
+        <div className="border border-[#e8ddd8] rounded-lg p-3"><div className="text-xs text-[#9a7060]">Pendiente</div><div className="font-semibold text-[#2d1200]">{fmtL(pendiente)}</div></div>
         <div className="border border-[#e8ddd8] rounded-lg p-3"><div className="text-xs text-[#9a7060]">Vencidos</div><div className="font-semibold text-[#c0392b]">{vencidos.length}</div></div>
       </div>
       {cobros.length === 0 ? (
@@ -184,7 +184,7 @@ function CuentaTab({ residenteId }: { residenteId: string }) {
       ) : (
         <div className="space-y-1 max-h-[300px] overflow-y-auto">
           {cobros.map((c) => {
-            const vencido = c.estado !== "pagado" && c.estado !== "anulado" && new Date(c.fecha_vencimiento) < new Date();
+            const vencido = c.estado !== "pagado" && new Date(c.fecha_vencimiento) < new Date();
             return (
               <div key={c.id} className="flex items-center justify-between border border-[#e8ddd8] rounded-lg px-3 py-2 text-sm">
                 <div>
@@ -192,7 +192,7 @@ function CuentaTab({ residenteId }: { residenteId: string }) {
                   <div className="text-xs text-[#9a7060]">Vence {fmtDate(c.fecha_vencimiento)}</div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-[#2d1200]">{fmtMoney(Number(c.monto))}</span>
+                  <span className="font-semibold text-[#2d1200]">{fmtL(Number(c.monto))}</span>
                   {c.estado === "pagado" ? <Badge variant="success">Pagado</Badge>
                     : vencido ? <Badge variant="danger">Vencido</Badge>
                     : <Badge variant="warning">Pendiente</Badge>}
