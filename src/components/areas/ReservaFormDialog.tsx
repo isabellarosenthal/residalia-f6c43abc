@@ -35,8 +35,8 @@ const nowLocal = (addH = 0) => {
 };
 
 export function ReservaFormDialog({
-  open, onOpenChange, reserva, defaultCondominioId,
-}: { open: boolean; onOpenChange: (v: boolean) => void; reserva?: Reserva | null; defaultCondominioId?: string }) {
+  open, onOpenChange, reserva, defaultCondominioId, initialStart, initialEnd, defaultAreaId,
+}: { open: boolean; onOpenChange: (v: boolean) => void; reserva?: Reserva | null; defaultCondominioId?: string; initialStart?: Date | null; initialEnd?: Date | null; defaultAreaId?: string }) {
   const save = useSaveReserva();
   const { data: edificios = [] } = useEdificios();
   const { data: residentes = [] } = useResidentes();
