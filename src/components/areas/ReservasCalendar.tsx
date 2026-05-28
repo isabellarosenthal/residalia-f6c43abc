@@ -2,7 +2,8 @@ import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ChevronLeft, ChevronRight, CalendarRange } from "lucide-react";
-import { useReservas, useAreas } from "@/lib/queries";
+import { useReservas, useAreas, type Reserva } from "@/lib/queries";
+import { ReservaFormDialog } from "./ReservaFormDialog";
 
 const DOW = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
 const HOURS = Array.from({ length: 24 }, (_, i) => i); // 0..23
