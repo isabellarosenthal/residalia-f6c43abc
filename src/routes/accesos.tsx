@@ -37,6 +37,9 @@ function AccesosPage() {
                 {edificios.map((e) => <SelectItem key={e.id} value={e.id}>{e.nombre}</SelectItem>)}
               </SelectContent>
             </Select>
+            <Button asChild variant="outline">
+              <Link to="/accesos/validar"><ShieldCheck className="w-4 h-4 mr-1" />Validar pase</Link>
+            </Button>
             <Button onClick={() => { setEdit(null); setOpen(true); }} className="bg-[#c94f0c] hover:bg-[#a33d08]">
               <Plus className="w-4 h-4 mr-1" />Registrar acceso
             </Button>
