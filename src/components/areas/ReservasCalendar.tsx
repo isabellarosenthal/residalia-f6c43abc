@@ -2,7 +2,8 @@ import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ChevronLeft, ChevronRight, CalendarRange } from "lucide-react";
-import { useReservas, useAreas } from "@/lib/queries";
+import { useReservas, useAreas, type Reserva } from "@/lib/queries";
+import { ReservaFormDialog } from "./ReservaFormDialog";
 
 const DOW = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
 const HOURS = Array.from({ length: 24 }, (_, i) => i); // 0..23
@@ -25,8 +26,17 @@ const colorFor = (id: string) => {
 export function ReservasCalendar({ edificioId }: { edificioId: string }) {
   const [areaFilter, setAreaFilter] = useState("all");
   const [weekStart, setWeekStart] = useState(() => startOfWeek(new Date()));
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [editing, setEditing] = useState<Reserva | null>(null);
+  const [slot, setSlot] = useState<{ start: Date; end: Date } | null>(null);
   const { data: reservas = [] } = useReservas(edificioId === "all" ? undefined : edificioId);
   const { data: areas = [] } = useAreas(edificioId === "all" ? undefined : edificioId);
+
+  const openCreate = (start: Date) => {
+    const end = new Date(start); end.setHours(end.getHours() + 1);
+    setEditing(null); setSlot({ start, end }); setDialogOpen(true);
+  };
+  const openEdit = (r: Reserva) => { setEditing(r); setSlot(null); setDialogOpen(true); };
 
   const weekEnd = useMemo(() => { const d = new Date(weekStart); d.setDate(d.getDate() + 7); return d; }, [weekStart]);
 
@@ -90,8 +100,19 @@ export function ReservasCalendar({ edificioId }: { edificioId: string }) {
               const ini = new Date(r.fecha_inicio); return ini >= dayStart && ini <= dayEnd;
             });
             return (
-              <div key={di} className="relative border-r border-[#f0e6e0] last:border-r-0">
-                {HOURS.map((h) => <div key={h} className="h-9 border-b border-[#f5ede8]" />)}
+              <div
+                key={di}
+                className="relative border-r border-[#f0e6e0] last:border-r-0 cursor-pointer"
+                onClick={(e) => {
+                  const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
+                  const y = e.clientY - rect.top;
+                  const minutesFromStart = Math.max(0, Math.floor(y / 36) * 60) + HOURS[0] * 60;
+                  const start = new Date(d);
+                  start.setHours(Math.floor(minutesFromStart / 60), 0, 0, 0);
+                  openCreate(start);
+                }}
+              >
+                {HOURS.map((h) => <div key={h} className="h-9 border-b border-[#f5ede8] hover:bg-[#faf5f1]" />)}
                 {dayReservas.map((r) => {
                   const ini = new Date(r.fecha_inicio);
                   const fin = new Date(r.fecha_fin);
@@ -103,7 +124,8 @@ export function ReservasCalendar({ edificioId }: { edificioId: string }) {
                   const c = colorFor(r.area_id);
                   return (
                     <div key={r.id}
-                      className="absolute left-1 right-1 rounded-md text-white text-[10px] leading-tight px-1.5 py-1 overflow-hidden shadow-sm"
+                      onClick={(e) => { e.stopPropagation(); openEdit(r); }}
+                      className="absolute left-1 right-1 rounded-md text-white text-[10px] leading-tight px-1.5 py-1 overflow-hidden shadow-sm cursor-pointer hover:ring-2 hover:ring-white/60"
                       style={{ top, height, backgroundColor: c, opacity: r.estado === "pendiente" ? 0.7 : 1 }}
                       title={`${areaName(r.area_id)} · ${ini.toLocaleTimeString("es-HN", { timeStyle: "short" })} – ${fin.toLocaleTimeString("es-HN", { timeStyle: "short" })}`}
                     >
@@ -120,9 +142,19 @@ export function ReservasCalendar({ edificioId }: { edificioId: string }) {
 
       {visibles.length === 0 && (
         <div className="text-center text-[#9a7060] py-6 text-sm flex items-center justify-center gap-2">
-          <CalendarRange className="w-4 h-4" />Sin reservas esta semana.
+          <CalendarRange className="w-4 h-4" />Sin reservas esta semana. Clic en una hora para crear una.
         </div>
       )}
+
+      <ReservaFormDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        reserva={editing}
+        defaultCondominioId={edificioId === "all" ? undefined : edificioId}
+        defaultAreaId={areaFilter !== "all" ? areaFilter : undefined}
+        initialStart={slot?.start ?? null}
+        initialEnd={slot?.end ?? null}
+      />
     </div>
   );
 }

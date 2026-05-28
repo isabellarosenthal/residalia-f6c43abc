@@ -35,8 +35,8 @@ const nowLocal = (addH = 0) => {
 };
 
 export function ReservaFormDialog({
-  open, onOpenChange, reserva, defaultCondominioId,
-}: { open: boolean; onOpenChange: (v: boolean) => void; reserva?: Reserva | null; defaultCondominioId?: string }) {
+  open, onOpenChange, reserva, defaultCondominioId, initialStart, initialEnd, defaultAreaId,
+}: { open: boolean; onOpenChange: (v: boolean) => void; reserva?: Reserva | null; defaultCondominioId?: string; initialStart?: Date | null; initialEnd?: Date | null; defaultAreaId?: string }) {
   const save = useSaveReserva();
   const { data: edificios = [] } = useEdificios();
   const { data: residentes = [] } = useResidentes();
@@ -80,16 +80,20 @@ export function ReservaFormDialog({
     if (!open) return;
     form.reset({
       condominio_id: reserva?.condominio_id ?? defaultCondominioId ?? "",
-      area_id: reserva?.area_id ?? "",
+      area_id: reserva?.area_id ?? defaultAreaId ?? "",
       unidad_id: reserva?.unidad_id ?? null,
       residente_id: reserva?.residente_id ?? null,
-      fecha_inicio: reserva?.fecha_inicio ? toLocalInput(new Date(reserva.fecha_inicio)) : nowLocal(1),
-      fecha_fin: reserva?.fecha_fin ? toLocalInput(new Date(reserva.fecha_fin)) : nowLocal(3),
+      fecha_inicio: reserva?.fecha_inicio
+        ? toLocalInput(new Date(reserva.fecha_inicio))
+        : initialStart ? toLocalInput(initialStart) : nowLocal(1),
+      fecha_fin: reserva?.fecha_fin
+        ? toLocalInput(new Date(reserva.fecha_fin))
+        : initialEnd ? toLocalInput(initialEnd) : nowLocal(3),
       num_personas: reserva?.num_personas ?? 0,
       estado: (reserva?.estado as any) ?? "confirmada",
       descripcion: reserva?.descripcion ?? "",
     });
-  }, [open, reserva, defaultCondominioId, form]);
+  }, [open, reserva, defaultCondominioId, defaultAreaId, initialStart, initialEnd, form]);
 
   const onSubmit = async (v: FormOut) => {
     if (conflicto) return;
