@@ -157,6 +157,11 @@ export function ReservaFormDialog({
                 <SelectTrigger><SelectValue placeholder="Selecciona" /></SelectTrigger>
                 <SelectContent className="max-h-72">{areas.filter(a => a.activa).map((a) => <SelectItem key={a.id} value={a.id}>{a.nombre}</SelectItem>)}</SelectContent>
               </Select>
+              {areaSel?.horario_inicio && areaSel?.horario_fin && (
+                <p className="text-[11px] text-[#9a7060] mt-1">
+                  Disponible {areaSel.horario_inicio.slice(0, 5)}–{areaSel.horario_fin.slice(0, 5)}
+                </p>
+              )}
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
