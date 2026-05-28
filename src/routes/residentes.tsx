@@ -1,4 +1,5 @@
 import { lazy, Suspense, useState } from "react";
+import { useEdificioFilter } from "@/hooks/useEdificioFilter";
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus, Search, Users } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
@@ -26,7 +27,7 @@ function ResidentesPage() {
   const [editing, setEditing] = useState<Residente | null>(null);
   const [detail, setDetail] = useState<Residente | null>(null);
   const [search, setSearch] = useState("");
-  const [edificioId, setEdificioId] = useState("all");
+  const [edificioId, setEdificioId] = useEdificioFilter();
   const [tipo, setTipo] = useState("all");
   const [estado, setEstado] = useState("activos");
 

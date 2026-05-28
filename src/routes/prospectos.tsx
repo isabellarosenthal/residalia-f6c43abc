@@ -1,4 +1,5 @@
 import { lazy, Suspense, useState, useEffect } from "react";
+import { useEdificioFilter } from "@/hooks/useEdificioFilter";
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus, Users } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
@@ -16,7 +17,7 @@ export const Route = createFileRoute("/prospectos")({ component: ProspectosPage 
 
 function ProspectosPage() {
   const { data: edificios = [] } = useEdificios();
-  const [edificioId, setEdificioId] = useState("all");
+  const [edificioId, setEdificioId] = useEdificioFilter();
   const [formOpen, setFormOpen] = useState(false);
   const [editProspecto, setEditProspecto] = useState<Prospecto | null>(null);
   const [actOpen, setActOpen] = useState(false);
