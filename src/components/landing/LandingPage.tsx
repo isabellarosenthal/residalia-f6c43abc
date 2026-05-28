@@ -101,16 +101,17 @@ export function LandingPage() {
               <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-[#2d6a2d]" /> Soporte en español</span>
             </div>
           </div>
-          <div className="relative -mx-4 md:mx-0 md:-my-8 md:scale-110 lg:scale-125 origin-center">
+          <div className="relative">
             <img
               src={heroCondo}
               alt="Ilustración de condominio administrado con PropCloud"
               width={1280}
               height={1024}
               className="relative w-full h-auto"
-              style={{ maskImage: 'radial-gradient(ellipse 85% 80% at center, black 65%, transparent 100%)', WebkitMaskImage: 'radial-gradient(ellipse 85% 80% at center, black 65%, transparent 100%)' }}
+              style={{ maskImage: 'radial-gradient(ellipse 80% 75% at center, black 60%, transparent 100%)', WebkitMaskImage: 'radial-gradient(ellipse 80% 75% at center, black 60%, transparent 100%)' }}
             />
           </div>
+
 
 
 
