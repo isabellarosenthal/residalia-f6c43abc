@@ -764,3 +764,134 @@ export function useDeleteActividad() {
     onError: (e: any) => toast.error(e?.message ?? "Error eliminando"),
   });
 }
+
+// ============ PERSONAS AUTORIZADAS ============
+export type PersonaAutorizada = Database["public"]["Tables"]["personas_autorizadas"]["Row"];
+export type PersonaAutorizadaInsert = Database["public"]["Tables"]["personas_autorizadas"]["Insert"];
+
+export function usePersonasAutorizadas(residenteId?: string) {
+  return useQuery({
+    queryKey: ["personas-autorizadas", residenteId],
+    enabled: !!residenteId,
+    queryFn: async (): Promise<PersonaAutorizada[]> => {
+      const { data, error } = await supabase
+        .from("personas_autorizadas")
+        .select("*")
+        .eq("residente_id", residenteId!)
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
+
+export function useSavePersonaAutorizada() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: PersonaAutorizadaInsert & { id?: string }) => {
+      if (input.id) {
+        const { id, ...rest } = input;
+        const { data, error } = await supabase.from("personas_autorizadas").update(rest).eq("id", id).select().single();
+        if (error) throw error;
+        return data;
+      }
+      const { data, error } = await supabase.from("personas_autorizadas").insert(input).select().single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (_d, vars) => {
+      qc.invalidateQueries({ queryKey: ["personas-autorizadas", vars.residente_id] });
+      toast.success(vars.id ? "Persona actualizada" : "Persona agregada");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error guardando"),
+  });
+}
+
+export function useDeletePersonaAutorizada() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id }: { id: string; residenteId: string }) => {
+      const { error } = await supabase.from("personas_autorizadas").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: (_d, vars) => {
+      qc.invalidateQueries({ queryKey: ["personas-autorizadas", vars.residenteId] });
+      toast.success("Persona eliminada");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error eliminando"),
+  });
+}
+
+// ============ VEHÍCULOS ============
+export type Vehiculo = Database["public"]["Tables"]["vehiculos"]["Row"];
+export type VehiculoInsert = Database["public"]["Tables"]["vehiculos"]["Insert"];
+
+export function useVehiculos(residenteId?: string) {
+  return useQuery({
+    queryKey: ["vehiculos", residenteId],
+    enabled: !!residenteId,
+    queryFn: async (): Promise<Vehiculo[]> => {
+      const { data, error } = await supabase
+        .from("vehiculos")
+        .select("*")
+        .eq("residente_id", residenteId!)
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
+
+export function useSaveVehiculo() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: VehiculoInsert & { id?: string }) => {
+      if (input.id) {
+        const { id, ...rest } = input;
+        const { data, error } = await supabase.from("vehiculos").update(rest).eq("id", id).select().single();
+        if (error) throw error;
+        return data;
+      }
+      const { data, error } = await supabase.from("vehiculos").insert(input).select().single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (_d, vars) => {
+      qc.invalidateQueries({ queryKey: ["vehiculos", vars.residente_id] });
+      toast.success(vars.id ? "Vehículo actualizado" : "Vehículo agregado");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error guardando vehículo"),
+  });
+}
+
+export function useDeleteVehiculo() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id }: { id: string; residenteId: string }) => {
+      const { error } = await supabase.from("vehiculos").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: (_d, vars) => {
+      qc.invalidateQueries({ queryKey: ["vehiculos", vars.residenteId] });
+      toast.success("Vehículo eliminado");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error eliminando"),
+  });
+}
+
+export function useCobrosDeResidente(residenteId?: string) {
+  return useQuery({
+    queryKey: ["cobros-residente", residenteId],
+    enabled: !!residenteId,
+    queryFn: async (): Promise<Cobro[]> => {
+      const { data, error } = await supabase
+        .from("cobros")
+        .select("*")
+        .eq("residente_id", residenteId!)
+        .order("fecha_vencimiento", { ascending: false });
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
+
