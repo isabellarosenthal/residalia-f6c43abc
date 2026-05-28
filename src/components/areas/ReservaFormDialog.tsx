@@ -57,11 +57,37 @@ export function ReservaFormDialog({
   const { data: unidades = [] } = useUnidades(condominioId || undefined);
   const { data: allReservas = [] } = useReservas(condominioId || undefined);
 
+  const areaSel = areas.find((a) => a.id === areaId);
+
   const conflicto = (() => {
     if (!areaId || !fIni || !fFin) return null;
-    const ini = new Date(fIni).getTime();
-    const fin = new Date(fFin).getTime();
+    const iniD = new Date(fIni);
+    const finD = new Date(fFin);
+    const ini = iniD.getTime();
+    const fin = finD.getTime();
     if (!(fin > ini)) return { tipo: "rango", mensaje: "La hora fin debe ser posterior al inicio." };
+
+    // Horario del área
+    if (areaSel?.horario_inicio && areaSel?.horario_fin) {
+      const [hi, mi] = areaSel.horario_inicio.split(":").map(Number);
+      const [hf, mf] = areaSel.horario_fin.split(":").map(Number);
+      const startMin = hi * 60 + (mi || 0);
+      const endMin = hf * 60 + (mf || 0);
+      const cruzaMedianoche = endMin <= startMin;
+      const inMin = iniD.getHours() * 60 + iniD.getMinutes();
+      const finMin = finD.getHours() * 60 + finD.getMinutes();
+      const dentro = (m: number) =>
+        cruzaMedianoche ? (m >= startMin || m <= endMin) : (m >= startMin && m <= endMin);
+      const fmt = (h: number, m: number) => `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+      // Cuando la reserva dura varios días o cruza fuera del horario diario
+      const mismoDia = iniD.toDateString() === finD.toDateString();
+      const valido = mismoDia && dentro(inMin) && dentro(finMin) && (cruzaMedianoche || finMin >= inMin);
+      if (!valido) return {
+        tipo: "horario",
+        mensaje: `${areaSel.nombre} solo está disponible de ${fmt(hi, mi || 0)} a ${fmt(hf, mf || 0)}.`,
+      };
+    }
+
     const choque = allReservas.find((r) =>
       r.area_id === areaId &&
       r.estado !== "cancelada" &&
@@ -131,6 +157,11 @@ export function ReservaFormDialog({
                 <SelectTrigger><SelectValue placeholder="Selecciona" /></SelectTrigger>
                 <SelectContent className="max-h-72">{areas.filter(a => a.activa).map((a) => <SelectItem key={a.id} value={a.id}>{a.nombre}</SelectItem>)}</SelectContent>
               </Select>
+              {areaSel?.horario_inicio && areaSel?.horario_fin && (
+                <p className="text-[11px] text-[#9a7060] mt-1">
+                  Disponible {areaSel.horario_inicio.slice(0, 5)}–{areaSel.horario_fin.slice(0, 5)}
+                </p>
+              )}
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
