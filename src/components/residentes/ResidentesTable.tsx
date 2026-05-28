@@ -2,15 +2,16 @@ import { useMemo } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui-pentos";
-import { Pencil, Trash2, Mail, Phone } from "lucide-react";
+import { Pencil, Trash2, Mail, Phone, Eye } from "lucide-react";
 import { fmtDate } from "@/lib/format";
 import { useResidentes, useDeleteResidente, useEdificios, useUnidades, type Residente } from "@/lib/queries";
 
 export function ResidentesTable({
-  search, edificioId, tipo, estado, onEdit,
+  search, edificioId, tipo, estado, onEdit, onView,
 }: {
   search: string; edificioId: string; tipo: string; estado: string;
   onEdit: (r: Residente) => void;
+  onView?: (r: Residente) => void;
 }) {
   const { data: residentes = [], isLoading } = useResidentes();
   const { data: edificios = [] } = useEdificios();
