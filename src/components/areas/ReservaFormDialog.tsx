@@ -8,7 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useSaveReserva, useEdificios, useAreas, useUnidades, useResidentes, type Reserva } from "@/lib/queries";
+import { useSaveReserva, useEdificios, useAreas, useUnidades, useResidentes, useReservas, type Reserva } from "@/lib/queries";
+import { AlertTriangle } from "lucide-react";
 
 const schema = z.object({
   condominio_id: z.string().uuid("Selecciona edificio"),
