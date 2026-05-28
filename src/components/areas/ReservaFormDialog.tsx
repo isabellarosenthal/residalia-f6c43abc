@@ -46,8 +46,31 @@ export function ReservaFormDialog({
     },
   });
   const condominioId = form.watch("condominio_id");
+  const areaId = form.watch("area_id");
+  const fIni = form.watch("fecha_inicio");
+  const fFin = form.watch("fecha_fin");
   const { data: areas = [] } = useAreas(condominioId || undefined);
   const { data: unidades = [] } = useUnidades(condominioId || undefined);
+  const { data: allReservas = [] } = useReservas(condominioId || undefined);
+
+  const conflicto = (() => {
+    if (!areaId || !fIni || !fFin) return null;
+    const ini = new Date(fIni).getTime();
+    const fin = new Date(fFin).getTime();
+    if (!(fin > ini)) return { tipo: "rango", mensaje: "La hora fin debe ser posterior al inicio." };
+    const choque = allReservas.find((r) =>
+      r.area_id === areaId &&
+      r.estado !== "cancelada" &&
+      r.id !== reserva?.id &&
+      new Date(r.fecha_inicio).getTime() < fin &&
+      new Date(r.fecha_fin).getTime() > ini
+    );
+    if (choque) return {
+      tipo: "overlap",
+      mensaje: `Conflicto con otra reserva: ${new Date(choque.fecha_inicio).toLocaleString("es-HN", { dateStyle: "short", timeStyle: "short" })} – ${new Date(choque.fecha_fin).toLocaleString("es-HN", { timeStyle: "short" })}`,
+    };
+    return null;
+  })();
 
   useEffect(() => {
     if (!open) return;
