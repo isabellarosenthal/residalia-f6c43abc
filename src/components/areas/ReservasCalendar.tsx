@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight, CalendarRange } from "lucide-react";
 import { useReservas, useAreas } from "@/lib/queries";
 
 const DOW = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
-const HOURS = Array.from({ length: 15 }, (_, i) => i + 7); // 7..21
+const HOURS = Array.from({ length: 24 }, (_, i) => i); // 0..23
 
 function startOfWeek(d: Date) {
   const x = new Date(d);
