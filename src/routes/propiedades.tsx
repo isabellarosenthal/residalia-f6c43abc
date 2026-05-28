@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import { useEdificioFilter } from "@/hooks/useEdificioFilter";
 import { createFileRoute } from "@tanstack/react-router";
 import { Search, Tag, Building2, LayoutGrid, Table as TableIcon, Pencil, BedDouble, Bath, Car } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
@@ -25,7 +26,7 @@ type Tipo = "todas" | "venta" | "renta";
 function PropiedadesPage() {
   const { data: edificios = [] } = useEdificios();
   const { data: unidades = [], isLoading } = useUnidades();
-  const [edificioId, setEdificioId] = useState("all");
+  const [edificioId, setEdificioId] = useEdificioFilter();
   const [tipo, setTipo] = useState<Tipo>("todas");
   const [q, setQ] = useState("");
   const [habs, setHabs] = useState("any");

@@ -1,4 +1,5 @@
 import { lazy, Suspense, useState, useEffect } from "react";
+import { useEdificioFilter } from "@/hooks/useEdificioFilter";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Plus, KeyRound, ShieldCheck } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
@@ -14,7 +15,7 @@ export const Route = createFileRoute("/accesos/")({ component: AccesosPage });
 
 function AccesosPage() {
   const { data: edificios = [] } = useEdificios();
-  const [edificioId, setEdificioId] = useState("all");
+  const [edificioId, setEdificioId] = useEdificioFilter();
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState<Acceso | null>(null);
 

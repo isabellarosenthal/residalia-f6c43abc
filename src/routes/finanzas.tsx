@@ -1,4 +1,5 @@
 import { lazy, Suspense, useState } from "react";
+import { useEdificioFilter } from "@/hooks/useEdificioFilter";
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus, Wallet, Layers } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
@@ -19,7 +20,7 @@ export const Route = createFileRoute("/finanzas")({ component: FinanzasPage });
 
 function FinanzasPage() {
   const { data: edificios = [] } = useEdificios();
-  const [edificioId, setEdificioId] = useState("all");
+  const [edificioId, setEdificioId] = useEdificioFilter();
   const [cobroOpen, setCobroOpen] = useState(false);
   const [cobroEdit, setCobroEdit] = useState<Cobro | null>(null);
   const [egresoOpen, setEgresoOpen] = useState(false);

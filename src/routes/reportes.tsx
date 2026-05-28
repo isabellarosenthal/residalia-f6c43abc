@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useEdificioFilter } from "@/hooks/useEdificioFilter";
 import { createFileRoute } from "@tanstack/react-router";
 import { Download, TrendingUp, Users, Home, DollarSign, AlertCircle, Wallet } from "lucide-react";
 import {
@@ -38,7 +39,7 @@ function downloadCSV(filename: string, rows: Record<string, any>[]) {
 
 function ReportesPage() {
   const { data: edificios = [] } = useEdificios();
-  const [edificioId, setEdificioId] = useState("all");
+  const [edificioId, setEdificioId] = useEdificioFilter();
   const filterId = edificioId === "all" ? undefined : edificioId;
 
   const { data: unidades = [] } = useUnidades(filterId);

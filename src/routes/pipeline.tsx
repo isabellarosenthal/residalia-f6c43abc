@@ -1,4 +1,5 @@
 import { lazy, Suspense, useState, useEffect, useMemo } from "react";
+import { useEdificioFilter } from "@/hooks/useEdificioFilter";
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus, Phone, MessageCircle, Mail, Users } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
@@ -27,7 +28,7 @@ const TEMP_DOT: Record<string, string> = { frio: "bg-blue-500", tibio: "bg-amber
 
 function PipelinePage() {
   const { data: edificios = [] } = useEdificios();
-  const [edificioId, setEdificioId] = useState("all");
+  const [edificioId, setEdificioId] = useEdificioFilter();
   const { data: prospectos = [] } = useProspectos(edificioId === "all" ? undefined : edificioId);
   const updateEtapa = useUpdateEtapa();
   const [formOpen, setFormOpen] = useState(false);

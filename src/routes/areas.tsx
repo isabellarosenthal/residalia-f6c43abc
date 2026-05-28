@@ -1,4 +1,5 @@
 import { lazy, Suspense, useState, useEffect } from "react";
+import { useEdificioFilter } from "@/hooks/useEdificioFilter";
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus, CalendarRange } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
@@ -19,7 +20,7 @@ export const Route = createFileRoute("/areas")({ component: AreasPage });
 
 function AreasPage() {
   const { data: edificios = [] } = useEdificios();
-  const [edificioId, setEdificioId] = useState("all");
+  const [edificioId, setEdificioId] = useEdificioFilter();
   const [areaOpen, setAreaOpen] = useState(false);
   const [areaEdit, setAreaEdit] = useState<AreaComun | null>(null);
   const [resOpen, setResOpen] = useState(false);
