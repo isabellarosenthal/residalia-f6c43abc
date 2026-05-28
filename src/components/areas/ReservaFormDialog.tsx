@@ -166,9 +166,15 @@ export function ReservaFormDialog({
             </div>
           </div>
           <div><Label>Descripción</Label><Textarea rows={2} {...form.register("descripcion")} /></div>
+          {conflicto && (
+            <div className="flex items-start gap-2 bg-[#fde8e2] border border-[#f5b8a8] text-[#7a2a10] rounded-lg p-3 text-sm">
+              <AlertTriangle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+              <span>{conflicto.mensaje}</span>
+            </div>
+          )}
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-            <Button type="submit" disabled={save.isPending} className="bg-[#c94f0c] hover:bg-[#a33d08]">{save.isPending ? "Guardando…" : "Guardar"}</Button>
+            <Button type="submit" disabled={save.isPending || !!conflicto} className="bg-[#c94f0c] hover:bg-[#a33d08]">{save.isPending ? "Guardando…" : "Guardar"}</Button>
           </DialogFooter>
         </form>
       </DialogContent>
