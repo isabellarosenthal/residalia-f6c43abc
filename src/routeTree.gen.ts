@@ -13,9 +13,11 @@ import { Route as ResidentesRouteImport } from './routes/residentes'
 import { Route as ReportesRouteImport } from './routes/reportes'
 import { Route as ProspectosRouteImport } from './routes/prospectos'
 import { Route as PropiedadesRouteImport } from './routes/propiedades'
+import { Route as PortalRouteImport } from './routes/portal'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as MantenimientoRouteImport } from './routes/mantenimiento'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as GuardiaRouteImport } from './routes/guardia'
 import { Route as FinanzasRouteImport } from './routes/finanzas'
 import { Route as EdificiosRouteImport } from './routes/edificios'
 import { Route as ConfiguracionRouteImport } from './routes/configuracion'
@@ -24,11 +26,14 @@ import { Route as AreasRouteImport } from './routes/areas'
 import { Route as AgendaRouteImport } from './routes/agenda'
 import { Route as AccesosRouteImport } from './routes/accesos'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PortalIndexRouteImport } from './routes/portal.index'
 import { Route as EdificiosIndexRouteImport } from './routes/edificios.index'
 import { Route as AccesosIndexRouteImport } from './routes/accesos.index'
 import { Route as ReciboCobroIdRouteImport } from './routes/recibo.$cobroId'
+import { Route as PortalNuevoRouteImport } from './routes/portal.nuevo'
 import { Route as EdificiosEdificioIdRouteImport } from './routes/edificios.$edificioId'
 import { Route as AccesosValidarRouteImport } from './routes/accesos.validar'
+import { Route as PortalPasePaseIdRouteImport } from './routes/portal.pase.$paseId'
 
 const ResidentesRoute = ResidentesRouteImport.update({
   id: '/residentes',
@@ -50,6 +55,11 @@ const PropiedadesRoute = PropiedadesRouteImport.update({
   path: '/propiedades',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortalRoute = PortalRouteImport.update({
+  id: '/portal',
+  path: '/portal',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PipelineRoute = PipelineRouteImport.update({
   id: '/pipeline',
   path: '/pipeline',
@@ -63,6 +73,11 @@ const MantenimientoRoute = MantenimientoRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuardiaRoute = GuardiaRouteImport.update({
+  id: '/guardia',
+  path: '/guardia',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FinanzasRoute = FinanzasRouteImport.update({
@@ -105,6 +120,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortalIndexRoute = PortalIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PortalRoute,
+} as any)
 const EdificiosIndexRoute = EdificiosIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -120,6 +140,11 @@ const ReciboCobroIdRoute = ReciboCobroIdRouteImport.update({
   path: '/recibo/$cobroId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortalNuevoRoute = PortalNuevoRouteImport.update({
+  id: '/nuevo',
+  path: '/nuevo',
+  getParentRoute: () => PortalRoute,
+} as any)
 const EdificiosEdificioIdRoute = EdificiosEdificioIdRouteImport.update({
   id: '/$edificioId',
   path: '/$edificioId',
@@ -129,6 +154,11 @@ const AccesosValidarRoute = AccesosValidarRouteImport.update({
   id: '/validar',
   path: '/validar',
   getParentRoute: () => AccesosRoute,
+} as any)
+const PortalPasePaseIdRoute = PortalPasePaseIdRouteImport.update({
+  id: '/pase/$paseId',
+  path: '/pase/$paseId',
+  getParentRoute: () => PortalRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -140,18 +170,23 @@ export interface FileRoutesByFullPath {
   '/configuracion': typeof ConfiguracionRoute
   '/edificios': typeof EdificiosRouteWithChildren
   '/finanzas': typeof FinanzasRoute
+  '/guardia': typeof GuardiaRoute
   '/login': typeof LoginRoute
   '/mantenimiento': typeof MantenimientoRoute
   '/pipeline': typeof PipelineRoute
+  '/portal': typeof PortalRouteWithChildren
   '/propiedades': typeof PropiedadesRoute
   '/prospectos': typeof ProspectosRoute
   '/reportes': typeof ReportesRoute
   '/residentes': typeof ResidentesRoute
   '/accesos/validar': typeof AccesosValidarRoute
   '/edificios/$edificioId': typeof EdificiosEdificioIdRoute
+  '/portal/nuevo': typeof PortalNuevoRoute
   '/recibo/$cobroId': typeof ReciboCobroIdRoute
   '/accesos/': typeof AccesosIndexRoute
   '/edificios/': typeof EdificiosIndexRoute
+  '/portal/': typeof PortalIndexRoute
+  '/portal/pase/$paseId': typeof PortalPasePaseIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -160,6 +195,7 @@ export interface FileRoutesByTo {
   '/comunicaciones': typeof ComunicacionesRoute
   '/configuracion': typeof ConfiguracionRoute
   '/finanzas': typeof FinanzasRoute
+  '/guardia': typeof GuardiaRoute
   '/login': typeof LoginRoute
   '/mantenimiento': typeof MantenimientoRoute
   '/pipeline': typeof PipelineRoute
@@ -169,9 +205,12 @@ export interface FileRoutesByTo {
   '/residentes': typeof ResidentesRoute
   '/accesos/validar': typeof AccesosValidarRoute
   '/edificios/$edificioId': typeof EdificiosEdificioIdRoute
+  '/portal/nuevo': typeof PortalNuevoRoute
   '/recibo/$cobroId': typeof ReciboCobroIdRoute
   '/accesos': typeof AccesosIndexRoute
   '/edificios': typeof EdificiosIndexRoute
+  '/portal': typeof PortalIndexRoute
+  '/portal/pase/$paseId': typeof PortalPasePaseIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -183,18 +222,23 @@ export interface FileRoutesById {
   '/configuracion': typeof ConfiguracionRoute
   '/edificios': typeof EdificiosRouteWithChildren
   '/finanzas': typeof FinanzasRoute
+  '/guardia': typeof GuardiaRoute
   '/login': typeof LoginRoute
   '/mantenimiento': typeof MantenimientoRoute
   '/pipeline': typeof PipelineRoute
+  '/portal': typeof PortalRouteWithChildren
   '/propiedades': typeof PropiedadesRoute
   '/prospectos': typeof ProspectosRoute
   '/reportes': typeof ReportesRoute
   '/residentes': typeof ResidentesRoute
   '/accesos/validar': typeof AccesosValidarRoute
   '/edificios/$edificioId': typeof EdificiosEdificioIdRoute
+  '/portal/nuevo': typeof PortalNuevoRoute
   '/recibo/$cobroId': typeof ReciboCobroIdRoute
   '/accesos/': typeof AccesosIndexRoute
   '/edificios/': typeof EdificiosIndexRoute
+  '/portal/': typeof PortalIndexRoute
+  '/portal/pase/$paseId': typeof PortalPasePaseIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -207,18 +251,23 @@ export interface FileRouteTypes {
     | '/configuracion'
     | '/edificios'
     | '/finanzas'
+    | '/guardia'
     | '/login'
     | '/mantenimiento'
     | '/pipeline'
+    | '/portal'
     | '/propiedades'
     | '/prospectos'
     | '/reportes'
     | '/residentes'
     | '/accesos/validar'
     | '/edificios/$edificioId'
+    | '/portal/nuevo'
     | '/recibo/$cobroId'
     | '/accesos/'
     | '/edificios/'
+    | '/portal/'
+    | '/portal/pase/$paseId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -227,6 +276,7 @@ export interface FileRouteTypes {
     | '/comunicaciones'
     | '/configuracion'
     | '/finanzas'
+    | '/guardia'
     | '/login'
     | '/mantenimiento'
     | '/pipeline'
@@ -236,9 +286,12 @@ export interface FileRouteTypes {
     | '/residentes'
     | '/accesos/validar'
     | '/edificios/$edificioId'
+    | '/portal/nuevo'
     | '/recibo/$cobroId'
     | '/accesos'
     | '/edificios'
+    | '/portal'
+    | '/portal/pase/$paseId'
   id:
     | '__root__'
     | '/'
@@ -249,18 +302,23 @@ export interface FileRouteTypes {
     | '/configuracion'
     | '/edificios'
     | '/finanzas'
+    | '/guardia'
     | '/login'
     | '/mantenimiento'
     | '/pipeline'
+    | '/portal'
     | '/propiedades'
     | '/prospectos'
     | '/reportes'
     | '/residentes'
     | '/accesos/validar'
     | '/edificios/$edificioId'
+    | '/portal/nuevo'
     | '/recibo/$cobroId'
     | '/accesos/'
     | '/edificios/'
+    | '/portal/'
+    | '/portal/pase/$paseId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -272,9 +330,11 @@ export interface RootRouteChildren {
   ConfiguracionRoute: typeof ConfiguracionRoute
   EdificiosRoute: typeof EdificiosRouteWithChildren
   FinanzasRoute: typeof FinanzasRoute
+  GuardiaRoute: typeof GuardiaRoute
   LoginRoute: typeof LoginRoute
   MantenimientoRoute: typeof MantenimientoRoute
   PipelineRoute: typeof PipelineRoute
+  PortalRoute: typeof PortalRouteWithChildren
   PropiedadesRoute: typeof PropiedadesRoute
   ProspectosRoute: typeof ProspectosRoute
   ReportesRoute: typeof ReportesRoute
@@ -312,6 +372,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PropiedadesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/portal': {
+      id: '/portal'
+      path: '/portal'
+      fullPath: '/portal'
+      preLoaderRoute: typeof PortalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pipeline': {
       id: '/pipeline'
       path: '/pipeline'
@@ -331,6 +398,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guardia': {
+      id: '/guardia'
+      path: '/guardia'
+      fullPath: '/guardia'
+      preLoaderRoute: typeof GuardiaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/finanzas': {
@@ -389,6 +463,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/portal/': {
+      id: '/portal/'
+      path: '/'
+      fullPath: '/portal/'
+      preLoaderRoute: typeof PortalIndexRouteImport
+      parentRoute: typeof PortalRoute
+    }
     '/edificios/': {
       id: '/edificios/'
       path: '/'
@@ -410,6 +491,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReciboCobroIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/portal/nuevo': {
+      id: '/portal/nuevo'
+      path: '/nuevo'
+      fullPath: '/portal/nuevo'
+      preLoaderRoute: typeof PortalNuevoRouteImport
+      parentRoute: typeof PortalRoute
+    }
     '/edificios/$edificioId': {
       id: '/edificios/$edificioId'
       path: '/$edificioId'
@@ -423,6 +511,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/accesos/validar'
       preLoaderRoute: typeof AccesosValidarRouteImport
       parentRoute: typeof AccesosRoute
+    }
+    '/portal/pase/$paseId': {
+      id: '/portal/pase/$paseId'
+      path: '/pase/$paseId'
+      fullPath: '/portal/pase/$paseId'
+      preLoaderRoute: typeof PortalPasePaseIdRouteImport
+      parentRoute: typeof PortalRoute
     }
   }
 }
@@ -454,6 +549,21 @@ const EdificiosRouteWithChildren = EdificiosRoute._addFileChildren(
   EdificiosRouteChildren,
 )
 
+interface PortalRouteChildren {
+  PortalNuevoRoute: typeof PortalNuevoRoute
+  PortalIndexRoute: typeof PortalIndexRoute
+  PortalPasePaseIdRoute: typeof PortalPasePaseIdRoute
+}
+
+const PortalRouteChildren: PortalRouteChildren = {
+  PortalNuevoRoute: PortalNuevoRoute,
+  PortalIndexRoute: PortalIndexRoute,
+  PortalPasePaseIdRoute: PortalPasePaseIdRoute,
+}
+
+const PortalRouteWithChildren =
+  PortalRoute._addFileChildren(PortalRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccesosRoute: AccesosRouteWithChildren,
@@ -463,9 +573,11 @@ const rootRouteChildren: RootRouteChildren = {
   ConfiguracionRoute: ConfiguracionRoute,
   EdificiosRoute: EdificiosRouteWithChildren,
   FinanzasRoute: FinanzasRoute,
+  GuardiaRoute: GuardiaRoute,
   LoginRoute: LoginRoute,
   MantenimientoRoute: MantenimientoRoute,
   PipelineRoute: PipelineRoute,
+  PortalRoute: PortalRouteWithChildren,
   PropiedadesRoute: PropiedadesRoute,
   ProspectosRoute: ProspectosRoute,
   ReportesRoute: ReportesRoute,
