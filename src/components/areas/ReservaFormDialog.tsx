@@ -25,9 +25,13 @@ const schema = z.object({
 type FormVals = z.input<typeof schema>;
 type FormOut = z.output<typeof schema>;
 
+const toLocalInput = (d: Date) => {
+  const p = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`;
+};
 const nowLocal = (addH = 0) => {
-  const d = new Date(); d.setHours(d.getHours() + addH); d.setMinutes(0 - d.getTimezoneOffset(), 0, 0);
-  return d.toISOString().slice(0, 16);
+  const d = new Date(); d.setHours(d.getHours() + addH, 0, 0, 0);
+  return toLocalInput(d);
 };
 
 export function ReservaFormDialog({
