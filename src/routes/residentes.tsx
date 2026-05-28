@@ -12,18 +12,24 @@ import { useEdificios, useResidentes, type Residente } from "@/lib/queries";
 const ResidenteFormDialog = lazy(() =>
   import("@/components/residentes/ResidenteFormDialog").then((m) => ({ default: m.ResidenteFormDialog }))
 );
+const ResidenteDetailDialog = lazy(() =>
+  import("@/components/residentes/ResidenteDetailDialog").then((m) => ({ default: m.ResidenteDetailDialog }))
+);
 
 export const Route = createFileRoute("/residentes")({ component: ResidentesPage });
+
 
 function ResidentesPage() {
   const { data: edificios = [] } = useEdificios();
   const { data: residentes = [] } = useResidentes();
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Residente | null>(null);
+  const [detail, setDetail] = useState<Residente | null>(null);
   const [search, setSearch] = useState("");
   const [edificioId, setEdificioId] = useState("all");
   const [tipo, setTipo] = useState("all");
   const [estado, setEstado] = useState("activos");
+
 
   return (
     <AppShell>
@@ -79,13 +85,16 @@ function ResidentesPage() {
           <ResidentesTable
             search={search} edificioId={edificioId} tipo={tipo} estado={estado}
             onEdit={(r) => { setEditing(r); setOpen(true); }}
+            onView={(r) => setDetail(r)}
           />
         )}
       </div>
 
       <Suspense fallback={null}>
         {open && <ResidenteFormDialog open={open} onOpenChange={setOpen} residente={editing} />}
+        {detail && <ResidenteDetailDialog open={!!detail} onOpenChange={(v) => !v && setDetail(null)} residente={detail} />}
       </Suspense>
     </AppShell>
   );
 }
+

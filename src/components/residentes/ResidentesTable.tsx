@@ -2,15 +2,16 @@ import { useMemo } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui-pentos";
-import { Pencil, Trash2, Mail, Phone } from "lucide-react";
+import { Pencil, Trash2, Mail, Phone, Eye } from "lucide-react";
 import { fmtDate } from "@/lib/format";
 import { useResidentes, useDeleteResidente, useEdificios, useUnidades, type Residente } from "@/lib/queries";
 
 export function ResidentesTable({
-  search, edificioId, tipo, estado, onEdit,
+  search, edificioId, tipo, estado, onEdit, onView,
 }: {
   search: string; edificioId: string; tipo: string; estado: string;
   onEdit: (r: Residente) => void;
+  onView?: (r: Residente) => void;
 }) {
   const { data: residentes = [], isLoading } = useResidentes();
   const { data: edificios = [] } = useEdificios();
@@ -73,6 +74,7 @@ export function ResidentesTable({
               <TableCell className="text-sm text-[#4a2800]">{fmtDate(r.fecha_ingreso)}</TableCell>
               <TableCell>{r.activo ? <Badge variant="success">Activo</Badge> : <Badge variant="neutral">Inactivo</Badge>}</TableCell>
               <TableCell className="text-right">
+                {onView && <Button size="sm" variant="ghost" onClick={() => onView(r)} className="h-8 w-8 p-0" title="Ver detalle"><Eye className="w-4 h-4" /></Button>}
                 <Button size="sm" variant="ghost" onClick={() => onEdit(r)} className="h-8 w-8 p-0"><Pencil className="w-4 h-4" /></Button>
                 <Button size="sm" variant="ghost" onClick={() => { if (confirm(`¿Eliminar ${r.nombre} ${r.apellido}?`)) del.mutate(r.id); }} className="h-8 w-8 p-0 text-[#c0392b] hover:text-[#c0392b]"><Trash2 className="w-4 h-4" /></Button>
               </TableCell>
