@@ -319,14 +319,50 @@ export function useDeleteCobro() {
   });
 }
 
+export type PreviewCobroRow = {
+  unidad_id: string;
+  unidad_numero: string;
+  residente_id: string | null;
+  monto: number;
+  duplicado: boolean;
+};
+
+export function usePreviewCobrosMensuales(args: { edificioId: string; mes: string; concepto: string } | null) {
+  return useQuery({
+    queryKey: ["cobros-preview", args?.edificioId, args?.mes, args?.concepto],
+    enabled: !!args && !!args.edificioId,
+    queryFn: async (): Promise<PreviewCobroRow[]> => {
+      if (!args) return [];
+      const { edificioId, mes, concepto } = args;
+      const [{ data: unidades, error: e1 }, { data: edif }, { data: existentes }] = await Promise.all([
+        supabase.from("unidades").select("id, numero, mantenimiento_mensual, propietario_id, inquilino_id").eq("condominio_id", edificioId).order("numero"),
+        supabase.from("condominios").select("cuota_base").eq("id", edificioId).maybeSingle(),
+        supabase.from("cobros").select("unidad_id, concepto").eq("condominio_id", edificioId).ilike("concepto", `%${mes}%`),
+      ]);
+      if (e1) throw e1;
+      const baseCuota = Number(edif?.cuota_base ?? 0);
+      const dupSet = new Set((existentes ?? []).filter((c) => c.concepto?.toLowerCase().includes(concepto.toLowerCase())).map((c) => c.unidad_id ?? ""));
+      return (unidades ?? []).map((u) => ({
+        unidad_id: u.id,
+        unidad_numero: u.numero,
+        residente_id: u.inquilino_id ?? u.propietario_id ?? null,
+        monto: Number(u.mantenimiento_mensual ?? baseCuota ?? 0),
+        duplicado: dupSet.has(u.id),
+      }));
+    },
+  });
+}
+
 export function useGenerarCobrosMensuales() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ edificioId, mes, concepto, vencimiento }: { edificioId: string; mes: string; concepto: string; vencimiento: string }) => {
+    mutationFn: async ({ edificioId, mes, concepto, vencimiento, unidadIds }: { edificioId: string; mes: string; concepto: string; vencimiento: string; unidadIds: string[] }) => {
+      if (unidadIds.length === 0) return [];
       const { data: unidades, error: e1 } = await supabase
         .from("unidades")
         .select("id, numero, mantenimiento_mensual, propietario_id, inquilino_id, condominio_id")
-        .eq("condominio_id", edificioId);
+        .eq("condominio_id", edificioId)
+        .in("id", unidadIds);
       if (e1) throw e1;
       const { data: edif } = await supabase.from("condominios").select("cuota_base").eq("id", edificioId).single();
       const baseCuota = edif?.cuota_base ?? 0;
@@ -346,9 +382,31 @@ export function useGenerarCobrosMensuales() {
     },
     onSuccess: (d) => {
       qc.invalidateQueries({ queryKey: ["cobros"] });
+      qc.invalidateQueries({ queryKey: ["cobros-preview"] });
       toast.success(`${d?.length ?? 0} cobros generados`);
     },
     onError: (e: any) => toast.error(e?.message ?? "Error generando cobros"),
+  });
+}
+
+// Días de mora (>0 = vencido)
+export function diasMora(fechaVencimiento: string, estado: string): number {
+  if (estado === "pagado") return 0;
+  const v = new Date(fechaVencimiento + "T00:00:00");
+  const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
+  return Math.floor((hoy.getTime() - v.getTime()) / 86400000);
+}
+
+export function useCobro(id: string | undefined) {
+  return useQuery({
+    queryKey: ["cobro", id],
+    enabled: !!id,
+    queryFn: async () => {
+      if (!id) return null;
+      const { data, error } = await supabase.from("cobros").select("*").eq("id", id).maybeSingle();
+      if (error) throw error;
+      return data;
+    },
   });
 }
 
