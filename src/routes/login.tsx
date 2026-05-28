@@ -7,16 +7,24 @@ import toast from "react-hot-toast";
 
 export const Route = createFileRoute("/login")({ component: LoginPage });
 
+type SignupRole = "admin_condominio" | "residente" | "guardia";
+
 function LoginPage() {
-  const { user, loading } = useAuth();
+  const { user, role, loading } = useAuth();
   const navigate = useNavigate();
   const [mode, setMode] = useState<"login" | "signup">("login");
+  const [signupRole, setSignupRole] = useState<SignupRole>("admin_condominio");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
 
-  useEffect(() => { if (!loading && user) navigate({ to: "/" }); }, [user, loading, navigate]);
+  useEffect(() => {
+    if (loading || !user) return;
+    if (role === "residente") navigate({ to: "/portal" });
+    else if (role === "guardia") navigate({ to: "/guardia" });
+    else navigate({ to: "/" });
+  }, [user, role, loading, navigate]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,12 +37,11 @@ function LoginPage() {
       } else {
         const { error } = await supabase.auth.signUp({
           email, password,
-          options: { emailRedirectTo: window.location.origin, data: { full_name: name } },
+          options: { emailRedirectTo: window.location.origin, data: { full_name: name, role: signupRole } },
         });
         if (error) throw error;
         toast.success("Cuenta creada");
       }
-      navigate({ to: "/" });
     } catch (err: any) {
       toast.error(err?.message ?? "Error de autenticación");
     } finally { setBusy(false); }
@@ -55,11 +62,27 @@ function LoginPage() {
 
         <form onSubmit={submit} className="space-y-4">
           {mode === "signup" && (
-            <div>
-              <label className="block text-sm font-medium text-[#2d1200] mb-1.5">Nombre completo</label>
-              <input value={name} onChange={(e) => setName(e.target.value)} required
-                className="w-full border border-[#c9b8b0] rounded-xl px-4 py-2.5 text-[#2d1200] outline-none focus:border-[#c94f0c] focus:ring-2 focus:ring-[#c94f0c]/20" />
-            </div>
+            <>
+              <div>
+                <label className="block text-sm font-medium text-[#2d1200] mb-1.5">Soy</label>
+                <div className="grid grid-cols-3 gap-2">
+                  {([["admin_condominio", "Admin"], ["residente", "Residente"], ["guardia", "Guardia"]] as const).map(([v, l]) => (
+                    <button key={v} type="button" onClick={() => setSignupRole(v)}
+                      className={`text-sm py-2 rounded-lg border ${signupRole === v ? "bg-[#c94f0c] text-white border-[#c94f0c]" : "border-[#c9b8b0] text-[#2d1200] hover:border-[#c94f0c]"}`}>
+                      {l}
+                    </button>
+                  ))}
+                </div>
+                {signupRole === "residente" && (
+                  <p className="text-xs text-[#9a7060] mt-2">Usa el mismo correo con el que te registró el administrador.</p>
+                )}
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-[#2d1200] mb-1.5">Nombre completo</label>
+                <input value={name} onChange={(e) => setName(e.target.value)} required
+                  className="w-full border border-[#c9b8b0] rounded-xl px-4 py-2.5 text-[#2d1200] outline-none focus:border-[#c94f0c] focus:ring-2 focus:ring-[#c94f0c]/20" />
+              </div>
+            </>
           )}
           <div>
             <label className="block text-sm font-medium text-[#2d1200] mb-1.5">Correo electrónico</label>
