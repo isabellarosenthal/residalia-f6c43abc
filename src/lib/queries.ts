@@ -534,6 +534,46 @@ export function useDeleteAcceso() {
   });
 }
 
+export function useValidarPase() {
+  return useMutation({
+    mutationFn: async (codigo: string): Promise<Acceso | null> => {
+      const c = codigo.trim();
+      if (!c) return null;
+      const { data, error } = await supabase
+        .from("accesos")
+        .select("*")
+        .eq("qr_code", c)
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      if (error) throw error;
+      return data;
+    },
+  });
+}
+
+export function useRegistrarUso() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (acceso: Acceso) => {
+      const usados = (acceso.usos_actuales ?? 0) + 1;
+      const max = acceso.usos_maximos ?? 1;
+      if (usados > max) throw new Error("Pase agotado");
+      const patch: any = { usos_actuales: usados };
+      if (!acceso.fecha_entrada) patch.fecha_entrada = new Date().toISOString();
+      const { data, error } = await supabase.from("accesos").update(patch).eq("id", acceso.id).select().single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["accesos"] });
+      toast.success("Acceso autorizado");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error registrando uso"),
+  });
+}
+
+
 // ============ ÁREAS COMUNES ============
 export type AreaComun = Database["public"]["Tables"]["areas_comunes"]["Row"];
 export type AreaComunInsert = Database["public"]["Tables"]["areas_comunes"]["Insert"];

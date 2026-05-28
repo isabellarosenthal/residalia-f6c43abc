@@ -27,6 +27,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as EdificiosIndexRouteImport } from './routes/edificios.index'
 import { Route as ReciboCobroIdRouteImport } from './routes/recibo.$cobroId'
 import { Route as EdificiosEdificioIdRouteImport } from './routes/edificios.$edificioId'
+import { Route as AccesosValidarRouteImport } from './routes/accesos.validar'
 
 const ResidentesRoute = ResidentesRouteImport.update({
   id: '/residentes',
@@ -118,10 +119,15 @@ const EdificiosEdificioIdRoute = EdificiosEdificioIdRouteImport.update({
   path: '/$edificioId',
   getParentRoute: () => EdificiosRoute,
 } as any)
+const AccesosValidarRoute = AccesosValidarRouteImport.update({
+  id: '/validar',
+  path: '/validar',
+  getParentRoute: () => AccesosRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/accesos': typeof AccesosRoute
+  '/accesos': typeof AccesosRouteWithChildren
   '/agenda': typeof AgendaRoute
   '/areas': typeof AreasRoute
   '/comunicaciones': typeof ComunicacionesRoute
@@ -135,13 +141,14 @@ export interface FileRoutesByFullPath {
   '/prospectos': typeof ProspectosRoute
   '/reportes': typeof ReportesRoute
   '/residentes': typeof ResidentesRoute
+  '/accesos/validar': typeof AccesosValidarRoute
   '/edificios/$edificioId': typeof EdificiosEdificioIdRoute
   '/recibo/$cobroId': typeof ReciboCobroIdRoute
   '/edificios/': typeof EdificiosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/accesos': typeof AccesosRoute
+  '/accesos': typeof AccesosRouteWithChildren
   '/agenda': typeof AgendaRoute
   '/areas': typeof AreasRoute
   '/comunicaciones': typeof ComunicacionesRoute
@@ -154,6 +161,7 @@ export interface FileRoutesByTo {
   '/prospectos': typeof ProspectosRoute
   '/reportes': typeof ReportesRoute
   '/residentes': typeof ResidentesRoute
+  '/accesos/validar': typeof AccesosValidarRoute
   '/edificios/$edificioId': typeof EdificiosEdificioIdRoute
   '/recibo/$cobroId': typeof ReciboCobroIdRoute
   '/edificios': typeof EdificiosIndexRoute
@@ -161,7 +169,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/accesos': typeof AccesosRoute
+  '/accesos': typeof AccesosRouteWithChildren
   '/agenda': typeof AgendaRoute
   '/areas': typeof AreasRoute
   '/comunicaciones': typeof ComunicacionesRoute
@@ -175,6 +183,7 @@ export interface FileRoutesById {
   '/prospectos': typeof ProspectosRoute
   '/reportes': typeof ReportesRoute
   '/residentes': typeof ResidentesRoute
+  '/accesos/validar': typeof AccesosValidarRoute
   '/edificios/$edificioId': typeof EdificiosEdificioIdRoute
   '/recibo/$cobroId': typeof ReciboCobroIdRoute
   '/edificios/': typeof EdificiosIndexRoute
@@ -197,6 +206,7 @@ export interface FileRouteTypes {
     | '/prospectos'
     | '/reportes'
     | '/residentes'
+    | '/accesos/validar'
     | '/edificios/$edificioId'
     | '/recibo/$cobroId'
     | '/edificios/'
@@ -216,6 +226,7 @@ export interface FileRouteTypes {
     | '/prospectos'
     | '/reportes'
     | '/residentes'
+    | '/accesos/validar'
     | '/edificios/$edificioId'
     | '/recibo/$cobroId'
     | '/edificios'
@@ -236,6 +247,7 @@ export interface FileRouteTypes {
     | '/prospectos'
     | '/reportes'
     | '/residentes'
+    | '/accesos/validar'
     | '/edificios/$edificioId'
     | '/recibo/$cobroId'
     | '/edificios/'
@@ -243,7 +255,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AccesosRoute: typeof AccesosRoute
+  AccesosRoute: typeof AccesosRouteWithChildren
   AgendaRoute: typeof AgendaRoute
   AreasRoute: typeof AreasRoute
   ComunicacionesRoute: typeof ComunicacionesRoute
@@ -388,8 +400,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EdificiosEdificioIdRouteImport
       parentRoute: typeof EdificiosRoute
     }
+    '/accesos/validar': {
+      id: '/accesos/validar'
+      path: '/validar'
+      fullPath: '/accesos/validar'
+      preLoaderRoute: typeof AccesosValidarRouteImport
+      parentRoute: typeof AccesosRoute
+    }
   }
 }
+
+interface AccesosRouteChildren {
+  AccesosValidarRoute: typeof AccesosValidarRoute
+}
+
+const AccesosRouteChildren: AccesosRouteChildren = {
+  AccesosValidarRoute: AccesosValidarRoute,
+}
+
+const AccesosRouteWithChildren =
+  AccesosRoute._addFileChildren(AccesosRouteChildren)
 
 interface EdificiosRouteChildren {
   EdificiosEdificioIdRoute: typeof EdificiosEdificioIdRoute
@@ -407,7 +437,7 @@ const EdificiosRouteWithChildren = EdificiosRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AccesosRoute: AccesosRoute,
+  AccesosRoute: AccesosRouteWithChildren,
   AgendaRoute: AgendaRoute,
   AreasRoute: AreasRoute,
   ComunicacionesRoute: ComunicacionesRoute,
