@@ -24,9 +24,13 @@ const ROLES: { value: AppRole; label: string }[] = [
   { value: "guardia", label: "Guardia" },
 ];
 
+const TENANT_ROLES = ROLES.filter(r => r.value !== "super_admin");
+
 function ConfiguracionPage() {
   const { role } = useAuth();
+  const { data: edificios = [] } = useEdificios();
   const isSuper = role === "super_admin";
+  const canManage = isSuper || edificios.length > 0;
 
   return (
     <AppShell>
@@ -46,13 +50,16 @@ function ConfiguracionPage() {
 
           <TabsContent value="perfil" className="pt-4"><PerfilTab /></TabsContent>
           <TabsContent value="edificios" className="pt-4"><EdificiosTab /></TabsContent>
-          <TabsContent value="usuarios" className="pt-4">{isSuper ? <UsuariosTab /> : <p className="text-sm text-[#9a7060] p-4">Solo super admins pueden gestionar usuarios.</p>}</TabsContent>
+          <TabsContent value="usuarios" className="pt-4">
+            {isSuper ? <UsuariosTab /> : canManage ? <TenantUsuariosTab edificios={edificios} /> : <p className="text-sm text-[#9a7060] p-4">No tienes edificios asignados.</p>}
+          </TabsContent>
           <TabsContent value="seguridad" className="pt-4"><SeguridadTab /></TabsContent>
         </Tabs>
       </div>
     </AppShell>
   );
 }
+
 
 function PerfilTab() {
   const { user, profile, role } = useAuth();
