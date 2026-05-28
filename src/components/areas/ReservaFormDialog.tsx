@@ -25,9 +25,13 @@ const schema = z.object({
 type FormVals = z.input<typeof schema>;
 type FormOut = z.output<typeof schema>;
 
+const toLocalInput = (d: Date) => {
+  const p = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`;
+};
 const nowLocal = (addH = 0) => {
-  const d = new Date(); d.setHours(d.getHours() + addH); d.setMinutes(0 - d.getTimezoneOffset(), 0, 0);
-  return d.toISOString().slice(0, 16);
+  const d = new Date(); d.setHours(d.getHours() + addH, 0, 0, 0);
+  return toLocalInput(d);
 };
 
 export function ReservaFormDialog({
@@ -79,8 +83,8 @@ export function ReservaFormDialog({
       area_id: reserva?.area_id ?? "",
       unidad_id: reserva?.unidad_id ?? null,
       residente_id: reserva?.residente_id ?? null,
-      fecha_inicio: reserva?.fecha_inicio ? new Date(reserva.fecha_inicio).toISOString().slice(0, 16) : nowLocal(1),
-      fecha_fin: reserva?.fecha_fin ? new Date(reserva.fecha_fin).toISOString().slice(0, 16) : nowLocal(3),
+      fecha_inicio: reserva?.fecha_inicio ? toLocalInput(new Date(reserva.fecha_inicio)) : nowLocal(1),
+      fecha_fin: reserva?.fecha_fin ? toLocalInput(new Date(reserva.fecha_fin)) : nowLocal(3),
       num_personas: reserva?.num_personas ?? 0,
       estado: (reserva?.estado as any) ?? "confirmada",
       descripcion: reserva?.descripcion ?? "",
