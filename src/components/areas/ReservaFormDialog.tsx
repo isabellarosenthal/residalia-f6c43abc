@@ -88,6 +88,7 @@ export function ReservaFormDialog({
   }, [open, reserva, defaultCondominioId, form]);
 
   const onSubmit = async (v: FormOut) => {
+    if (conflicto) return;
     await save.mutateAsync({
       id: reserva?.id,
       condominio_id: v.condominio_id,
