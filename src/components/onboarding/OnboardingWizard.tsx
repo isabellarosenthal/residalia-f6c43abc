@@ -223,9 +223,13 @@ export function OnboardingWizard({ open, onClose }: Props) {
 }
 
 export function useShouldShowOnboarding() {
-  const { data: edificios = [], isLoading } = useEdificios();
-  if (isLoading) return false;
+  const { data: edificios, isLoading, isFetching, isError, isSuccess } = useEdificios();
   if (typeof window === "undefined") return false;
   if (localStorage.getItem("onboarding:done") === "1") return false;
-  return edificios.length === 0;
+  if (isLoading || isFetching || isError || !isSuccess || !edificios) return false;
+  if (edificios.length > 0) {
+    localStorage.setItem("onboarding:done", "1");
+    return false;
+  }
+  return true;
 }
