@@ -68,6 +68,7 @@ function AreasPage() {
             <TabsList className="bg-[#f5ede8]">
               <TabsTrigger value="areas">Áreas</TabsTrigger>
               <TabsTrigger value="reservas">Reservas</TabsTrigger>
+              <TabsTrigger value="calendario">Calendario</TabsTrigger>
             </TabsList>
             <TabsContent value="areas" className="space-y-4 pt-4">
               <div className="flex justify-end">
