@@ -47,7 +47,10 @@ export function useSaveEdificio() {
         if (error) throw error;
         return data;
       }
-      const { data, error } = await supabase.from("condominios").insert(input).select().single();
+      const { data: userRes } = await supabase.auth.getUser();
+      const admin_id = userRes.user?.id;
+      if (!admin_id) throw new Error("Sesión expirada, inicia sesión nuevamente.");
+      const { data, error } = await supabase.from("condominios").insert({ ...input, admin_id }).select().single();
       if (error) throw error;
       return data;
     },
