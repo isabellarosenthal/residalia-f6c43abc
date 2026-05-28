@@ -26,8 +26,17 @@ const colorFor = (id: string) => {
 export function ReservasCalendar({ edificioId }: { edificioId: string }) {
   const [areaFilter, setAreaFilter] = useState("all");
   const [weekStart, setWeekStart] = useState(() => startOfWeek(new Date()));
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [editing, setEditing] = useState<Reserva | null>(null);
+  const [slot, setSlot] = useState<{ start: Date; end: Date } | null>(null);
   const { data: reservas = [] } = useReservas(edificioId === "all" ? undefined : edificioId);
   const { data: areas = [] } = useAreas(edificioId === "all" ? undefined : edificioId);
+
+  const openCreate = (start: Date) => {
+    const end = new Date(start); end.setHours(end.getHours() + 1);
+    setEditing(null); setSlot({ start, end }); setDialogOpen(true);
+  };
+  const openEdit = (r: Reserva) => { setEditing(r); setSlot(null); setDialogOpen(true); };
 
   const weekEnd = useMemo(() => { const d = new Date(weekStart); d.setDate(d.getDate() + 7); return d; }, [weekStart]);
 
