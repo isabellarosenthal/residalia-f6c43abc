@@ -62,7 +62,7 @@ export function LandingPage() {
     <div className="min-h-screen bg-[#fffaf5] text-[#2d1200]">
       {/* Nav */}
       <header className="border-b border-[#e8ddd8] bg-white/80 backdrop-blur sticky top-0 z-10">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="font-display font-extrabold text-xl">PropCloud</div>
           <div className="flex items-center gap-3">
             <Link to="/login" className="text-sm font-medium text-[#4a2800] hover:text-[#c94f0c]">Iniciar sesión</Link>
@@ -74,7 +74,7 @@ export function LandingPage() {
       </header>
 
       {/* Hero */}
-      <section className="max-w-6xl mx-auto px-6 pt-8 pb-10">
+      <section className="max-w-7xl mx-auto px-6 pt-8 pb-10">
         <div className="grid md:grid-cols-2 gap-10 items-center">
           <div className="text-center md:text-left">
             <span className="inline-block text-xs font-semibold uppercase tracking-wider bg-[#f5ede8] text-[#c94f0c] px-3 py-1 rounded-full mb-5">
@@ -120,7 +120,7 @@ export function LandingPage() {
 
       {/* Stats band */}
       <section className="bg-[#2d1200] text-[#f5ede8] py-10">
-        <div className="max-w-5xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           {[
             { n: "13+", l: "Módulos integrados" },
             { n: "100%", l: "Aislado por condominio" },
@@ -136,7 +136,7 @@ export function LandingPage() {
       </section>
 
       {/* What is PropCloud */}
-      <section className="max-w-6xl mx-auto px-6 py-20">
+      <section className="max-w-7xl mx-auto px-6 py-20">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <h2 className="font-display font-extrabold text-3xl md:text-4xl">Todo lo que necesita un edificio, en un solo lugar</h2>
           <p className="mt-3 text-[#6b4a3a]">
@@ -173,7 +173,7 @@ export function LandingPage() {
 
       {/* How it works */}
       <section className="bg-white border-y border-[#e8ddd8] py-20">
-        <div className="max-w-5xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-14">
             <h2 className="font-display font-extrabold text-3xl md:text-4xl">Empieza a operar hoy mismo</h2>
             <p className="mt-3 text-[#6b4a3a]">Cuatro pasos guiados por nuestro asistente de configuración.</p>
@@ -199,7 +199,7 @@ export function LandingPage() {
       </section>
 
       {/* Why PropCloud */}
-      <section className="max-w-6xl mx-auto px-6 py-20">
+      <section className="max-w-7xl mx-auto px-6 py-20">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <h2 className="font-display font-extrabold text-3xl md:text-4xl">¿Por qué PropCloud?</h2>
         </div>
@@ -226,7 +226,7 @@ export function LandingPage() {
 
 
       {/* Plans */}
-      <section id="planes" className="max-w-6xl mx-auto px-6 py-20">
+      <section id="planes" className="max-w-7xl mx-auto px-6 py-20">
         <div className="text-center mb-12">
           <h2 className="font-display font-extrabold text-3xl md:text-4xl">Planes simples y honestos</h2>
           <p className="mt-3 text-[#6b4a3a]">Elige el que te queda. Cambia cuando quieras.</p>
@@ -311,7 +311,7 @@ export function LandingPage() {
 
       {/* Footer estilo Firmax */}
       <footer className="border-t border-[#e8ddd8] bg-[#fffaf5]">
-        <div className="max-w-6xl mx-auto px-6 py-16">
+        <div className="max-w-7xl mx-auto px-6 py-16">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
             {/* Col 1: Marca */}
             <div className="space-y-4">
@@ -387,7 +387,7 @@ export function LandingPage() {
         </div>
 
         <div className="border-t border-[#e8ddd8]">
-          <div className="max-w-6xl mx-auto px-6 py-5">
+          <div className="max-w-7xl mx-auto px-6 py-5">
             <div className="flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-[#9a7060]">
               <p>© {new Date().getFullYear()} New Technology, S.A. Parte de <a href="https://home.zafra.cloud" target="_blank" rel="noopener noreferrer" className="text-[#c94f0c] hover:underline">Zafra Cloud</a>.</p>
               <p className="flex items-center gap-1.5">Hecho con ❤️ en Honduras 🇭🇳</p>
