@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { AreasGrid } from "@/components/areas/AreasGrid";
 import { ReservasTable } from "@/components/areas/ReservasTable";
+import { ReservasCalendar } from "@/components/areas/ReservasCalendar";
 import { useEdificios, type AreaComun, type Reserva } from "@/lib/queries";
 
 const loadAreaDialog = () => import("@/components/areas/AreaFormDialog");
@@ -67,6 +68,7 @@ function AreasPage() {
             <TabsList className="bg-[#f5ede8]">
               <TabsTrigger value="areas">Áreas</TabsTrigger>
               <TabsTrigger value="reservas">Reservas</TabsTrigger>
+              <TabsTrigger value="calendario">Calendario</TabsTrigger>
             </TabsList>
             <TabsContent value="areas" className="space-y-4 pt-4">
               <div className="flex justify-end">
@@ -83,6 +85,9 @@ function AreasPage() {
                 </Button>
               </div>
               <ReservasTable edificioId={edificioId} onEdit={(r) => openRes(r)} />
+            </TabsContent>
+            <TabsContent value="calendario" className="space-y-4 pt-4">
+              <ReservasCalendar edificioId={edificioId} />
             </TabsContent>
           </Tabs>
         )}

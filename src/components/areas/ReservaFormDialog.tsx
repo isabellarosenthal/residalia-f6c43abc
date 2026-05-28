@@ -8,7 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useSaveReserva, useEdificios, useAreas, useUnidades, useResidentes, type Reserva } from "@/lib/queries";
+import { useSaveReserva, useEdificios, useAreas, useUnidades, useResidentes, useReservas, type Reserva } from "@/lib/queries";
+import { AlertTriangle } from "lucide-react";
 
 const schema = z.object({
   condominio_id: z.string().uuid("Selecciona edificio"),
@@ -45,8 +46,31 @@ export function ReservaFormDialog({
     },
   });
   const condominioId = form.watch("condominio_id");
+  const areaId = form.watch("area_id");
+  const fIni = form.watch("fecha_inicio");
+  const fFin = form.watch("fecha_fin");
   const { data: areas = [] } = useAreas(condominioId || undefined);
   const { data: unidades = [] } = useUnidades(condominioId || undefined);
+  const { data: allReservas = [] } = useReservas(condominioId || undefined);
+
+  const conflicto = (() => {
+    if (!areaId || !fIni || !fFin) return null;
+    const ini = new Date(fIni).getTime();
+    const fin = new Date(fFin).getTime();
+    if (!(fin > ini)) return { tipo: "rango", mensaje: "La hora fin debe ser posterior al inicio." };
+    const choque = allReservas.find((r) =>
+      r.area_id === areaId &&
+      r.estado !== "cancelada" &&
+      r.id !== reserva?.id &&
+      new Date(r.fecha_inicio).getTime() < fin &&
+      new Date(r.fecha_fin).getTime() > ini
+    );
+    if (choque) return {
+      tipo: "overlap",
+      mensaje: `Conflicto con otra reserva: ${new Date(choque.fecha_inicio).toLocaleString("es-HN", { dateStyle: "short", timeStyle: "short" })} – ${new Date(choque.fecha_fin).toLocaleString("es-HN", { timeStyle: "short" })}`,
+    };
+    return null;
+  })();
 
   useEffect(() => {
     if (!open) return;
@@ -64,6 +88,7 @@ export function ReservaFormDialog({
   }, [open, reserva, defaultCondominioId, form]);
 
   const onSubmit = async (v: FormOut) => {
+    if (conflicto) return;
     await save.mutateAsync({
       id: reserva?.id,
       condominio_id: v.condominio_id,
@@ -141,9 +166,15 @@ export function ReservaFormDialog({
             </div>
           </div>
           <div><Label>Descripción</Label><Textarea rows={2} {...form.register("descripcion")} /></div>
+          {conflicto && (
+            <div className="flex items-start gap-2 bg-[#fde8e2] border border-[#f5b8a8] text-[#7a2a10] rounded-lg p-3 text-sm">
+              <AlertTriangle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+              <span>{conflicto.mensaje}</span>
+            </div>
+          )}
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-            <Button type="submit" disabled={save.isPending} className="bg-[#c94f0c] hover:bg-[#a33d08]">{save.isPending ? "Guardando…" : "Guardar"}</Button>
+            <Button type="submit" disabled={save.isPending || !!conflicto} className="bg-[#c94f0c] hover:bg-[#a33d08]">{save.isPending ? "Guardando…" : "Guardar"}</Button>
           </DialogFooter>
         </form>
       </DialogContent>
