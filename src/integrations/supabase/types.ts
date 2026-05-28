@@ -1173,6 +1173,7 @@ export type Database = {
         | "residente"
         | "agente_inmobiliario"
         | "gerente_crm"
+        | "guardia"
       estado_administrativo: "ocupada" | "disponible" | "vacia"
       estado_cobro: "pendiente" | "pagado" | "parcial" | "vencido"
       estado_comercial:
@@ -1340,6 +1341,7 @@ export const Constants = {
         "residente",
         "agente_inmobiliario",
         "gerente_crm",
+        "guardia",
       ],
       estado_administrativo: ["ocupada", "disponible", "vacia"],
       estado_cobro: ["pendiente", "pagado", "parcial", "vencido"],

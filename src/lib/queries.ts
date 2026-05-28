@@ -573,6 +573,45 @@ export function useRegistrarUso() {
   });
 }
 
+// ============ MI RESIDENTE (portal) ============
+export function useMiResidente() {
+  return useQuery({
+    queryKey: ["mi-residente"],
+    queryFn: async () => {
+      const { data: u } = await supabase.auth.getUser();
+      if (!u.user) return null;
+      const { data, error } = await supabase
+        .from("residentes")
+        .select("*, condominio:condominios(id,nombre), unidad:unidades(id,numero)")
+        .eq("user_id", u.user.id)
+        .maybeSingle();
+      if (error) throw error;
+      return data;
+    },
+  });
+}
+
+export function useMisPases() {
+  return useQuery({
+    queryKey: ["mis-pases"],
+    queryFn: async (): Promise<Acceso[]> => {
+      const { data: u } = await supabase.auth.getUser();
+      if (!u.user) return [];
+      const { data, error } = await supabase
+        .from("accesos")
+        .select("*")
+        .eq("autorizado_por", u.user.id)
+        .order("created_at", { ascending: false })
+        .limit(100);
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
+
+
+
+
 
 // ============ ÁREAS COMUNES ============
 export type AreaComun = Database["public"]["Tables"]["areas_comunes"]["Row"];

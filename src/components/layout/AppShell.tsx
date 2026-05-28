@@ -5,12 +5,15 @@ import { Sidebar } from "./Sidebar";
 import { Topbar } from "./Topbar";
 
 export function AppShell({ children }: { children: ReactNode }) {
-  const { user, loading } = useAuth();
+  const { user, role, loading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading && !user) navigate({ to: "/login" });
-  }, [user, loading, navigate]);
+    if (loading) return;
+    if (!user) { navigate({ to: "/login" }); return; }
+    if (role === "residente") navigate({ to: "/portal" });
+    else if (role === "guardia") navigate({ to: "/guardia" });
+  }, [user, role, loading, navigate]);
 
   if (loading || !user) {
     return (
@@ -19,6 +22,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       </div>
     );
   }
+
 
   return (
     <div className="min-h-screen flex bg-[#faf9f7]">
