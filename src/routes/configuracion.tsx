@@ -21,7 +21,7 @@ const ROLES: { value: AppRole; label: string }[] = [
   { value: "junta_directiva", label: "Junta directiva" },
   { value: "agente_inmobiliario", label: "Agente inmobiliario" },
   { value: "gerente_crm", label: "Gerente CRM" },
-  { value: "residente", label: "Residente" },
+  { value: "guardia", label: "Guardia" },
 ];
 
 function ConfiguracionPage() {
