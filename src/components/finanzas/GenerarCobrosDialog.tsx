@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { useGenerarCobrosMensuales } from "@/lib/queries";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui-pentos";
+import { fmtL } from "@/lib/format";
+import { useGenerarCobrosMensuales, usePreviewCobrosMensuales } from "@/lib/queries";
 
 export function GenerarCobrosDialog({
   open, onOpenChange, edificioId,
@@ -15,26 +18,98 @@ export function GenerarCobrosDialog({
   const [concepto, setConcepto] = useState("Cuota de mantenimiento");
   const [mes, setMes] = useState(mesActual);
   const [vencimiento, setVencimiento] = useState(venDefault);
+  const [stage, setStage] = useState<"form" | "preview">("form");
+  const [excluded, setExcluded] = useState<Set<string>>(new Set());
 
-  const submit = async () => {
-    if (!edificioId) return;
-    await mut.mutateAsync({ edificioId, mes, concepto, vencimiento });
+  const previewArgs = stage === "preview" && edificioId ? { edificioId, mes, concepto } : null;
+  const { data: rows = [], isLoading } = usePreviewCobrosMensuales(previewArgs);
+
+  const selectable = useMemo(() => rows.filter((r) => !r.duplicado), [rows]);
+  const selectedIds = useMemo(
+    () => selectable.filter((r) => !excluded.has(r.unidad_id)).map((r) => r.unidad_id),
+    [selectable, excluded],
+  );
+  const total = useMemo(
+    () => selectable.filter((r) => !excluded.has(r.unidad_id)).reduce((a, r) => a + r.monto, 0),
+    [selectable, excluded],
+  );
+
+  const toggle = (id: string) => {
+    setExcluded((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+
+  const confirm = async () => {
+    if (!edificioId || selectedIds.length === 0) return;
+    await mut.mutateAsync({ edificioId, mes, concepto, vencimiento, unidadIds: selectedIds });
     onOpenChange(false);
+    setStage("form");
+    setExcluded(new Set());
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[480px]">
+    <Dialog open={open} onOpenChange={(v) => { if (!v) { setStage("form"); setExcluded(new Set()); } onOpenChange(v); }}>
+      <DialogContent className="sm:max-w-[640px] max-h-[85vh] overflow-y-auto">
         <DialogHeader><DialogTitle className="font-display text-xl text-[#2d1200]">Generar cobros mensuales</DialogTitle></DialogHeader>
-        <div className="space-y-3">
-          <p className="text-sm text-[#9a7060]">Se creará un cobro por cada unidad del edificio usando su mantenimiento mensual o la cuota base del edificio.</p>
-          <div><Label>Concepto</Label><Input value={concepto} onChange={(e) => setConcepto(e.target.value)} /></div>
-          <div><Label>Periodo</Label><Input value={mes} onChange={(e) => setMes(e.target.value)} placeholder="octubre 2025" /></div>
-          <div><Label>Fecha de vencimiento</Label><Input type="date" value={vencimiento} onChange={(e) => setVencimiento(e.target.value)} /></div>
-        </div>
+
+        {stage === "form" && (
+          <div className="space-y-3">
+            <p className="text-sm text-[#9a7060]">Generaremos un cobro por cada unidad usando su mantenimiento mensual o la cuota base del edificio.</p>
+            <div><Label>Concepto</Label><Input value={concepto} onChange={(e) => setConcepto(e.target.value)} /></div>
+            <div><Label>Periodo</Label><Input value={mes} onChange={(e) => setMes(e.target.value)} placeholder="octubre 2025" /></div>
+            <div><Label>Fecha de vencimiento</Label><Input type="date" value={vencimiento} onChange={(e) => setVencimiento(e.target.value)} /></div>
+          </div>
+        )}
+
+        {stage === "preview" && (
+          <div className="space-y-3">
+            {isLoading && <div className="py-8 text-center text-[#9a7060]">Calculando…</div>}
+            {!isLoading && (
+              <>
+                <div className="flex items-center justify-between text-sm">
+                  <div className="text-[#9a7060]">{selectedIds.length} de {selectable.length} unidades seleccionadas</div>
+                  <div className="font-display font-bold text-[#c94f0c]">{fmtL(total)}</div>
+                </div>
+                <div className="border border-[#e8ddd8] rounded-xl divide-y divide-[#f0e7e1] max-h-[50vh] overflow-y-auto">
+                  {rows.length === 0 && <div className="p-6 text-center text-[#9a7060] text-sm">El edificio no tiene unidades.</div>}
+                  {rows.map((r) => (
+                    <label key={r.unidad_id} className={`flex items-center gap-3 p-3 ${r.duplicado ? "opacity-60 bg-[#fafafa]" : "hover:bg-[#fbf6f3] cursor-pointer"}`}>
+                      <Checkbox
+                        checked={!r.duplicado && !excluded.has(r.unidad_id)}
+                        disabled={r.duplicado}
+                        onCheckedChange={() => toggle(r.unidad_id)}
+                      />
+                      <div className="flex-1">
+                        <div className="text-sm font-medium text-[#2d1200]">Unidad #{r.unidad_numero}</div>
+                        {r.duplicado && <div className="text-xs text-[#c0392b] mt-0.5">Ya tiene un cobro de este concepto para este periodo</div>}
+                      </div>
+                      {r.duplicado && <Badge variant="warning">Duplicado</Badge>}
+                      <div className="text-sm font-semibold text-[#2d1200] tabular-nums">{fmtL(r.monto)}</div>
+                    </label>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        )}
+
         <DialogFooter>
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-          <Button onClick={submit} disabled={!edificioId || mut.isPending} className="bg-[#c94f0c] hover:bg-[#a33d08]">{mut.isPending ? "Generando…" : "Generar cobros"}</Button>
+          {stage === "form" ? (
+            <>
+              <Button variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
+              <Button onClick={() => setStage("preview")} disabled={!edificioId || !concepto || !mes || !vencimiento} className="bg-[#c94f0c] hover:bg-[#a33d08]">Previsualizar</Button>
+            </>
+          ) : (
+            <>
+              <Button variant="ghost" onClick={() => setStage("form")}>Volver</Button>
+              <Button onClick={confirm} disabled={selectedIds.length === 0 || mut.isPending} className="bg-[#c94f0c] hover:bg-[#a33d08]">
+                {mut.isPending ? "Generando…" : `Generar ${selectedIds.length} cobros`}
+              </Button>
+            </>
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>

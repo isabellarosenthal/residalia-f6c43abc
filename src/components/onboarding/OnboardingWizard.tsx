@@ -92,7 +92,9 @@ export function OnboardingWizard({ open, onClose }: Props) {
     if (!edificioId) return;
     const [y, m] = mes.split("-");
     const venc = `${y}-${m}-05`;
-    await generarCobros.mutateAsync({ edificioId, mes, concepto: "Mantenimiento", vencimiento: venc });
+    const { data: us } = await supabase.from("unidades").select("id").eq("condominio_id", edificioId);
+    const unidadIds = (us ?? []).map((u) => u.id);
+    await generarCobros.mutateAsync({ edificioId, mes, concepto: "Mantenimiento", vencimiento: venc, unidadIds });
     toast.success("¡Listo! Tu edificio está operando 🎉");
     close();
     navigate({ to: "/" });

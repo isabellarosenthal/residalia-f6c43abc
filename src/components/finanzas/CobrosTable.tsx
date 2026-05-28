@@ -1,12 +1,14 @@
 import { useMemo, useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui-pentos";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Pencil, Trash2, CheckCircle2, Search } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Pencil, Trash2, CheckCircle2, Search, Printer } from "lucide-react";
 import { fmtL, fmtDate } from "@/lib/format";
-import { useCobros, useDeleteCobro, useMarcarPagado, useUnidades, useResidentes, type Cobro } from "@/lib/queries";
+import { useCobros, useDeleteCobro, useMarcarPagado, useUnidades, useResidentes, diasMora, type Cobro } from "@/lib/queries";
 
 export function CobrosTable({ edificioId, onEdit }: { edificioId: string; onEdit: (c: Cobro) => void }) {
   const { data: cobros = [], isLoading } = useCobros(edificioId === "all" ? undefined : edificioId);
@@ -16,6 +18,7 @@ export function CobrosTable({ edificioId, onEdit }: { edificioId: string; onEdit
   const pagar = useMarcarPagado();
   const [estado, setEstado] = useState("all");
   const [search, setSearch] = useState("");
+  const [soloMorosos, setSoloMorosos] = useState(false);
 
   const uniMap = useMemo(() => new Map(unidades.map((u) => [u.id, u.numero])), [unidades]);
   const resMap = useMemo(() => new Map(residentes.map((r) => [r.id, `${r.nombre} ${r.apellido}`])), [residentes]);
@@ -23,19 +26,22 @@ export function CobrosTable({ edificioId, onEdit }: { edificioId: string; onEdit
   const filtered = useMemo(() => cobros.filter((c) => {
     if (estado !== "all" && c.estado !== estado) return false;
     if (search && !c.concepto.toLowerCase().includes(search.toLowerCase())) return false;
+    if (soloMorosos && diasMora(c.fecha_vencimiento, c.estado) <= 0) return false;
     return true;
-  }), [cobros, estado, search]);
+  }), [cobros, estado, search, soloMorosos]);
 
-  const estadoBadge = (e: string) => {
-    if (e === "pagado") return <Badge variant="success">Pagado</Badge>;
-    if (e === "vencido") return <Badge variant="danger">Vencido</Badge>;
-    if (e === "parcial") return <Badge variant="warning">Parcial</Badge>;
+  const estadoBadge = (c: Cobro) => {
+    if (c.estado === "pagado") return <Badge variant="success">Pagado</Badge>;
+    const d = diasMora(c.fecha_vencimiento, c.estado);
+    if (d > 0) return <Badge variant="danger">Vencido · {d}d</Badge>;
+    if (c.estado === "parcial") return <Badge variant="warning">Parcial</Badge>;
+    if (c.estado === "vencido") return <Badge variant="danger">Vencido</Badge>;
     return <Badge variant="neutral">Pendiente</Badge>;
   };
 
   return (
     <div className="space-y-3">
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-2 items-center">
         <div className="relative flex-1 min-w-[220px]">
           <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#9a7060]" />
           <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar concepto…" className="pl-9" />
@@ -50,6 +56,10 @@ export function CobrosTable({ edificioId, onEdit }: { edificioId: string; onEdit
             <SelectItem value="vencido">Vencidos</SelectItem>
           </SelectContent>
         </Select>
+        <label className="flex items-center gap-2 text-sm text-[#2d1200] cursor-pointer select-none px-2">
+          <Switch checked={soloMorosos} onCheckedChange={setSoloMorosos} />
+          Solo morosos
+        </label>
       </div>
 
       <div className="bg-white border border-[#e8ddd8] rounded-2xl overflow-hidden">
@@ -77,9 +87,14 @@ export function CobrosTable({ edificioId, onEdit }: { edificioId: string; onEdit
                 </TableCell>
                 <TableCell className="text-right font-semibold text-[#c94f0c]">{fmtL(c.monto)}</TableCell>
                 <TableCell className="text-sm">{fmtDate(c.fecha_vencimiento)}</TableCell>
-                <TableCell>{estadoBadge(c.estado)}</TableCell>
+                <TableCell>{estadoBadge(c)}</TableCell>
                 <TableCell className="text-xs text-[#9a7060]">{c.recibo_numero ?? "—"}</TableCell>
                 <TableCell className="text-right">
+                  {c.estado === "pagado" && (
+                    <Link to="/recibo/$cobroId" params={{ cobroId: c.id }} target="_blank">
+                      <Button size="sm" variant="ghost" title="Imprimir recibo" className="h-8 w-8 p-0 text-[#2d1200]"><Printer className="w-4 h-4" /></Button>
+                    </Link>
+                  )}
                   {c.estado !== "pagado" && (
                     <Button size="sm" variant="ghost" title="Marcar pagado" onClick={() => pagar.mutate({ id: c.id, metodo: c.metodo_pago ?? "efectivo" })} className="h-8 w-8 p-0 text-[#2d6a2d]"><CheckCircle2 className="w-4 h-4" /></Button>
                   )}
