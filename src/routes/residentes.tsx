@@ -85,13 +85,16 @@ function ResidentesPage() {
           <ResidentesTable
             search={search} edificioId={edificioId} tipo={tipo} estado={estado}
             onEdit={(r) => { setEditing(r); setOpen(true); }}
+            onView={(r) => setDetail(r)}
           />
         )}
       </div>
 
       <Suspense fallback={null}>
         {open && <ResidenteFormDialog open={open} onOpenChange={setOpen} residente={editing} />}
+        {detail && <ResidenteDetailDialog open={!!detail} onOpenChange={(v) => !v && setDetail(null)} residente={detail} />}
       </Suspense>
     </AppShell>
   );
 }
+
