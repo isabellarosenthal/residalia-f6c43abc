@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui-pentos";
 import { useValidarPase, useRegistrarUso, useMarcarSalida, useEdificios, useUnidades, type Acceso } from "@/lib/queries";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/accesos/validar")({ component: ValidarPage });
 
