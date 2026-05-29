@@ -41,7 +41,7 @@ export function EgresosTable({ edificioId, onEdit }: { edificioId: string; onEdi
               <TableCell className="text-sm text-[#4a2800] max-w-[280px] truncate">{e.descripcion ?? "—"}</TableCell>
               <TableCell className="text-right font-semibold text-[#c0392b]">{fmtL(e.monto)}</TableCell>
               <TableCell className="text-right">
-                {e.comprobante_url && <a href={e.comprobante_url} target="_blank" rel="noreferrer" className="inline-flex h-8 w-8 items-center justify-center text-[#4a2800]"><ExternalLink className="w-4 h-4" /></a>}
+                {e.comprobante_url && <Button size="sm" variant="ghost" onClick={() => openComprobante(e.comprobante_url!)} className="h-8 w-8 p-0"><ExternalLink className="w-4 h-4" /></Button>}
                 <Button size="sm" variant="ghost" onClick={() => onEdit(e)} className="h-8 w-8 p-0"><Pencil className="w-4 h-4" /></Button>
                 <Button size="sm" variant="ghost" onClick={() => { if (confirm("¿Eliminar egreso?")) del.mutate(e.id); }} className="h-8 w-8 p-0 text-[#c0392b] hover:text-[#c0392b]"><Trash2 className="w-4 h-4" /></Button>
               </TableCell>
