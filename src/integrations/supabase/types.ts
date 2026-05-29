@@ -341,6 +341,7 @@ export type Database = {
           created_at: string
           cuota_base: number | null
           departamento: string | null
+          dias_gracia: number
           direccion: string | null
           id: string
           latitud: number | null
@@ -350,6 +351,7 @@ export type Database = {
           moneda: string
           nombre: string
           pais: string
+          recargo_mora_pct: number
           tipo: string
           total_unidades: number | null
         }
@@ -360,6 +362,7 @@ export type Database = {
           created_at?: string
           cuota_base?: number | null
           departamento?: string | null
+          dias_gracia?: number
           direccion?: string | null
           id?: string
           latitud?: number | null
@@ -369,6 +372,7 @@ export type Database = {
           moneda?: string
           nombre: string
           pais?: string
+          recargo_mora_pct?: number
           tipo?: string
           total_unidades?: number | null
         }
@@ -379,6 +383,7 @@ export type Database = {
           created_at?: string
           cuota_base?: number | null
           departamento?: string | null
+          dias_gracia?: number
           direccion?: string | null
           id?: string
           latitud?: number | null
@@ -388,6 +393,7 @@ export type Database = {
           moneda?: string
           nombre?: string
           pais?: string
+          recargo_mora_pct?: number
           tipo?: string
           total_unidades?: number | null
         }
@@ -616,6 +622,45 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      pagos: {
+        Row: {
+          cobro_id: string
+          comprobante_url: string | null
+          created_at: string
+          fecha: string
+          id: string
+          metodo: string
+          monto: number
+          notas: string | null
+          referencia: string | null
+          registrado_por: string | null
+        }
+        Insert: {
+          cobro_id: string
+          comprobante_url?: string | null
+          created_at?: string
+          fecha?: string
+          id?: string
+          metodo?: string
+          monto: number
+          notas?: string | null
+          referencia?: string | null
+          registrado_por?: string | null
+        }
+        Update: {
+          cobro_id?: string
+          comprobante_url?: string | null
+          created_at?: string
+          fecha?: string
+          id?: string
+          metodo?: string
+          monto?: number
+          notas?: string | null
+          referencia?: string | null
+          registrado_por?: string | null
+        }
+        Relationships: []
       }
       personas_autorizadas: {
         Row: {
@@ -1172,6 +1217,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      marcar_cobros_vencidos: { Args: { _condo_id?: string }; Returns: number }
       remove_user_from_condominio: {
         Args: { _condo_id: string; _user_id: string }
         Returns: undefined
