@@ -3,6 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Pencil, Trash2, ExternalLink } from "lucide-react";
 import { fmtL, fmtDate } from "@/lib/format";
 import { useEgresos, useDeleteEgreso, type Egreso } from "@/lib/queries";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+
+async function openComprobante(url: string) {
+  if (url.startsWith("http")) { window.open(url, "_blank"); return; }
+  const { data, error } = await supabase.storage.from("comprobantes").createSignedUrl(url, 300);
+  if (error || !data?.signedUrl) { toast.error("No se pudo abrir el archivo"); return; }
+  window.open(data.signedUrl, "_blank");
+}
 
 export function EgresosTable({ edificioId, onEdit }: { edificioId: string; onEdit: (e: Egreso) => void }) {
   const { data: egresos = [], isLoading } = useEgresos(edificioId === "all" ? undefined : edificioId);
