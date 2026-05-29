@@ -282,26 +282,96 @@ export function useSaveCobro() {
   });
 }
 
-export function useMarcarPagado() {
+// ============ PAGOS (abonos a cobros) ============
+export type Pago = Database["public"]["Tables"]["pagos"]["Row"];
+export type PagoInsert = Database["public"]["Tables"]["pagos"]["Insert"];
+
+export function usePagosDeCobro(cobroId: string | undefined) {
+  return useQuery({
+    queryKey: ["pagos", cobroId],
+    enabled: !!cobroId,
+    queryFn: async (): Promise<Pago[]> => {
+      if (!cobroId) return [];
+      const { data, error } = await supabase.from("pagos").select("*").eq("cobro_id", cobroId).order("fecha", { ascending: false });
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
+
+export function usePagosDeEdificio(edificioId?: string) {
+  return useQuery({
+    queryKey: ["pagos-edificio", edificioId ?? "all"],
+    queryFn: async (): Promise<Pago[]> => {
+      let q = supabase.from("pagos").select("*, cobro:cobros!inner(condominio_id)").order("fecha", { ascending: false });
+      if (edificioId) q = q.eq("cobro.condominio_id", edificioId);
+      const { data, error } = await q;
+      if (error) throw error;
+      return (data ?? []) as any;
+    },
+  });
+}
+
+export function useRegistrarPago() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, metodo }: { id: string; metodo: string }) => {
-      const recibo = `R-${Date.now().toString().slice(-8)}`;
-      const { data, error } = await supabase
-        .from("cobros")
-        .update({ estado: "pagado", fecha_pago: new Date().toISOString().slice(0, 10), metodo_pago: metodo, recibo_numero: recibo })
-        .eq("id", id)
-        .select()
-        .single();
+    mutationFn: async (input: PagoInsert) => {
+      const { data: userRes } = await supabase.auth.getUser();
+      const { data, error } = await supabase.from("pagos").insert({ ...input, registrado_por: userRes.user?.id }).select().single();
       if (error) throw error;
       return data;
     },
     onSuccess: (d) => {
       qc.invalidateQueries({ queryKey: ["cobros"] });
-      toast.success(`Pagado · Recibo ${d.recibo_numero}`);
+      qc.invalidateQueries({ queryKey: ["pagos", d.cobro_id] });
+      qc.invalidateQueries({ queryKey: ["pagos-edificio"] });
+      toast.success("Pago registrado");
     },
-    onError: (e: any) => toast.error(e?.message ?? "Error marcando pago"),
+    onError: (e: any) => toast.error(e?.message ?? "Error registrando pago"),
   });
+}
+
+export function useAnularPago() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (pagoId: string) => {
+      const { error } = await supabase.from("pagos").delete().eq("id", pagoId);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["cobros"] });
+      qc.invalidateQueries({ queryKey: ["pagos"] });
+      qc.invalidateQueries({ queryKey: ["pagos-edificio"] });
+      toast.success("Pago anulado");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error anulando pago"),
+  });
+}
+
+export function useMarcarVencidos() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (condoId?: string) => {
+      const { data, error } = await supabase.rpc("marcar_cobros_vencidos", { _condo_id: condoId ?? undefined } as any);
+      if (error) throw error;
+      return data as unknown as number;
+    },
+    onSuccess: (n) => {
+      qc.invalidateQueries({ queryKey: ["cobros"] });
+      toast.success(n > 0 ? `${n} cobro(s) marcados vencidos` : "Sin cambios");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error"),
+  });
+}
+
+// Compat: usado en CobrosTable existente — abre un pago por el saldo completo
+export function useMarcarPagado() {
+  const reg = useRegistrarPago();
+  return {
+    ...reg,
+    mutate: ({ id, metodo, monto }: { id: string; metodo: string; monto: number }) =>
+      reg.mutate({ cobro_id: id, monto, metodo, fecha: new Date().toISOString().slice(0, 10) } as PagoInsert),
+  };
 }
 
 export function useDeleteCobro() {
