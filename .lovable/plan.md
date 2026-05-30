@@ -1,94 +1,62 @@
-## Rebrand a Altura Cloud
+## Rebrand: Twilight Glow → Astronaut Yellow
 
-Cambio integral de marca + sistema visual. Tres frentes: identidad (nombre + logo), tokens de color/tipografía, y barrido de hex hardcodeados.
+Cambiar la paleta lavanda/morada actual a amarillo + blanco + dark navy blue, con un astronauta como mascot/logo de Altura Cloud.
 
-### 1. Identidad
+### 1. Nueva paleta (`src/styles.css`)
 
-- **Nombre**: "PropCloud" / "Prop Cloud" → "Altura Cloud" en los 6 archivos donde aparece literal: `LandingPage.tsx`, `OnboardingWizard.tsx`, `InstallAppButton.tsx`, `__root.tsx` (title), `configuracion.tsx`, `admin-panel.tsx`, más `public/manifest.webmanifest`.
-- **Logo nuevo**: genero `src/assets/altura-cloud-logo.png` (transparente) — una nube etérea sobre forma de cumbre/altura, en lavanda con halo iridiscente. Reemplazo el ícono actual del Sidebar / Topbar / landing / login.
-- **Favicon + manifest**: actualizo `public/manifest.webmanifest` con nuevo nombre y `theme_color`.
+Reemplazar tokens Twilight Glow por:
+- **Yellow primary**: `#ffd60a` (CTAs, acentos) → glow `#ffea5c`
+- **Dark navy**: `#0a1e3f` (texto principal, sidebar, headers) → `#13294b` (body text)
+- **White**: `#ffffff` (background principal) → `#fffdf5` (warm white para secciones)
+- **Soft yellow surface**: `#fff8d6` (cards suaves, hovers)
+- **Muted**: `#6b7a99` (text secundario sobre blanco)
+- **Accent dark**: `#001a4d` (deep navy para contraste)
+- Gradients: `--gradient-sunny` (yellow → soft yellow), `--gradient-deep-sky` (navy → mid navy)
+- Sombras: `--shadow-warm` (yellow glow sutil), `--shadow-deep` (navy soft)
+- Sidebar: navy oscuro `#0a1e3f` con acentos amarillos
+- Mantener Outfit + Figtree
 
-### 2. Sistema visual (`src/styles.css`)
+### 2. Logo astronauta
 
-Reescribo los tokens raíz con la paleta **Twilight Glow** y la tipografía elegida:
+Generar nuevo `src/assets/altura-cloud-logo.png`:
+- Astronauta minimalista flotando sobre/al lado de una nube
+- Casco con visor reflejando un toque amarillo
+- Estilo line-art moderno sobre fondo transparente
+- Paleta: navy + amarillo + blanco
+- Reemplaza el logo lavanda actual (mismo path, importado en Sidebar + LandingPage)
 
-- Fuentes: Outfit (display) + Figtree (sans), reemplazando Plus Jakarta + Inter.
-- Tokens nuevos (oklch):
+### 3. Sweep de hex hardcodeados (~73 files)
 
-```text
---primary           #818cf8  (indigo)
---primary-dark      #6366f1
---primary-light     #c7d2fe
---primary-glow      #a78bfa  (lavanda)
+Reemplazo 1:1 de los hex Twilight Glow por los nuevos:
+- `#818cf8` (indigo) → `#ffd60a` (yellow primary)
+- `#6366f1` (primary-dark) → `#e6c200` (yellow dark)
+- `#a78bfa` (lavender glow) → `#ffea5c` (yellow glow)
+- `#1e1b4b` (deep) → `#0a1e3f` (navy deep)
+- `#312e81` (body) → `#13294b` (navy body)
+- `#8b8bb5` (muted) → `#6b7a99`
+- `#eef2ff` (bg suave) → `#fffdf5` (warm white)
+- `#faf9ff` (bg base) → `#ffffff`
+- `#ddd6fe` (accent suave) → `#fff8d6` (soft yellow)
+- `#8b5cf6` (purple action) → `#001a4d` (deep navy)
+- `#c7d2fe` → `#ffe87a`
+- `#6d28d9` → `#001a4d`
 
---background        #faf9ff
---bg-subtle         #eef2ff
---card              #ffffff
+Aplica a los 73 archivos del rebrand anterior (componentes, routes, EdificioPlaceholder, etc.).
 
---text-dark         #1e1b4b
---text-body         #312e81
---text-muted        #8b8bb5
+### 4. EdificioPlaceholder
 
---accent            #ddd6fe
---accent-foreground #6d28d9
+Regenerar las 5 paletas de gradientes a combinaciones yellow/navy/white en vez de lavender.
 
---border            #e0e7ff
---border-strong     #c7d2fe
---ring              #a78bfa
+### 5. Manifest
 
---sidebar           #1e1b4b  (indigo profundo)
---sidebar-fg        #eef2ff
---sidebar-accent    #a78bfa
+`public/manifest.webmanifest`: `theme_color: #ffd60a`, `background_color: #ffffff`.
 
---gradient-ethereal linear-gradient(135deg,#c7d2fe 0%,#ddd6fe 50%,#a78bfa 100%)
---shadow-dreamy     0 20px 60px -20px color-mix(in oklab, #a78bfa 40%, transparent)
-```
+### 6. Verificación
 
-Mantengo success/danger pero ablando los tonos a versiones pastel coherentes.
-
-### 3. Barrido de hex hardcodeados
-
-73 archivos usan los colores naranja/marrón directos. Hago un reemplazo dirigido (mismo hex → mismo nuevo hex) en todos los `.tsx` bajo `src/`:
-
-```text
-#c94f0c → #818cf8     (primary)
-#a33d08 → #6366f1     (primary-dark)
-#ff6a00 → #a78bfa     (glow / CTA)
-#e85f00 → #8b5cf6
-#2d1200 → #1e1b4b     (text-dark)
-#4a2800 → #312e81     (text-body)
-#9a7060 → #8b8bb5     (muted)
-#f5ede8 → #eef2ff     (bg-subtle)
-#fff5ef → #faf9ff
-#f5e6de → #ddd6fe     (accent)
-#e8ddd8 → #e0e7ff     (border)
-#c9b8b0 → #c7d2fe
-#faf9f7 → #faf9ff
-#fdecea → #fce7f3     (danger soft)
-#fbeae6 → #fce7f3
-#fbd9d0 → #fbcfe8
-#c0392b → #be185d     (danger ajustado)
-#1e6b3a → #166534     (success ok)
-#e6f4ea → #dcfce7
-```
-
-Esto deja la UI completa (landing, admin tabs, portal, dialogs, tablas, sidebar, topbar) sobre la paleta nueva sin tocar lógica.
-
-### 4. Toques etéreos extra
-
-- Landing hero: gradiente `--gradient-ethereal` de fondo + glow suave en CTA principal.
-- Sidebar admin: fondo `--sidebar` indigo con activo en `--sidebar-accent` lavanda y ligero glow.
-- Portal residentes: tarjetas con `--shadow-dreamy` y bordes redondeados ya existentes — solo cambian colores.
-- `EdificioPlaceholder` (gradientes hardcoded por tipo): re-derivo a tonos azul/lavanda/rosa pastel.
-
-### 5. Verificación
-
-- Restart dev server tras la edición masiva.
-- Revisar landing, `/configuracion`, `/edificios/:id`, `/portal`, `/admin-panel` y confirmar contraste legible.
-- Buscar `rg "PropCloud|c94f0c"` final para asegurar 0 ocurrencias residuales.
+- Restart dev server
+- Revisar landing, dashboard, sidebar, portal residentes, configuracion
+- Confirmar 0 referencias residuales a `#818cf8`, `#a78bfa`, `#1e1b4b`
 
 ### Fuera de alcance
 
-- No toco lógica, queries, ni estructura de componentes.
-- No cambio layout/composición — solo color, tipografía, copia de marca y logo.
-- Iconos lucide siguen iguales (solo cambia color via `currentColor`).
+Sin cambios en lógica, queries, layout o copy. Solo color, logo y tokens visuales. Mantengo nombre "Altura Cloud".
