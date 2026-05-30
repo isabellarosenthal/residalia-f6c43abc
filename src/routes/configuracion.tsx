@@ -405,6 +405,8 @@ function ResidentesTab() {
   });
 
   return (
+    <>
+    <PlanLimitsBanner focus="unidades" />
     <Card className="p-6 space-y-4">
       <div className="flex items-center justify-between gap-3">
         <div>
