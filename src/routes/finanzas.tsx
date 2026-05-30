@@ -84,6 +84,14 @@ function FinanzasPage() {
           <TabsContent value="estado" className="pt-4">
             <EstadoCuentaUnidad edificioId={edificioId} />
           </TabsContent>
+
+          <TabsContent value="reportes" className="pt-4">
+            <ReportesFinancieros edificioId={edificioId} />
+          </TabsContent>
+
+          <TabsContent value="recordatorios" className="pt-4">
+            <RecordatoriosMorosos edificioId={edificioId} />
+          </TabsContent>
         </Tabs>
 
         {edificios.length === 0 && (
