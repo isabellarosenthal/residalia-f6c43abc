@@ -16,7 +16,7 @@ export function IncidenciaFormDialog({ open, onOpenChange, incidencia, defaultCo
     tipo: "general",
     descripcion: "",
     prioridad: "media" as "baja" | "media" | "alta" | "urgente",
-    estado: "nuevo" as "nuevo" | "en_proceso" | "resuelto" | "cancelado",
+    estado: "nuevo" as "nuevo" | "en_revision" | "en_proceso" | "resuelto" | "cerrado",
   });
   useEffect(() => {
     if (incidencia) setForm({

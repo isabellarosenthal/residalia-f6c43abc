@@ -17,7 +17,7 @@ export function OrdenFormDialog({ open, onOpenChange, orden, defaultCondominioId
     area: "",
     proveedor_id: null as string | null,
     prioridad: "media" as "baja" | "media" | "alta" | "urgente",
-    estado: "pendiente" as "pendiente" | "en_proceso" | "completada" | "cancelada",
+    estado: "pendiente" as "pendiente" | "en_proceso" | "completado" | "cancelado",
     fecha_limite: "",
     costo_estimado: "" as string | number,
     costo_real: "" as string | number,
