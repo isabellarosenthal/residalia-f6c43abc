@@ -73,7 +73,7 @@ function LoginPage() {
         <p className="text-center text-sm text-[#9a7060] mb-8">{isResidenteFlow ? "Portal del residente — ingresa o crea tu cuenta con tu código de invitación" : "Administración de condominios y CRM inmobiliario"}</p>
 
         <form onSubmit={submit} className="space-y-4">
-          {mode === "signup" && (
+          {mode === "signup" && !isResidenteFlow && (
             <>
               <div>
                 <label className="block text-sm font-medium text-[#2d1200] mb-1.5">Soy</label>
