@@ -373,7 +373,7 @@ export function LandingPage() {
                 { q: "¿Puedo cambiar o cancelar mi plan después?", a: "Sí, en cualquier momento. Te cobramos sólo lo del mes en curso." },
                 { q: "¿Manejan lempiras y conceptos hondureños?", a: "Sí. La plataforma está hecha en Honduras, para Honduras: lempiras nativos, IVA, cuotas extraordinarias, mora, todo en español." },
               ].map((f) => (
-                <details key={f.q} className="group bg-white border border-[#E2E8F0] rounded-2xl p-5 hover:border-[#4F46E5] transition">
+                <details key={f.q} className="group bg-white/60 backdrop-blur-xl border border-white/70 rounded-2xl p-5 hover:border-[#7AA2FF] hover:shadow-lg transition-all">
                   <summary className="font-semibold cursor-pointer flex justify-between items-center text-[#0F172A]">
                     {f.q}
                     <span className="text-[#4F46E5] group-open:rotate-45 transition-transform text-xl leading-none">+</span>
