@@ -10,6 +10,8 @@ import { FinanzasResumen } from "@/components/finanzas/FinanzasResumen";
 import { CobrosTable } from "@/components/finanzas/CobrosTable";
 import { EgresosTable } from "@/components/finanzas/EgresosTable";
 import { EstadoCuentaUnidad } from "@/components/finanzas/EstadoCuentaUnidad";
+import { ReportesFinancieros } from "@/components/finanzas/ReportesFinancieros";
+import { RecordatoriosMorosos } from "@/components/finanzas/RecordatoriosMorosos";
 import { useEdificios, type Cobro, type Egreso } from "@/lib/queries";
 
 const CobroFormDialog = lazy(() => import("@/components/finanzas/CobroFormDialog").then(m => ({ default: m.CobroFormDialog })));
@@ -50,6 +52,8 @@ function FinanzasPage() {
             <TabsTrigger value="cobros">Cobros</TabsTrigger>
             <TabsTrigger value="egresos">Egresos</TabsTrigger>
             <TabsTrigger value="estado">Estado de cuenta</TabsTrigger>
+            <TabsTrigger value="reportes">Reportes</TabsTrigger>
+            <TabsTrigger value="recordatorios">Recordatorios</TabsTrigger>
           </TabsList>
 
           <TabsContent value="resumen" className="pt-4">
@@ -79,6 +83,14 @@ function FinanzasPage() {
 
           <TabsContent value="estado" className="pt-4">
             <EstadoCuentaUnidad edificioId={edificioId} />
+          </TabsContent>
+
+          <TabsContent value="reportes" className="pt-4">
+            <ReportesFinancieros edificioId={edificioId} />
+          </TabsContent>
+
+          <TabsContent value="recordatorios" className="pt-4">
+            <RecordatoriosMorosos edificioId={edificioId} />
           </TabsContent>
         </Tabs>
 
