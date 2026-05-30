@@ -496,7 +496,7 @@ export function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-[#E2E8F0] bg-white">
+      <footer className="border-t border-white/40 bg-white/60 backdrop-blur-xl relative">
         <div className="max-w-7xl mx-auto px-6 py-16">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
             <div className="space-y-4">
