@@ -43,7 +43,7 @@ function EdificioDetail() {
     return <AppShell><div className="h-72 shimmer rounded-2xl" /></AppShell>;
   }
   if (!edificio) {
-    return <AppShell><div className="text-center text-[#9a7060] py-20">Edificio no encontrado.</div></AppShell>;
+    return <AppShell><div className="text-center text-[#8b8bb5] py-20">Edificio no encontrado.</div></AppShell>;
   }
 
   const total = unidades.length;
@@ -58,7 +58,7 @@ function EdificioDetail() {
   return (
     <AppShell>
       <div className="space-y-5 max-w-[1400px] mx-auto">
-        <Link to="/edificios" className="inline-flex items-center text-sm text-[#9a7060] hover:text-[#c94f0c]">
+        <Link to="/edificios" className="inline-flex items-center text-sm text-[#8b8bb5] hover:text-[#818cf8]">
           <ChevronLeft className="w-4 h-4" /> Volver a edificios
         </Link>
 
@@ -67,16 +67,16 @@ function EdificioDetail() {
             <EdificioPlaceholder id={edificio.id} tipo={edificio.tipo} className="md:w-56 h-32 md:h-auto" />
             <div className="flex-1 p-5 flex flex-col md:flex-row md:items-center justify-between gap-3">
               <div>
-                <h1 className="font-display font-extrabold text-2xl text-[#2d1200]">{edificio.nombre}</h1>
-                <div className="text-sm text-[#9a7060] flex items-center gap-1 mt-1">
+                <h1 className="font-display font-extrabold text-2xl text-[#1e1b4b]">{edificio.nombre}</h1>
+                <div className="text-sm text-[#8b8bb5] flex items-center gap-1 mt-1">
                   <MapPin className="w-4 h-4" />
                   {edificio.direccion ?? "—"}{edificio.ciudad ? ` · ${edificio.ciudad}` : ""}{edificio.departamento ? `, ${edificio.departamento}` : ""}
                 </div>
-                <div className="text-xs text-[#9a7060] mt-1 capitalize">{edificio.tipo} · Moneda: {edificio.moneda}</div>
+                <div className="text-xs text-[#8b8bb5] mt-1 capitalize">{edificio.tipo} · Moneda: {edificio.moneda}</div>
               </div>
               <div className="flex gap-2">
                 <Button variant="outline" onClick={() => setEditOpen(true)}><Pencil className="w-4 h-4 mr-1" />Editar</Button>
-                <Button variant="outline" className="text-[#c0392b] hover:text-[#c0392b]" onClick={() => {
+                <Button variant="outline" className="text-[#be185d] hover:text-[#be185d]" onClick={() => {
                   if (confirm(`¿Eliminar ${edificio.nombre}? Esta acción es permanente.`)) {
                     delMut.mutate(edificio.id, { onSuccess: () => navigate({ to: "/edificios" }) });
                   }
@@ -87,7 +87,7 @@ function EdificioDetail() {
         </Card>
 
         <Tabs defaultValue="unidades">
-          <TabsList className="bg-[#f5ede8]">
+          <TabsList className="bg-[#eef2ff]">
             <TabsTrigger value="resumen">Resumen</TabsTrigger>
             <TabsTrigger value="unidades">Unidades ({total})</TabsTrigger>
             <TabsTrigger value="residentes">Residentes</TabsTrigger>
@@ -103,7 +103,7 @@ function EdificioDetail() {
             </div>
 
             <Card className="p-5">
-              <h3 className="font-display font-bold text-[#2d1200] mb-3">Datos generales</h3>
+              <h3 className="font-display font-bold text-[#1e1b4b] mb-3">Datos generales</h3>
               <dl className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-3 text-sm">
                 <Info label="Nombre" value={edificio.nombre} />
                 <Info label="Tipo" value={<span className="capitalize">{edificio.tipo}</span>} />
@@ -122,7 +122,7 @@ function EdificioDetail() {
             <PlanLimitsBanner focus="unidades" />
             <div className="flex flex-wrap gap-2 justify-end">
               <Button variant="outline" onClick={() => setBulkOpen(true)}><Layers className="w-4 h-4 mr-1" />Generar en bloque</Button>
-              <Button onClick={() => { setUnidadEdit(null); setUnidadOpen(true); }} className="bg-[#c94f0c] hover:bg-[#a33d08]">
+              <Button onClick={() => { setUnidadEdit(null); setUnidadOpen(true); }} className="bg-[#818cf8] hover:bg-[#6366f1]">
                 <Plus className="w-4 h-4 mr-1" />Nueva unidad
               </Button>
             </div>
@@ -131,7 +131,7 @@ function EdificioDetail() {
 
           <TabsContent value="residentes" className="space-y-4 pt-4">
             <div className="flex justify-end">
-              <Button onClick={() => { setResidenteEdit(null); setResidenteOpen(true); }} className="bg-[#c94f0c] hover:bg-[#a33d08]"><Plus className="w-4 h-4 mr-1" />Nuevo residente</Button>
+              <Button onClick={() => { setResidenteEdit(null); setResidenteOpen(true); }} className="bg-[#818cf8] hover:bg-[#6366f1]"><Plus className="w-4 h-4 mr-1" />Nuevo residente</Button>
             </div>
             <ResidentesTable search="" edificioId={edificio.id} tipo="all" estado="all" onEdit={(r) => { setResidenteEdit(r); setResidenteOpen(true); }} />
           </TabsContent>
@@ -141,19 +141,19 @@ function EdificioDetail() {
             <Card className="p-5 space-y-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-display font-bold text-[#2d1200] flex items-center gap-2"><FileText className="w-5 h-5 text-[#c94f0c]" /> Editar datos del edificio</h3>
-                  <p className="text-sm text-[#9a7060]">Modifica nombre, dirección, cuota y otros datos.</p>
+                  <h3 className="font-display font-bold text-[#1e1b4b] flex items-center gap-2"><FileText className="w-5 h-5 text-[#818cf8]" /> Editar datos del edificio</h3>
+                  <p className="text-sm text-[#8b8bb5]">Modifica nombre, dirección, cuota y otros datos.</p>
                 </div>
                 <Button variant="outline" onClick={() => setEditOpen(true)}><Pencil className="w-4 h-4 mr-1" />Editar</Button>
               </div>
             </Card>
-            <Card className="p-5 border-[#fdecea]">
+            <Card className="p-5 border-[#fce7f3]">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-display font-bold text-[#c0392b]">Zona peligrosa</h3>
-                  <p className="text-sm text-[#9a7060]">Eliminar el edificio borrará permanentemente sus datos.</p>
+                  <h3 className="font-display font-bold text-[#be185d]">Zona peligrosa</h3>
+                  <p className="text-sm text-[#8b8bb5]">Eliminar el edificio borrará permanentemente sus datos.</p>
                 </div>
-                <Button variant="outline" className="text-[#c0392b] border-[#c0392b]/30 hover:bg-[#fdecea] hover:text-[#c0392b]" onClick={() => {
+                <Button variant="outline" className="text-[#be185d] border-[#be185d]/30 hover:bg-[#fce7f3] hover:text-[#be185d]" onClick={() => {
                   if (confirm(`¿Eliminar ${edificio.nombre}?`)) {
                     delMut.mutate(edificio.id, { onSuccess: () => navigate({ to: "/edificios" }) });
                   }
@@ -177,8 +177,8 @@ function EdificioDetail() {
 function Info({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div>
-      <dt className="text-xs uppercase tracking-wider text-[#9a7060]">{label}</dt>
-      <dd className="text-[#2d1200] font-medium mt-0.5">{value}</dd>
+      <dt className="text-xs uppercase tracking-wider text-[#8b8bb5]">{label}</dt>
+      <dd className="text-[#1e1b4b] font-medium mt-0.5">{value}</dd>
     </div>
   );
 }

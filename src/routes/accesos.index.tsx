@@ -26,8 +26,8 @@ function AccesosPage() {
       <div className="space-y-5 max-w-[1400px] mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="font-display font-extrabold text-2xl text-[#2d1200]">Control de Accesos</h1>
-            <p className="text-sm text-[#9a7060]">Registro de visitantes, deliveries y proveedores</p>
+            <h1 className="font-display font-extrabold text-2xl text-[#1e1b4b]">Control de Accesos</h1>
+            <p className="text-sm text-[#8b8bb5]">Registro de visitantes, deliveries y proveedores</p>
           </div>
           <div className="flex gap-2">
             <Select value={edificioId} onValueChange={setEdificioId}>
@@ -40,14 +40,14 @@ function AccesosPage() {
             <Button asChild variant="outline">
               <Link to="/accesos/validar"><ShieldCheck className="w-4 h-4 mr-1" />Validar pase</Link>
             </Button>
-            <Button onClick={() => { setEdit(null); setOpen(true); }} className="bg-[#c94f0c] hover:bg-[#a33d08]">
+            <Button onClick={() => { setEdit(null); setOpen(true); }} className="bg-[#818cf8] hover:bg-[#6366f1]">
               <Plus className="w-4 h-4 mr-1" />Registrar acceso
             </Button>
           </div>
         </div>
 
         {edificios.length === 0 ? (
-          <div className="text-center text-[#9a7060] py-10"><KeyRound className="w-8 h-8 mx-auto mb-2" />Crea un edificio primero.</div>
+          <div className="text-center text-[#8b8bb5] py-10"><KeyRound className="w-8 h-8 mx-auto mb-2" />Crea un edificio primero.</div>
         ) : (
           <AccesosTable edificioId={edificioId} onEdit={(a) => { setEdit(a); setOpen(true); }} />
         )}

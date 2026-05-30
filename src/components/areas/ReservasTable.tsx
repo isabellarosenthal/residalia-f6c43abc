@@ -42,28 +42,28 @@ export function ReservasTable({ edificioId, onEdit }: { edificioId: string; onEd
           </SelectContent>
         </Select>
       </div>
-      <div className="bg-white border border-[#e8ddd8] rounded-2xl overflow-hidden">
+      <div className="bg-white border border-[#e0e7ff] rounded-2xl overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="bg-[#f5ede8] hover:bg-[#f5ede8]">
-              <TableHead className="text-[#2d1200] font-semibold">Área</TableHead>
-              <TableHead className="text-[#2d1200] font-semibold">Unidad · Residente</TableHead>
-              <TableHead className="text-[#2d1200] font-semibold">Inicio</TableHead>
-              <TableHead className="text-[#2d1200] font-semibold">Fin</TableHead>
-              <TableHead className="text-[#2d1200] font-semibold">Personas</TableHead>
-              <TableHead className="text-[#2d1200] font-semibold">Estado</TableHead>
-              <TableHead className="text-[#2d1200] font-semibold text-right">Acciones</TableHead>
+            <TableRow className="bg-[#eef2ff] hover:bg-[#eef2ff]">
+              <TableHead className="text-[#1e1b4b] font-semibold">Área</TableHead>
+              <TableHead className="text-[#1e1b4b] font-semibold">Unidad · Residente</TableHead>
+              <TableHead className="text-[#1e1b4b] font-semibold">Inicio</TableHead>
+              <TableHead className="text-[#1e1b4b] font-semibold">Fin</TableHead>
+              <TableHead className="text-[#1e1b4b] font-semibold">Personas</TableHead>
+              <TableHead className="text-[#1e1b4b] font-semibold">Estado</TableHead>
+              <TableHead className="text-[#1e1b4b] font-semibold text-right">Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {isLoading && <TableRow><TableCell colSpan={7} className="py-10 text-center text-[#9a7060]">Cargando…</TableCell></TableRow>}
-            {!isLoading && filtered.length === 0 && <TableRow><TableCell colSpan={7} className="py-10 text-center text-[#9a7060]">Sin reservas.</TableCell></TableRow>}
+            {isLoading && <TableRow><TableCell colSpan={7} className="py-10 text-center text-[#8b8bb5]">Cargando…</TableCell></TableRow>}
+            {!isLoading && filtered.length === 0 && <TableRow><TableCell colSpan={7} className="py-10 text-center text-[#8b8bb5]">Sin reservas.</TableCell></TableRow>}
             {filtered.map((r) => (
               <TableRow key={r.id}>
-                <TableCell className="font-medium text-[#2d1200]">{areaMap.get(r.area_id) ?? "—"}</TableCell>
+                <TableCell className="font-medium text-[#1e1b4b]">{areaMap.get(r.area_id) ?? "—"}</TableCell>
                 <TableCell className="text-sm">
-                  <div className="text-[#2d1200]">{r.unidad_id ? `#${uniMap.get(r.unidad_id) ?? "—"}` : "—"}</div>
-                  <div className="text-xs text-[#9a7060]">{r.residente_id ? resMap.get(r.residente_id) ?? "—" : "—"}</div>
+                  <div className="text-[#1e1b4b]">{r.unidad_id ? `#${uniMap.get(r.unidad_id) ?? "—"}` : "—"}</div>
+                  <div className="text-xs text-[#8b8bb5]">{r.residente_id ? resMap.get(r.residente_id) ?? "—" : "—"}</div>
                 </TableCell>
                 <TableCell className="text-sm">{fmtDT(r.fecha_inicio)}</TableCell>
                 <TableCell className="text-sm">{fmtDT(r.fecha_fin)}</TableCell>
@@ -71,7 +71,7 @@ export function ReservasTable({ edificioId, onEdit }: { edificioId: string; onEd
                 <TableCell>{badge(r.estado)}</TableCell>
                 <TableCell className="text-right">
                   <Button size="sm" variant="ghost" onClick={() => onEdit(r)} className="h-8 w-8 p-0"><Pencil className="w-4 h-4" /></Button>
-                  <Button size="sm" variant="ghost" onClick={() => { if (confirm("¿Eliminar reserva?")) del.mutate(r.id); }} className="h-8 w-8 p-0 text-[#c0392b]"><Trash2 className="w-4 h-4" /></Button>
+                  <Button size="sm" variant="ghost" onClick={() => { if (confirm("¿Eliminar reserva?")) del.mutate(r.id); }} className="h-8 w-8 p-0 text-[#be185d]"><Trash2 className="w-4 h-4" /></Button>
                 </TableCell>
               </TableRow>
             ))}

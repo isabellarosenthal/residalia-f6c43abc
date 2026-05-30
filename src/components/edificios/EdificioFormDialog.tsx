@@ -75,13 +75,13 @@ export function EdificioFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[640px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="font-display text-xl text-[#2d1200]">{edificio ? "Editar edificio" : "Nuevo edificio"}</DialogTitle>
+          <DialogTitle className="font-display text-xl text-[#1e1b4b]">{edificio ? "Editar edificio" : "Nuevo edificio"}</DialogTitle>
         </DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <Label>Nombre *</Label>
             <Input {...form.register("nombre")} placeholder="Torres del Valle" />
-            {form.formState.errors.nombre && <p className="text-xs text-[#c0392b] mt-1">{form.formState.errors.nombre.message}</p>}
+            {form.formState.errors.nombre && <p className="text-xs text-[#be185d] mt-1">{form.formState.errors.nombre.message}</p>}
           </div>
 
           <div className="grid grid-cols-2 gap-3">
@@ -126,7 +126,7 @@ export function EdificioFormDialog({
                   href={form.watch("maps_url") as string}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center justify-center h-10 px-3 rounded-md border border-[#e8ddd8] text-[#c94f0c] hover:bg-[#fdeee5]"
+                  className="inline-flex items-center justify-center h-10 px-3 rounded-md border border-[#e0e7ff] text-[#818cf8] hover:bg-[#fdeee5]"
                   title="Abrir en Google Maps"
                 >
                   <ExternalLink className="w-4 h-4" />
@@ -177,7 +177,7 @@ export function EdificioFormDialog({
 
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-            <Button type="submit" disabled={!form.formState.isValid || save.isPending} className="bg-[#c94f0c] hover:bg-[#a33d08]">
+            <Button type="submit" disabled={!form.formState.isValid || save.isPending} className="bg-[#818cf8] hover:bg-[#6366f1]">
               {save.isPending ? "Guardando…" : "Guardar"}
             </Button>
           </DialogFooter>

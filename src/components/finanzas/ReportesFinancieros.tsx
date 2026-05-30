@@ -8,7 +8,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { fmtL, fmtDate } from "@/lib/format";
 import { useCobros, useEgresos, useResidentesMap, useUnidades } from "@/lib/queries";
 
-const COLORS = ["#c94f0c", "#2d6a2d", "#1f6f8b", "#a55b00", "#7d3c98", "#c0392b", "#1abc9c", "#f1c40f"];
+const COLORS = ["#818cf8", "#166534", "#1f6f8b", "#a55b00", "#7d3c98", "#be185d", "#1abc9c", "#f1c40f"];
 
 function toCSV(rows: (string | number)[][]) {
   return rows.map((r) => r.map((c) => `"${String(c ?? "").replace(/"/g, '""')}"`).join(",")).join("\n");
@@ -123,42 +123,42 @@ export function ReportesFinancieros({ edificioId }: { edificioId: string }) {
       {/* P&L */}
       <Card className="p-5">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="font-display font-bold text-[#2d1200]">Estado de resultados</h3>
+          <h3 className="font-display font-bold text-[#1e1b4b]">Estado de resultados</h3>
           <Button size="sm" variant="outline" onClick={exportPL}><Download className="w-4 h-4 mr-1" />CSV</Button>
         </div>
         <div className="grid md:grid-cols-2 gap-5">
           <div>
-            <div className="text-sm text-[#9a7060] mb-2">Ingresos por concepto</div>
+            <div className="text-sm text-[#8b8bb5] mb-2">Ingresos por concepto</div>
             <table className="w-full text-sm">
               <tbody>
                 {ingresosPorConcepto.map((r) => (
                   <tr key={r.name} className="border-b border-[#f0e6e0]"><td className="py-1.5">{r.name}</td><td className="py-1.5 text-right tabular-nums">{fmtL(r.value)}</td></tr>
                 ))}
-                <tr className="font-bold text-[#2d6a2d]"><td className="py-2">Total</td><td className="py-2 text-right tabular-nums">{fmtL(totalIngresos)}</td></tr>
+                <tr className="font-bold text-[#166534]"><td className="py-2">Total</td><td className="py-2 text-right tabular-nums">{fmtL(totalIngresos)}</td></tr>
               </tbody>
             </table>
           </div>
           <div>
-            <div className="text-sm text-[#9a7060] mb-2">Egresos por categoría</div>
+            <div className="text-sm text-[#8b8bb5] mb-2">Egresos por categoría</div>
             <table className="w-full text-sm">
               <tbody>
                 {egresosPorCategoria.map((r) => (
                   <tr key={r.name} className="border-b border-[#f0e6e0]"><td className="py-1.5">{r.name}</td><td className="py-1.5 text-right tabular-nums">{fmtL(r.value)}</td></tr>
                 ))}
-                <tr className="font-bold text-[#c0392b]"><td className="py-2">Total</td><td className="py-2 text-right tabular-nums">{fmtL(totalEgresos)}</td></tr>
+                <tr className="font-bold text-[#be185d]"><td className="py-2">Total</td><td className="py-2 text-right tabular-nums">{fmtL(totalEgresos)}</td></tr>
               </tbody>
             </table>
           </div>
         </div>
-        <div className="mt-4 pt-3 border-t border-[#e8ddd8] flex items-center justify-between">
-          <span className="font-display font-bold text-[#2d1200]">Utilidad del periodo</span>
-          <span className={`font-display font-extrabold text-2xl ${totalIngresos - totalEgresos >= 0 ? "text-[#2d6a2d]" : "text-[#c0392b]"}`}>{fmtL(totalIngresos - totalEgresos)}</span>
+        <div className="mt-4 pt-3 border-t border-[#e0e7ff] flex items-center justify-between">
+          <span className="font-display font-bold text-[#1e1b4b]">Utilidad del periodo</span>
+          <span className={`font-display font-extrabold text-2xl ${totalIngresos - totalEgresos >= 0 ? "text-[#166534]" : "text-[#be185d]"}`}>{fmtL(totalIngresos - totalEgresos)}</span>
         </div>
       </Card>
 
       <div className="grid lg:grid-cols-2 gap-5">
         <Card className="p-5">
-          <h3 className="font-display font-bold text-[#2d1200] mb-3">Ingresos por concepto</h3>
+          <h3 className="font-display font-bold text-[#1e1b4b] mb-3">Ingresos por concepto</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -171,16 +171,16 @@ export function ReportesFinancieros({ edificioId }: { edificioId: string }) {
           </div>
         </Card>
         <Card className="p-5">
-          <h3 className="font-display font-bold text-[#2d1200] mb-3">Egresos por categoría</h3>
+          <h3 className="font-display font-bold text-[#1e1b4b] mb-3">Egresos por categoría</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={egresosPorCategoria}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e8ddd8" />
-                <XAxis dataKey="name" stroke="#9a7060" tick={{ fontSize: 11 }} />
-                <YAxis stroke="#9a7060" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e0e7ff" />
+                <XAxis dataKey="name" stroke="#8b8bb5" tick={{ fontSize: 11 }} />
+                <YAxis stroke="#8b8bb5" />
                 <Tooltip formatter={(v: any) => fmtL(Number(v))} />
                 <Legend />
-                <Bar dataKey="value" name="Egresos" fill="#c0392b" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="value" name="Egresos" fill="#be185d" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -190,23 +190,23 @@ export function ReportesFinancieros({ edificioId }: { edificioId: string }) {
       {/* Top morosos */}
       <Card className="p-5">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="font-display font-bold text-[#2d1200]">Top 10 morosos</h3>
+          <h3 className="font-display font-bold text-[#1e1b4b]">Top 10 morosos</h3>
           <Button size="sm" variant="outline" onClick={exportMorosos}><Download className="w-4 h-4 mr-1" />CSV</Button>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-[#f5ede8] text-[#9a7060]">
+            <thead className="bg-[#eef2ff] text-[#8b8bb5]">
               <tr><th className="text-left p-2">Unidad</th><th className="text-left p-2">Residente</th><th className="text-right p-2">Cobros</th><th className="text-right p-2">Días</th><th className="text-right p-2">Monto</th></tr>
             </thead>
             <tbody>
-              {topMorosos.length === 0 && <tr><td colSpan={5} className="text-center text-[#9a7060] py-6">Sin morosos 🎉</td></tr>}
+              {topMorosos.length === 0 && <tr><td colSpan={5} className="text-center text-[#8b8bb5] py-6">Sin morosos 🎉</td></tr>}
               {topMorosos.map((m, i) => (
                 <tr key={i} className="border-b border-[#f0e6e0]">
                   <td className="p-2 font-medium">{m.unidad}</td>
                   <td className="p-2">{m.residente}</td>
                   <td className="p-2 text-right tabular-nums">{m.cobros}</td>
                   <td className="p-2 text-right tabular-nums">{m.dias > 0 ? m.dias : 0}</td>
-                  <td className="p-2 text-right tabular-nums font-semibold text-[#c0392b]">{fmtL(m.monto)}</td>
+                  <td className="p-2 text-right tabular-nums font-semibold text-[#be185d]">{fmtL(m.monto)}</td>
                 </tr>
               ))}
             </tbody>
@@ -217,22 +217,22 @@ export function ReportesFinancieros({ edificioId }: { edificioId: string }) {
       {/* Flujo de caja */}
       <Card className="p-5">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="font-display font-bold text-[#2d1200]">Flujo de caja</h3>
+          <h3 className="font-display font-bold text-[#1e1b4b]">Flujo de caja</h3>
           <Button size="sm" variant="outline" onClick={exportFlujo}><Download className="w-4 h-4 mr-1" />CSV</Button>
         </div>
         <div className="overflow-x-auto max-h-[420px] overflow-y-auto">
           <table className="w-full text-sm">
-            <thead className="bg-[#f5ede8] text-[#9a7060] sticky top-0">
+            <thead className="bg-[#eef2ff] text-[#8b8bb5] sticky top-0">
               <tr><th className="text-left p-2">Fecha</th><th className="text-left p-2">Descripción</th><th className="text-right p-2">Ingreso</th><th className="text-right p-2">Egreso</th><th className="text-right p-2">Saldo</th></tr>
             </thead>
             <tbody>
-              {flujo.length === 0 && <tr><td colSpan={5} className="text-center text-[#9a7060] py-6">Sin movimientos en el periodo</td></tr>}
+              {flujo.length === 0 && <tr><td colSpan={5} className="text-center text-[#8b8bb5] py-6">Sin movimientos en el periodo</td></tr>}
               {flujo.map((m, i) => (
                 <tr key={i} className="border-b border-[#f0e6e0]">
                   <td className="p-2 whitespace-nowrap">{fmtDate(m.fecha)}</td>
                   <td className="p-2">{m.descripcion}</td>
-                  <td className="p-2 text-right tabular-nums text-[#2d6a2d]">{m.ingreso ? fmtL(m.ingreso) : "—"}</td>
-                  <td className="p-2 text-right tabular-nums text-[#c0392b]">{m.egreso ? fmtL(m.egreso) : "—"}</td>
+                  <td className="p-2 text-right tabular-nums text-[#166534]">{m.ingreso ? fmtL(m.ingreso) : "—"}</td>
+                  <td className="p-2 text-right tabular-nums text-[#be185d]">{m.egreso ? fmtL(m.egreso) : "—"}</td>
                   <td className="p-2 text-right tabular-nums font-semibold">{fmtL(m.saldo)}</td>
                 </tr>
               ))}

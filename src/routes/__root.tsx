@@ -9,14 +9,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { name: "theme-color", content: "#c94f0c" },
+      { name: "theme-color", content: "#818cf8" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "default" },
-      { name: "apple-mobile-web-app-title", content: "PropCloud" },
-      { title: "Prop Cloud — Administración de condominios y CRM inmobiliario" },
+      { name: "apple-mobile-web-app-title", content: "Altura Cloud" },
+      { title: "Altura Cloud — Administración de condominios y CRM inmobiliario" },
       { name: "description", content: "Plataforma unificada de administración de condominios y CRM inmobiliario para Centroamérica." },
-      { property: "og:title", content: "Prop Cloud — Administración de condominios y CRM inmobiliario" },
-      { name: "twitter:title", content: "Prop Cloud — Administración de condominios y CRM inmobiliario" },
+      { property: "og:title", content: "Altura Cloud — Administración de condominios y CRM inmobiliario" },
+      { name: "twitter:title", content: "Altura Cloud — Administración de condominios y CRM inmobiliario" },
       { property: "og:description", content: "Plataforma unificada de administración de condominios y CRM inmobiliario para Centroamérica." },
       { name: "twitter:description", content: "Plataforma unificada de administración de condominios y CRM inmobiliario para Centroamérica." },
       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/1b328cfd-1a75-40a0-82a4-b60f0c73a3e2/id-preview-c0420488--4483652c-7696-4809-9096-aeebc66abb7e.lovable.app-1780106634884.png" },
@@ -53,9 +53,9 @@ function RootComponent() {
         <Toaster
           position="top-right"
           toastOptions={{
-            style: { background: "#2d1200", color: "#f5ede8", borderRadius: "12px" },
-            success: { iconTheme: { primary: "#2d6a2d", secondary: "#fff" } },
-            error: { iconTheme: { primary: "#c0392b", secondary: "#fff" } },
+            style: { background: "#1e1b4b", color: "#eef2ff", borderRadius: "12px" },
+            success: { iconTheme: { primary: "#166534", secondary: "#fff" } },
+            error: { iconTheme: { primary: "#be185d", secondary: "#fff" } },
           }}
         />
       </AuthProvider>

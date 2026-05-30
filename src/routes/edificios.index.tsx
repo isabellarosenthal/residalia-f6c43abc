@@ -60,10 +60,10 @@ function EdificiosPage() {
       <div className="space-y-6 max-w-[1400px] mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="font-display font-extrabold text-2xl text-[#2d1200]">Edificios</h1>
-            <p className="text-sm text-[#9a7060]">Administra todos tus condominios y residenciales desde un solo lugar</p>
+            <h1 className="font-display font-extrabold text-2xl text-[#1e1b4b]">Edificios</h1>
+            <p className="text-sm text-[#8b8bb5]">Administra todos tus condominios y residenciales desde un solo lugar</p>
           </div>
-          <Button onClick={() => setOpen(true)} className="bg-[#c94f0c] hover:bg-[#a33d08] text-white">
+          <Button onClick={() => setOpen(true)} className="bg-[#818cf8] hover:bg-[#6366f1] text-white">
             <Plus className="w-4 h-4 mr-1" /> Nuevo edificio
           </Button>
         </div>
@@ -73,7 +73,7 @@ function EdificiosPage() {
 
         <div className="flex flex-wrap gap-2">
           <div className="relative flex-1 min-w-[220px]">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#9a7060]" />
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#8b8bb5]" />
             <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar por nombre…" className="pl-9 bg-white" />
           </div>
           <Select value={tipo} onValueChange={setTipo}>
@@ -86,9 +86,9 @@ function EdificiosPage() {
               <SelectItem value="condominio_horizontal">Condominio horizontal</SelectItem>
             </SelectContent>
           </Select>
-          <div className="inline-flex rounded-lg border border-[#e8ddd8] bg-white overflow-hidden">
-            <button type="button" onClick={() => setView("grid")} className={`px-3 py-2 text-sm flex items-center gap-1 ${view === "grid" ? "bg-[#c94f0c] text-white" : "text-[#4a2800] hover:bg-[#faf4f0]"}`}><LayoutGrid className="w-4 h-4" />Tarjetas</button>
-            <button type="button" onClick={() => setView("table")} className={`px-3 py-2 text-sm flex items-center gap-1 ${view === "table" ? "bg-[#c94f0c] text-white" : "text-[#4a2800] hover:bg-[#faf4f0]"}`}><List className="w-4 h-4" />Tabla</button>
+          <div className="inline-flex rounded-lg border border-[#e0e7ff] bg-white overflow-hidden">
+            <button type="button" onClick={() => setView("grid")} className={`px-3 py-2 text-sm flex items-center gap-1 ${view === "grid" ? "bg-[#818cf8] text-white" : "text-[#312e81] hover:bg-[#faf4f0]"}`}><LayoutGrid className="w-4 h-4" />Tarjetas</button>
+            <button type="button" onClick={() => setView("table")} className={`px-3 py-2 text-sm flex items-center gap-1 ${view === "table" ? "bg-[#818cf8] text-white" : "text-[#312e81] hover:bg-[#faf4f0]"}`}><List className="w-4 h-4" />Tabla</button>
           </div>
         </div>
 
@@ -101,7 +101,7 @@ function EdificiosPage() {
             icon={<Building2 className="w-7 h-7" />}
             title={edificios.length === 0 ? "Aún no tienes edificios" : "Sin resultados"}
             hint={edificios.length === 0 ? "Crea tu primer edificio para empezar a administrar unidades, residentes y operaciones." : "Prueba con otros filtros."}
-            action={edificios.length === 0 ? <Button onClick={() => setOpen(true)} className="bg-[#c94f0c] hover:bg-[#a33d08]"><Plus className="w-4 h-4 mr-1" />Crear edificio</Button> : null}
+            action={edificios.length === 0 ? <Button onClick={() => setOpen(true)} className="bg-[#818cf8] hover:bg-[#6366f1]"><Plus className="w-4 h-4 mr-1" />Crear edificio</Button> : null}
           />
         ) : view === "grid" ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

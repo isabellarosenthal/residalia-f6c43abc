@@ -24,34 +24,34 @@ function PortalLayout() {
   }, [user, loading, role, navigate]);
 
   if (loading || !user || (role && role !== "residente" && role !== "super_admin")) {
-    return <div className="min-h-screen flex items-center justify-center bg-[#faf9f7]"><div className="text-[#9a7060] text-sm">Cargando…</div></div>;
+    return <div className="min-h-screen flex items-center justify-center bg-[#faf9ff]"><div className="text-[#8b8bb5] text-sm">Cargando…</div></div>;
   }
 
-  const linkBase = "flex flex-col items-center gap-0.5 text-[11px] py-1.5 px-2 rounded-lg flex-1 text-[#9a7060]";
-  const active = { className: linkBase + " text-[#c94f0c] bg-[#fde8e2]" };
+  const linkBase = "flex flex-col items-center gap-0.5 text-[11px] py-1.5 px-2 rounded-lg flex-1 text-[#8b8bb5]";
+  const active = { className: linkBase + " text-[#818cf8] bg-[#fde8e2]" };
 
   return (
     <PortalResidenciaProvider>
-      <div className="min-h-screen bg-[#faf9f7] pb-20">
-        <header className="bg-white border-b border-[#e8ddd8] sticky top-0 z-10">
+      <div className="min-h-screen bg-[#faf9ff] pb-20">
+        <header className="bg-white border-b border-[#e0e7ff] sticky top-0 z-10">
           <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
             <Link to="/portal" className="flex items-center gap-2 min-w-0">
-              <div className="w-9 h-9 rounded-lg bg-[#c94f0c] flex items-center justify-center shrink-0"><Building className="w-5 h-5 text-white" /></div>
-              <div className="font-display font-extrabold text-lg truncate"><span className="text-[#2d1200]">Portal</span><span className="text-[#c94f0c]"> residente</span></div>
+              <div className="w-9 h-9 rounded-lg bg-[#818cf8] flex items-center justify-center shrink-0"><Building className="w-5 h-5 text-white" /></div>
+              <div className="font-display font-extrabold text-lg truncate"><span className="text-[#1e1b4b]">Portal</span><span className="text-[#818cf8]"> residente</span></div>
             </Link>
             <div className="flex items-center gap-2 shrink-0">
               <InstallAppButton />
-              <button onClick={() => signOut()} className="text-[#9a7060] hover:text-[#c94f0c] p-1.5" aria-label="Salir"><LogOut className="w-5 h-5" /></button>
+              <button onClick={() => signOut()} className="text-[#8b8bb5] hover:text-[#818cf8] p-1.5" aria-label="Salir"><LogOut className="w-5 h-5" /></button>
             </div>
           </div>
           <div className="max-w-3xl mx-auto px-4 pb-2 flex items-center justify-between gap-2">
-            <div className="text-xs text-[#9a7060] truncate">{profile?.full_name ?? user.email}</div>
+            <div className="text-xs text-[#8b8bb5] truncate">{profile?.full_name ?? user.email}</div>
             <EdificioSwitcher />
           </div>
         </header>
         <main className="max-w-3xl mx-auto px-4 py-6"><Outlet /></main>
 
-        <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#e8ddd8] z-10">
+        <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#e0e7ff] z-10">
           <div className="max-w-3xl mx-auto px-2 py-1.5 flex gap-1">
             <Link to="/portal" activeOptions={{ exact: true }} activeProps={active} className={linkBase}><ListChecks className="w-5 h-5" />Pases</Link>
             <Link to="/portal/nuevo" activeProps={active} className={linkBase}><Plus className="w-5 h-5" />Crear</Link>
@@ -70,7 +70,7 @@ function EdificioSwitcher() {
   if (residencias.length <= 1) return null;
   return (
     <Select value={activaId ?? undefined} onValueChange={setActivaId}>
-      <SelectTrigger className="h-7 text-xs w-auto min-w-[160px] border-[#e8ddd8]">
+      <SelectTrigger className="h-7 text-xs w-auto min-w-[160px] border-[#e0e7ff]">
         <SelectValue placeholder="Edificio" />
       </SelectTrigger>
       <SelectContent>

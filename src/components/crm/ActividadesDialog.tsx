@@ -66,34 +66,34 @@ export function ActividadesDialog({ open, onOpenChange, prospecto }: { open: boo
             <Label className="text-xs">Próximo paso</Label>
             <Input value={proximoPaso} onChange={(e) => setProximoPaso(e.target.value)} placeholder="Enviar cotización el lunes…" />
           </div>
-          <Button onClick={handleAdd} disabled={!descripcion.trim() || save.isPending} className="bg-[#c94f0c] hover:bg-[#a33d08]">
+          <Button onClick={handleAdd} disabled={!descripcion.trim() || save.isPending} className="bg-[#818cf8] hover:bg-[#6366f1]">
             {save.isPending ? "Guardando…" : "Registrar actividad"}
           </Button>
         </div>
 
         <div className="space-y-2 mt-2">
-          <h4 className="text-sm font-semibold text-[#2d1200]">Historial</h4>
-          {isLoading ? <p className="text-sm text-[#9a7060]">Cargando…</p> :
-           actividades.length === 0 ? <p className="text-sm text-[#9a7060]">Sin actividades aún.</p> :
+          <h4 className="text-sm font-semibold text-[#1e1b4b]">Historial</h4>
+          {isLoading ? <p className="text-sm text-[#8b8bb5]">Cargando…</p> :
+           actividades.length === 0 ? <p className="text-sm text-[#8b8bb5]">Sin actividades aún.</p> :
            actividades.map((a) => {
              const T = TIPOS.find((t) => t[0] === a.tipo);
              const Icon = T?.[2] ?? FileText;
              return (
                <div key={a.id} className="border border-[#f0e5dc] rounded-lg p-3 flex gap-3">
                  <div className="w-8 h-8 rounded-full bg-[#fff1e7] flex items-center justify-center shrink-0">
-                   <Icon className="w-4 h-4 text-[#c94f0c]" />
+                   <Icon className="w-4 h-4 text-[#818cf8]" />
                  </div>
                  <div className="flex-1 min-w-0">
-                   <div className="flex items-center gap-2 text-xs text-[#9a7060]">
-                     <span className="font-medium text-[#2d1200]">{T?.[1] ?? a.tipo}</span>
+                   <div className="flex items-center gap-2 text-xs text-[#8b8bb5]">
+                     <span className="font-medium text-[#1e1b4b]">{T?.[1] ?? a.tipo}</span>
                      <Clock className="w-3 h-3" />
                      <span>{new Date(a.fecha_actividad).toLocaleString()}</span>
-                     {a.resultado && <span className="px-1.5 py-0.5 rounded bg-[#fff1e7] text-[#c94f0c]">{a.resultado}</span>}
+                     {a.resultado && <span className="px-1.5 py-0.5 rounded bg-[#fff1e7] text-[#818cf8]">{a.resultado}</span>}
                    </div>
-                   <p className="text-sm text-[#2d1200] mt-1 whitespace-pre-wrap">{a.descripcion}</p>
-                   {a.proximo_paso && <p className="text-xs text-[#c94f0c] mt-1">→ {a.proximo_paso}</p>}
+                   <p className="text-sm text-[#1e1b4b] mt-1 whitespace-pre-wrap">{a.descripcion}</p>
+                   {a.proximo_paso && <p className="text-xs text-[#818cf8] mt-1">→ {a.proximo_paso}</p>}
                  </div>
-                 <button onClick={() => del.mutate({ id: a.id, prospectoId: prospecto!.id })} className="text-[#9a7060] hover:text-red-600">
+                 <button onClick={() => del.mutate({ id: a.id, prospectoId: prospecto!.id })} className="text-[#8b8bb5] hover:text-red-600">
                    <Trash2 className="w-4 h-4" />
                  </button>
                </div>

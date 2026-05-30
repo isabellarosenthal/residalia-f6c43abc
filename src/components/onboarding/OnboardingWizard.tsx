@@ -102,14 +102,14 @@ export function OnboardingWizard({ open, onClose }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && close()}>
-      <DialogContent className="max-w-2xl bg-[#fffaf5] border-[#e8ddd8]">
-        <button onClick={close} className="absolute right-4 top-4 text-[#9a7060] hover:text-[#2d1200]"><X className="w-4 h-4" /></button>
+      <DialogContent className="max-w-2xl bg-[#faf9ff] border-[#e0e7ff]">
+        <button onClick={close} className="absolute right-4 top-4 text-[#8b8bb5] hover:text-[#1e1b4b]"><X className="w-4 h-4" /></button>
 
         <div className="flex items-center gap-2 mb-1">
-          <Sparkles className="w-5 h-5 text-[#c94f0c]" />
-          <span className="text-xs uppercase tracking-widest text-[#9a7060] font-semibold">Bienvenido a PropCloud</span>
+          <Sparkles className="w-5 h-5 text-[#818cf8]" />
+          <span className="text-xs uppercase tracking-widest text-[#8b8bb5] font-semibold">Bienvenido a Altura Cloud</span>
         </div>
-        <h2 className="font-display font-extrabold text-2xl text-[#2d1200]">Configura tu primer edificio en 4 pasos</h2>
+        <h2 className="font-display font-extrabold text-2xl text-[#1e1b4b]">Configura tu primer edificio en 4 pasos</h2>
 
         {/* Stepper */}
         <div className="flex items-center justify-between my-4 px-1">
@@ -121,22 +121,22 @@ export function OnboardingWizard({ open, onClose }: Props) {
               <div key={s.label} className="flex items-center flex-1 last:flex-none">
                 <div className="flex flex-col items-center gap-1">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
-                    done ? "bg-[#2d6a2d] text-white" : active ? "bg-[#c94f0c] text-white" : "bg-[#f5ede8] text-[#9a7060]"
+                    done ? "bg-[#166534] text-white" : active ? "bg-[#818cf8] text-white" : "bg-[#eef2ff] text-[#8b8bb5]"
                   }`}>
                     {done ? <Check className="w-5 h-5" /> : <Icon className="w-5 h-5" />}
                   </div>
-                  <span className={`text-xs ${active ? "text-[#2d1200] font-semibold" : "text-[#9a7060]"}`}>{s.label}</span>
+                  <span className={`text-xs ${active ? "text-[#1e1b4b] font-semibold" : "text-[#8b8bb5]"}`}>{s.label}</span>
                 </div>
-                {i < STEPS.length - 1 && <div className={`h-0.5 flex-1 mx-2 ${done ? "bg-[#2d6a2d]" : "bg-[#f5ede8]"}`} />}
+                {i < STEPS.length - 1 && <div className={`h-0.5 flex-1 mx-2 ${done ? "bg-[#166534]" : "bg-[#eef2ff]"}`} />}
               </div>
             );
           })}
         </div>
 
-        <div className="bg-white border border-[#e8ddd8] rounded-2xl p-5 space-y-3">
+        <div className="bg-white border border-[#e0e7ff] rounded-2xl p-5 space-y-3">
           {step === 0 && (
             <>
-              <h3 className="font-display font-bold text-[#2d1200]">Datos del edificio</h3>
+              <h3 className="font-display font-bold text-[#1e1b4b]">Datos del edificio</h3>
               <div className="grid sm:grid-cols-2 gap-3">
                 <div><Label>Nombre</Label><Input value={edif.nombre} onChange={(e) => setEdif({ ...edif, nombre: e.target.value })} placeholder="Torres del Valle" /></div>
                 <div><Label>Ciudad</Label><Input value={edif.ciudad} onChange={(e) => setEdif({ ...edif, ciudad: e.target.value })} /></div>
@@ -148,8 +148,8 @@ export function OnboardingWizard({ open, onClose }: Props) {
 
           {step === 1 && (
             <>
-              <h3 className="font-display font-bold text-[#2d1200]">Genera tus unidades</h3>
-              <p className="text-sm text-[#9a7060]">Se crearán <b>{pisos * porPiso}</b> unidades numeradas (101, 102, …)</p>
+              <h3 className="font-display font-bold text-[#1e1b4b]">Genera tus unidades</h3>
+              <p className="text-sm text-[#8b8bb5]">Se crearán <b>{pisos * porPiso}</b> unidades numeradas (101, 102, …)</p>
               <div className="grid sm:grid-cols-3 gap-3">
                 <div><Label>Pisos</Label><Input type="number" min={1} value={pisos} onChange={(e) => setPisos(Math.max(1, Number(e.target.value)))} /></div>
                 <div><Label>Unidades por piso</Label><Input type="number" min={1} value={porPiso} onChange={(e) => setPorPiso(Math.max(1, Number(e.target.value)))} /></div>
@@ -171,8 +171,8 @@ export function OnboardingWizard({ open, onClose }: Props) {
 
           {step === 2 && (
             <>
-              <h3 className="font-display font-bold text-[#2d1200]">Registra tu primer residente</h3>
-              <p className="text-sm text-[#9a7060]">Puedes agregar más desde el módulo Residentes</p>
+              <h3 className="font-display font-bold text-[#1e1b4b]">Registra tu primer residente</h3>
+              <p className="text-sm text-[#8b8bb5]">Puedes agregar más desde el módulo Residentes</p>
               <div className="grid sm:grid-cols-2 gap-3">
                 <div><Label>Nombre</Label><Input value={res.nombre} onChange={(e) => setRes({ ...res, nombre: e.target.value })} /></div>
                 <div><Label>Apellido</Label><Input value={res.apellido} onChange={(e) => setRes({ ...res, apellido: e.target.value })} /></div>
@@ -202,21 +202,21 @@ export function OnboardingWizard({ open, onClose }: Props) {
 
           {step === 3 && (
             <>
-              <h3 className="font-display font-bold text-[#2d1200]">Genera los cobros del mes</h3>
-              <p className="text-sm text-[#9a7060]">Se crearán cobros de mantenimiento para todas las unidades ocupadas</p>
+              <h3 className="font-display font-bold text-[#1e1b4b]">Genera los cobros del mes</h3>
+              <p className="text-sm text-[#8b8bb5]">Se crearán cobros de mantenimiento para todas las unidades ocupadas</p>
               <div><Label>Mes (YYYY-MM)</Label><Input value={mes} onChange={(e) => setMes(e.target.value)} /></div>
             </>
           )}
         </div>
 
         <div className="flex items-center justify-between gap-2 pt-4">
-          <Button variant="ghost" onClick={close} className="text-[#9a7060]">Omitir</Button>
+          <Button variant="ghost" onClick={close} className="text-[#8b8bb5]">Omitir</Button>
           <div className="flex gap-2">
             {step > 0 && <Button variant="outline" onClick={() => setStep(step - 1)}>Atrás</Button>}
-            {step === 0 && <Button className="bg-[#c94f0c] hover:bg-[#a33d08]" onClick={handleStep1} disabled={saveEdif.isPending}>Continuar <ArrowRight className="w-4 h-4 ml-1" /></Button>}
-            {step === 1 && <Button className="bg-[#c94f0c] hover:bg-[#a33d08]" onClick={handleStep2} disabled={bulkUnidades.isPending}>Generar {pisos * porPiso} unidades <ArrowRight className="w-4 h-4 ml-1" /></Button>}
-            {step === 2 && <Button className="bg-[#c94f0c] hover:bg-[#a33d08]" onClick={handleStep3} disabled={saveRes.isPending}>Continuar <ArrowRight className="w-4 h-4 ml-1" /></Button>}
-            {step === 3 && <Button className="bg-[#2d6a2d] hover:bg-[#1f4a1f]" onClick={handleStep4} disabled={generarCobros.isPending}>Finalizar <Check className="w-4 h-4 ml-1" /></Button>}
+            {step === 0 && <Button className="bg-[#818cf8] hover:bg-[#6366f1]" onClick={handleStep1} disabled={saveEdif.isPending}>Continuar <ArrowRight className="w-4 h-4 ml-1" /></Button>}
+            {step === 1 && <Button className="bg-[#818cf8] hover:bg-[#6366f1]" onClick={handleStep2} disabled={bulkUnidades.isPending}>Generar {pisos * porPiso} unidades <ArrowRight className="w-4 h-4 ml-1" /></Button>}
+            {step === 2 && <Button className="bg-[#818cf8] hover:bg-[#6366f1]" onClick={handleStep3} disabled={saveRes.isPending}>Continuar <ArrowRight className="w-4 h-4 ml-1" /></Button>}
+            {step === 3 && <Button className="bg-[#166534] hover:bg-[#1f4a1f]" onClick={handleStep4} disabled={generarCobros.isPending}>Finalizar <Check className="w-4 h-4 ml-1" /></Button>}
           </div>
         </div>
       </DialogContent>

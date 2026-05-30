@@ -41,12 +41,12 @@ function ConfiguracionPage() {
     <AppShell>
       <div className="space-y-5 max-w-[1100px] mx-auto">
         <div>
-          <h1 className="font-display font-extrabold text-2xl text-[#2d1200]">Configuración</h1>
-          <p className="text-sm text-[#9a7060]">Perfil, edificios, usuarios, residentes y preferencias</p>
+          <h1 className="font-display font-extrabold text-2xl text-[#1e1b4b]">Configuración</h1>
+          <p className="text-sm text-[#8b8bb5]">Perfil, edificios, usuarios, residentes y preferencias</p>
         </div>
 
         <Tabs defaultValue="perfil">
-          <TabsList className="bg-[#f5ede8]">
+          <TabsList className="bg-[#eef2ff]">
             <TabsTrigger value="perfil"><UserIcon className="w-4 h-4 mr-1" />Perfil</TabsTrigger>
             <TabsTrigger value="plan"><Crown className="w-4 h-4 mr-1" />Mi Plan</TabsTrigger>
             <TabsTrigger value="edificios"><Building2 className="w-4 h-4 mr-1" />Edificios</TabsTrigger>
@@ -59,7 +59,7 @@ function ConfiguracionPage() {
           <TabsContent value="plan" className="pt-4"><MiPlanTab /></TabsContent>
           <TabsContent value="edificios" className="pt-4"><EdificiosTab /></TabsContent>
           <TabsContent value="usuarios" className="pt-4">
-            {isSuper ? <UsuariosTab /> : canManage ? <TenantUsuariosTab edificios={edificios} /> : <p className="text-sm text-[#9a7060] p-4">No tienes edificios asignados.</p>}
+            {isSuper ? <UsuariosTab /> : canManage ? <TenantUsuariosTab edificios={edificios} /> : <p className="text-sm text-[#8b8bb5] p-4">No tienes edificios asignados.</p>}
           </TabsContent>
           <TabsContent value="residentes" className="pt-4"><ResidentesTab /></TabsContent>
           <TabsContent value="seguridad" className="pt-4"><SeguridadTab /></TabsContent>
@@ -119,11 +119,11 @@ function PerfilTab() {
         <div>
           <Label>Tasa de conversión USD → L</Label>
           <Input type="number" step="0.0001" value={usdRate} onChange={(e) => setUsdRate(e.target.value)} />
-          <p className="text-xs text-[#9a7060] mt-1">Cuántos Lempiras equivalen a 1 USD. Se usa para convertir precios entre monedas.</p>
+          <p className="text-xs text-[#8b8bb5] mt-1">Cuántos Lempiras equivalen a 1 USD. Se usa para convertir precios entre monedas.</p>
         </div>
       </div>
       <div className="flex justify-end">
-        <Button onClick={save} disabled={saving} className="bg-[#c94f0c] hover:bg-[#a33d08]">
+        <Button onClick={save} disabled={saving} className="bg-[#818cf8] hover:bg-[#6366f1]">
           <Save className="w-4 h-4 mr-1" />Guardar
         </Button>
       </div>
@@ -158,7 +158,7 @@ function EdificiosTab() {
               </div>
               <div className="flex justify-end gap-2">
                 <Button variant="outline" onClick={() => setEditing(null)}>Cancelar</Button>
-                <Button className="bg-[#c94f0c] hover:bg-[#a33d08]" onClick={async () => {
+                <Button className="bg-[#818cf8] hover:bg-[#6366f1]" onClick={async () => {
                   await save.mutateAsync({ id: e.id, ...form } as any);
                   setEditing(null);
                 }}>Guardar</Button>
@@ -167,15 +167,15 @@ function EdificiosTab() {
           ) : (
             <div className="flex items-center justify-between">
               <div>
-                <div className="font-display font-bold text-[#2d1200]">{e.nombre}</div>
-                <div className="text-sm text-[#9a7060]">Cuota base: {e.moneda} {Number(e.cuota_base ?? 0).toLocaleString()} · {e.total_unidades ?? 0} unidades</div>
+                <div className="font-display font-bold text-[#1e1b4b]">{e.nombre}</div>
+                <div className="text-sm text-[#8b8bb5]">Cuota base: {e.moneda} {Number(e.cuota_base ?? 0).toLocaleString()} · {e.total_unidades ?? 0} unidades</div>
               </div>
               <Button variant="outline" size="sm" onClick={() => startEdit(e.id)}>Editar</Button>
             </div>
           )}
         </Card>
       ))}
-      {edificios.length === 0 && <p className="text-sm text-[#9a7060]">No hay edificios. Créalos desde el módulo Edificios.</p>}
+      {edificios.length === 0 && <p className="text-sm text-[#8b8bb5]">No hay edificios. Créalos desde el módulo Edificios.</p>}
     </div>
   );
 }
@@ -210,16 +210,16 @@ function UsuariosTab() {
     <>
     <PlanLimitsBanner focus="admins" />
     <Card className="p-5 space-y-4">
-      <div className="border border-dashed border-[#e8ddd8] rounded-xl p-4 bg-[#fffaf5]">
-        <div className="text-sm font-medium text-[#2d1200] mb-2">Asignar rol por email</div>
-        <p className="text-xs text-[#9a7060] mb-3">El usuario debe haberse registrado primero en /login</p>
+      <div className="border border-dashed border-[#e0e7ff] rounded-xl p-4 bg-[#faf9ff]">
+        <div className="text-sm font-medium text-[#1e1b4b] mb-2">Asignar rol por email</div>
+        <p className="text-xs text-[#8b8bb5] mb-3">El usuario debe haberse registrado primero en /login</p>
         <div className="flex flex-wrap gap-2">
           <Input className="flex-1 min-w-[220px]" placeholder="email@ejemplo.com" value={invite.email} onChange={(e) => setInvite({ ...invite, email: e.target.value })} />
           <Select value={invite.role} onValueChange={(v) => setInvite({ ...invite, role: v as AppRole })}>
             <SelectTrigger className="w-[200px]"><SelectValue /></SelectTrigger>
             <SelectContent>{ROLES.map(r => <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>)}</SelectContent>
           </Select>
-          <Button className="bg-[#c94f0c] hover:bg-[#a33d08]" onClick={async () => {
+          <Button className="bg-[#818cf8] hover:bg-[#6366f1]" onClick={async () => {
             const { data, error } = await supabase.from("profiles").select("id").eq("email", invite.email).maybeSingle();
             if (error || !data) return toast.error("Usuario no encontrado. Debe registrarse primero.");
             await updateRole(data.id, invite.role);
@@ -228,13 +228,13 @@ function UsuariosTab() {
         </div>
       </div>
 
-      {loading ? <p className="text-sm text-[#9a7060]">Cargando…</p> : (
+      {loading ? <p className="text-sm text-[#8b8bb5]">Cargando…</p> : (
         <div className="divide-y divide-[#f0e6e0]">
           {rows.map(r => (
             <div key={r.id} className="py-3 flex items-center justify-between gap-3">
               <div>
-                <div className="font-medium text-[#2d1200]">{r.full_name}</div>
-                <div className="text-xs text-[#9a7060]">{r.email}</div>
+                <div className="font-medium text-[#1e1b4b]">{r.full_name}</div>
+                <div className="text-xs text-[#8b8bb5]">{r.email}</div>
               </div>
               <Select value={r.role ?? ""} onValueChange={(v) => updateRole(r.id, v as AppRole)}>
                 <SelectTrigger className="w-[200px]"><SelectValue placeholder="Sin rol" /></SelectTrigger>
@@ -306,32 +306,32 @@ function TenantUsuariosTab({ edificios }: { edificios: Edif[] }) {
         </div>
       )}
 
-      <div className="border border-dashed border-[#e8ddd8] rounded-xl p-4 bg-[#fffaf5]">
-        <div className="text-sm font-medium text-[#2d1200] mb-2">Invitar staff o guardia</div>
-        <p className="text-xs text-[#9a7060] mb-3">El usuario debe registrarse primero en /login con su email. Luego asígnale aquí su rol y edificio.</p>
+      <div className="border border-dashed border-[#e0e7ff] rounded-xl p-4 bg-[#faf9ff]">
+        <div className="text-sm font-medium text-[#1e1b4b] mb-2">Invitar staff o guardia</div>
+        <p className="text-xs text-[#8b8bb5] mb-3">El usuario debe registrarse primero en /login con su email. Luego asígnale aquí su rol y edificio.</p>
         <div className="flex flex-wrap gap-2">
           <Input className="flex-1 min-w-[220px]" placeholder="email@ejemplo.com" value={invite.email} onChange={(e) => setInvite({ ...invite, email: e.target.value })} />
           <Select value={invite.role} onValueChange={(v) => setInvite({ ...invite, role: v as AppRole })}>
             <SelectTrigger className="w-[200px]"><SelectValue /></SelectTrigger>
             <SelectContent>{TENANT_ROLES.map(r => <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>)}</SelectContent>
           </Select>
-          <Button className="bg-[#c94f0c] hover:bg-[#a33d08]" onClick={assign}><Plus className="w-4 h-4 mr-1" />Asignar</Button>
+          <Button className="bg-[#818cf8] hover:bg-[#6366f1]" onClick={assign}><Plus className="w-4 h-4 mr-1" />Asignar</Button>
         </div>
       </div>
 
-      <div className="text-xs text-[#9a7060]">Para invitar residentes, usa el módulo <a className="underline" href="/residentes">Residentes</a>.</div>
+      <div className="text-xs text-[#8b8bb5]">Para invitar residentes, usa el módulo <a className="underline" href="/residentes">Residentes</a>.</div>
 
-      {loading ? <p className="text-sm text-[#9a7060]">Cargando…</p> : members.length === 0 ? (
-        <p className="text-sm text-[#9a7060]">Sin miembros en este edificio.</p>
+      {loading ? <p className="text-sm text-[#8b8bb5]">Cargando…</p> : members.length === 0 ? (
+        <p className="text-sm text-[#8b8bb5]">Sin miembros en este edificio.</p>
       ) : (
         <div className="divide-y divide-[#f0e6e0]">
           {members.map(m => (
             <div key={m.id} className="py-3 flex items-center justify-between gap-3">
               <div>
-                <div className="font-medium text-[#2d1200]">{m.full_name}</div>
-                <div className="text-xs text-[#9a7060]">{m.email} · {m.role ?? "sin rol"}</div>
+                <div className="font-medium text-[#1e1b4b]">{m.full_name}</div>
+                <div className="text-xs text-[#8b8bb5]">{m.email} · {m.role ?? "sin rol"}</div>
               </div>
-              <Button variant="outline" size="sm" className="text-[#c0392b] border-[#fbd9d0] hover:bg-[#fbeae6]" onClick={() => remove(m.id)}>
+              <Button variant="outline" size="sm" className="text-[#be185d] border-[#fbcfe8] hover:bg-[#fce7f3]" onClick={() => remove(m.id)}>
                 <Trash2 className="w-3 h-3 mr-1" />Quitar
               </Button>
             </div>
@@ -360,20 +360,20 @@ function SeguridadTab() {
   return (
     <div className="space-y-4">
       <Card className="p-6 space-y-3">
-        <h3 className="font-display font-bold text-lg text-[#2d1200]">Cambiar contraseña</h3>
+        <h3 className="font-display font-bold text-lg text-[#1e1b4b]">Cambiar contraseña</h3>
         <div className="flex gap-2">
           <Input type="password" placeholder="Nueva contraseña" value={pwd} onChange={(e) => setPwd(e.target.value)} className="max-w-sm" />
-          <Button onClick={change} disabled={saving} className="bg-[#c94f0c] hover:bg-[#a33d08]"><Save className="w-4 h-4 mr-1" />Cambiar</Button>
+          <Button onClick={change} disabled={saving} className="bg-[#818cf8] hover:bg-[#6366f1]"><Save className="w-4 h-4 mr-1" />Cambiar</Button>
         </div>
       </Card>
-      <Card className="p-6 space-y-3 border-[#fbd9d0]">
-        <h3 className="font-display font-bold text-lg text-[#c0392b]">Zona peligrosa</h3>
-        <p className="text-sm text-[#9a7060]">Cerrar sesión en este dispositivo.</p>
-        <Button variant="outline" className="border-[#c0392b] text-[#c0392b] hover:bg-[#fbeae6]" onClick={async () => {
+      <Card className="p-6 space-y-3 border-[#fbcfe8]">
+        <h3 className="font-display font-bold text-lg text-[#be185d]">Zona peligrosa</h3>
+        <p className="text-sm text-[#8b8bb5]">Cerrar sesión en este dispositivo.</p>
+        <Button variant="outline" className="border-[#be185d] text-[#be185d] hover:bg-[#fce7f3]" onClick={async () => {
           await supabase.auth.signOut();
           toast.success("Sesión cerrada");
         }}><Trash2 className="w-4 h-4 mr-1" />Cerrar sesión</Button>
-        <div className="text-xs text-[#9a7060] pt-2">ID de usuario: <code className="bg-[#f5ede8] px-2 py-0.5 rounded">{user?.id}</code></div>
+        <div className="text-xs text-[#8b8bb5] pt-2">ID de usuario: <code className="bg-[#eef2ff] px-2 py-0.5 rounded">{user?.id}</code></div>
       </Card>
     </div>
   );
@@ -420,41 +420,41 @@ function ResidentesTab() {
     <Card className="p-6 space-y-4">
       <div className="flex items-center justify-between gap-3">
         <div>
-          <h3 className="font-display font-bold text-lg text-[#2d1200]">Residentes</h3>
-          <p className="text-sm text-[#9a7060]">{isSuper ? "Todos los residentes de la plataforma" : "Residentes de tus edificios"} · Fecha de ingreso y registro en PropCloud</p>
+          <h3 className="font-display font-bold text-lg text-[#1e1b4b]">Residentes</h3>
+          <p className="text-sm text-[#8b8bb5]">{isSuper ? "Todos los residentes de la plataforma" : "Residentes de tus edificios"} · Fecha de ingreso y registro en Altura Cloud</p>
         </div>
         <Input placeholder="Buscar..." value={q} onChange={(e) => setQ(e.target.value)} className="max-w-xs" />
       </div>
 
       {loading ? (
-        <p className="text-sm text-[#9a7060]">Cargando...</p>
+        <p className="text-sm text-[#8b8bb5]">Cargando...</p>
       ) : filtered.length === 0 ? (
-        <p className="text-sm text-[#9a7060]">No hay residentes.</p>
+        <p className="text-sm text-[#8b8bb5]">No hay residentes.</p>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="text-left text-[#9a7060] border-b border-[#f0e3da]">
+            <thead className="text-left text-[#8b8bb5] border-b border-[#e0e7ff]">
               <tr>
                 <th className="py-2 pr-3">Residente</th>
                 <th className="py-2 pr-3">Email</th>
                 <th className="py-2 pr-3">Edificio</th>
                 <th className="py-2 pr-3">Se unió</th>
-                <th className="py-2 pr-3">Cuenta en PropCloud</th>
+                <th className="py-2 pr-3">Cuenta en Altura Cloud</th>
                 <th className="py-2 pr-3">Estado</th>
               </tr>
             </thead>
             <tbody>
               {filtered.map((r) => (
-                <tr key={r.id} className="border-b border-[#f5ede8]">
-                  <td className="py-2 pr-3 font-medium text-[#2d1200]">{r.nombre} {r.apellido}</td>
-                  <td className="py-2 pr-3 text-[#9a7060]">{r.email ?? "—"}</td>
-                  <td className="py-2 pr-3 text-[#9a7060]">{r.condominio_nombre}</td>
-                  <td className="py-2 pr-3 text-[#9a7060]">{fmt(r.fecha_ingreso)}</td>
-                  <td className="py-2 pr-3 text-[#9a7060]">
-                    {r.cuenta_creada ? fmt(r.cuenta_creada) : <span className="text-[#c0392b]">Sin cuenta</span>}
+                <tr key={r.id} className="border-b border-[#eef2ff]">
+                  <td className="py-2 pr-3 font-medium text-[#1e1b4b]">{r.nombre} {r.apellido}</td>
+                  <td className="py-2 pr-3 text-[#8b8bb5]">{r.email ?? "—"}</td>
+                  <td className="py-2 pr-3 text-[#8b8bb5]">{r.condominio_nombre}</td>
+                  <td className="py-2 pr-3 text-[#8b8bb5]">{fmt(r.fecha_ingreso)}</td>
+                  <td className="py-2 pr-3 text-[#8b8bb5]">
+                    {r.cuenta_creada ? fmt(r.cuenta_creada) : <span className="text-[#be185d]">Sin cuenta</span>}
                   </td>
                   <td className="py-2 pr-3">
-                    <span className={`px-2 py-0.5 rounded text-xs ${r.activo ? "bg-[#e6f4ea] text-[#1e6b3a]" : "bg-[#fbeae6] text-[#c0392b]"}`}>
+                    <span className={`px-2 py-0.5 rounded text-xs ${r.activo ? "bg-[#dcfce7] text-[#166534]" : "bg-[#fce7f3] text-[#be185d]"}`}>
                       {r.activo ? "Activo" : "Inactivo"}
                     </span>
                   </td>
@@ -477,8 +477,8 @@ function usePlanUsage() {
 function MiPlanTab() {
   const { data, isLoading } = usePlanUsage();
 
-  if (isLoading) return <Card><div className="p-4 text-sm text-[#9a7060]">Cargando plan...</div></Card>;
-  if (!data) return <Card><div className="p-4 text-sm text-[#9a7060]">Sin datos de plan</div></Card>;
+  if (isLoading) return <Card><div className="p-4 text-sm text-[#8b8bb5]">Cargando plan...</div></Card>;
+  if (!data) return <Card><div className="p-4 text-sm text-[#8b8bb5]">Sin datos de plan</div></Card>;
 
   const fmtMax = (max: number) => (max >= data.unlimited ? "∞" : max.toString());
   const remaining = (used: number, max: number) => (max >= data.unlimited ? "Ilimitado" : Math.max(0, max - used).toString());
@@ -489,12 +489,12 @@ function MiPlanTab() {
       <Card>
         <div className="p-5 flex items-center justify-between flex-wrap gap-3">
           <div>
-            <div className="text-xs uppercase tracking-wide text-[#9a7060]">Plan actual</div>
-            <div className="font-display font-extrabold text-2xl text-[#2d1200]">{data.plan.nombre}</div>
-            <div className="text-sm text-[#9a7060]">L {data.plan.precio.toLocaleString()} / mes</div>
+            <div className="text-xs uppercase tracking-wide text-[#8b8bb5]">Plan actual</div>
+            <div className="font-display font-extrabold text-2xl text-[#1e1b4b]">{data.plan.nombre}</div>
+            <div className="text-sm text-[#8b8bb5]">L {data.plan.precio.toLocaleString()} / mes</div>
           </div>
           <Link to="/" hash="planes">
-            <Button className="bg-[#ff6a00] hover:bg-[#e85f00] text-white">Actualizar plan</Button>
+            <Button className="bg-[#a78bfa] hover:bg-[#8b5cf6] text-white">Actualizar plan</Button>
           </Link>
         </div>
       </Card>
@@ -502,8 +502,8 @@ function MiPlanTab() {
       <Card>
         <div className="p-5 space-y-2">
           <div className="flex items-center justify-between">
-            <div className="font-semibold text-[#2d1200]">Edificios</div>
-            <div className="text-sm text-[#9a7060]">{data.edificios.used} / {fmtMax(data.edificios.max)}</div>
+            <div className="font-semibold text-[#1e1b4b]">Edificios</div>
+            <div className="text-sm text-[#8b8bb5]">{data.edificios.used} / {fmtMax(data.edificios.max)}</div>
           </div>
           <Progress value={pct(data.edificios.used, data.edificios.max)} />
           <div className="text-sm text-[#5a4030]">Puedes crear <b>{remaining(data.edificios.used, data.edificios.max)}</b> edificios más</div>
@@ -513,33 +513,33 @@ function MiPlanTab() {
       {data.porEdificio.map((e) => (
         <Card key={e.id}>
           <div className="p-5 space-y-3">
-            <div className="font-semibold text-[#2d1200] flex items-center gap-2">
+            <div className="font-semibold text-[#1e1b4b] flex items-center gap-2">
               <Building2 className="w-4 h-4" /> {e.nombre}
             </div>
 
             <div className="space-y-1">
               <div className="flex items-center justify-between text-sm">
                 <span className="text-[#5a4030]">Unidades</span>
-                <span className="text-[#9a7060]">{e.unidades.used} / {fmtMax(e.unidades.max)}</span>
+                <span className="text-[#8b8bb5]">{e.unidades.used} / {fmtMax(e.unidades.max)}</span>
               </div>
               <Progress value={pct(e.unidades.used, e.unidades.max)} />
-              <div className="text-xs text-[#9a7060]">Puedes crear <b>{remaining(e.unidades.used, e.unidades.max)}</b> unidades más</div>
+              <div className="text-xs text-[#8b8bb5]">Puedes crear <b>{remaining(e.unidades.used, e.unidades.max)}</b> unidades más</div>
             </div>
 
             <div className="space-y-1">
               <div className="flex items-center justify-between text-sm">
                 <span className="text-[#5a4030]">Administradores</span>
-                <span className="text-[#9a7060]">{e.admins.used} / {fmtMax(e.admins.max)}</span>
+                <span className="text-[#8b8bb5]">{e.admins.used} / {fmtMax(e.admins.max)}</span>
               </div>
               <Progress value={pct(e.admins.used, e.admins.max)} />
-              <div className="text-xs text-[#9a7060]">Puedes invitar a <b>{remaining(e.admins.used, e.admins.max)}</b> admins más</div>
+              <div className="text-xs text-[#8b8bb5]">Puedes invitar a <b>{remaining(e.admins.used, e.admins.max)}</b> admins más</div>
             </div>
           </div>
         </Card>
       ))}
 
       {data.porEdificio.length === 0 && (
-        <Card><div className="p-4 text-sm text-[#9a7060]">Crea tu primer edificio para ver los límites por unidad/admin.</div></Card>
+        <Card><div className="p-4 text-sm text-[#8b8bb5]">Crea tu primer edificio para ver los límites por unidad/admin.</div></Card>
       )}
     </div>
   );

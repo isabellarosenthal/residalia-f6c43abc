@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Figtree:wght@400;500;600;700&display=swap');
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -6,8 +6,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: "Inter", system-ui, sans-serif;
-  --font-display: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-sans: "Figtree", system-ui, sans-serif;
+  --font-display: "Outfit", system-ui, sans-serif;
 
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
@@ -26,6 +26,7 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-primary-dark: var(--primary-dark);
   --color-primary-light: var(--primary-light);
+  --color-primary-glow: var(--primary-glow);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
@@ -54,49 +55,55 @@
 }
 
 :root {
-  /* Pentos palette */
-  --primary: #c94f0c;
+  /* Altura Cloud — Twilight Glow (dreamy lavender + indigo) */
+  --primary: #818cf8;
   --primary-foreground: #ffffff;
-  --primary-dark: #a33d08;
-  --primary-light: #f5e6de;
+  --primary-dark: #6366f1;
+  --primary-light: #c7d2fe;
+  --primary-glow: #a78bfa;
 
-  --text-dark: #2d1200;
-  --text-body: #4a2800;
-  --text-muted: #9a7060;
+  --text-dark: #1e1b4b;
+  --text-body: #312e81;
+  --text-muted: #8b8bb5;
 
-  --background: #faf9f7;
-  --bg-subtle: #f5ede8;
+  --background: #faf9ff;
+  --bg-subtle: #eef2ff;
 
   --card: #ffffff;
-  --card-foreground: #2d1200;
+  --card-foreground: #1e1b4b;
   --popover: #ffffff;
-  --popover-foreground: #2d1200;
-  --foreground: #2d1200;
+  --popover-foreground: #1e1b4b;
+  --foreground: #1e1b4b;
 
-  --secondary: #f5ede8;
-  --secondary-foreground: #2d1200;
-  --muted: #f5ede8;
-  --muted-foreground: #9a7060;
-  --accent: #f5e6de;
-  --accent-foreground: #c94f0c;
+  --secondary: #eef2ff;
+  --secondary-foreground: #1e1b4b;
+  --muted: #eef2ff;
+  --muted-foreground: #8b8bb5;
+  --accent: #ddd6fe;
+  --accent-foreground: #6d28d9;
 
-  --success: #2d6a2d;
-  --success-light: #e8f5e8;
-  --danger: #c0392b;
-  --danger-light: #fdecea;
-  --warning: #c94f0c;
-  --warning-light: #f5e6de;
-  --destructive: #c0392b;
+  --success: #166534;
+  --success-light: #dcfce7;
+  --danger: #be185d;
+  --danger-light: #fce7f3;
+  --warning: #a78bfa;
+  --warning-light: #ddd6fe;
+  --destructive: #be185d;
   --destructive-foreground: #ffffff;
 
-  --border: #e8ddd8;
-  --border-strong: #c9b8b0;
-  --input: #c9b8b0;
-  --ring: #c94f0c;
+  --border: #e0e7ff;
+  --border-strong: #c7d2fe;
+  --input: #c7d2fe;
+  --ring: #a78bfa;
 
-  --sidebar: #2d1200;
-  --sidebar-foreground: #f5ede8;
-  --sidebar-accent: #c94f0c;
+  --sidebar: #1e1b4b;
+  --sidebar-foreground: #eef2ff;
+  --sidebar-accent: #a78bfa;
+
+  --gradient-ethereal: linear-gradient(135deg, #c7d2fe 0%, #ddd6fe 50%, #a78bfa 100%);
+  --gradient-aurora: linear-gradient(135deg, #eef2ff 0%, #faf9ff 50%, #ddd6fe 100%);
+  --shadow-dreamy: 0 20px 60px -20px color-mix(in oklab, #a78bfa 40%, transparent);
+  --shadow-glow: 0 0 40px color-mix(in oklab, #a78bfa 35%, transparent);
 }
 
 @layer base {
@@ -107,13 +114,17 @@
     color: var(--color-text-body);
     -webkit-font-smoothing: antialiased;
   }
-  h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); color: var(--color-text-dark); font-weight: 700; }
+  h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); color: var(--color-text-dark); font-weight: 700; letter-spacing: -0.01em; }
 }
 
 @layer utilities {
   .font-display { font-family: var(--font-display); }
+  .bg-gradient-ethereal { background: var(--gradient-ethereal); }
+  .bg-gradient-aurora { background: var(--gradient-aurora); }
+  .shadow-dreamy { box-shadow: var(--shadow-dreamy); }
+  .shadow-glow { box-shadow: var(--shadow-glow); }
   .shimmer {
-    background: linear-gradient(90deg, #f5ede8 0%, #e8ddd8 50%, #f5ede8 100%);
+    background: linear-gradient(90deg, #eef2ff 0%, #ddd6fe 50%, #eef2ff 100%);
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite;
   }

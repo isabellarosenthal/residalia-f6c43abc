@@ -1,34 +1,94 @@
+## Rebrand a Altura Cloud
 
-## Objetivo
-Agregar en `/configuracion` un panel con el plan actual del admin y contadores de cuánto le queda disponible según los límites del plan.
+Cambio integral de marca + sistema visual. Tres frentes: identidad (nombre + logo), tokens de color/tipografía, y barrido de hex hardcodeados.
 
-## Qué se va a mostrar
-En un nuevo tab **"Mi Plan"** (o card destacada arriba del tab Usuarios), mostrar:
+### 1. Identidad
 
-- **Plan actual** (nombre + precio mensual)
-- **Edificios**: `usados / max` + "Puedes crear X edificios más"
-- **Administradores**: `usados / max` + "Puedes invitar a X admins más" (por edificio seleccionado)
-- **Unidades**: `usados / max` + "Puedes crear X unidades más" (por edificio seleccionado)
-- Botón "Actualizar plan" → navega a landing/pricing
+- **Nombre**: "PropCloud" / "Prop Cloud" → "Altura Cloud" en los 6 archivos donde aparece literal: `LandingPage.tsx`, `OnboardingWizard.tsx`, `InstallAppButton.tsx`, `__root.tsx` (title), `configuracion.tsx`, `admin-panel.tsx`, más `public/manifest.webmanifest`.
+- **Logo nuevo**: genero `src/assets/altura-cloud-logo.png` (transparente) — una nube etérea sobre forma de cumbre/altura, en lavanda con halo iridiscente. Reemplazo el ícono actual del Sidebar / Topbar / landing / login.
+- **Favicon + manifest**: actualizo `public/manifest.webmanifest` con nuevo nombre y `theme_color`.
 
-## Implementación
+### 2. Sistema visual (`src/styles.css`)
 
-1. **Nuevo server function** `src/lib/plan-usage.functions.ts` con `getMyPlanUsage`:
-   - Usa `requireSupabaseAuth`
-   - Lee `get_admin_plan_limits(userId)` → max_edificios, max_unidades, max_admins
-   - Cuenta `condominios` del admin → edificios usados
-   - Para cada condominio: cuenta `unidades` y `condominio_members` con role in ('admin','owner')
-   - Devuelve: `{ plan: {nombre, precio}, edificios: {used, max}, porEdificio: [{id, nombre, unidades:{used,max}, admins:{used,max}}] }`
+Reescribo los tokens raíz con la paleta **Twilight Glow** y la tipografía elegida:
 
-2. **Editar `src/routes/configuracion.tsx`**:
-   - Agregar tab "Mi Plan" con icono `Crown` o `Gem`
-   - Componente `MiPlanTab` que llama al server fn vía `useQuery`
-   - Renderiza cards con `Progress` bars (shadcn) mostrando uso vs límite
-   - Texto claro: "Puedes crear N edificios más", etc.
-   - Si `max` es ilimitado (null en BD → 2147483647), mostrar "Ilimitado"
+- Fuentes: Outfit (display) + Figtree (sans), reemplazando Plus Jakarta + Inter.
+- Tokens nuevos (oklch):
 
-## Archivos
-- crear: `src/lib/plan-usage.functions.ts`
-- editar: `src/routes/configuracion.tsx`
+```text
+--primary           #818cf8  (indigo)
+--primary-dark      #6366f1
+--primary-light     #c7d2fe
+--primary-glow      #a78bfa  (lavanda)
 
-Sin cambios de BD — los límites ya existen en `planes` y las funciones SQL ya están.
+--background        #faf9ff
+--bg-subtle         #eef2ff
+--card              #ffffff
+
+--text-dark         #1e1b4b
+--text-body         #312e81
+--text-muted        #8b8bb5
+
+--accent            #ddd6fe
+--accent-foreground #6d28d9
+
+--border            #e0e7ff
+--border-strong     #c7d2fe
+--ring              #a78bfa
+
+--sidebar           #1e1b4b  (indigo profundo)
+--sidebar-fg        #eef2ff
+--sidebar-accent    #a78bfa
+
+--gradient-ethereal linear-gradient(135deg,#c7d2fe 0%,#ddd6fe 50%,#a78bfa 100%)
+--shadow-dreamy     0 20px 60px -20px color-mix(in oklab, #a78bfa 40%, transparent)
+```
+
+Mantengo success/danger pero ablando los tonos a versiones pastel coherentes.
+
+### 3. Barrido de hex hardcodeados
+
+73 archivos usan los colores naranja/marrón directos. Hago un reemplazo dirigido (mismo hex → mismo nuevo hex) en todos los `.tsx` bajo `src/`:
+
+```text
+#c94f0c → #818cf8     (primary)
+#a33d08 → #6366f1     (primary-dark)
+#ff6a00 → #a78bfa     (glow / CTA)
+#e85f00 → #8b5cf6
+#2d1200 → #1e1b4b     (text-dark)
+#4a2800 → #312e81     (text-body)
+#9a7060 → #8b8bb5     (muted)
+#f5ede8 → #eef2ff     (bg-subtle)
+#fff5ef → #faf9ff
+#f5e6de → #ddd6fe     (accent)
+#e8ddd8 → #e0e7ff     (border)
+#c9b8b0 → #c7d2fe
+#faf9f7 → #faf9ff
+#fdecea → #fce7f3     (danger soft)
+#fbeae6 → #fce7f3
+#fbd9d0 → #fbcfe8
+#c0392b → #be185d     (danger ajustado)
+#1e6b3a → #166534     (success ok)
+#e6f4ea → #dcfce7
+```
+
+Esto deja la UI completa (landing, admin tabs, portal, dialogs, tablas, sidebar, topbar) sobre la paleta nueva sin tocar lógica.
+
+### 4. Toques etéreos extra
+
+- Landing hero: gradiente `--gradient-ethereal` de fondo + glow suave en CTA principal.
+- Sidebar admin: fondo `--sidebar` indigo con activo en `--sidebar-accent` lavanda y ligero glow.
+- Portal residentes: tarjetas con `--shadow-dreamy` y bordes redondeados ya existentes — solo cambian colores.
+- `EdificioPlaceholder` (gradientes hardcoded por tipo): re-derivo a tonos azul/lavanda/rosa pastel.
+
+### 5. Verificación
+
+- Restart dev server tras la edición masiva.
+- Revisar landing, `/configuracion`, `/edificios/:id`, `/portal`, `/admin-panel` y confirmar contraste legible.
+- Buscar `rg "PropCloud|c94f0c"` final para asegurar 0 ocurrencias residuales.
+
+### Fuera de alcance
+
+- No toco lógica, queries, ni estructura de componentes.
+- No cambio layout/composición — solo color, tipografía, copia de marca y logo.
+- Iconos lucide siguen iguales (solo cambia color via `currentColor`).

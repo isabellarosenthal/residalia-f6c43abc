@@ -27,9 +27,9 @@ const recaudacion = [
   { mes: "May", monto: 48500, meta: 60000 },
 ];
 const estadoPagos = [
-  { name: "Al día", value: 14, color: "#2d6a2d" },
-  { name: "Morosos", value: 4, color: "#c0392b" },
-  { name: "Parcial", value: 2, color: "#c94f0c" },
+  { name: "Al día", value: 14, color: "#166534" },
+  { name: "Morosos", value: 4, color: "#be185d" },
+  { name: "Parcial", value: 2, color: "#818cf8" },
 ];
 
 function Dashboard() {
@@ -47,18 +47,18 @@ function Dashboard() {
       <div className="space-y-6 max-w-[1400px] mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="font-display font-extrabold text-2xl text-[#2d1200]">{saludo}, {firstName} 👋</h1>
-            <p className="text-sm text-[#9a7060]">Resumen de tu operación de hoy</p>
+            <h1 className="font-display font-extrabold text-2xl text-[#1e1b4b]">{saludo}, {firstName} 👋</h1>
+            <p className="text-sm text-[#8b8bb5]">Resumen de tu operación de hoy</p>
           </div>
-          <div className="flex items-center gap-2 bg-white border border-[#e8ddd8] rounded-full p-1">
+          <div className="flex items-center gap-2 bg-white border border-[#e0e7ff] rounded-full p-1">
             {["Este mes", "Mes anterior", "Este año"].map((p, i) => (
-              <button key={p} className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${i === 0 ? "bg-[#c94f0c] text-white" : "text-[#4a2800] hover:bg-[#f5ede8]"}`}>{p}</button>
+              <button key={p} className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${i === 0 ? "bg-[#818cf8] text-white" : "text-[#312e81] hover:bg-[#eef2ff]"}`}>{p}</button>
             ))}
           </div>
         </div>
 
         <section>
-          <h2 className="text-xs uppercase tracking-widest text-[#9a7060] font-semibold mb-3">Administración</h2>
+          <h2 className="text-xs uppercase tracking-widest text-[#8b8bb5] font-semibold mb-3">Administración</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <KpiCard icon={<Wallet className="w-5 h-5" />} label="Recaudación del mes" value={fmtL(48500)} sub="L 48,500 de L 60,000 meta" accent="primary" />
             <KpiCard icon={<AlertTriangle className="w-5 h-5" />} label="Unidades morosas" value="4" sub="L 18,200 pendiente" accent="danger" />
@@ -68,7 +68,7 @@ function Dashboard() {
         </section>
 
         <section>
-          <h2 className="text-xs uppercase tracking-widest text-[#9a7060] font-semibold mb-3">Comercial</h2>
+          <h2 className="text-xs uppercase tracking-widest text-[#8b8bb5] font-semibold mb-3">Comercial</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <KpiCard icon={<Tag className="w-5 h-5" />} label="Unidades en venta/renta" value="5" sub="3 venta · 2 renta" accent="primary" />
             <KpiCard icon={<UserPlus className="w-5 h-5" />} label="Prospectos activos" value="8" sub="3 calientes" accent="neutral" />
@@ -79,32 +79,32 @@ function Dashboard() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <Card className="p-5">
-            <h3 className="font-display font-bold text-[#2d1200] mb-1">Recaudación (últimos 6 meses)</h3>
-            <p className="text-xs text-[#9a7060] mb-4">Comparado con la meta mensual</p>
+            <h3 className="font-display font-bold text-[#1e1b4b] mb-1">Recaudación (últimos 6 meses)</h3>
+            <p className="text-xs text-[#8b8bb5] mb-4">Comparado con la meta mensual</p>
             <div className="h-64">
               <ResponsiveContainer>
                 <BarChart data={recaudacion}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e8ddd8" />
-                  <XAxis dataKey="mes" stroke="#9a7060" fontSize={12} />
-                  <YAxis stroke="#9a7060" fontSize={12} tickFormatter={(v) => `L${v / 1000}k`} />
-                  <Tooltip contentStyle={{ background: "#2d1200", border: "none", borderRadius: 12, color: "#f5e6de" }} formatter={(v: any) => fmtL(v as number)} />
-                  <ReferenceLine y={60000} stroke="#2d1200" strokeDasharray="4 4" />
-                  <Bar dataKey="monto" fill="#c94f0c" radius={[6, 6, 0, 0]} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e0e7ff" />
+                  <XAxis dataKey="mes" stroke="#8b8bb5" fontSize={12} />
+                  <YAxis stroke="#8b8bb5" fontSize={12} tickFormatter={(v) => `L${v / 1000}k`} />
+                  <Tooltip contentStyle={{ background: "#1e1b4b", border: "none", borderRadius: 12, color: "#ddd6fe" }} formatter={(v: any) => fmtL(v as number)} />
+                  <ReferenceLine y={60000} stroke="#1e1b4b" strokeDasharray="4 4" />
+                  <Bar dataKey="monto" fill="#818cf8" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
           </Card>
 
           <Card className="p-5">
-            <h3 className="font-display font-bold text-[#2d1200] mb-1">Estado de pagos</h3>
-            <p className="text-xs text-[#9a7060] mb-4">Distribución del mes actual</p>
+            <h3 className="font-display font-bold text-[#1e1b4b] mb-1">Estado de pagos</h3>
+            <p className="text-xs text-[#8b8bb5] mb-4">Distribución del mes actual</p>
             <div className="h-64">
               <ResponsiveContainer>
                 <PieChart>
                   <Pie data={estadoPagos} dataKey="value" nameKey="name" innerRadius={55} outerRadius={90} paddingAngle={3}>
                     {estadoPagos.map((e) => <Cell key={e.name} fill={e.color} />)}
                   </Pie>
-                  <Tooltip contentStyle={{ background: "#2d1200", border: "none", borderRadius: 12, color: "#f5e6de" }} />
+                  <Tooltip contentStyle={{ background: "#1e1b4b", border: "none", borderRadius: 12, color: "#ddd6fe" }} />
                 </PieChart>
               </ResponsiveContainer>
             </div>
@@ -112,7 +112,7 @@ function Dashboard() {
               {estadoPagos.map((e) => (
                 <div key={e.name} className="flex items-center gap-2 text-sm">
                   <span className="w-3 h-3 rounded-full" style={{ background: e.color }} />
-                  <span className="text-[#4a2800]">{e.name}: <b>{e.value}</b></span>
+                  <span className="text-[#312e81]">{e.name}: <b>{e.value}</b></span>
                 </div>
               ))}
             </div>
@@ -120,31 +120,31 @@ function Dashboard() {
         </div>
 
         <Card className="overflow-hidden">
-          <div className="p-5 border-b border-[#e8ddd8]">
-            <h3 className="font-display font-bold text-[#2d1200]">Disponibilidad comercial de tus edificios</h3>
+          <div className="p-5 border-b border-[#e0e7ff]">
+            <h3 className="font-display font-bold text-[#1e1b4b]">Disponibilidad comercial de tus edificios</h3>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="bg-[#f5ede8] text-[#2d1200]">
+              <thead className="bg-[#eef2ff] text-[#1e1b4b]">
                 <tr>
                   {["Edificio", "Total", "Ocupadas", "En venta", "En renta", "Prospectos", "Cierres mes"].map((h) => (
                     <th key={h} className="text-left px-5 py-3 font-semibold uppercase text-xs">{h}</th>
                   ))}
                 </tr>
               </thead>
-              <tbody className="text-[#4a2800]">
+              <tbody className="text-[#312e81]">
                 {[
                   { e: "Torres del Valle", t: 24, o: 18, v: 3, r: 2, p: 6, c: 1 },
                   { e: "Residencial La Ceiba", t: 18, o: 14, v: 2, r: 1, p: 2, c: 1 },
                 ].map((r) => (
-                  <tr key={r.e} className="border-b border-[#e8ddd8] hover:bg-[#faf9f7] transition-colors">
-                    <td className="px-5 py-3 font-medium text-[#2d1200]">{r.e}</td>
+                  <tr key={r.e} className="border-b border-[#e0e7ff] hover:bg-[#faf9ff] transition-colors">
+                    <td className="px-5 py-3 font-medium text-[#1e1b4b]">{r.e}</td>
                     <td className="px-5 py-3">{r.t}</td>
                     <td className="px-5 py-3">{r.o}</td>
                     <td className="px-5 py-3"><Badge variant="venta">{r.v}</Badge></td>
                     <td className="px-5 py-3"><Badge variant="renta">{r.r}</Badge></td>
                     <td className="px-5 py-3">{r.p}</td>
-                    <td className="px-5 py-3 text-[#2d6a2d] font-semibold">{r.c}</td>
+                    <td className="px-5 py-3 text-[#166534] font-semibold">{r.c}</td>
                   </tr>
                 ))}
               </tbody>

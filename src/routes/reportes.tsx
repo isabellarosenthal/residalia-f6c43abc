@@ -17,7 +17,7 @@ import {
 
 export const Route = createFileRoute("/reportes")({ component: ReportesPage });
 
-const COLORS = ["#c94f0c", "#e8a87c", "#9b72cf", "#2d8a9e", "#2d6a2d", "#c0392b", "#3b82f6", "#ec4899"];
+const COLORS = ["#818cf8", "#e8a87c", "#9b72cf", "#2d8a9e", "#166534", "#be185d", "#3b82f6", "#ec4899"];
 const fmtL = (n: number) => `L ${n.toLocaleString("es-HN", { maximumFractionDigits: 0 })}`;
 
 function toCSV(rows: Record<string, any>[]) {
@@ -108,8 +108,8 @@ function ReportesPage() {
       <div className="space-y-5 max-w-[1400px] mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="font-display font-extrabold text-2xl text-[#2d1200]">Reportes</h1>
-            <p className="text-sm text-[#9a7060]">Análisis financiero, ocupación y CRM</p>
+            <h1 className="font-display font-extrabold text-2xl text-[#1e1b4b]">Reportes</h1>
+            <p className="text-sm text-[#8b8bb5]">Análisis financiero, ocupación y CRM</p>
           </div>
           <Select value={edificioId} onValueChange={setEdificioId}>
             <SelectTrigger className="w-[260px]"><SelectValue /></SelectTrigger>
@@ -132,7 +132,7 @@ function ReportesPage() {
         </div>
 
         <Tabs defaultValue="financiero">
-          <TabsList className="bg-[#f5ede8]">
+          <TabsList className="bg-[#eef2ff]">
             <TabsTrigger value="financiero">Financiero</TabsTrigger>
             <TabsTrigger value="ocupacion">Ocupación</TabsTrigger>
             <TabsTrigger value="crm">CRM</TabsTrigger>
@@ -141,23 +141,23 @@ function ReportesPage() {
 
           <TabsContent value="financiero" className="pt-4 space-y-4">
             <Card className="p-5">
-              <h3 className="font-display font-bold text-lg text-[#2d1200] mb-4">Ingresos vs Egresos (6 meses)</h3>
+              <h3 className="font-display font-bold text-lg text-[#1e1b4b] mb-4">Ingresos vs Egresos (6 meses)</h3>
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={flujoMensual}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0e6e0" />
-                  <XAxis dataKey="label" stroke="#9a7060" />
-                  <YAxis stroke="#9a7060" tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} />
+                  <XAxis dataKey="label" stroke="#8b8bb5" />
+                  <YAxis stroke="#8b8bb5" tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} />
                   <Tooltip formatter={(v: number) => fmtL(v)} />
                   <Legend />
-                  <Line type="monotone" dataKey="ingresos" stroke="#2d6a2d" strokeWidth={2} name="Ingresos" />
-                  <Line type="monotone" dataKey="egresos" stroke="#c0392b" strokeWidth={2} name="Egresos" />
+                  <Line type="monotone" dataKey="ingresos" stroke="#166534" strokeWidth={2} name="Ingresos" />
+                  <Line type="monotone" dataKey="egresos" stroke="#be185d" strokeWidth={2} name="Egresos" />
                 </LineChart>
               </ResponsiveContainer>
             </Card>
             <Card className="p-5">
-              <h3 className="font-display font-bold text-lg text-[#2d1200] mb-4">Egresos por categoría</h3>
+              <h3 className="font-display font-bold text-lg text-[#1e1b4b] mb-4">Egresos por categoría</h3>
               {egresosPorCategoria.length === 0 ? (
-                <p className="text-sm text-[#9a7060]">Sin egresos registrados</p>
+                <p className="text-sm text-[#8b8bb5]">Sin egresos registrados</p>
               ) : (
                 <ResponsiveContainer width="100%" height={300}>
                   <PieChart>
@@ -173,18 +173,18 @@ function ReportesPage() {
 
           <TabsContent value="ocupacion" className="pt-4 space-y-4">
             <Card className="p-5">
-              <h3 className="font-display font-bold text-lg text-[#2d1200] mb-4">Ocupación por edificio</h3>
+              <h3 className="font-display font-bold text-lg text-[#1e1b4b] mb-4">Ocupación por edificio</h3>
               {ocupacionPorEdificio.length === 0 ? (
-                <p className="text-sm text-[#9a7060]">Sin unidades registradas</p>
+                <p className="text-sm text-[#8b8bb5]">Sin unidades registradas</p>
               ) : (
                 <ResponsiveContainer width="100%" height={320}>
                   <BarChart data={ocupacionPorEdificio}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#f0e6e0" />
-                    <XAxis dataKey="nombre" stroke="#9a7060" />
-                    <YAxis stroke="#9a7060" />
+                    <XAxis dataKey="nombre" stroke="#8b8bb5" />
+                    <YAxis stroke="#8b8bb5" />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="ocupadas" stackId="a" fill="#2d6a2d" name="Ocupadas" />
+                    <Bar dataKey="ocupadas" stackId="a" fill="#166534" name="Ocupadas" />
                     <Bar dataKey="disponibles" stackId="a" fill="#e8a87c" name="Disponibles" />
                   </BarChart>
                 </ResponsiveContainer>
@@ -194,12 +194,12 @@ function ReportesPage() {
 
           <TabsContent value="crm" className="pt-4 space-y-4">
             <Card className="p-5">
-              <h3 className="font-display font-bold text-lg text-[#2d1200] mb-4">Prospectos por etapa</h3>
+              <h3 className="font-display font-bold text-lg text-[#1e1b4b] mb-4">Prospectos por etapa</h3>
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={pipeline}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0e6e0" />
-                  <XAxis dataKey="etapa" stroke="#9a7060" />
-                  <YAxis stroke="#9a7060" allowDecimals={false} />
+                  <XAxis dataKey="etapa" stroke="#8b8bb5" />
+                  <YAxis stroke="#8b8bb5" allowDecimals={false} />
                   <Tooltip />
                   <Bar dataKey="total" fill="#9b72cf" />
                 </BarChart>
@@ -209,8 +209,8 @@ function ReportesPage() {
 
           <TabsContent value="exportar" className="pt-4">
             <Card className="p-5 space-y-3">
-              <h3 className="font-display font-bold text-lg text-[#2d1200]">Exportar a CSV</h3>
-              <p className="text-sm text-[#9a7060]">Descarga los datos filtrados por edificio</p>
+              <h3 className="font-display font-bold text-lg text-[#1e1b4b]">Exportar a CSV</h3>
+              <p className="text-sm text-[#8b8bb5]">Descarga los datos filtrados por edificio</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                 <Button variant="outline" onClick={() => downloadCSV("unidades.csv", unidades)}>
                   <Download className="w-4 h-4 mr-2" />Unidades ({unidades.length})

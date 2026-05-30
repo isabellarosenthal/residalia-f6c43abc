@@ -16,7 +16,7 @@ import {
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin-panel")({
-  head: () => ({ meta: [{ title: "Admin Panel — PropCloud" }] }),
+  head: () => ({ meta: [{ title: "Admin Panel — Altura Cloud" }] }),
   component: AdminPanel,
 });
 
