@@ -272,7 +272,7 @@ export function LandingPage() {
 
       {/* Why Altura Cloud */}
       <section className="max-w-7xl mx-auto px-6 py-20">
-        <div className="relative bg-[#4338CA] rounded-[2.5rem] p-10 md:p-16 overflow-hidden">
+        <div className="relative rounded-[2.5rem] p-10 md:p-16 overflow-hidden" style={{ background: "linear-gradient(135deg, #4338CA 0%, #4F46E5 55%, #7AA2FF 100%)" }}>
           <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#7AA2FF] rounded-full opacity-20 blur-3xl pointer-events-none" />
           <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-[#8B5CF6] rounded-full opacity-20 blur-3xl pointer-events-none" />
           <div className="text-center mb-14 relative">
