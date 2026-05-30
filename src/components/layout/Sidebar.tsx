@@ -125,7 +125,8 @@ export function Sidebar() {
           </div>
           <button
             onClick={async () => { await signOut(); navigate({ to: "/login" }); }}
-            className="p-2 rounded-lg hover:bg-[#4F46E5]/20 text-[#F8FAFC]/80 hover:text-white transition-colors"
+            className="p-2 rounded-lg hover:bg-white/10 text-[#F8FAFC]/80 hover:text-white transition-colors"
+
             title="Cerrar sesión"
           >
             <LogOut className="w-4 h-4" />
