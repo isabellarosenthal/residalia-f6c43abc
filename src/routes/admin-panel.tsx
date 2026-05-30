@@ -317,7 +317,7 @@ function PlanesSection({ planes }: { planes: FullPlan[] }) {
               <span className="text-xs text-muted-foreground"> /mes</span>
             </div>
             <div className="text-xs text-muted-foreground mt-3 space-y-0.5">
-              <div>Edificios: {lim(p.max_edificios, "")}</div>
+              <div>Edificios: {p.max_edificios ?? "ilimitados"}</div>
               <div>Unidades por edificio: {p.max_unidades ?? "ilimitadas"}</div>
               <div>Admins: {p.max_admins ?? "ilimitados"}</div>
             </div>
