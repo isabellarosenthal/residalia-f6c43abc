@@ -32,13 +32,13 @@ function PortalIndex() {
     <div className="space-y-5">
       <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5">
         <div className="text-xs text-[#64748B]">Residente en</div>
-        <div className="font-display font-bold text-xl text-[#173B7A]">{condo?.nombre ?? "—"}</div>
+        <div className="font-display font-bold text-xl text-[#374151]">{condo?.nombre ?? "—"}</div>
         <div className="text-sm text-[#64748B]">Unidad #{uni?.numero ?? "—"}</div>
       </div>
 
       <div className="flex items-center justify-between">
-        <h2 className="font-display font-extrabold text-lg text-[#173B7A]">Mis pases</h2>
-        <Link to="/portal/nuevo" className="bg-[#173B7A] hover:bg-[#0f2659] text-white text-sm px-4 py-2 rounded-full inline-flex items-center gap-1"><Plus className="w-4 h-4" />Crear pase</Link>
+        <h2 className="font-display font-extrabold text-lg text-[#374151]">Mis pases</h2>
+        <Link to="/portal/nuevo" className="bg-[#374151] hover:bg-[#1F2937] text-white text-sm px-4 py-2 rounded-full inline-flex items-center gap-1"><Plus className="w-4 h-4" />Crear pase</Link>
       </div>
 
       {pases.length === 0 ? (
@@ -55,10 +55,10 @@ function PortalIndex() {
             const label = p.fecha_salida ? "Ya salió" : usados >= max ? "Agotado" : `${usados}/${max} usos`;
             return (
               <Link key={p.id} to="/portal/pase/$paseId" params={{ paseId: p.id }}
-                className="block bg-white border border-[#E2E8F0] rounded-2xl p-4 hover:border-[#D9A441] transition-colors">
+                className="block bg-white border border-[#E2E8F0] rounded-2xl p-4 hover:border-[#D97757] transition-colors">
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <div className="font-semibold text-[#173B7A]">{p.visitante_nombre}</div>
+                    <div className="font-semibold text-[#374151]">{p.visitante_nombre}</div>
                     <div className="text-xs text-[#64748B] font-mono">{p.qr_code}</div>
                     <div className="text-xs text-[#64748B] mt-1">Entrada: {fmtDT(p.fecha_entrada)}</div>
                   </div>

@@ -123,7 +123,7 @@ export function EgresoFormDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px]">
-        <DialogHeader><DialogTitle className="font-display text-xl text-[#173B7A]">{egreso ? "Editar egreso" : "Nuevo egreso"}</DialogTitle></DialogHeader>
+        <DialogHeader><DialogTitle className="font-display text-xl text-[#374151]">{egreso ? "Editar egreso" : "Nuevo egreso"}</DialogTitle></DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <Label>Edificio *</Label>
@@ -176,7 +176,7 @@ export function EgresoFormDialog({
           </div>
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-            <Button type="submit" disabled={save.isPending || uploading} className="bg-[#173B7A] hover:bg-[#0f2659]">{save.isPending ? "Guardando…" : "Guardar"}</Button>
+            <Button type="submit" disabled={save.isPending || uploading} className="bg-[#374151] hover:bg-[#1F2937]">{save.isPending ? "Guardando…" : "Guardar"}</Button>
           </DialogFooter>
         </form>
       </DialogContent>

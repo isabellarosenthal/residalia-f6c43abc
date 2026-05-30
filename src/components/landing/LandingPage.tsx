@@ -60,7 +60,7 @@ const PLANS = [
 export function LandingPage() {
   const { user, signOut } = useAuth();
   return (
-    <div className="min-h-screen bg-[#ffffff] text-[#173B7A]">
+    <div className="min-h-screen bg-[#ffffff] text-[#374151]">
       {/* Nav */}
       <header className="border-b border-[#E2E8F0] bg-white/80 backdrop-blur sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
@@ -71,20 +71,20 @@ export function LandingPage() {
 
           {/* Menú central */}
           <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-[#1E293B]">
-            <a href="#funciones" className="hover:text-[#173B7A]">Funciones</a>
-            <a href="#planes" className="hover:text-[#173B7A]">Precios</a>
-            <a href="#faq" className="hover:text-[#173B7A]">FAQ</a>
+            <a href="#funciones" className="hover:text-[#374151]">Funciones</a>
+            <a href="#planes" className="hover:text-[#374151]">Precios</a>
+            <a href="#faq" className="hover:text-[#374151]">FAQ</a>
           </nav>
 
           <div className="flex items-center gap-2 sm:gap-3">
             {user ? (
               <>
-                <Link to="/dashboard" className="text-sm font-semibold bg-[#D9A441] text-[#173B7A] px-5 py-2.5 rounded-full hover:bg-[#E5B559] shadow-sm">
+                <Link to="/dashboard" className="text-sm font-semibold bg-[#D97757] text-[#374151] px-5 py-2.5 rounded-full hover:bg-[#E8916F] shadow-sm">
                   Ir al Dashboard
                 </Link>
                 <button
                   onClick={signOut}
-                  className="text-sm font-medium text-[#1E293B] hover:text-[#173B7A] px-3 py-1.5"
+                  className="text-sm font-medium text-[#1E293B] hover:text-[#374151] px-3 py-1.5"
                 >
                   Cerrar sesión
                 </button>
@@ -95,7 +95,7 @@ export function LandingPage() {
                 <div className="relative group">
                   <button
                     type="button"
-                    className="text-sm font-medium text-[#1E293B] hover:text-[#173B7A] px-3 py-1.5 inline-flex items-center gap-1"
+                    className="text-sm font-medium text-[#1E293B] hover:text-[#374151] px-3 py-1.5 inline-flex items-center gap-1"
                   >
                     Iniciar sesión
                     <svg className="w-3 h-3" viewBox="0 0 12 12" fill="none" aria-hidden>
@@ -104,12 +104,12 @@ export function LandingPage() {
                   </button>
                   <div className="absolute right-0 top-full pt-2 w-56 invisible opacity-0 translate-y-1 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 focus-within:visible focus-within:opacity-100 focus-within:translate-y-0 transition">
                     <div className="bg-white border border-[#E2E8F0] rounded-2xl shadow-lg overflow-hidden">
-                      <Link to="/login" className="block px-4 py-3 text-sm text-[#173B7A] hover:bg-[#fff4ec]">
+                      <Link to="/login" className="block px-4 py-3 text-sm text-[#374151] hover:bg-[#fff4ec]">
                         <div className="font-semibold">Como administrador</div>
                         <div className="text-xs text-[#64748B] mt-0.5">Gestiona tu condominio</div>
                       </Link>
                       <div className="border-t border-[#f0e6df]" />
-                      <Link to="/login" search={{ as: "residente" }} className="block px-4 py-3 text-sm text-[#173B7A] hover:bg-[#fff4ec]">
+                      <Link to="/login" search={{ as: "residente" }} className="block px-4 py-3 text-sm text-[#374151] hover:bg-[#fff4ec]">
                         <div className="font-semibold">Como residente</div>
                         <div className="text-xs text-[#64748B] mt-0.5">Portal de residentes</div>
                       </Link>
@@ -117,7 +117,7 @@ export function LandingPage() {
                   </div>
                 </div>
 
-                <Link to="/login" className="text-sm font-semibold bg-[#D9A441] text-[#173B7A] px-5 py-2.5 rounded-full hover:bg-[#E5B559] shadow-sm">
+                <Link to="/login" className="text-sm font-semibold bg-[#D97757] text-[#374151] px-5 py-2.5 rounded-full hover:bg-[#E8916F] shadow-sm">
                   Crear cuenta
                 </Link>
               </>
@@ -130,10 +130,10 @@ export function LandingPage() {
       <section className="max-w-7xl mx-auto px-6 pt-8 pb-10">
         <div className="grid md:grid-cols-2 gap-10 items-center">
           <div className="text-center md:text-left">
-            <span className="inline-block text-xs font-semibold uppercase tracking-wider bg-[#F8FAFC] text-[#173B7A] px-3 py-1 rounded-full mb-5">
+            <span className="inline-block text-xs font-semibold uppercase tracking-wider bg-[#F8FAFC] text-[#374151] px-3 py-1 rounded-full mb-5">
               Hecho en Honduras 🇭🇳
             </span>
-            <h1 className="font-display font-extrabold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-[1.05] text-[#173B7A]">
+            <h1 className="font-display font-extrabold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-[1.05] text-[#374151]">
               Administra tu condominio sin hojas de cálculo.
             </h1>
             <p className="mt-6 text-lg text-[#64748B] max-w-xl mx-auto md:mx-0">
@@ -141,10 +141,10 @@ export function LandingPage() {
               todo desde un solo panel con CRM inmobiliario integrado.
             </p>
             <div className="mt-8 flex flex-wrap justify-center md:justify-start gap-3">
-              <Link to="/login" className="inline-flex items-center gap-2 bg-[#173B7A] text-white px-7 py-3.5 rounded-full font-semibold hover:bg-[#0f2659] shadow-md">
+              <Link to="/login" className="inline-flex items-center gap-2 bg-[#374151] text-white px-7 py-3.5 rounded-full font-semibold hover:bg-[#1F2937] shadow-md">
                 Crear mi cuenta gratis <ArrowRight className="w-4 h-4" />
               </Link>
-              <a href="#planes" className="inline-flex items-center gap-2 border border-[#E2E8F0] bg-white px-6 py-3 rounded-full font-semibold text-[#1E293B] hover:border-[#D9A441]">
+              <a href="#planes" className="inline-flex items-center gap-2 border border-[#E2E8F0] bg-white px-6 py-3 rounded-full font-semibold text-[#1E293B] hover:border-[#D97757]">
                 Ver planes
               </a>
             </div>
@@ -175,7 +175,7 @@ export function LandingPage() {
       </section>
 
       {/* Stats band */}
-      <section className="relative overflow-hidden bg-[#173B7A] text-[#F8FAFC] py-10">
+      <section className="relative overflow-hidden bg-[#374151] text-[#F8FAFC] py-10">
         <img src={logoUrl} alt="" aria-hidden width={140} height={140} className="absolute -top-6 right-8 w-28 h-auto float-med opacity-90 pointer-events-none hidden md:block" />
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center relative">
           {[
@@ -186,7 +186,7 @@ export function LandingPage() {
           ].map((s) => (
             <div key={s.l}>
               <div className="font-display font-extrabold text-3xl text-white">{s.n}</div>
-              <div className="text-xs uppercase tracking-wider text-[#D9A441] mt-1">{s.l}</div>
+              <div className="text-xs uppercase tracking-wider text-[#D97757] mt-1">{s.l}</div>
             </div>
           ))}
         </div>
@@ -204,21 +204,21 @@ export function LandingPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {[
-            { i: Wallet, t: "Cobros y estados de cuenta", d: "Genera cuotas mensuales en lote, registra pagos, emite recibos y controla morosidad en tiempo real.", bg: "#FAF1DC", fg: "#173B7A", sub: "#64748B", accent: "#173B7A", link: "Ver cobros", iconBg: "#16a34a", iconFg: "#ffffff" },
-            { i: KeyRound, t: "Control de accesos con QR", d: "Autoriza visitantes con códigos QR de un solo uso, controla entradas y salidas, lleva bitácora completa.", bg: "#FAF1DC", fg: "#173B7A", sub: "#64748B", accent: "#173B7A", link: "Ver accesos", iconBg: "#D9A441", iconFg: "#173B7A" },
-            { i: Users, t: "Residentes y unidades", d: "Lleva un padrón limpio de propietarios, inquilinos, vehículos y personas autorizadas por cada unidad.", bg: "#FAF1DC", fg: "#173B7A", sub: "#64748B", accent: "#173B7A", link: "Ver residentes", iconBg: "#8b5cf6", iconFg: "#ffffff" },
-            { i: Wrench, t: "Mantenimiento e incidencias", d: "Levanta tickets, asigna proveedores, controla costos estimados vs reales y cierra órdenes con evidencia.", bg: "#FAF1DC", fg: "#173B7A", sub: "#64748B", accent: "#173B7A", link: "Ver tickets", iconBg: "#f97316", iconFg: "#ffffff" },
-            { i: MessageSquare, t: "Comunicados al condominio", d: "Envía avisos por grupo de residentes — emergencias, asambleas, cortes de servicio — con historial completo.", bg: "#FAF1DC", fg: "#173B7A", sub: "#64748B", accent: "#173B7A", link: "Ver comunicados", iconBg: "#0ea5e9", iconFg: "#ffffff" },
-            { i: Calendar, t: "Reserva de áreas comunes", d: "Salón social, gimnasio, piscina o cancha: los residentes ven disponibilidad y reservan en minutos.", bg: "#FAF1DC", fg: "#173B7A", sub: "#64748B", accent: "#173B7A", link: "Ver áreas", iconBg: "#ec4899", iconFg: "#ffffff" },
-            { i: Building2, t: "CRM inmobiliario", d: "Pública las unidades en venta o renta, captura prospectos por origen, asígnales agente y precio.", bg: "#FAF1DC", fg: "#173B7A", sub: "#64748B", accent: "#173B7A", link: "Ver CRM", iconBg: "#14b8a6", iconFg: "#ffffff" },
-            { i: TrendingUp, t: "Pipeline y agenda", d: "Arrastra prospectos entre etapas (nuevo → visita → oferta → cierre) y agenda visitas con recordatorios.", bg: "#FAF1DC", fg: "#173B7A", sub: "#64748B", accent: "#173B7A", link: "Ver pipeline", iconBg: "#ef4444", iconFg: "#ffffff" },
-            { i: BarChart3, t: "Reportes y KPIs", d: "Flujo de caja, ocupación, cartera vencida, conversión del pipeline. Exporta a PDF o CSV.", bg: "#FAF1DC", fg: "#173B7A", sub: "#64748B", accent: "#173B7A", link: "Ver reportes", iconBg: "#6366f1", iconFg: "#ffffff" },
+            { i: Wallet, t: "Cobros y estados de cuenta", d: "Genera cuotas mensuales en lote, registra pagos, emite recibos y controla morosidad en tiempo real.", bg: "#F8F7F5", fg: "#374151", sub: "#64748B", accent: "#374151", link: "Ver cobros", iconBg: "#16a34a", iconFg: "#ffffff" },
+            { i: KeyRound, t: "Control de accesos con QR", d: "Autoriza visitantes con códigos QR de un solo uso, controla entradas y salidas, lleva bitácora completa.", bg: "#F8F7F5", fg: "#374151", sub: "#64748B", accent: "#374151", link: "Ver accesos", iconBg: "#D97757", iconFg: "#374151" },
+            { i: Users, t: "Residentes y unidades", d: "Lleva un padrón limpio de propietarios, inquilinos, vehículos y personas autorizadas por cada unidad.", bg: "#F8F7F5", fg: "#374151", sub: "#64748B", accent: "#374151", link: "Ver residentes", iconBg: "#8b5cf6", iconFg: "#ffffff" },
+            { i: Wrench, t: "Mantenimiento e incidencias", d: "Levanta tickets, asigna proveedores, controla costos estimados vs reales y cierra órdenes con evidencia.", bg: "#F8F7F5", fg: "#374151", sub: "#64748B", accent: "#374151", link: "Ver tickets", iconBg: "#f97316", iconFg: "#ffffff" },
+            { i: MessageSquare, t: "Comunicados al condominio", d: "Envía avisos por grupo de residentes — emergencias, asambleas, cortes de servicio — con historial completo.", bg: "#F8F7F5", fg: "#374151", sub: "#64748B", accent: "#374151", link: "Ver comunicados", iconBg: "#0ea5e9", iconFg: "#ffffff" },
+            { i: Calendar, t: "Reserva de áreas comunes", d: "Salón social, gimnasio, piscina o cancha: los residentes ven disponibilidad y reservan en minutos.", bg: "#F8F7F5", fg: "#374151", sub: "#64748B", accent: "#374151", link: "Ver áreas", iconBg: "#ec4899", iconFg: "#ffffff" },
+            { i: Building2, t: "CRM inmobiliario", d: "Pública las unidades en venta o renta, captura prospectos por origen, asígnales agente y precio.", bg: "#F8F7F5", fg: "#374151", sub: "#64748B", accent: "#374151", link: "Ver CRM", iconBg: "#14b8a6", iconFg: "#ffffff" },
+            { i: TrendingUp, t: "Pipeline y agenda", d: "Arrastra prospectos entre etapas (nuevo → visita → oferta → cierre) y agenda visitas con recordatorios.", bg: "#F8F7F5", fg: "#374151", sub: "#64748B", accent: "#374151", link: "Ver pipeline", iconBg: "#ef4444", iconFg: "#ffffff" },
+            { i: BarChart3, t: "Reportes y KPIs", d: "Flujo de caja, ocupación, cartera vencida, conversión del pipeline. Exporta a PDF o CSV.", bg: "#F8F7F5", fg: "#374151", sub: "#64748B", accent: "#374151", link: "Ver reportes", iconBg: "#6366f1", iconFg: "#ffffff" },
           ].map((f) => {
             
             return (
             <div
               key={f.t}
-              className="rounded-[1.75rem] p-7 flex flex-col min-h-[260px] transition hover:-translate-y-1 hover:shadow-xl bg-[#FAF1DC]"
+              className="rounded-[1.75rem] p-7 flex flex-col min-h-[260px] transition hover:-translate-y-1 hover:shadow-xl bg-[#F8F7F5]"
               style={{ color: f.fg }}
             >
               <div
@@ -227,7 +227,7 @@ export function LandingPage() {
               >
                 <f.i className="w-6 h-6" />
               </div>
-              <h3 className="font-display font-extrabold text-xl leading-tight text-[#173B7A]">{f.t}</h3>
+              <h3 className="font-display font-extrabold text-xl leading-tight text-[#374151]">{f.t}</h3>
               <p className="text-sm mt-2 leading-relaxed" style={{ color: f.sub }}>{f.d}</p>
               <Link to="/login" className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold" style={{ color: f.accent }}>
                 {f.link} <ArrowRight className="w-4 h-4" />
@@ -243,7 +243,7 @@ export function LandingPage() {
         <img src={logoUrl} alt="" aria-hidden width={100} height={100} className="absolute top-10 left-4 w-16 md:w-24 h-auto float-slow opacity-80 pointer-events-none" />
         <div className="max-w-6xl mx-auto px-6 relative">
           <div className="text-center mb-16">
-            <h2 className="font-display font-extrabold text-4xl md:text-5xl text-[#173B7A] tracking-tight">Empieza a operar hoy mismo</h2>
+            <h2 className="font-display font-extrabold text-4xl md:text-5xl text-[#374151] tracking-tight">Empieza a operar hoy mismo</h2>
             <p className="mt-3 text-lg text-[#64748B]">Configuración guiada en cuatro simples pasos.</p>
           </div>
           <ol className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -254,10 +254,10 @@ export function LandingPage() {
               { n: "4", t: "Genera cobros", d: "Emite cuotas masivas con un solo clic." },
             ].map((s) => (
               <li key={s.n} className="group flex flex-col items-start text-left">
-                <div className="w-14 h-14 rounded-2xl bg-[#D9A441] flex items-center justify-center text-[#173B7A] font-display font-extrabold text-xl mb-6 shadow-lg shadow-yellow-200/50 group-hover:scale-110 transition-transform">
+                <div className="w-14 h-14 rounded-2xl bg-[#D97757] flex items-center justify-center text-[#374151] font-display font-extrabold text-xl mb-6 shadow-lg shadow-yellow-200/50 group-hover:scale-110 transition-transform">
                   {s.n}
                 </div>
-                <h3 className="font-display font-bold text-xl text-[#173B7A] mb-2">{s.t}</h3>
+                <h3 className="font-display font-bold text-xl text-[#374151] mb-2">{s.t}</h3>
                 <p className="text-[#64748B] leading-relaxed">{s.d}</p>
               </li>
             ))}
@@ -267,8 +267,8 @@ export function LandingPage() {
 
       {/* Why Altura Cloud */}
       <section className="max-w-7xl mx-auto px-6 py-20">
-        <div className="relative bg-[#173B7A] rounded-[2.5rem] p-10 md:p-16 overflow-hidden">
-          <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#D9A441] rounded-full opacity-10 blur-3xl pointer-events-none" />
+        <div className="relative bg-[#374151] rounded-[2.5rem] p-10 md:p-16 overflow-hidden">
+          <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#D97757] rounded-full opacity-10 blur-3xl pointer-events-none" />
           <div className="text-center mb-14 relative">
             <h2 className="font-display font-extrabold text-4xl md:text-5xl text-white tracking-tight">¿Por qué Altura Cloud?</h2>
             <p className="mt-3 text-lg text-slate-300">La plataforma diseñada para la realidad de Honduras.</p>
@@ -281,10 +281,10 @@ export function LandingPage() {
               { i: HeartHandshake, t: "Soporte Real", d: "Ayuda directa por WhatsApp en horario local. Cero robots, solo expertos." },
             ].map((b) => (
               <div key={b.t} className="bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-white/10 transition-colors group">
-                <div className="w-12 h-12 mb-5 text-[#D9A441]">
+                <div className="w-12 h-12 mb-5 text-[#D97757]">
                   <b.i className="w-full h-full" strokeWidth={2} />
                 </div>
-                <h3 className="font-display font-bold text-xl text-white mb-2 group-hover:text-[#D9A441] transition-colors">{b.t}</h3>
+                <h3 className="font-display font-bold text-xl text-white mb-2 group-hover:text-[#D97757] transition-colors">{b.t}</h3>
                 <p className="text-slate-400 leading-relaxed">{b.d}</p>
               </div>
             ))}
@@ -305,10 +305,10 @@ export function LandingPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {PLANS.map((p, idx) => {
             const palette = p.highlight
-              ? { bg: "#173B7A", fg: "#ffffff", sub: "#9aa8c2", check: "#D9A441", btnBg: "#ffffff", btnFg: "#173B7A", btnHover: "hover:bg-[#F1F5F9]", iconBg: "rgba(255,214,10,0.15)" }
+              ? { bg: "#374151", fg: "#ffffff", sub: "#9aa8c2", check: "#D97757", btnBg: "#ffffff", btnFg: "#374151", btnHover: "hover:bg-[#F1F5F9]", iconBg: "rgba(255,214,10,0.15)" }
               : idx === 0
-              ? { bg: "#FAF1DC", fg: "#173B7A", sub: "#64748B", check: "#173B7A", btnBg: "#173B7A", btnFg: "#ffffff", btnHover: "hover:bg-[#0f2659]", iconBg: "rgba(10,30,63,0.08)" }
-              : { bg: "#F8FAFC", fg: "#173B7A", sub: "#64748B", check: "#173B7A", btnBg: "#173B7A", btnFg: "#ffffff", btnHover: "hover:bg-[#0f2659]", iconBg: "rgba(10,30,63,0.08)" };
+              ? { bg: "#F8F7F5", fg: "#374151", sub: "#64748B", check: "#374151", btnBg: "#374151", btnFg: "#ffffff", btnHover: "hover:bg-[#1F2937]", iconBg: "rgba(10,30,63,0.08)" }
+              : { bg: "#F8FAFC", fg: "#374151", sub: "#64748B", check: "#374151", btnBg: "#374151", btnFg: "#ffffff", btnHover: "hover:bg-[#1F2937]", iconBg: "rgba(10,30,63,0.08)" };
             return (
               <div
                 key={p.id}
@@ -316,7 +316,7 @@ export function LandingPage() {
                 style={{ backgroundColor: palette.bg, color: palette.fg }}
               >
                 {p.highlight && (
-                  <span className="self-start text-xs font-bold uppercase tracking-wider bg-[#D9A441] text-[#173B7A] px-3 py-1 rounded-full mb-4">
+                  <span className="self-start text-xs font-bold uppercase tracking-wider bg-[#D97757] text-[#374151] px-3 py-1 rounded-full mb-4">
                     Más popular
                   </span>
                 )}
@@ -363,10 +363,10 @@ export function LandingPage() {
               { q: "¿Puedo cambiar o cancelar mi plan después?", a: "Sí, en cualquier momento. Te cobramos sólo lo del mes en curso." },
               { q: "¿Manejan lempiras y conceptos hondureños?", a: "Sí. La plataforma está hecha en Honduras, para Honduras: lempiras nativos, IVA, cuotas extraordinarias, mora, todo en español." },
             ].map((f) => (
-              <details key={f.q} className="group bg-[#ffffff] border border-[#E2E8F0] rounded-2xl p-5 hover:border-[#D9A441] transition">
-                <summary className="font-semibold cursor-pointer flex justify-between items-center text-[#173B7A]">
+              <details key={f.q} className="group bg-[#ffffff] border border-[#E2E8F0] rounded-2xl p-5 hover:border-[#D97757] transition">
+                <summary className="font-semibold cursor-pointer flex justify-between items-center text-[#374151]">
                   {f.q}
-                  <span className="text-[#173B7A] group-open:rotate-45 transition-transform text-xl leading-none">+</span>
+                  <span className="text-[#374151] group-open:rotate-45 transition-transform text-xl leading-none">+</span>
                 </summary>
                 <p className="mt-3 text-sm text-[#64748B]">{f.a}</p>
               </details>
@@ -378,20 +378,20 @@ export function LandingPage() {
       {/* Preview cards — un vistazo al producto */}
       <section className="max-w-7xl mx-auto px-6 py-20">
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <h2 className="font-display font-extrabold text-3xl md:text-4xl text-[#173B7A]">Un vistazo a lo que vas a usar</h2>
+          <h2 className="font-display font-extrabold text-3xl md:text-4xl text-[#374151]">Un vistazo a lo que vas a usar</h2>
           <p className="mt-3 text-[#64748B]">Tres módulos centrales del panel, exactamente como los vas a ver.</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Card 1: Cobros */}
-          <div className="bg-[#FAF1DC] rounded-3xl p-8 flex flex-col">
-            <h3 className="font-display font-extrabold text-2xl text-[#173B7A]">Cobros en un clic</h3>
+          <div className="bg-[#F8F7F5] rounded-3xl p-8 flex flex-col">
+            <h3 className="font-display font-extrabold text-2xl text-[#374151]">Cobros en un clic</h3>
             <p className="mt-2 text-sm text-[#1E293B]/80">Genera las cuotas del mes para todas las unidades ocupadas y controla quién pagó.</p>
-            <Link to="/login" className="mt-3 text-sm font-semibold text-[#173B7A] inline-flex items-center gap-1 hover:gap-2 transition-all">Ver cobros <ArrowRight className="w-4 h-4" /></Link>
+            <Link to="/login" className="mt-3 text-sm font-semibold text-[#374151] inline-flex items-center gap-1 hover:gap-2 transition-all">Ver cobros <ArrowRight className="w-4 h-4" /></Link>
             <div className="mt-6 bg-white rounded-2xl shadow-lg p-4 border border-white">
               <div className="flex items-center justify-between mb-3">
-                <div className="text-xs font-semibold text-[#173B7A]">Cobros · Noviembre</div>
-                <span className="text-[10px] font-bold uppercase tracking-wider bg-[#FAF1DC] text-[#173B7A] px-2 py-0.5 rounded-full">42 unidades</span>
+                <div className="text-xs font-semibold text-[#374151]">Cobros · Noviembre</div>
+                <span className="text-[10px] font-bold uppercase tracking-wider bg-[#F8F7F5] text-[#374151] px-2 py-0.5 rounded-full">42 unidades</span>
               </div>
               <div className="space-y-2">
                 {[
@@ -402,12 +402,12 @@ export function LandingPage() {
                 ].map((r) => (
                   <div key={r.u} className="flex items-center justify-between text-xs py-1.5 border-b border-[#f1f5f9] last:border-0">
                     <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 rounded-full bg-[#F8FAFC] text-[#173B7A] flex items-center justify-center text-[9px] font-bold">{r.u}</div>
+                      <div className="w-6 h-6 rounded-full bg-[#F8FAFC] text-[#374151] flex items-center justify-center text-[9px] font-bold">{r.u}</div>
                       <span className="text-[#1E293B]">{r.n}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="font-semibold text-[#173B7A]">{r.m}</span>
-                      <span className={`text-[9px] font-bold uppercase px-1.5 py-0.5 rounded ${r.s === "pagado" ? "bg-[#dcfce7] text-[#166534]" : r.s === "pendiente" ? "bg-[#FAF1DC] text-[#92580a]" : "bg-[#fce7f3] text-[#be185d]"}`}>{r.s}</span>
+                      <span className="font-semibold text-[#374151]">{r.m}</span>
+                      <span className={`text-[9px] font-bold uppercase px-1.5 py-0.5 rounded ${r.s === "pagado" ? "bg-[#dcfce7] text-[#166534]" : r.s === "pendiente" ? "bg-[#F8F7F5] text-[#92580a]" : "bg-[#fce7f3] text-[#be185d]"}`}>{r.s}</span>
                     </div>
                   </div>
                 ))}
@@ -416,20 +416,20 @@ export function LandingPage() {
           </div>
 
           {/* Card 2: Accesos QR (navy) */}
-          <div className="bg-[#173B7A] rounded-3xl p-8 flex flex-col text-white">
+          <div className="bg-[#374151] rounded-3xl p-8 flex flex-col text-white">
             <h3 className="font-display font-extrabold text-2xl text-white">Accesos con QR</h3>
             <p className="mt-2 text-sm text-white/70">Tus residentes generan códigos de un solo uso desde el celular. Tu guardia los valida en 2 segundos.</p>
-            <Link to="/login" className="mt-3 text-sm font-semibold text-[#D9A441] inline-flex items-center gap-1 hover:gap-2 transition-all">Ver accesos <ArrowRight className="w-4 h-4" /></Link>
-            <div className="mt-6 bg-white rounded-2xl shadow-2xl p-5 text-[#173B7A]">
+            <Link to="/login" className="mt-3 text-sm font-semibold text-[#D97757] inline-flex items-center gap-1 hover:gap-2 transition-all">Ver accesos <ArrowRight className="w-4 h-4" /></Link>
+            <div className="mt-6 bg-white rounded-2xl shadow-2xl p-5 text-[#374151]">
               <div className="flex items-center justify-between mb-3">
                 <div className="text-xs font-semibold">Pase #A7F2K9</div>
                 <span className="text-[10px] font-bold uppercase bg-[#dcfce7] text-[#166534] px-2 py-0.5 rounded-full">Válido</span>
               </div>
               <div className="bg-[#F8FAFC] rounded-xl p-4 flex items-center justify-center mb-3">
-                <div className="w-28 h-28 grid grid-cols-8 gap-px bg-[#173B7A] p-1.5 rounded-lg">
+                <div className="w-28 h-28 grid grid-cols-8 gap-px bg-[#374151] p-1.5 rounded-lg">
                   {Array.from({ length: 64 }).map((_, i) => {
                     const seed = (i * 73 + 17) % 100;
-                    return <div key={i} className={seed > 45 ? "bg-white" : "bg-[#173B7A]"} />;
+                    return <div key={i} className={seed > 45 ? "bg-white" : "bg-[#374151]"} />;
                   })}
                 </div>
               </div>
@@ -443,13 +443,13 @@ export function LandingPage() {
 
           {/* Card 3: Pipeline */}
           <div className="bg-[#F8FAFC] rounded-3xl p-8 flex flex-col">
-            <h3 className="font-display font-extrabold text-2xl text-[#173B7A]">Pipeline inmobiliario</h3>
+            <h3 className="font-display font-extrabold text-2xl text-[#374151]">Pipeline inmobiliario</h3>
             <p className="mt-2 text-sm text-[#1E293B]/80">Arrastra prospectos entre etapas, agenda visitas y nunca pierdas una venta o renta.</p>
-            <Link to="/login" className="mt-3 text-sm font-semibold text-[#173B7A] inline-flex items-center gap-1 hover:gap-2 transition-all">Ver pipeline <ArrowRight className="w-4 h-4" /></Link>
+            <Link to="/login" className="mt-3 text-sm font-semibold text-[#374151] inline-flex items-center gap-1 hover:gap-2 transition-all">Ver pipeline <ArrowRight className="w-4 h-4" /></Link>
             <div className="mt-6 bg-white rounded-2xl shadow-lg p-3 border border-[#E2E8F0]">
               <div className="grid grid-cols-3 gap-2">
                 {[
-                  { t: "Nuevo", c: "#FAF1DC", items: [{ n: "A. Pérez", m: "L 1.2M" }, { n: "L. Gómez", m: "L 850K" }] },
+                  { t: "Nuevo", c: "#F8F7F5", items: [{ n: "A. Pérez", m: "L 1.2M" }, { n: "L. Gómez", m: "L 850K" }] },
                   { t: "Visita", c: "#E2E8F0", items: [{ n: "M. Soto", m: "L 2.1M" }] },
                   { t: "Cierre", c: "#dcfce7", items: [{ n: "J. Ríos", m: "L 1.6M" }] },
                 ].map((col) => (
@@ -457,7 +457,7 @@ export function LandingPage() {
                     <div className="text-[10px] font-bold uppercase tracking-wider text-[#64748B] px-1">{col.t}</div>
                     {col.items.map((it) => (
                       <div key={it.n} className="rounded-lg p-2 text-[10px]" style={{ background: col.c }}>
-                        <div className="font-semibold text-[#173B7A]">{it.n}</div>
+                        <div className="font-semibold text-[#374151]">{it.n}</div>
                         <div className="text-[#1E293B]/70 mt-0.5">{it.m}</div>
                       </div>
                     ))}
@@ -469,10 +469,10 @@ export function LandingPage() {
         </div>
 
         {/* CTA final */}
-        <div className="mt-16 bg-[#173B7A] rounded-[2.5rem] p-10 md:p-14 text-center" style={{ borderTopLeftRadius: '3rem', borderBottomRightRadius: '3rem' }}>
+        <div className="mt-16 bg-[#374151] rounded-[2.5rem] p-10 md:p-14 text-center" style={{ borderTopLeftRadius: '3rem', borderBottomRightRadius: '3rem' }}>
           <h3 className="font-display font-extrabold text-3xl md:text-4xl text-white">¿Listo para ordenar tu condominio?</h3>
           <p className="mt-3 text-white/80 max-w-xl mx-auto">Crea tu cuenta gratis y configurá tu primer edificio en menos de 5 minutos.</p>
-          <Link to="/login" className="mt-7 inline-flex items-center gap-2 bg-[#D9A441] text-[#173B7A] px-9 py-4 rounded-full font-semibold text-lg hover:bg-[#E5B559] shadow-lg">
+          <Link to="/login" className="mt-7 inline-flex items-center gap-2 bg-[#D97757] text-[#374151] px-9 py-4 rounded-full font-semibold text-lg hover:bg-[#E8916F] shadow-lg">
             Empezar ahora <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
@@ -484,7 +484,7 @@ export function LandingPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
             {/* Col 1: Marca */}
             <div className="space-y-4">
-              <div className="font-display font-extrabold text-2xl text-[#173B7A]">Altura Cloud</div>
+              <div className="font-display font-extrabold text-2xl text-[#374151]">Altura Cloud</div>
               <p className="text-sm text-[#64748B] leading-relaxed">
                 Plataforma de administración de condominios y propiedades para Centroamérica.
               </p>
@@ -492,7 +492,7 @@ export function LandingPage() {
 
             {/* Col 2: Ecosistema */}
             <div className="space-y-4">
-              <h4 className="text-sm font-semibold text-[#173B7A] uppercase tracking-wider">Ecosistema Zafra Cloud</h4>
+              <h4 className="text-sm font-semibold text-[#374151] uppercase tracking-wider">Ecosistema Zafra Cloud</h4>
               <ul className="space-y-3 text-sm">
                 {[
                   { name: "Zafra Cloud", desc: "ERP, facturación electrónica y contabilidad", url: "https://home.zafra.cloud", icon: Building2 },
@@ -504,10 +504,10 @@ export function LandingPage() {
                   const Icon = l.icon;
                   return (
                     <li key={l.name}>
-                      <a href={l.url} target="_blank" rel="noopener noreferrer" className="group flex items-start gap-2 text-[#64748B] hover:text-[#173B7A] transition">
-                        <Icon className="h-4 w-4 mt-0.5 text-[#173B7A]/70 group-hover:text-[#173B7A] flex-shrink-0" />
+                      <a href={l.url} target="_blank" rel="noopener noreferrer" className="group flex items-start gap-2 text-[#64748B] hover:text-[#374151] transition">
+                        <Icon className="h-4 w-4 mt-0.5 text-[#374151]/70 group-hover:text-[#374151] flex-shrink-0" />
                         <div>
-                          <span className="font-medium text-[#173B7A] group-hover:text-[#173B7A]">{l.name}</span>
+                          <span className="font-medium text-[#374151] group-hover:text-[#374151]">{l.name}</span>
                           <p className="text-xs text-[#64748B]">{l.desc}</p>
                         </div>
                       </a>
@@ -519,33 +519,33 @@ export function LandingPage() {
 
             {/* Col 3: Altura Cloud */}
             <div className="space-y-4">
-              <h4 className="text-sm font-semibold text-[#173B7A] uppercase tracking-wider">Altura Cloud</h4>
+              <h4 className="text-sm font-semibold text-[#374151] uppercase tracking-wider">Altura Cloud</h4>
               <ul className="space-y-2.5 text-sm">
-                <li><a href="#planes" className="text-[#64748B] hover:text-[#173B7A] transition">Planes</a></li>
-                <li><a href="#como-funciona" className="text-[#64748B] hover:text-[#173B7A] transition">Cómo funciona</a></li>
-                <li><Link to="/login" className="text-[#64748B] hover:text-[#173B7A] transition">Iniciar sesión</Link></li>
-                <li><Link to="/login" className="text-[#64748B] hover:text-[#173B7A] transition">Crear cuenta</Link></li>
+                <li><a href="#planes" className="text-[#64748B] hover:text-[#374151] transition">Planes</a></li>
+                <li><a href="#como-funciona" className="text-[#64748B] hover:text-[#374151] transition">Cómo funciona</a></li>
+                <li><Link to="/login" className="text-[#64748B] hover:text-[#374151] transition">Iniciar sesión</Link></li>
+                <li><Link to="/login" className="text-[#64748B] hover:text-[#374151] transition">Crear cuenta</Link></li>
               </ul>
             </div>
 
             {/* Col 4: Contacto */}
             <div className="space-y-4">
-              <h4 className="text-sm font-semibold text-[#173B7A] uppercase tracking-wider">Contacto</h4>
+              <h4 className="text-sm font-semibold text-[#374151] uppercase tracking-wider">Contacto</h4>
               <ul className="space-y-3 text-sm">
                 <li>
-                  <a href="mailto:info@zafra.cloud" className="flex items-center gap-2 text-[#64748B] hover:text-[#173B7A] transition">
+                  <a href="mailto:info@zafra.cloud" className="flex items-center gap-2 text-[#64748B] hover:text-[#374151] transition">
                     <MessageSquare className="h-4 w-4 flex-shrink-0" />
                     info@zafra.cloud
                   </a>
                 </li>
                 <li>
-                  <a href="https://wa.me/50494103488" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#64748B] hover:text-[#173B7A] transition">
+                  <a href="https://wa.me/50494103488" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#64748B] hover:text-[#374151] transition">
                     <MessageSquare className="h-4 w-4 flex-shrink-0" />
                     WhatsApp ventas
                   </a>
                 </li>
                 <li>
-                  <a href="https://wa.me/50494460058" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#64748B] hover:text-[#173B7A] transition">
+                  <a href="https://wa.me/50494460058" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#64748B] hover:text-[#374151] transition">
                     <MessageSquare className="h-4 w-4 flex-shrink-0" />
                     +504 9446-0058
                   </a>
@@ -558,7 +558,7 @@ export function LandingPage() {
         <div className="border-t border-[#E2E8F0]">
           <div className="max-w-7xl mx-auto px-6 py-5">
             <div className="flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-[#64748B]">
-              <p>© {new Date().getFullYear()} New Technology, S.A. Parte de <a href="https://home.zafra.cloud" target="_blank" rel="noopener noreferrer" className="text-[#173B7A] hover:underline">Zafra Cloud</a>.</p>
+              <p>© {new Date().getFullYear()} New Technology, S.A. Parte de <a href="https://home.zafra.cloud" target="_blank" rel="noopener noreferrer" className="text-[#374151] hover:underline">Zafra Cloud</a>.</p>
               <p className="flex items-center gap-1.5">Hecho con ❤️ en Honduras 🇭🇳</p>
             </div>
           </div>

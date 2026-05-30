@@ -78,7 +78,7 @@ function Reservar() {
 
   return (
     <div className="space-y-5">
-      <h1 className="font-display font-extrabold text-xl text-[#173B7A]">Reservar área común</h1>
+      <h1 className="font-display font-extrabold text-xl text-[#374151]">Reservar área común</h1>
 
       <form onSubmit={submit} className="space-y-4 bg-white border border-[#E2E8F0] rounded-2xl p-5">
         <div>
@@ -105,7 +105,7 @@ function Reservar() {
             <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" />{conflicto}
           </div>
         )}
-        <Button type="submit" disabled={save.isPending || !!conflicto || !areaId} className="w-full bg-[#173B7A] hover:bg-[#0f2659]">
+        <Button type="submit" disabled={save.isPending || !!conflicto || !areaId} className="w-full bg-[#374151] hover:bg-[#1F2937]">
           {save.isPending ? "Reservando…" : "Solicitar reserva"}
         </Button>
         <p className="text-xs text-[#64748B] text-center">La administración confirmará tu reserva.</p>
@@ -113,18 +113,18 @@ function Reservar() {
 
       {proximas.length > 0 && (
         <div>
-          <h2 className="font-display font-extrabold text-lg text-[#173B7A] mb-2">Mis próximas reservas</h2>
+          <h2 className="font-display font-extrabold text-lg text-[#374151] mb-2">Mis próximas reservas</h2>
           <div className="space-y-2">
             {proximas.map((r) => {
               const a = areas.find((x) => x.id === r.area_id);
               return (
                 <div key={r.id} className="bg-white border border-[#E2E8F0] rounded-xl p-3 flex items-center gap-3">
-                  <CalendarCheck className="w-5 h-5 text-[#173B7A]" />
+                  <CalendarCheck className="w-5 h-5 text-[#374151]" />
                   <div className="flex-1">
-                    <div className="font-semibold text-[#173B7A]">{a?.nombre ?? "Área"}</div>
+                    <div className="font-semibold text-[#374151]">{a?.nombre ?? "Área"}</div>
                     <div className="text-xs text-[#64748B]">{fmtDT(r.fecha_inicio)} – {new Date(r.fecha_fin).toLocaleTimeString("es-HN", { timeStyle: "short" })}</div>
                   </div>
-                  <span className="text-[10px] uppercase tracking-wide bg-[#fde8e2] text-[#173B7A] px-2 py-0.5 rounded-full">{r.estado}</span>
+                  <span className="text-[10px] uppercase tracking-wide bg-[#fde8e2] text-[#374151] px-2 py-0.5 rounded-full">{r.estado}</span>
                 </div>
               );
             })}

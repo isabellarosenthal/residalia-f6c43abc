@@ -2,10 +2,10 @@ import { Building2, Home } from "lucide-react";
 
 const PALETTES = [
   { bg: "linear-gradient(135deg,#EBC988,#ffea5c)", fg: "#fff" },
-  { bg: "linear-gradient(135deg,#FAF1DC,#D9A441)", fg: "#fff" },
-  { bg: "linear-gradient(135deg,#F8FAFC,#EBC988)", fg: "#0f2659" },
+  { bg: "linear-gradient(135deg,#F8F7F5,#D97757)", fg: "#fff" },
+  { bg: "linear-gradient(135deg,#F8FAFC,#EBC988)", fg: "#1F2937" },
   { bg: "linear-gradient(135deg,#ffea5c,#e6c200)", fg: "#fff" },
-  { bg: "linear-gradient(135deg,#fbcfe8,#EBC988)", fg: "#0f2659" },
+  { bg: "linear-gradient(135deg,#fbcfe8,#EBC988)", fg: "#1F2937" },
 ];
 
 export function EdificioPlaceholder({ id, tipo, className = "" }: { id: string; tipo?: string | null; className?: string }) {

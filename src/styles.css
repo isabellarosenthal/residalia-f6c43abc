@@ -56,11 +56,11 @@
 
 :root {
   /* Altura Cloud Brand Kit v1.0 */
-  --primary: #173B7A;
+  --primary: #374151;
   --primary-foreground: #ffffff;
-  --primary-dark: #0f2659;
-  --primary-light: #4B6FAF;
-  --primary-glow: #4B6FAF;
+  --primary-dark: #1F2937;
+  --primary-light: #64748B;
+  --primary-glow: #64748B;
 
   --text-dark: #1E293B;
   --text-body: #1E293B;
@@ -76,11 +76,11 @@
   --foreground: #1E293B;
 
   --secondary: #F1F5F9;
-  --secondary-foreground: #173B7A;
+  --secondary-foreground: #374151;
   --muted: #F1F5F9;
   --muted-foreground: #64748B;
-  --accent: #FAF1DC;
-  --accent-foreground: #173B7A;
+  --accent: #F8F7F5;
+  --accent-foreground: #374151;
 
   --success: #16A344;
   --success-light: #DCFCE7;
@@ -94,18 +94,18 @@
   --border: #E2E8F0;
   --border-strong: #CBD5E1;
   --input: #E2E8F0;
-  --ring: #D9A441;
+  --ring: #D97757;
 
-  --sidebar: #173B7A;
+  --sidebar: #374151;
   --sidebar-foreground: #F8FAFC;
-  --sidebar-accent: #D9A441;
+  --sidebar-accent: #D97757;
 
-  --gradient-sunny: linear-gradient(135deg, #E5B559 0%, #D9A441 50%, #B8862C 100%);
-  --gradient-deep-sky: linear-gradient(135deg, #173B7A 0%, #4B6FAF 50%, #0f2659 100%);
-  --gradient-aurora: linear-gradient(135deg, #F8FAFC 0%, #FFFFFF 50%, #FAF1DC 100%);
-  --shadow-warm: 0 20px 60px -20px color-mix(in oklab, #D9A441 45%, transparent);
-  --shadow-deep: 0 20px 60px -20px color-mix(in oklab, #173B7A 30%, transparent);
-  --shadow-glow: 0 0 40px color-mix(in oklab, #D9A441 40%, transparent);
+  --gradient-sunny: linear-gradient(135deg, #E8916F 0%, #D97757 50%, #B85A3E 100%);
+  --gradient-deep-sky: linear-gradient(135deg, #374151 0%, #64748B 50%, #1F2937 100%);
+  --gradient-aurora: linear-gradient(135deg, #F8FAFC 0%, #FFFFFF 50%, #F8F7F5 100%);
+  --shadow-warm: 0 20px 60px -20px color-mix(in oklab, #D97757 45%, transparent);
+  --shadow-deep: 0 20px 60px -20px color-mix(in oklab, #374151 30%, transparent);
+  --shadow-glow: 0 0 40px color-mix(in oklab, #D97757 40%, transparent);
 
   /* legacy aliases */
   --gradient-ethereal: var(--gradient-sunny);
@@ -134,7 +134,7 @@
   .shadow-dreamy { box-shadow: var(--shadow-warm); }
   .shadow-glow { box-shadow: var(--shadow-glow); }
   .shimmer {
-    background: linear-gradient(90deg, #F1F5F9 0%, #FAF1DC 50%, #F1F5F9 100%);
+    background: linear-gradient(90deg, #F1F5F9 0%, #F8F7F5 50%, #F1F5F9 100%);
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite;
   }

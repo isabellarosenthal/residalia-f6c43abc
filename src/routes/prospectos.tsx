@@ -39,7 +39,7 @@ function ProspectosPage() {
       <div className="space-y-5 max-w-[1400px] mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="font-display font-extrabold text-2xl text-[#173B7A]">Prospectos</h1>
+            <h1 className="font-display font-extrabold text-2xl text-[#374151]">Prospectos</h1>
             <p className="text-sm text-[#64748B]">CRM de leads y oportunidades</p>
           </div>
           <div className="flex gap-2">
@@ -50,7 +50,7 @@ function ProspectosPage() {
                 {edificios.map((e) => <SelectItem key={e.id} value={e.id}>{e.nombre}</SelectItem>)}
               </SelectContent>
             </Select>
-            <Button onClick={() => openForm(null)} disabled={loading} className="bg-[#173B7A] hover:bg-[#0f2659]">
+            <Button onClick={() => openForm(null)} disabled={loading} className="bg-[#374151] hover:bg-[#1F2937]">
               <Plus className="w-4 h-4 mr-1" />{loading ? "Cargando…" : "Nuevo prospecto"}
             </Button>
           </div>

@@ -141,7 +141,7 @@ export function ReservaFormDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
-        <DialogHeader><DialogTitle className="font-display text-xl text-[#173B7A]">{reserva ? "Editar reserva" : "Nueva reserva"}</DialogTitle></DialogHeader>
+        <DialogHeader><DialogTitle className="font-display text-xl text-[#374151]">{reserva ? "Editar reserva" : "Nueva reserva"}</DialogTitle></DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
             <div>
@@ -213,7 +213,7 @@ export function ReservaFormDialog({
           )}
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-            <Button type="submit" disabled={save.isPending || !!conflicto} className="bg-[#173B7A] hover:bg-[#0f2659]">{save.isPending ? "Guardando…" : "Guardar"}</Button>
+            <Button type="submit" disabled={save.isPending || !!conflicto} className="bg-[#374151] hover:bg-[#1F2937]">{save.isPending ? "Guardando…" : "Guardar"}</Button>
           </DialogFooter>
         </form>
       </DialogContent>
