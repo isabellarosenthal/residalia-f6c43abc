@@ -51,7 +51,7 @@ export function UnidadFormDialog({
       habitaciones: 0, banos: 0, banos_visita: 0, parqueos: 0,
       area_m2_construccion: null, area_m2_terreno: null,
       estado_administrativo: "disponible", mantenimiento_mensual: null, fecha_disponibilidad: "",
-      estado_comercial: "disponible", precio_venta: null, precio_renta: null, deposito: null,
+      estado_comercial: "disponible", precio_venta: null, precio_renta: null, deposito: null, moneda: "L",
       precio_negociable: false, descripcion_comercial: "",
       propietario_id: null, inquilino_id: null,
     },
