@@ -52,6 +52,8 @@ function FinanzasPage() {
             <TabsTrigger value="cobros">Cobros</TabsTrigger>
             <TabsTrigger value="egresos">Egresos</TabsTrigger>
             <TabsTrigger value="estado">Estado de cuenta</TabsTrigger>
+            <TabsTrigger value="reportes">Reportes</TabsTrigger>
+            <TabsTrigger value="recordatorios">Recordatorios</TabsTrigger>
           </TabsList>
 
           <TabsContent value="resumen" className="pt-4">
