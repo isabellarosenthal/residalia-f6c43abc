@@ -229,8 +229,10 @@ export function LandingPage() {
       </section>
 
       {/* How it works */}
-      <section className="bg-white border-y border-[#e8ecf3] py-20">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="relative overflow-hidden bg-white border-y border-[#e8ecf3] py-20">
+        <img src={logoUrl} alt="" aria-hidden width={100} height={100} className="absolute top-10 left-4 w-16 md:w-24 h-auto float-slow opacity-80 pointer-events-none" />
+        <img src={logoUrl} alt="" aria-hidden width={100} height={100} className="absolute bottom-10 right-6 w-20 md:w-28 h-auto float-med opacity-80 pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-6 relative">
           <div className="text-center mb-14">
             <h2 className="font-display font-extrabold text-3xl md:text-4xl">Empieza a operar hoy mismo</h2>
             <p className="mt-3 text-[#6b4a3a]">Cuatro pasos guiados por nuestro asistente de configuración.</p>
