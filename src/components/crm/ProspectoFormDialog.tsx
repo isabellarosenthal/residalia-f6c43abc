@@ -116,7 +116,7 @@ export function ProspectoFormDialog({
           <Field label="Notas"><Textarea rows={2} {...form.register("notas")} /></Field>
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>Cancelar</Button>
-            <Button type="submit" disabled={save.isPending} className="bg-[#0a1e3f] hover:bg-[#001a4d]">
+            <Button type="submit" disabled={save.isPending} className="bg-[#173B7A] hover:bg-[#0f2659]">
               {save.isPending ? "Guardando…" : "Guardar"}
             </Button>
           </DialogFooter>
@@ -139,7 +139,7 @@ function emptyVals(etapa?: string): FormVals {
 function Field({ label, children, err }: { label: string; children: React.ReactNode; err?: string }) {
   return (
     <div className="space-y-1">
-      <Label className="text-xs text-[#6b7a99]">{label}</Label>
+      <Label className="text-xs text-[#64748B]">{label}</Label>
       {children}
       {err && <p className="text-xs text-red-600">{err}</p>}
     </div>

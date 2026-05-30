@@ -43,7 +43,7 @@ function EdificioDetail() {
     return <AppShell><div className="h-72 shimmer rounded-2xl" /></AppShell>;
   }
   if (!edificio) {
-    return <AppShell><div className="text-center text-[#6b7a99] py-20">Edificio no encontrado.</div></AppShell>;
+    return <AppShell><div className="text-center text-[#64748B] py-20">Edificio no encontrado.</div></AppShell>;
   }
 
   const total = unidades.length;
@@ -58,7 +58,7 @@ function EdificioDetail() {
   return (
     <AppShell>
       <div className="space-y-5 max-w-[1400px] mx-auto">
-        <Link to="/edificios" className="inline-flex items-center text-sm text-[#6b7a99] hover:text-[#0a1e3f]">
+        <Link to="/edificios" className="inline-flex items-center text-sm text-[#64748B] hover:text-[#173B7A]">
           <ChevronLeft className="w-4 h-4" /> Volver a edificios
         </Link>
 
@@ -67,12 +67,12 @@ function EdificioDetail() {
             <EdificioPlaceholder id={edificio.id} tipo={edificio.tipo} className="md:w-56 h-32 md:h-auto" />
             <div className="flex-1 p-5 flex flex-col md:flex-row md:items-center justify-between gap-3">
               <div>
-                <h1 className="font-display font-extrabold text-2xl text-[#0a1e3f]">{edificio.nombre}</h1>
-                <div className="text-sm text-[#6b7a99] flex items-center gap-1 mt-1">
+                <h1 className="font-display font-extrabold text-2xl text-[#173B7A]">{edificio.nombre}</h1>
+                <div className="text-sm text-[#64748B] flex items-center gap-1 mt-1">
                   <MapPin className="w-4 h-4" />
                   {edificio.direccion ?? "—"}{edificio.ciudad ? ` · ${edificio.ciudad}` : ""}{edificio.departamento ? `, ${edificio.departamento}` : ""}
                 </div>
-                <div className="text-xs text-[#6b7a99] mt-1 capitalize">{edificio.tipo} · Moneda: {edificio.moneda}</div>
+                <div className="text-xs text-[#64748B] mt-1 capitalize">{edificio.tipo} · Moneda: {edificio.moneda}</div>
               </div>
               <div className="flex gap-2">
                 <Button variant="outline" onClick={() => setEditOpen(true)}><Pencil className="w-4 h-4 mr-1" />Editar</Button>
@@ -87,7 +87,7 @@ function EdificioDetail() {
         </Card>
 
         <Tabs defaultValue="unidades">
-          <TabsList className="bg-[#fffdf5]">
+          <TabsList className="bg-[#F8FAFC]">
             <TabsTrigger value="resumen">Resumen</TabsTrigger>
             <TabsTrigger value="unidades">Unidades ({total})</TabsTrigger>
             <TabsTrigger value="residentes">Residentes</TabsTrigger>
@@ -103,7 +103,7 @@ function EdificioDetail() {
             </div>
 
             <Card className="p-5">
-              <h3 className="font-display font-bold text-[#0a1e3f] mb-3">Datos generales</h3>
+              <h3 className="font-display font-bold text-[#173B7A] mb-3">Datos generales</h3>
               <dl className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-3 text-sm">
                 <Info label="Nombre" value={edificio.nombre} />
                 <Info label="Tipo" value={<span className="capitalize">{edificio.tipo}</span>} />
@@ -122,7 +122,7 @@ function EdificioDetail() {
             <PlanLimitsBanner focus="unidades" />
             <div className="flex flex-wrap gap-2 justify-end">
               <Button variant="outline" onClick={() => setBulkOpen(true)}><Layers className="w-4 h-4 mr-1" />Generar en bloque</Button>
-              <Button onClick={() => { setUnidadEdit(null); setUnidadOpen(true); }} className="bg-[#0a1e3f] hover:bg-[#001a4d]">
+              <Button onClick={() => { setUnidadEdit(null); setUnidadOpen(true); }} className="bg-[#173B7A] hover:bg-[#0f2659]">
                 <Plus className="w-4 h-4 mr-1" />Nueva unidad
               </Button>
             </div>
@@ -131,7 +131,7 @@ function EdificioDetail() {
 
           <TabsContent value="residentes" className="space-y-4 pt-4">
             <div className="flex justify-end">
-              <Button onClick={() => { setResidenteEdit(null); setResidenteOpen(true); }} className="bg-[#0a1e3f] hover:bg-[#001a4d]"><Plus className="w-4 h-4 mr-1" />Nuevo residente</Button>
+              <Button onClick={() => { setResidenteEdit(null); setResidenteOpen(true); }} className="bg-[#173B7A] hover:bg-[#0f2659]"><Plus className="w-4 h-4 mr-1" />Nuevo residente</Button>
             </div>
             <ResidentesTable search="" edificioId={edificio.id} tipo="all" estado="all" onEdit={(r) => { setResidenteEdit(r); setResidenteOpen(true); }} />
           </TabsContent>
@@ -141,8 +141,8 @@ function EdificioDetail() {
             <Card className="p-5 space-y-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-display font-bold text-[#0a1e3f] flex items-center gap-2"><FileText className="w-5 h-5 text-[#0a1e3f]" /> Editar datos del edificio</h3>
-                  <p className="text-sm text-[#6b7a99]">Modifica nombre, dirección, cuota y otros datos.</p>
+                  <h3 className="font-display font-bold text-[#173B7A] flex items-center gap-2"><FileText className="w-5 h-5 text-[#173B7A]" /> Editar datos del edificio</h3>
+                  <p className="text-sm text-[#64748B]">Modifica nombre, dirección, cuota y otros datos.</p>
                 </div>
                 <Button variant="outline" onClick={() => setEditOpen(true)}><Pencil className="w-4 h-4 mr-1" />Editar</Button>
               </div>
@@ -151,7 +151,7 @@ function EdificioDetail() {
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="font-display font-bold text-[#be185d]">Zona peligrosa</h3>
-                  <p className="text-sm text-[#6b7a99]">Eliminar el edificio borrará permanentemente sus datos.</p>
+                  <p className="text-sm text-[#64748B]">Eliminar el edificio borrará permanentemente sus datos.</p>
                 </div>
                 <Button variant="outline" className="text-[#be185d] border-[#be185d]/30 hover:bg-[#fce7f3] hover:text-[#be185d]" onClick={() => {
                   if (confirm(`¿Eliminar ${edificio.nombre}?`)) {
@@ -177,8 +177,8 @@ function EdificioDetail() {
 function Info({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div>
-      <dt className="text-xs uppercase tracking-wider text-[#6b7a99]">{label}</dt>
-      <dd className="text-[#0a1e3f] font-medium mt-0.5">{value}</dd>
+      <dt className="text-xs uppercase tracking-wider text-[#64748B]">{label}</dt>
+      <dd className="text-[#173B7A] font-medium mt-0.5">{value}</dd>
     </div>
   );
 }

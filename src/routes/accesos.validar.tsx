@@ -69,15 +69,15 @@ function ValidarPage() {
   return (
     <AppShell>
       <div className="max-w-[640px] mx-auto space-y-5">
-        <Link to="/accesos" className="inline-flex items-center text-sm text-[#6b7a99] hover:text-[#0a1e3f]"><ArrowLeft className="w-4 h-4 mr-1" />Volver a accesos</Link>
+        <Link to="/accesos" className="inline-flex items-center text-sm text-[#64748B] hover:text-[#173B7A]"><ArrowLeft className="w-4 h-4 mr-1" />Volver a accesos</Link>
         <div>
-          <h1 className="font-display font-extrabold text-2xl text-[#0a1e3f] flex items-center gap-2"><ShieldCheck className="w-6 h-6 text-[#0a1e3f]" />Validar pase</h1>
-          <p className="text-sm text-[#6b7a99]">Ingresa el código del visitante para autorizar entrada o salida.</p>
+          <h1 className="font-display font-extrabold text-2xl text-[#173B7A] flex items-center gap-2"><ShieldCheck className="w-6 h-6 text-[#173B7A]" />Validar pase</h1>
+          <p className="text-sm text-[#64748B]">Ingresa el código del visitante para autorizar entrada o salida.</p>
         </div>
 
         <form
           onSubmit={(e) => { e.preventDefault(); buscar(); }}
-          className="flex gap-2 bg-white border border-[#e8ecf3] rounded-2xl p-3"
+          className="flex gap-2 bg-white border border-[#E2E8F0] rounded-2xl p-3"
         >
           <Input
             value={codigo}
@@ -86,7 +86,7 @@ function ValidarPage() {
             className="font-mono text-lg tracking-widest uppercase"
             autoFocus
           />
-          <Button type="submit" disabled={!codigo.trim() || validar.isPending} className="bg-[#0a1e3f] hover:bg-[#001a4d]">
+          <Button type="submit" disabled={!codigo.trim() || validar.isPending} className="bg-[#173B7A] hover:bg-[#0f2659]">
             <Search className="w-4 h-4 mr-1" />Buscar
           </Button>
         </form>
@@ -98,12 +98,12 @@ function ValidarPage() {
         )}
 
         {acceso && estado && (
-          <div className="bg-white border border-[#e8ecf3] rounded-2xl p-5 space-y-4">
+          <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5 space-y-4">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <div className="text-xs text-[#6b7a99]">Visitante</div>
-                <div className="font-display font-bold text-xl text-[#0a1e3f]">{acceso.visitante_nombre}</div>
-                <div className="text-xs text-[#6b7a99] font-mono mt-1">{acceso.qr_code}</div>
+                <div className="text-xs text-[#64748B]">Visitante</div>
+                <div className="font-display font-bold text-xl text-[#173B7A]">{acceso.visitante_nombre}</div>
+                <div className="text-xs text-[#64748B] font-mono mt-1">{acceso.qr_code}</div>
               </div>
               <Badge variant={estado.tone}>{estado.label}</Badge>
             </div>
@@ -142,8 +142,8 @@ function ValidarPage() {
 function Info({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <div className="text-xs text-[#6b7a99]">{label}</div>
-      <div className="text-[#0a1e3f] capitalize">{value}</div>
+      <div className="text-xs text-[#64748B]">{label}</div>
+      <div className="text-[#173B7A] capitalize">{value}</div>
     </div>
   );
 }

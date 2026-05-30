@@ -73,7 +73,7 @@ export function IncidenciaFormDialog({ open, onOpenChange, incidencia, defaultCo
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>Cancelar</Button>
-          <Button className="bg-[#0a1e3f] hover:bg-[#001a4d]" onClick={submit} disabled={save.isPending}>Guardar</Button>
+          <Button className="bg-[#173B7A] hover:bg-[#0f2659]" onClick={submit} disabled={save.isPending}>Guardar</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

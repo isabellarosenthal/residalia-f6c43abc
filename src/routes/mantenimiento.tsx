@@ -76,8 +76,8 @@ function MantenimientoPage() {
       <div className="space-y-5 max-w-[1400px] mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="font-display font-extrabold text-2xl text-[#0a1e3f]">Mantenimiento</h1>
-            <p className="text-sm text-[#6b7a99]">Incidencias, órdenes de trabajo y proveedores</p>
+            <h1 className="font-display font-extrabold text-2xl text-[#173B7A]">Mantenimiento</h1>
+            <p className="text-sm text-[#64748B]">Incidencias, órdenes de trabajo y proveedores</p>
           </div>
           <Select value={edificioId} onValueChange={setEdificioId}>
             <SelectTrigger className="w-[260px]"><SelectValue /></SelectTrigger>
@@ -96,7 +96,7 @@ function MantenimientoPage() {
         </div>
 
         <Tabs defaultValue="incidencias">
-          <TabsList className="bg-[#fffdf5]">
+          <TabsList className="bg-[#F8FAFC]">
             <TabsTrigger value="incidencias">Incidencias</TabsTrigger>
             <TabsTrigger value="ordenes">Órdenes</TabsTrigger>
             <TabsTrigger value="proveedores">Proveedores</TabsTrigger>
@@ -106,7 +106,7 @@ function MantenimientoPage() {
           <TabsContent value="incidencias" className="space-y-3 pt-4">
             <Card className="p-3 flex flex-wrap gap-2 items-center">
               <div className="relative flex-1 min-w-[200px]">
-                <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#6b7a99]" />
+                <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#64748B]" />
                 <Input placeholder="Buscar..." value={qInc} onChange={(e) => setQInc(e.target.value)} className="pl-9" />
               </div>
               <Select value={fIncEstado} onValueChange={setFIncEstado}>
@@ -123,17 +123,17 @@ function MantenimientoPage() {
                   {["baja","media","alta","urgente"].map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
                 </SelectContent>
               </Select>
-              <Button onClick={() => { setIncEdit(null); setIncOpen(true); }} disabled={edificioId === "all"} className="bg-[#0a1e3f] hover:bg-[#001a4d]">
+              <Button onClick={() => { setIncEdit(null); setIncOpen(true); }} disabled={edificioId === "all"} className="bg-[#173B7A] hover:bg-[#0f2659]">
                 <Plus className="w-4 h-4 mr-1" />Reportar
               </Button>
             </Card>
             <Card className="overflow-x-auto">
               <table className="w-full text-sm">
-                <thead className="bg-[#fffdf5] text-[#6b7a99]">
+                <thead className="bg-[#F8FAFC] text-[#64748B]">
                   <tr><th className="text-left p-3">Fecha</th><th className="text-left p-3">Tipo</th><th className="text-left p-3">Descripción</th><th className="text-left p-3">Prioridad</th><th className="text-left p-3">Estado</th><th className="p-3"></th></tr>
                 </thead>
                 <tbody>
-                  {incFiltered.length === 0 && <tr><td colSpan={6} className="text-center text-[#6b7a99] py-8">Sin incidencias</td></tr>}
+                  {incFiltered.length === 0 && <tr><td colSpan={6} className="text-center text-[#64748B] py-8">Sin incidencias</td></tr>}
                   {incFiltered.map((i) => (
                     <tr key={i.id} className="border-t border-[#f0e6e0]">
                       <td className="p-3 whitespace-nowrap">{fmtDate(i.created_at)}</td>
@@ -156,7 +156,7 @@ function MantenimientoPage() {
           <TabsContent value="ordenes" className="space-y-3 pt-4">
             <Card className="p-3 flex flex-wrap gap-2 items-center">
               <div className="relative flex-1 min-w-[200px]">
-                <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#6b7a99]" />
+                <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#64748B]" />
                 <Input placeholder="Buscar..." value={qOrd} onChange={(e) => setQOrd(e.target.value)} className="pl-9" />
               </div>
               <Select value={fOrdEstado} onValueChange={setFOrdEstado}>
@@ -166,17 +166,17 @@ function MantenimientoPage() {
                   {["pendiente","en_proceso","completado","cancelado"].map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
                 </SelectContent>
               </Select>
-              <Button onClick={() => { setOrdEdit(null); setOrdOpen(true); }} disabled={edificioId === "all"} className="bg-[#0a1e3f] hover:bg-[#001a4d]">
+              <Button onClick={() => { setOrdEdit(null); setOrdOpen(true); }} disabled={edificioId === "all"} className="bg-[#173B7A] hover:bg-[#0f2659]">
                 <Plus className="w-4 h-4 mr-1" />Nueva orden
               </Button>
             </Card>
             <Card className="overflow-x-auto">
               <table className="w-full text-sm">
-                <thead className="bg-[#fffdf5] text-[#6b7a99]">
+                <thead className="bg-[#F8FAFC] text-[#64748B]">
                   <tr><th className="text-left p-3">Título</th><th className="text-left p-3">Área</th><th className="text-left p-3">Proveedor</th><th className="text-left p-3">Límite</th><th className="text-right p-3">Costo</th><th className="text-left p-3">Estado</th><th className="p-3"></th></tr>
                 </thead>
                 <tbody>
-                  {ordFiltered.length === 0 && <tr><td colSpan={7} className="text-center text-[#6b7a99] py-8">Sin órdenes</td></tr>}
+                  {ordFiltered.length === 0 && <tr><td colSpan={7} className="text-center text-[#64748B] py-8">Sin órdenes</td></tr>}
                   {ordFiltered.map((o) => (
                     <tr key={o.id} className="border-t border-[#f0e6e0]">
                       <td className="p-3 font-medium">{o.titulo}</td>
@@ -200,23 +200,23 @@ function MantenimientoPage() {
           <TabsContent value="proveedores" className="space-y-3 pt-4">
             <Card className="p-3 flex flex-wrap gap-2 items-center">
               <div className="relative flex-1 min-w-[200px]">
-                <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#6b7a99]" />
+                <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#64748B]" />
                 <Input placeholder="Buscar proveedor..." value={qProv} onChange={(e) => setQProv(e.target.value)} className="pl-9" />
               </div>
-              <Button onClick={() => { setProvEdit(null); setProvOpen(true); }} className="bg-[#0a1e3f] hover:bg-[#001a4d]">
+              <Button onClick={() => { setProvEdit(null); setProvOpen(true); }} className="bg-[#173B7A] hover:bg-[#0f2659]">
                 <Plus className="w-4 h-4 mr-1" />Nuevo proveedor
               </Button>
             </Card>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {provFiltered.length === 0 && <div className="col-span-full text-center text-[#6b7a99] py-8"><Users className="w-8 h-8 mx-auto mb-2" />Sin proveedores</div>}
+              {provFiltered.length === 0 && <div className="col-span-full text-center text-[#64748B] py-8"><Users className="w-8 h-8 mx-auto mb-2" />Sin proveedores</div>}
               {provFiltered.map((p) => (
                 <Card key={p.id} className="p-4">
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <div className="font-semibold text-[#0a1e3f]">{p.nombre}</div>
-                      <div className="text-xs text-[#6b7a99]">{p.servicio ?? "—"}</div>
+                      <div className="font-semibold text-[#173B7A]">{p.nombre}</div>
+                      <div className="text-xs text-[#64748B]">{p.servicio ?? "—"}</div>
                     </div>
-                    {p.calificacion && <div className="flex items-center gap-1 text-sm text-[#0a1e3f]"><Star className="w-4 h-4 fill-current" />{Number(p.calificacion).toFixed(1)}</div>}
+                    {p.calificacion && <div className="flex items-center gap-1 text-sm text-[#173B7A]"><Star className="w-4 h-4 fill-current" />{Number(p.calificacion).toFixed(1)}</div>}
                   </div>
                   <div className="mt-3 space-y-1 text-sm text-[#5a3520]">
                     {p.telefono && <div className="flex items-center gap-2"><Phone className="w-3.5 h-3.5" />{p.telefono}</div>}

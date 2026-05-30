@@ -9,7 +9,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { name: "theme-color", content: "#ffd60a" },
+      { name: "theme-color", content: "#D9A441" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "default" },
       { name: "apple-mobile-web-app-title", content: "Altura Cloud" },
@@ -53,7 +53,7 @@ function RootComponent() {
         <Toaster
           position="top-right"
           toastOptions={{
-            style: { background: "#0a1e3f", color: "#fffdf5", borderRadius: "12px" },
+            style: { background: "#173B7A", color: "#F8FAFC", borderRadius: "12px" },
             success: { iconTheme: { primary: "#166534", secondary: "#fff" } },
             error: { iconTheme: { primary: "#be185d", secondary: "#fff" } },
           }}

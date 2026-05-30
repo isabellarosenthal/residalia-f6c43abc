@@ -21,7 +21,7 @@ const recaudacion = [
 const estadoPagos = [
   { name: "Al día", value: 14, color: "#166534" },
   { name: "Morosos", value: 4, color: "#be185d" },
-  { name: "Parcial", value: 2, color: "#ffd60a" },
+  { name: "Parcial", value: 2, color: "#D9A441" },
 ];
 
 function DashboardPage() {
@@ -39,18 +39,18 @@ function DashboardPage() {
       <div className="space-y-6 max-w-[1400px] mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="font-display font-extrabold text-2xl text-[#0a1e3f]">{saludo}, {firstName} 👋</h1>
-            <p className="text-sm text-[#6b7a99]">Resumen de tu operación de hoy</p>
+            <h1 className="font-display font-extrabold text-2xl text-[#173B7A]">{saludo}, {firstName} 👋</h1>
+            <p className="text-sm text-[#64748B]">Resumen de tu operación de hoy</p>
           </div>
-          <div className="flex items-center gap-2 bg-white border border-[#e8ecf3] rounded-full p-1">
+          <div className="flex items-center gap-2 bg-white border border-[#E2E8F0] rounded-full p-1">
             {["Este mes", "Mes anterior", "Este año"].map((p, i) => (
-              <button key={p} className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${i === 0 ? "bg-[#0a1e3f] text-white" : "text-[#13294b] hover:bg-[#fffdf5]"}`}>{p}</button>
+              <button key={p} className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${i === 0 ? "bg-[#173B7A] text-white" : "text-[#1E293B] hover:bg-[#F8FAFC]"}`}>{p}</button>
             ))}
           </div>
         </div>
 
         <section>
-          <h2 className="text-xs uppercase tracking-widest text-[#6b7a99] font-semibold mb-3">Administración</h2>
+          <h2 className="text-xs uppercase tracking-widest text-[#64748B] font-semibold mb-3">Administración</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <KpiCard icon={<Wallet className="w-5 h-5" />} label="Recaudación del mes" value={fmtL(48500)} sub="L 48,500 de L 60,000 meta" accent="primary" />
             <KpiCard icon={<AlertTriangle className="w-5 h-5" />} label="Unidades morosas" value="4" sub="L 18,200 pendiente" accent="danger" />
@@ -60,7 +60,7 @@ function DashboardPage() {
         </section>
 
         <section>
-          <h2 className="text-xs uppercase tracking-widest text-[#6b7a99] font-semibold mb-3">Comercial</h2>
+          <h2 className="text-xs uppercase tracking-widest text-[#64748B] font-semibold mb-3">Comercial</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <KpiCard icon={<Tag className="w-5 h-5" />} label="Unidades en venta/renta" value="5" sub="3 venta · 2 renta" accent="primary" />
             <KpiCard icon={<UserPlus className="w-5 h-5" />} label="Prospectos activos" value="8" sub="3 calientes" accent="neutral" />
@@ -71,32 +71,32 @@ function DashboardPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <Card className="p-5">
-            <h3 className="font-display font-bold text-[#0a1e3f] mb-1">Recaudación (últimos 6 meses)</h3>
-            <p className="text-xs text-[#6b7a99] mb-4">Comparado con la meta mensual</p>
+            <h3 className="font-display font-bold text-[#173B7A] mb-1">Recaudación (últimos 6 meses)</h3>
+            <p className="text-xs text-[#64748B] mb-4">Comparado con la meta mensual</p>
             <div className="h-64">
               <ResponsiveContainer>
                 <BarChart data={recaudacion}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e8ecf3" />
-                  <XAxis dataKey="mes" stroke="#6b7a99" fontSize={12} />
-                  <YAxis stroke="#6b7a99" fontSize={12} tickFormatter={(v) => `L${v / 1000}k`} />
-                  <Tooltip contentStyle={{ background: "#0a1e3f", border: "none", borderRadius: 12, color: "#fff8d6" }} formatter={(v: any) => fmtL(v as number)} />
-                  <ReferenceLine y={60000} stroke="#0a1e3f" strokeDasharray="4 4" />
-                  <Bar dataKey="monto" fill="#ffd60a" radius={[6, 6, 0, 0]} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
+                  <XAxis dataKey="mes" stroke="#64748B" fontSize={12} />
+                  <YAxis stroke="#64748B" fontSize={12} tickFormatter={(v) => `L${v / 1000}k`} />
+                  <Tooltip contentStyle={{ background: "#173B7A", border: "none", borderRadius: 12, color: "#FAF1DC" }} formatter={(v: any) => fmtL(v as number)} />
+                  <ReferenceLine y={60000} stroke="#173B7A" strokeDasharray="4 4" />
+                  <Bar dataKey="monto" fill="#D9A441" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
           </Card>
 
           <Card className="p-5">
-            <h3 className="font-display font-bold text-[#0a1e3f] mb-1">Estado de pagos</h3>
-            <p className="text-xs text-[#6b7a99] mb-4">Distribución del mes actual</p>
+            <h3 className="font-display font-bold text-[#173B7A] mb-1">Estado de pagos</h3>
+            <p className="text-xs text-[#64748B] mb-4">Distribución del mes actual</p>
             <div className="h-64">
               <ResponsiveContainer>
                 <PieChart>
                   <Pie data={estadoPagos} dataKey="value" nameKey="name" innerRadius={55} outerRadius={90} paddingAngle={3}>
                     {estadoPagos.map((e) => <Cell key={e.name} fill={e.color} />)}
                   </Pie>
-                  <Tooltip contentStyle={{ background: "#0a1e3f", border: "none", borderRadius: 12, color: "#fff8d6" }} />
+                  <Tooltip contentStyle={{ background: "#173B7A", border: "none", borderRadius: 12, color: "#FAF1DC" }} />
                 </PieChart>
               </ResponsiveContainer>
             </div>
@@ -104,7 +104,7 @@ function DashboardPage() {
               {estadoPagos.map((e) => (
                 <div key={e.name} className="flex items-center gap-2 text-sm">
                   <span className="w-3 h-3 rounded-full" style={{ background: e.color }} />
-                  <span className="text-[#13294b]">{e.name}: <b>{e.value}</b></span>
+                  <span className="text-[#1E293B]">{e.name}: <b>{e.value}</b></span>
                 </div>
               ))}
             </div>
@@ -112,25 +112,25 @@ function DashboardPage() {
         </div>
 
         <Card className="overflow-hidden">
-          <div className="p-5 border-b border-[#e8ecf3]">
-            <h3 className="font-display font-bold text-[#0a1e3f]">Disponibilidad comercial de tus edificios</h3>
+          <div className="p-5 border-b border-[#E2E8F0]">
+            <h3 className="font-display font-bold text-[#173B7A]">Disponibilidad comercial de tus edificios</h3>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="bg-[#fffdf5] text-[#0a1e3f]">
+              <thead className="bg-[#F8FAFC] text-[#173B7A]">
                 <tr>
                   {["Edificio", "Total", "Ocupadas", "En venta", "En renta", "Prospectos", "Cierres mes"].map((h) => (
                     <th key={h} className="text-left px-5 py-3 font-semibold uppercase text-xs">{h}</th>
                   ))}
                 </tr>
               </thead>
-              <tbody className="text-[#13294b]">
+              <tbody className="text-[#1E293B]">
                 {[
                   { e: "Torres del Valle", t: 24, o: 18, v: 3, r: 2, p: 6, c: 1 },
                   { e: "Residencial La Ceiba", t: 18, o: 14, v: 2, r: 1, p: 2, c: 1 },
                 ].map((r) => (
-                  <tr key={r.e} className="border-b border-[#e8ecf3] hover:bg-[#ffffff] transition-colors">
-                    <td className="px-5 py-3 font-medium text-[#0a1e3f]">{r.e}</td>
+                  <tr key={r.e} className="border-b border-[#E2E8F0] hover:bg-[#ffffff] transition-colors">
+                    <td className="px-5 py-3 font-medium text-[#173B7A]">{r.e}</td>
                     <td className="px-5 py-3">{r.t}</td>
                     <td className="px-5 py-3">{r.o}</td>
                     <td className="px-5 py-3"><Badge variant="venta">{r.v}</Badge></td>

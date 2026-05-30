@@ -18,7 +18,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   if (loading || !user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#ffffff]">
-        <div className="text-[#6b7a99] text-sm">Cargando…</div>
+        <div className="text-[#64748B] text-sm">Cargando…</div>
       </div>
     );
   }

@@ -62,7 +62,7 @@ export function CobrosTable({ edificioId, onEdit }: { edificioId: string; onEdit
     <div className="space-y-3">
       <div className="flex flex-wrap gap-2 items-center">
         <div className="relative flex-1 min-w-[200px]">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#6b7a99]" />
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#64748B]" />
           <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar concepto…" className="pl-9" />
         </div>
         <Select value={estado} onValueChange={setEstado}>
@@ -84,7 +84,7 @@ export function CobrosTable({ edificioId, onEdit }: { edificioId: string; onEdit
         </Select>
         <Input type="date" value={desde} onChange={(e) => setDesde(e.target.value)} className="w-[150px]" title="Vence desde" />
         <Input type="date" value={hasta} onChange={(e) => setHasta(e.target.value)} className="w-[150px]" title="Vence hasta" />
-        <label className="flex items-center gap-2 text-sm text-[#0a1e3f] cursor-pointer select-none px-2">
+        <label className="flex items-center gap-2 text-sm text-[#173B7A] cursor-pointer select-none px-2">
           <Switch checked={soloMorosos} onCheckedChange={setSoloMorosos} />
           Solo morosos
         </label>
@@ -93,42 +93,42 @@ export function CobrosTable({ edificioId, onEdit }: { edificioId: string; onEdit
         </Button>
       </div>
 
-      <div className="bg-white border border-[#e8ecf3] rounded-2xl overflow-hidden">
+      <div className="bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="bg-[#fffdf5] hover:bg-[#fffdf5]">
-              <TableHead className="text-[#0a1e3f] font-semibold">Concepto</TableHead>
-              <TableHead className="text-[#0a1e3f] font-semibold">Unidad · Residente</TableHead>
-              <TableHead className="text-[#0a1e3f] font-semibold text-right">Monto</TableHead>
-              <TableHead className="text-[#0a1e3f] font-semibold text-right">Abonado</TableHead>
-              <TableHead className="text-[#0a1e3f] font-semibold text-right">Saldo</TableHead>
-              <TableHead className="text-[#0a1e3f] font-semibold">Vence</TableHead>
-              <TableHead className="text-[#0a1e3f] font-semibold">Estado</TableHead>
-              <TableHead className="text-[#0a1e3f] font-semibold text-right">Acciones</TableHead>
+            <TableRow className="bg-[#F8FAFC] hover:bg-[#F8FAFC]">
+              <TableHead className="text-[#173B7A] font-semibold">Concepto</TableHead>
+              <TableHead className="text-[#173B7A] font-semibold">Unidad · Residente</TableHead>
+              <TableHead className="text-[#173B7A] font-semibold text-right">Monto</TableHead>
+              <TableHead className="text-[#173B7A] font-semibold text-right">Abonado</TableHead>
+              <TableHead className="text-[#173B7A] font-semibold text-right">Saldo</TableHead>
+              <TableHead className="text-[#173B7A] font-semibold">Vence</TableHead>
+              <TableHead className="text-[#173B7A] font-semibold">Estado</TableHead>
+              <TableHead className="text-[#173B7A] font-semibold text-right">Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {isLoading && <TableRow><TableCell colSpan={8} className="py-10 text-center text-[#6b7a99]">Cargando…</TableCell></TableRow>}
-            {!isLoading && filtered.length === 0 && <TableRow><TableCell colSpan={8} className="py-10 text-center text-[#6b7a99]">Sin cobros para los filtros.</TableCell></TableRow>}
+            {isLoading && <TableRow><TableCell colSpan={8} className="py-10 text-center text-[#64748B]">Cargando…</TableCell></TableRow>}
+            {!isLoading && filtered.length === 0 && <TableRow><TableCell colSpan={8} className="py-10 text-center text-[#64748B]">Sin cobros para los filtros.</TableCell></TableRow>}
             {filtered.map((c) => {
               const abonado = abonadoMap.get(c.id) ?? 0;
               const saldo = Math.max(0, Number(c.monto) - abonado);
               return (
                 <TableRow key={c.id}>
-                  <TableCell><div className="font-medium text-[#0a1e3f]">{c.concepto}</div>{c.recibo_numero && <div className="text-xs text-[#6b7a99]">{c.recibo_numero}</div>}</TableCell>
+                  <TableCell><div className="font-medium text-[#173B7A]">{c.concepto}</div>{c.recibo_numero && <div className="text-xs text-[#64748B]">{c.recibo_numero}</div>}</TableCell>
                   <TableCell className="text-sm">
-                    <div className="text-[#0a1e3f]">{c.unidad_id ? `#${uniMap.get(c.unidad_id) ?? "—"}` : "—"}</div>
-                    <div className="text-xs text-[#6b7a99]">{c.residente_id ? resMap.get(c.residente_id) ?? "—" : "—"}</div>
+                    <div className="text-[#173B7A]">{c.unidad_id ? `#${uniMap.get(c.unidad_id) ?? "—"}` : "—"}</div>
+                    <div className="text-xs text-[#64748B]">{c.residente_id ? resMap.get(c.residente_id) ?? "—" : "—"}</div>
                   </TableCell>
-                  <TableCell className="text-right font-semibold text-[#0a1e3f]">{fmtL(c.monto)}</TableCell>
+                  <TableCell className="text-right font-semibold text-[#173B7A]">{fmtL(c.monto)}</TableCell>
                   <TableCell className="text-right text-sm text-[#166534]">{abonado > 0 ? fmtL(abonado) : "—"}</TableCell>
-                  <TableCell className="text-right font-semibold text-[#0a1e3f]">{saldo > 0 ? fmtL(saldo) : "—"}</TableCell>
+                  <TableCell className="text-right font-semibold text-[#173B7A]">{saldo > 0 ? fmtL(saldo) : "—"}</TableCell>
                   <TableCell className="text-sm">{fmtDate(c.fecha_vencimiento)}</TableCell>
                   <TableCell>{estadoBadge(c)}</TableCell>
                   <TableCell className="text-right">
                     {c.estado === "pagado" && (
                       <Link to="/recibo/$cobroId" params={{ cobroId: c.id }} target="_blank">
-                        <Button size="sm" variant="ghost" title="Imprimir recibo" className="h-8 w-8 p-0 text-[#0a1e3f]"><Printer className="w-4 h-4" /></Button>
+                        <Button size="sm" variant="ghost" title="Imprimir recibo" className="h-8 w-8 p-0 text-[#173B7A]"><Printer className="w-4 h-4" /></Button>
                       </Link>
                     )}
                     <Button size="sm" variant="ghost" title={saldo > 0 ? "Registrar pago" : "Ver pagos"} onClick={() => setPagoCobro(c)} className="h-8 w-8 p-0 text-[#166534]"><DollarSign className="w-4 h-4" /></Button>

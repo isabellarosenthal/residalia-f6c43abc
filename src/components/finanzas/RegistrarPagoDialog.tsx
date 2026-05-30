@@ -51,18 +51,18 @@ export function RegistrarPagoDialog({
         </DialogHeader>
 
         <div className="grid grid-cols-3 gap-2 text-sm mb-3">
-          <div className="p-2 rounded-lg bg-[#fffdf5]"><div className="text-xs text-[#6b7a99]">Total</div><div className="font-bold">{fmtL(cobro.monto)}</div></div>
-          <div className="p-2 rounded-lg bg-[#fffdf5]"><div className="text-xs text-[#6b7a99]">Abonado</div><div className="font-bold text-[#166534]">{fmtL(abonado)}</div></div>
-          <div className="p-2 rounded-lg bg-[#fffdf5]"><div className="text-xs text-[#6b7a99]">Saldo</div><div className="font-bold text-[#0a1e3f]">{fmtL(saldo)}</div></div>
+          <div className="p-2 rounded-lg bg-[#F8FAFC]"><div className="text-xs text-[#64748B]">Total</div><div className="font-bold">{fmtL(cobro.monto)}</div></div>
+          <div className="p-2 rounded-lg bg-[#F8FAFC]"><div className="text-xs text-[#64748B]">Abonado</div><div className="font-bold text-[#166534]">{fmtL(abonado)}</div></div>
+          <div className="p-2 rounded-lg bg-[#F8FAFC]"><div className="text-xs text-[#64748B]">Saldo</div><div className="font-bold text-[#173B7A]">{fmtL(saldo)}</div></div>
         </div>
 
         {saldo > 0 && (
-          <form onSubmit={handleSubmit} className="space-y-3 border-t border-[#e8ecf3] pt-3">
+          <form onSubmit={handleSubmit} className="space-y-3 border-t border-[#E2E8F0] pt-3">
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <Label>Monto *</Label>
                 <Input type="number" step="0.01" min="0.01" max={saldo} value={monto} onChange={(e) => setMonto(e.target.value)} required />
-                <button type="button" onClick={() => setMonto(String(saldo))} className="text-xs text-[#0a1e3f] hover:underline mt-1">Usar saldo {fmtL(saldo)}</button>
+                <button type="button" onClick={() => setMonto(String(saldo))} className="text-xs text-[#173B7A] hover:underline mt-1">Usar saldo {fmtL(saldo)}</button>
               </div>
               <div>
                 <Label>Fecha</Label>
@@ -86,20 +86,20 @@ export function RegistrarPagoDialog({
             </div>
             <DialogFooter>
               <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>Cerrar</Button>
-              <Button type="submit" disabled={reg.isPending} className="bg-[#0a1e3f] hover:bg-[#001a4d]">Registrar pago</Button>
+              <Button type="submit" disabled={reg.isPending} className="bg-[#173B7A] hover:bg-[#0f2659]">Registrar pago</Button>
             </DialogFooter>
           </form>
         )}
 
         {pagos.length > 0 && (
-          <div className="border-t border-[#e8ecf3] pt-3 mt-3">
-            <div className="text-xs uppercase tracking-wider text-[#6b7a99] mb-2">Historial de pagos</div>
+          <div className="border-t border-[#E2E8F0] pt-3 mt-3">
+            <div className="text-xs uppercase tracking-wider text-[#64748B] mb-2">Historial de pagos</div>
             <div className="space-y-1 max-h-48 overflow-y-auto">
               {pagos.map((p) => (
                 <div key={p.id} className="flex items-center justify-between bg-[#faf6f3] rounded-lg px-3 py-2 text-sm">
                   <div>
-                    <div className="font-semibold text-[#0a1e3f]">{fmtL(p.monto)} <span className="text-xs text-[#6b7a99] font-normal">· {p.metodo}</span></div>
-                    <div className="text-xs text-[#6b7a99]">{fmtDate(p.fecha)}{p.referencia ? ` · ${p.referencia}` : ""}</div>
+                    <div className="font-semibold text-[#173B7A]">{fmtL(p.monto)} <span className="text-xs text-[#64748B] font-normal">· {p.metodo}</span></div>
+                    <div className="text-xs text-[#64748B]">{fmtDate(p.fecha)}{p.referencia ? ` · ${p.referencia}` : ""}</div>
                   </div>
                   <Button type="button" size="sm" variant="ghost" onClick={() => { if (confirm("¿Anular este pago?")) anular.mutate(p.id); }} className="h-8 w-8 p-0 text-[#be185d]">
                     <Trash2 className="w-4 h-4" />

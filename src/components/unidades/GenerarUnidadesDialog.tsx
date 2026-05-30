@@ -39,7 +39,7 @@ export function GenerarUnidadesDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[440px]">
         <DialogHeader>
-          <DialogTitle className="font-display text-xl text-[#0a1e3f]">Generar unidades en bloque</DialogTitle>
+          <DialogTitle className="font-display text-xl text-[#173B7A]">Generar unidades en bloque</DialogTitle>
         </DialogHeader>
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-3">
@@ -50,13 +50,13 @@ export function GenerarUnidadesDialog({
             <div><Label>Unidades por piso</Label><Input type="number" min={1} value={porPiso} onChange={(e) => setPorPiso(Number(e.target.value))} /></div>
             <div><Label>Prefijo (opcional)</Label><Input value={prefijo} onChange={(e) => setPrefijo(e.target.value)} placeholder="A-" /></div>
           </div>
-          <div className="bg-[#fffdf5] rounded-lg p-3 text-sm text-[#13294b]">
-            Se crearán <b className="text-[#0a1e3f]">{total}</b> unidades. Ejemplo: <code className="text-xs bg-white px-1.5 py-0.5 rounded">{prefijo}{pisoInicial}01</code>
+          <div className="bg-[#F8FAFC] rounded-lg p-3 text-sm text-[#1E293B]">
+            Se crearán <b className="text-[#173B7A]">{total}</b> unidades. Ejemplo: <code className="text-xs bg-white px-1.5 py-0.5 rounded">{prefijo}{pisoInicial}01</code>
           </div>
         </div>
         <DialogFooter>
           <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-          <Button onClick={generar} disabled={total === 0 || bulk.isPending} className="bg-[#0a1e3f] hover:bg-[#001a4d]">
+          <Button onClick={generar} disabled={total === 0 || bulk.isPending} className="bg-[#173B7A] hover:bg-[#0f2659]">
             {bulk.isPending ? "Generando…" : `Generar ${total}`}
           </Button>
         </DialogFooter>

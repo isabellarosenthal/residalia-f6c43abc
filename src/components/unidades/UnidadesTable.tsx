@@ -72,7 +72,7 @@ export function UnidadesTable({ edificioId, onEdit }: { edificioId: string; onEd
     <div className="space-y-4">
       <div className="flex flex-wrap gap-2">
         <div className="relative flex-1 min-w-[200px]">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#6b7a99]" />
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#64748B]" />
           <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar por número…" className="pl-9" />
         </div>
         <Select value={admin} onValueChange={setAdmin}>
@@ -100,8 +100,8 @@ export function UnidadesTable({ edificioId, onEdit }: { edificioId: string; onEd
 
       {selected.size > 0 && (
         <div className="flex flex-wrap items-center gap-2 bg-[#fff5ec] border border-[#f3d6bd] rounded-xl px-3 py-2">
-          <span className="text-sm font-semibold text-[#0a1e3f]">{selected.size} seleccionada{selected.size > 1 ? "s" : ""}</span>
-          <span className="text-xs text-[#6b7a99]">·</span>
+          <span className="text-sm font-semibold text-[#173B7A]">{selected.size} seleccionada{selected.size > 1 ? "s" : ""}</span>
+          <span className="text-xs text-[#64748B]">·</span>
           <Select onValueChange={(v) => applyBulk({ estado_administrativo: v })}>
             <SelectTrigger className="h-8 w-[180px] bg-white"><SelectValue placeholder="Cambiar estado admin" /></SelectTrigger>
             <SelectContent>
@@ -134,29 +134,29 @@ export function UnidadesTable({ edificioId, onEdit }: { edificioId: string; onEd
         </div>
       )}
 
-      <div className="bg-white border border-[#e8ecf3] rounded-2xl overflow-hidden">
+      <div className="bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="bg-[#fffdf5] hover:bg-[#fffdf5]">
+            <TableRow className="bg-[#F8FAFC] hover:bg-[#F8FAFC]">
               <TableHead className="w-10">
                 <Checkbox checked={allChecked} onCheckedChange={toggleAll} aria-label="Seleccionar todas" />
               </TableHead>
-              <TableHead className="text-[#0a1e3f] font-semibold">Unidad</TableHead>
-              <TableHead className="text-[#0a1e3f] font-semibold">Tipo</TableHead>
-              <TableHead className="text-[#0a1e3f] font-semibold">Características</TableHead>
-              <TableHead className="text-[#0a1e3f] font-semibold">Estado admin.</TableHead>
-              <TableHead className="text-[#0a1e3f] font-semibold">Estado comercial</TableHead>
-              <TableHead className="text-[#0a1e3f] font-semibold">Propietario / Inquilino</TableHead>
-              <TableHead className="text-[#0a1e3f] font-semibold text-right">Precios</TableHead>
-              <TableHead className="text-[#0a1e3f] font-semibold text-right">Acciones</TableHead>
+              <TableHead className="text-[#173B7A] font-semibold">Unidad</TableHead>
+              <TableHead className="text-[#173B7A] font-semibold">Tipo</TableHead>
+              <TableHead className="text-[#173B7A] font-semibold">Características</TableHead>
+              <TableHead className="text-[#173B7A] font-semibold">Estado admin.</TableHead>
+              <TableHead className="text-[#173B7A] font-semibold">Estado comercial</TableHead>
+              <TableHead className="text-[#173B7A] font-semibold">Propietario / Inquilino</TableHead>
+              <TableHead className="text-[#173B7A] font-semibold text-right">Precios</TableHead>
+              <TableHead className="text-[#173B7A] font-semibold text-right">Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {isLoading && (
-              <TableRow><TableCell colSpan={9} className="py-10 text-center text-[#6b7a99]">Cargando unidades…</TableCell></TableRow>
+              <TableRow><TableCell colSpan={9} className="py-10 text-center text-[#64748B]">Cargando unidades…</TableCell></TableRow>
             )}
             {!isLoading && filtered.length === 0 && (
-              <TableRow><TableCell colSpan={9} className="py-10 text-center text-[#6b7a99]">Sin unidades para los filtros aplicados.</TableCell></TableRow>
+              <TableRow><TableCell colSpan={9} className="py-10 text-center text-[#64748B]">Sin unidades para los filtros aplicados.</TableCell></TableRow>
             )}
             {filtered.map((u) => (
               <TableRow key={u.id} data-state={selected.has(u.id) ? "selected" : undefined}>
@@ -164,28 +164,28 @@ export function UnidadesTable({ edificioId, onEdit }: { edificioId: string; onEd
                   <Checkbox checked={selected.has(u.id)} onCheckedChange={() => toggle(u.id)} aria-label={`Seleccionar ${u.numero}`} />
                 </TableCell>
                 <TableCell>
-                  <div className="font-semibold text-[#0a1e3f]">#{u.numero}</div>
-                  <div className="text-xs text-[#6b7a99]">{u.piso != null ? `Piso ${u.piso}` : "—"}</div>
+                  <div className="font-semibold text-[#173B7A]">#{u.numero}</div>
+                  <div className="text-xs text-[#64748B]">{u.piso != null ? `Piso ${u.piso}` : "—"}</div>
                 </TableCell>
                 <TableCell className="capitalize">{u.tipo ?? "—"}</TableCell>
                 <TableCell>
-                  <div className="flex items-center gap-3 text-xs text-[#13294b]">
-                    <span className="flex items-center gap-1"><BedDouble className="w-3.5 h-3.5 text-[#6b7a99]" />{u.habitaciones ?? 0}</span>
-                    <span className="flex items-center gap-1"><Bath className="w-3.5 h-3.5 text-[#6b7a99]" />{u.banos ?? 0}</span>
-                    <span className="flex items-center gap-1"><Car className="w-3.5 h-3.5 text-[#6b7a99]" />{u.parqueos ?? 0}</span>
+                  <div className="flex items-center gap-3 text-xs text-[#1E293B]">
+                    <span className="flex items-center gap-1"><BedDouble className="w-3.5 h-3.5 text-[#64748B]" />{u.habitaciones ?? 0}</span>
+                    <span className="flex items-center gap-1"><Bath className="w-3.5 h-3.5 text-[#64748B]" />{u.banos ?? 0}</span>
+                    <span className="flex items-center gap-1"><Car className="w-3.5 h-3.5 text-[#64748B]" />{u.parqueos ?? 0}</span>
                   </div>
-                  {u.area_m2_construccion && <div className="text-xs text-[#6b7a99] mt-0.5">{u.area_m2_construccion} m²</div>}
+                  {u.area_m2_construccion && <div className="text-xs text-[#64748B] mt-0.5">{u.area_m2_construccion} m²</div>}
                 </TableCell>
                 <TableCell><EstadoAdminBadge value={u.estado_administrativo} /></TableCell>
                 <TableCell><EstadoComercialBadge value={u.estado_comercial} /></TableCell>
                 <TableCell className="text-sm">
-                  <div className="text-[#0a1e3f]">{u.propietario_id ? residentesMap?.get(u.propietario_id) ?? "—" : "—"}</div>
-                  <div className="text-xs text-[#6b7a99]">{u.inquilino_id ? `Inq: ${residentesMap?.get(u.inquilino_id) ?? "—"}` : ""}</div>
+                  <div className="text-[#173B7A]">{u.propietario_id ? residentesMap?.get(u.propietario_id) ?? "—" : "—"}</div>
+                  <div className="text-xs text-[#64748B]">{u.inquilino_id ? `Inq: ${residentesMap?.get(u.inquilino_id) ?? "—"}` : ""}</div>
                 </TableCell>
                 <TableCell className="text-right">
-                  {u.precio_venta && <div className="text-sm font-semibold text-[#0a1e3f]">{fmtMoney(u.precio_venta, (u as any).moneda)}</div>}
-                  {u.precio_renta && <div className="text-xs text-[#13294b]">Renta: {fmtMoney(u.precio_renta, (u as any).moneda)}</div>}
-                  {!u.precio_venta && !u.precio_renta && <span className="text-[#6b7a99] text-sm">—</span>}
+                  {u.precio_venta && <div className="text-sm font-semibold text-[#173B7A]">{fmtMoney(u.precio_venta, (u as any).moneda)}</div>}
+                  {u.precio_renta && <div className="text-xs text-[#1E293B]">Renta: {fmtMoney(u.precio_renta, (u as any).moneda)}</div>}
+                  {!u.precio_venta && !u.precio_renta && <span className="text-[#64748B] text-sm">—</span>}
                 </TableCell>
                 <TableCell className="text-right">
                   <Button size="sm" variant="ghost" onClick={() => onEdit(u)} className="h-8 w-8 p-0"><Pencil className="w-4 h-4" /></Button>

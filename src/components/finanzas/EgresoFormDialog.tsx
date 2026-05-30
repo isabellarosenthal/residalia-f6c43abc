@@ -123,7 +123,7 @@ export function EgresoFormDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px]">
-        <DialogHeader><DialogTitle className="font-display text-xl text-[#0a1e3f]">{egreso ? "Editar egreso" : "Nuevo egreso"}</DialogTitle></DialogHeader>
+        <DialogHeader><DialogTitle className="font-display text-xl text-[#173B7A]">{egreso ? "Editar egreso" : "Nuevo egreso"}</DialogTitle></DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <Label>Edificio *</Label>
@@ -159,15 +159,15 @@ export function EgresoFormDialog({
           <div>
             <Label>Comprobante (PDF / imagen)</Label>
             {comprobanteUrl ? (
-              <div className="flex items-center gap-2 rounded-lg border border-[#e8ecf3] bg-[#fcf8f5] px-3 py-2">
-                <button type="button" onClick={openComprobante} className="flex-1 text-left text-sm text-[#13294b] truncate inline-flex items-center gap-2">
+              <div className="flex items-center gap-2 rounded-lg border border-[#E2E8F0] bg-[#fcf8f5] px-3 py-2">
+                <button type="button" onClick={openComprobante} className="flex-1 text-left text-sm text-[#1E293B] truncate inline-flex items-center gap-2">
                   <ExternalLink className="w-4 h-4 shrink-0" />
                   <span className="truncate">{comprobanteUrl.split("/").pop()}</span>
                 </button>
                 <Button type="button" size="sm" variant="ghost" onClick={removeComprobante} className="h-8 w-8 p-0 text-[#be185d]"><X className="w-4 h-4" /></Button>
               </div>
             ) : (
-              <label className={`flex items-center justify-center gap-2 rounded-lg border-2 border-dashed border-[#d6c5bd] px-3 py-4 text-sm text-[#6b7a99] cursor-pointer hover:bg-[#fcf8f5] ${uploading ? "opacity-60 pointer-events-none" : ""}`}>
+              <label className={`flex items-center justify-center gap-2 rounded-lg border-2 border-dashed border-[#d6c5bd] px-3 py-4 text-sm text-[#64748B] cursor-pointer hover:bg-[#fcf8f5] ${uploading ? "opacity-60 pointer-events-none" : ""}`}>
                 {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
                 {uploading ? "Subiendo…" : `Subir archivo (máx ${MAX_MB}MB)`}
                 <input type="file" accept="image/*,application/pdf" className="hidden" disabled={uploading || !condoId} onChange={(e) => { const f = e.target.files?.[0]; if (f) void handleFile(f); e.target.value = ""; }} />
@@ -176,7 +176,7 @@ export function EgresoFormDialog({
           </div>
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-            <Button type="submit" disabled={save.isPending || uploading} className="bg-[#0a1e3f] hover:bg-[#001a4d]">{save.isPending ? "Guardando…" : "Guardar"}</Button>
+            <Button type="submit" disabled={save.isPending || uploading} className="bg-[#173B7A] hover:bg-[#0f2659]">{save.isPending ? "Guardando…" : "Guardar"}</Button>
           </DialogFooter>
         </form>
       </DialogContent>

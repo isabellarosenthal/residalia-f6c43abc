@@ -8,8 +8,8 @@ export function AreasGrid({ edificioId, onEdit }: { edificioId: string; onEdit: 
   const { data: areas = [], isLoading } = useAreas(edificioId === "all" ? undefined : edificioId);
   const del = useDeleteArea();
 
-  if (isLoading) return <div className="text-center text-[#6b7a99] py-10">Cargando…</div>;
-  if (areas.length === 0) return <div className="text-center text-[#6b7a99] py-10">Sin áreas comunes. Crea la primera.</div>;
+  if (isLoading) return <div className="text-center text-[#64748B] py-10">Cargando…</div>;
+  if (areas.length === 0) return <div className="text-center text-[#64748B] py-10">Sin áreas comunes. Crea la primera.</div>;
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -17,9 +17,9 @@ export function AreasGrid({ edificioId, onEdit }: { edificioId: string; onEdit: 
         <Card key={a.id} className="p-5">
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-11 h-11 rounded-xl bg-[#fff8d6] text-[#0a1e3f] flex items-center justify-center shrink-0"><Sparkles className="w-5 h-5" /></div>
+              <div className="w-11 h-11 rounded-xl bg-[#FAF1DC] text-[#173B7A] flex items-center justify-center shrink-0"><Sparkles className="w-5 h-5" /></div>
               <div className="min-w-0">
-                <div className="font-display font-bold text-lg text-[#0a1e3f] truncate">{a.nombre}</div>
+                <div className="font-display font-bold text-lg text-[#173B7A] truncate">{a.nombre}</div>
                 {a.activa ? <Badge variant="success">Activa</Badge> : <Badge variant="neutral">Inactiva</Badge>}
               </div>
             </div>
@@ -29,8 +29,8 @@ export function AreasGrid({ edificioId, onEdit }: { edificioId: string; onEdit: 
             </div>
           </div>
           <div className="mt-4 space-y-1.5 text-sm text-[#5a3a25]">
-            {a.capacidad ? <div className="flex items-center gap-2"><Users className="w-4 h-4 text-[#6b7a99]" />Capacidad: {a.capacidad}</div> : null}
-            {(a.horario_inicio || a.horario_fin) && <div className="flex items-center gap-2"><Clock className="w-4 h-4 text-[#6b7a99]" />{a.horario_inicio?.slice(0,5) ?? "—"} – {a.horario_fin?.slice(0,5) ?? "—"}</div>}
+            {a.capacidad ? <div className="flex items-center gap-2"><Users className="w-4 h-4 text-[#64748B]" />Capacidad: {a.capacidad}</div> : null}
+            {(a.horario_inicio || a.horario_fin) && <div className="flex items-center gap-2"><Clock className="w-4 h-4 text-[#64748B]" />{a.horario_inicio?.slice(0,5) ?? "—"} – {a.horario_fin?.slice(0,5) ?? "—"}</div>}
           </div>
         </Card>
       ))}
