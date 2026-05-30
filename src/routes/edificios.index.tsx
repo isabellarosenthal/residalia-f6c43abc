@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { EdificioCard } from "@/components/edificios/EdificioCard";
 import { EdificiosSkeleton } from "@/components/edificios/EdificiosSkeleton";
 import { useEdificios, useUnidades } from "@/lib/queries";
+import { PlanLimitsBanner } from "@/components/PlanLimitsBanner";
 
 const EdificiosTable = lazy(() =>
   import("@/components/edificios/EdificiosTable").then((m) => ({ default: m.EdificiosTable }))
@@ -66,6 +67,9 @@ function EdificiosPage() {
             <Plus className="w-4 h-4 mr-1" /> Nuevo edificio
           </Button>
         </div>
+
+        <PlanLimitsBanner focus="all" />
+
 
         <div className="flex flex-wrap gap-2">
           <div className="relative flex-1 min-w-[220px]">
