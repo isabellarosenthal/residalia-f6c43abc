@@ -679,6 +679,39 @@ export function useMisPases() {
   });
 }
 
+export function useMisCobros() {
+  return useQuery({
+    queryKey: ["mis-cobros"],
+    queryFn: async (): Promise<Cobro[]> => {
+      const { data: u } = await supabase.auth.getUser();
+      if (!u.user) return [];
+      const { data: r } = await supabase.from("residentes").select("id").eq("user_id", u.user.id).maybeSingle();
+      if (!r) return [];
+      const { data, error } = await supabase.from("cobros").select("*").eq("residente_id", r.id).order("fecha_vencimiento", { ascending: false });
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
+
+export function useComunicadosResidente() {
+  return useQuery({
+    queryKey: ["mis-comunicados"],
+    queryFn: async () => {
+      const { data: u } = await supabase.auth.getUser();
+      if (!u.user) return [];
+      const { data: r } = await supabase.from("residentes").select("condominio_id").eq("user_id", u.user.id).maybeSingle();
+      if (!r) return [];
+      const { data, error } = await supabase.from("comunicados").select("*").eq("condominio_id", r.condominio_id).order("created_at", { ascending: false }).limit(50);
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
+
+
+
+
 
 
 
