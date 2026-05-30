@@ -204,15 +204,15 @@ export function LandingPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {[
-            { i: Wallet, t: "Cobros y estados de cuenta", d: "Genera cuotas mensuales en lote, registra pagos, emite recibos y controla morosidad en tiempo real.", bg: "#fff8d6", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver cobros" },
-            { i: KeyRound, t: "Control de accesos con QR", d: "Autoriza visitantes con códigos QR de un solo uso, controla entradas y salidas, lleva bitácora completa.", bg: "#1e3a5f", fg: "#ffffff", sub: "#c4d0e3", accent: "#ffd60a", link: "Ver accesos" },
-            { i: Users, t: "Residentes y unidades", d: "Lleva un padrón limpio de propietarios, inquilinos, vehículos y personas autorizadas por cada unidad.", bg: "#fffdf5", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver residentes" },
-            { i: Wrench, t: "Mantenimiento e incidencias", d: "Levanta tickets, asigna proveedores, controla costos estimados vs reales y cierra órdenes con evidencia.", bg: "#1e3a5f", fg: "#ffffff", sub: "#c4d0e3", accent: "#ffd60a", link: "Ver tickets" },
-            { i: MessageSquare, t: "Comunicados al condominio", d: "Envía avisos por grupo de residentes — emergencias, asambleas, cortes de servicio — con historial completo.", bg: "#fff8d6", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver comunicados" },
-            { i: Calendar, t: "Reserva de áreas comunes", d: "Salón social, gimnasio, piscina o cancha: los residentes ven disponibilidad y reservan en minutos.", bg: "#fffdf5", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver áreas" },
-            { i: Building2, t: "CRM inmobiliario", d: "Pública las unidades en venta o renta, captura prospectos por origen, asígnales agente y precio.", bg: "#1e3a5f", fg: "#ffffff", sub: "#c4d0e3", accent: "#ffd60a", link: "Ver CRM" },
-            { i: TrendingUp, t: "Pipeline y agenda", d: "Arrastra prospectos entre etapas (nuevo → visita → oferta → cierre) y agenda visitas con recordatorios.", bg: "#fff8d6", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver pipeline" },
-            { i: BarChart3, t: "Reportes y KPIs", d: "Flujo de caja, ocupación, cartera vencida, conversión del pipeline. Exporta a PDF o CSV.", bg: "#fffdf5", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver reportes" },
+            { i: Wallet, t: "Cobros y estados de cuenta", d: "Genera cuotas mensuales en lote, registra pagos, emite recibos y controla morosidad en tiempo real.", bg: "#fff8d6", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver cobros", iconBg: "#16a34a", iconFg: "#ffffff" },
+            { i: KeyRound, t: "Control de accesos con QR", d: "Autoriza visitantes con códigos QR de un solo uso, controla entradas y salidas, lleva bitácora completa.", bg: "#1e3a5f", fg: "#ffffff", sub: "#c4d0e3", accent: "#ffd60a", link: "Ver accesos", iconBg: "#ffd60a", iconFg: "#0a1e3f" },
+            { i: Users, t: "Residentes y unidades", d: "Lleva un padrón limpio de propietarios, inquilinos, vehículos y personas autorizadas por cada unidad.", bg: "#fffdf5", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver residentes", iconBg: "#8b5cf6", iconFg: "#ffffff" },
+            { i: Wrench, t: "Mantenimiento e incidencias", d: "Levanta tickets, asigna proveedores, controla costos estimados vs reales y cierra órdenes con evidencia.", bg: "#1e3a5f", fg: "#ffffff", sub: "#c4d0e3", accent: "#ffd60a", link: "Ver tickets", iconBg: "#f97316", iconFg: "#ffffff" },
+            { i: MessageSquare, t: "Comunicados al condominio", d: "Envía avisos por grupo de residentes — emergencias, asambleas, cortes de servicio — con historial completo.", bg: "#fff8d6", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver comunicados", iconBg: "#0ea5e9", iconFg: "#ffffff" },
+            { i: Calendar, t: "Reserva de áreas comunes", d: "Salón social, gimnasio, piscina o cancha: los residentes ven disponibilidad y reservan en minutos.", bg: "#fffdf5", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver áreas", iconBg: "#ec4899", iconFg: "#ffffff" },
+            { i: Building2, t: "CRM inmobiliario", d: "Pública las unidades en venta o renta, captura prospectos por origen, asígnales agente y precio.", bg: "#1e3a5f", fg: "#ffffff", sub: "#c4d0e3", accent: "#ffd60a", link: "Ver CRM", iconBg: "#14b8a6", iconFg: "#ffffff" },
+            { i: TrendingUp, t: "Pipeline y agenda", d: "Arrastra prospectos entre etapas (nuevo → visita → oferta → cierre) y agenda visitas con recordatorios.", bg: "#fff8d6", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver pipeline", iconBg: "#ef4444", iconFg: "#ffffff" },
+            { i: BarChart3, t: "Reportes y KPIs", d: "Flujo de caja, ocupación, cartera vencida, conversión del pipeline. Exporta a PDF o CSV.", bg: "#fffdf5", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver reportes", iconBg: "#6366f1", iconFg: "#ffffff" },
           ].map((f) => {
             const isDark = f.bg === "#1e3a5f";
             return (
@@ -222,8 +222,8 @@ export function LandingPage() {
               style={{ backgroundColor: f.bg, color: f.fg }}
             >
               <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center mb-5"
-                style={{ backgroundColor: isDark ? "rgba(255,214,10,0.15)" : "rgba(10,30,63,0.06)", color: f.accent }}
+                className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 shadow-sm"
+                style={{ backgroundColor: f.iconBg, color: f.iconFg }}
               >
                 <f.i className="w-6 h-6" />
               </div>
