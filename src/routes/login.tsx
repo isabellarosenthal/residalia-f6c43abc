@@ -39,7 +39,7 @@ function LoginPage() {
     if (loading || !user) return;
     if (role === "residente") navigate({ to: "/portal" });
     else if (role === "guardia") navigate({ to: "/guardia" });
-    else navigate({ to: "/" });
+    else navigate({ to: "/dashboard" });
   }, [user, role, loading, navigate]);
 
   const submit = async (e: React.FormEvent) => {

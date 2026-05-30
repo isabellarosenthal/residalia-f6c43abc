@@ -13,7 +13,7 @@ const sections = [
   {
     label: "Administración",
     items: [
-      { to: "/", icon: LayoutDashboard, label: "Dashboard" },
+      { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
       { to: "/edificios", icon: Building2, label: "Edificios y Condominios" },
       { to: "/residentes", icon: Users, label: "Residentes" },
       { to: "/finanzas", icon: Wallet, label: "Finanzas" },
