@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import toast from "react-hot-toast";
-import { User as UserIcon, Building2, Users, Shield, Save, Trash2, Plus, Home } from "lucide-react";
+import { User as UserIcon, Building2, Users, Shield, Save, Trash2, Plus, Home, Crown } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import { Card } from "@/components/ui-pentos";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth, type AppRole } from "@/lib/auth-context";
 import { supabase } from "@/integrations/supabase/client";
 import { useEdificios, useSaveEdificio } from "@/lib/queries";
+import { getMyPlanUsage } from "@/lib/plan-usage.functions";
 
 export const Route = createFileRoute("/configuracion")({ component: ConfiguracionPage });
 
@@ -43,6 +47,7 @@ function ConfiguracionPage() {
         <Tabs defaultValue="perfil">
           <TabsList className="bg-[#f5ede8]">
             <TabsTrigger value="perfil"><UserIcon className="w-4 h-4 mr-1" />Perfil</TabsTrigger>
+            {!isSuper && <TabsTrigger value="plan"><Crown className="w-4 h-4 mr-1" />Mi Plan</TabsTrigger>}
             <TabsTrigger value="edificios"><Building2 className="w-4 h-4 mr-1" />Edificios</TabsTrigger>
             <TabsTrigger value="usuarios"><Users className="w-4 h-4 mr-1" />Usuarios</TabsTrigger>
             <TabsTrigger value="residentes"><Home className="w-4 h-4 mr-1" />Residentes</TabsTrigger>
@@ -50,6 +55,7 @@ function ConfiguracionPage() {
           </TabsList>
 
           <TabsContent value="perfil" className="pt-4"><PerfilTab /></TabsContent>
+          {!isSuper && <TabsContent value="plan" className="pt-4"><MiPlanTab /></TabsContent>}
           <TabsContent value="edificios" className="pt-4"><EdificiosTab /></TabsContent>
           <TabsContent value="usuarios" className="pt-4">
             {isSuper ? <UsuariosTab /> : canManage ? <TenantUsuariosTab edificios={edificios} /> : <p className="text-sm text-[#9a7060] p-4">No tienes edificios asignados.</p>}
@@ -440,5 +446,77 @@ function ResidentesTab() {
         </div>
       )}
     </Card>
+  );
+}
+
+function MiPlanTab() {
+  const fetchUsage = useServerFn(getMyPlanUsage);
+  const { data, isLoading } = useQuery({ queryKey: ["plan-usage"], queryFn: () => fetchUsage() });
+
+  if (isLoading) return <Card><div className="p-4 text-sm text-[#9a7060]">Cargando plan...</div></Card>;
+  if (!data) return <Card><div className="p-4 text-sm text-[#9a7060]">Sin datos de plan</div></Card>;
+
+  const fmtMax = (max: number) => (max >= data.unlimited ? "∞" : max.toString());
+  const remaining = (used: number, max: number) => (max >= data.unlimited ? "Ilimitado" : Math.max(0, max - used).toString());
+  const pct = (used: number, max: number) => (max >= data.unlimited ? 5 : Math.min(100, (used / Math.max(1, max)) * 100));
+
+  return (
+    <div className="space-y-4">
+      <Card>
+        <div className="p-5 flex items-center justify-between flex-wrap gap-3">
+          <div>
+            <div className="text-xs uppercase tracking-wide text-[#9a7060]">Plan actual</div>
+            <div className="font-display font-extrabold text-2xl text-[#2d1200]">{data.plan.nombre}</div>
+            <div className="text-sm text-[#9a7060]">L {data.plan.precio.toLocaleString()} / mes</div>
+          </div>
+          <Link to="/" hash="planes">
+            <Button className="bg-[#ff6a00] hover:bg-[#e85f00] text-white">Actualizar plan</Button>
+          </Link>
+        </div>
+      </Card>
+
+      <Card>
+        <div className="p-5 space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="font-semibold text-[#2d1200]">Edificios</div>
+            <div className="text-sm text-[#9a7060]">{data.edificios.used} / {fmtMax(data.edificios.max)}</div>
+          </div>
+          <Progress value={pct(data.edificios.used, data.edificios.max)} />
+          <div className="text-sm text-[#5a4030]">Puedes crear <b>{remaining(data.edificios.used, data.edificios.max)}</b> edificios más</div>
+        </div>
+      </Card>
+
+      {data.porEdificio.map((e) => (
+        <Card key={e.id}>
+          <div className="p-5 space-y-3">
+            <div className="font-semibold text-[#2d1200] flex items-center gap-2">
+              <Building2 className="w-4 h-4" /> {e.nombre}
+            </div>
+
+            <div className="space-y-1">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-[#5a4030]">Unidades</span>
+                <span className="text-[#9a7060]">{e.unidades.used} / {fmtMax(e.unidades.max)}</span>
+              </div>
+              <Progress value={pct(e.unidades.used, e.unidades.max)} />
+              <div className="text-xs text-[#9a7060]">Puedes crear <b>{remaining(e.unidades.used, e.unidades.max)}</b> unidades más</div>
+            </div>
+
+            <div className="space-y-1">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-[#5a4030]">Administradores</span>
+                <span className="text-[#9a7060]">{e.admins.used} / {fmtMax(e.admins.max)}</span>
+              </div>
+              <Progress value={pct(e.admins.used, e.admins.max)} />
+              <div className="text-xs text-[#9a7060]">Puedes invitar a <b>{remaining(e.admins.used, e.admins.max)}</b> admins más</div>
+            </div>
+          </div>
+        </Card>
+      ))}
+
+      {data.porEdificio.length === 0 && (
+        <Card><div className="p-4 text-sm text-[#9a7060]">Crea tu primer edificio para ver los límites por unidad/admin.</div></Card>
+      )}
+    </div>
   );
 }
