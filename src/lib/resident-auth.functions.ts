@@ -23,6 +23,7 @@ export const createResidentAccount = createServerFn({ method: "POST" })
     if (invitation.email.toLowerCase() !== data.email) throw new Error("El correo no coincide con la invitación.");
     if (invitation.estado !== "pendiente") throw new Error("Este código ya fue usado o no está disponible.");
     if (new Date(invitation.expira_en).getTime() < Date.now()) throw new Error("El código de invitación expiró.");
+    if (!invitation.residente_id) throw new Error("La invitación no está vinculada a un residente.");
 
     const { data: created, error: createError } = await supabaseAdmin.auth.admin.createUser({
       email: data.email,
@@ -46,7 +47,7 @@ export const createResidentAccount = createServerFn({ method: "POST" })
       id: userId,
       full_name: data.fullName,
       email: data.email,
-    });
+    }, { onConflict: "id" });
     if (profileError) {
       await rollback();
       throw new Error(profileError.message);
@@ -71,7 +72,7 @@ export const createResidentAccount = createServerFn({ method: "POST" })
       condominio_id: invitation.condominio_id,
       user_id: userId,
       role: "member",
-    });
+    }, { onConflict: "condominio_id,user_id" });
     if (memberError) {
       await rollback();
       throw new Error(memberError.message);
