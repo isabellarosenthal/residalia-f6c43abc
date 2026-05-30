@@ -469,10 +469,10 @@ export function LandingPage() {
         </div>
 
         {/* CTA final */}
-        <div className="mt-16 bg-[#D9A441] rounded-[2.5rem] p-10 md:p-14 text-center" style={{ borderTopLeftRadius: '3rem', borderBottomRightRadius: '3rem' }}>
-          <h3 className="font-display font-extrabold text-3xl md:text-4xl text-[#173B7A]">¿Listo para ordenar tu condominio?</h3>
-          <p className="mt-3 text-[#1E293B]/80 max-w-xl mx-auto">Crea tu cuenta gratis y configurá tu primer edificio en menos de 5 minutos.</p>
-          <Link to="/login" className="mt-7 inline-flex items-center gap-2 bg-[#173B7A] text-white px-9 py-4 rounded-full font-semibold text-lg hover:bg-[#0f2659] shadow-lg">
+        <div className="mt-16 bg-[#173B7A] rounded-[2.5rem] p-10 md:p-14 text-center" style={{ borderTopLeftRadius: '3rem', borderBottomRightRadius: '3rem' }}>
+          <h3 className="font-display font-extrabold text-3xl md:text-4xl text-white">¿Listo para ordenar tu condominio?</h3>
+          <p className="mt-3 text-white/80 max-w-xl mx-auto">Crea tu cuenta gratis y configurá tu primer edificio en menos de 5 minutos.</p>
+          <Link to="/login" className="mt-7 inline-flex items-center gap-2 bg-[#D9A441] text-[#173B7A] px-9 py-4 rounded-full font-semibold text-lg hover:bg-[#E5B559] shadow-lg">
             Empezar ahora <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
