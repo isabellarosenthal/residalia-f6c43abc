@@ -104,6 +104,7 @@ export function UnidadFormDialog({
       precio_venta: v.precio_venta ?? null,
       precio_renta: v.precio_renta ?? null,
       deposito: v.deposito ?? null,
+      moneda: v.moneda,
       precio_negociable: v.precio_negociable,
       descripcion_comercial: v.descripcion_comercial || null,
       propietario_id: v.propietario_id || null,
