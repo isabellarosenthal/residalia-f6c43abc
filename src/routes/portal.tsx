@@ -11,7 +11,7 @@ function PortalLayout() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading && !user) navigate({ to: "/login" });
+    if (!loading && !user) navigate({ to: "/login", search: { as: "residente" } });
   }, [user, loading, navigate]);
 
   if (loading || !user) {
