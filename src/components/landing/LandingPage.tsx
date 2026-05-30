@@ -196,7 +196,7 @@ export function LandingPage() {
       </section>
 
       {/* Stats band */}
-      <section className="relative overflow-hidden bg-[#4338CA] text-white py-12">
+      <section className="relative overflow-hidden bg-[#7AA2FF] text-white py-12">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center relative">
           {[
             { n: "13+", l: "Módulos integrados" },
