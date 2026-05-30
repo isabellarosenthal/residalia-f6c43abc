@@ -92,7 +92,7 @@ export function Sidebar() {
             </div>
             <div className="space-y-0.5">
               {sec.items.map((it) => {
-                const active = it.to === "/" ? path === "/" : path.startsWith(it.to);
+                const active = path.startsWith(it.to);
                 const Icon = it.icon;
                 return (
                   <Link
