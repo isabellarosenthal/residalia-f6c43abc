@@ -355,3 +355,90 @@ function SeguridadTab() {
     </div>
   );
 }
+
+function ResidentesTab() {
+  const { role } = useAuth();
+  const isSuper = role === "super_admin";
+  const [rows, setRows] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [q, setQ] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      const { data: residentes } = await supabase
+        .from("residentes")
+        .select("id, nombre, apellido, email, telefono, fecha_ingreso, created_at, user_id, activo, condominio_id, condominios(nombre)")
+        .order("created_at", { ascending: false });
+      const userIds = (residentes ?? []).map(r => r.user_id).filter(Boolean) as string[];
+      let profilesMap: Record<string, { created_at: string }> = {};
+      if (userIds.length) {
+        const { data: profs } = await supabase.from("profiles").select("id, created_at").in("id", userIds);
+        profilesMap = Object.fromEntries((profs ?? []).map(p => [p.id, { created_at: p.created_at }]));
+      }
+      setRows((residentes ?? []).map(r => ({
+        ...r,
+        cuenta_creada: r.user_id ? profilesMap[r.user_id]?.created_at ?? null : null,
+        condominio_nombre: (r as any).condominios?.nombre ?? "—",
+      })));
+      setLoading(false);
+    })();
+  }, []);
+
+  const fmt = (d?: string | null) => d ? new Date(d).toLocaleDateString("es-HN", { year: "numeric", month: "short", day: "numeric" }) : "—";
+  const filtered = rows.filter(r => {
+    const s = `${r.nombre} ${r.apellido} ${r.email ?? ""} ${r.condominio_nombre}`.toLowerCase();
+    return s.includes(q.toLowerCase());
+  });
+
+  return (
+    <Card className="p-6 space-y-4">
+      <div className="flex items-center justify-between gap-3">
+        <div>
+          <h3 className="font-display font-bold text-lg text-[#2d1200]">Residentes</h3>
+          <p className="text-sm text-[#9a7060]">{isSuper ? "Todos los residentes de la plataforma" : "Residentes de tus edificios"} · Fecha de ingreso y registro en PropCloud</p>
+        </div>
+        <Input placeholder="Buscar..." value={q} onChange={(e) => setQ(e.target.value)} className="max-w-xs" />
+      </div>
+
+      {loading ? (
+        <p className="text-sm text-[#9a7060]">Cargando...</p>
+      ) : filtered.length === 0 ? (
+        <p className="text-sm text-[#9a7060]">No hay residentes.</p>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="text-left text-[#9a7060] border-b border-[#f0e3da]">
+              <tr>
+                <th className="py-2 pr-3">Residente</th>
+                <th className="py-2 pr-3">Email</th>
+                <th className="py-2 pr-3">Edificio</th>
+                <th className="py-2 pr-3">Se unió</th>
+                <th className="py-2 pr-3">Cuenta en PropCloud</th>
+                <th className="py-2 pr-3">Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map((r) => (
+                <tr key={r.id} className="border-b border-[#f5ede8]">
+                  <td className="py-2 pr-3 font-medium text-[#2d1200]">{r.nombre} {r.apellido}</td>
+                  <td className="py-2 pr-3 text-[#9a7060]">{r.email ?? "—"}</td>
+                  <td className="py-2 pr-3 text-[#9a7060]">{r.condominio_nombre}</td>
+                  <td className="py-2 pr-3 text-[#9a7060]">{fmt(r.fecha_ingreso)}</td>
+                  <td className="py-2 pr-3 text-[#9a7060]">
+                    {r.cuenta_creada ? fmt(r.cuenta_creada) : <span className="text-[#c0392b]">Sin cuenta</span>}
+                  </td>
+                  <td className="py-2 pr-3">
+                    <span className={`px-2 py-0.5 rounded text-xs ${r.activo ? "bg-[#e6f4ea] text-[#1e6b3a]" : "bg-[#fbeae6] text-[#c0392b]"}`}>
+                      {r.activo ? "Activo" : "Inactivo"}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </Card>
+  );
+}
