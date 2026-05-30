@@ -33,13 +33,13 @@ export function EdificioCard({ edificio, stats }: { edificio: Condominio; stats?
             openUnidades();
           }
         }}
-        className="group block cursor-pointer rounded-2xl transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#818cf8]"
+        className="group block cursor-pointer rounded-2xl transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#ffd60a]"
       >
         <Card className="overflow-hidden hover:shadow-md transition-shadow h-full flex flex-col relative">
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); setEditOpen(true); }}
-            className="absolute top-2 right-2 z-10 bg-white/90 hover:bg-white text-[#312e81] hover:text-[#818cf8] rounded-full p-2 shadow-sm border border-[#f0e6df] opacity-0 group-hover:opacity-100 transition-opacity"
+            className="absolute top-2 right-2 z-10 bg-white/90 hover:bg-white text-[#13294b] hover:text-[#ffd60a] rounded-full p-2 shadow-sm border border-[#f0e6df] opacity-0 group-hover:opacity-100 transition-opacity"
             title="Editar edificio"
           >
             <Pencil className="w-3.5 h-3.5" />
@@ -49,10 +49,10 @@ export function EdificioCard({ edificio, stats }: { edificio: Condominio; stats?
               <EdificioPlaceholder id={edificio.id} tipo={edificio.tipo} className="w-10 h-10 rounded-lg flex-shrink-0" />
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-2">
-                  <h3 className="font-display font-bold text-lg text-[#1e1b4b] group-hover:text-[#818cf8] transition-colors">{edificio.nombre}</h3>
+                  <h3 className="font-display font-bold text-lg text-[#0a1e3f] group-hover:text-[#ffd60a] transition-colors">{edificio.nombre}</h3>
                   {edificio.activo ? <Badge variant="success">Activo</Badge> : <Badge variant="neutral">Inactivo</Badge>}
                 </div>
-                <div className="mt-0.5 flex items-center gap-1 text-xs text-[#8b8bb5]">
+                <div className="mt-0.5 flex items-center gap-1 text-xs text-[#6b7a99]">
                   <MapPin className="w-3 h-3" />
                   <span>{edificio.ciudad ?? "—"}{edificio.departamento ? `, ${edificio.departamento}` : ""}</span>
                   <span className="mx-1">·</span>
@@ -67,7 +67,7 @@ export function EdificioCard({ edificio, stats }: { edificio: Condominio; stats?
               <Stat icon={<Tag className="w-3.5 h-3.5" />} label="Venta" value={enVenta} accent="venta" />
               <Stat icon={<Tag className="w-3.5 h-3.5" />} label="Renta" value={enRenta} accent="renta" />
             </div>
-            <div className="mt-4 flex items-center justify-between rounded-lg border border-[#f0e6df] bg-[#fff7f2] px-3 py-2 text-sm font-semibold text-[#818cf8]">
+            <div className="mt-4 flex items-center justify-between rounded-lg border border-[#f0e6df] bg-[#fff7f2] px-3 py-2 text-sm font-semibold text-[#ffd60a]">
               <span>Ver / crear unidades</span>
               <ChevronRight className="w-4 h-4" />
             </div>
@@ -85,10 +85,10 @@ export function EdificioCard({ edificio, stats }: { edificio: Condominio; stats?
 }
 
 function Stat({ icon, label, value, accent }: { icon: React.ReactNode; label: string; value: React.ReactNode; accent?: "venta" | "renta" }) {
-  const color = accent === "venta" ? "text-[#818cf8]" : accent === "renta" ? "text-[#1e1b4b]" : "text-[#312e81]";
+  const color = accent === "venta" ? "text-[#ffd60a]" : accent === "renta" ? "text-[#0a1e3f]" : "text-[#13294b]";
   return (
-    <div className="bg-[#faf9ff] rounded-lg py-2">
-      <div className="flex items-center justify-center gap-1 text-[#8b8bb5]">{icon}<span className="text-[10px] uppercase tracking-wider">{label}</span></div>
+    <div className="bg-[#ffffff] rounded-lg py-2">
+      <div className="flex items-center justify-center gap-1 text-[#6b7a99]">{icon}<span className="text-[10px] uppercase tracking-wider">{label}</span></div>
       <div className={`font-display font-bold text-lg ${color}`}>{value}</div>
     </div>
   );

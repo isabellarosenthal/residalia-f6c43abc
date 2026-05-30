@@ -117,12 +117,12 @@ export function UnidadFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[680px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="font-display text-xl text-[#1e1b4b]">{unidad ? `Editar unidad #${unidad.numero}` : "Nueva unidad"}</DialogTitle>
+          <DialogTitle className="font-display text-xl text-[#0a1e3f]">{unidad ? `Editar unidad #${unidad.numero}` : "Nueva unidad"}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <Tabs defaultValue="datos">
-            <TabsList className="grid grid-cols-3 w-full bg-[#eef2ff]">
+            <TabsList className="grid grid-cols-3 w-full bg-[#fffdf5]">
               <TabsTrigger value="datos">Datos generales</TabsTrigger>
               <TabsTrigger value="admin">Administración</TabsTrigger>
               <TabsTrigger value="crm">Comercial / CRM</TabsTrigger>
@@ -213,7 +213,7 @@ export function UnidadFormDialog({
                   </Select>
                 </div>
               </div>
-              <p className="text-xs text-[#8b8bb5]">Si la persona aún no existe, créala primero desde el módulo de Residentes.</p>
+              <p className="text-xs text-[#6b7a99]">Si la persona aún no existe, créala primero desde el módulo de Residentes.</p>
             </TabsContent>
 
             <TabsContent value="crm" className="space-y-3 pt-4">
@@ -246,7 +246,7 @@ export function UnidadFormDialog({
                 <div><Label>Precio renta</Label><Input type="number" step="0.01" {...form.register("precio_renta")} /></div>
                 <div><Label>Depósito</Label><Input type="number" step="0.01" {...form.register("deposito")} /></div>
               </div>
-              <div className="flex items-center justify-between border border-[#e0e7ff] rounded-lg p-3">
+              <div className="flex items-center justify-between border border-[#e8ecf3] rounded-lg p-3">
                 <Label className="text-sm">Precio negociable</Label>
                 <Switch checked={form.watch("precio_negociable")} onCheckedChange={(v) => form.setValue("precio_negociable", v)} />
               </div>
@@ -259,7 +259,7 @@ export function UnidadFormDialog({
 
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-            <Button type="submit" disabled={!form.formState.isValid || save.isPending} className="bg-[#818cf8] hover:bg-[#6366f1]">
+            <Button type="submit" disabled={!form.formState.isValid || save.isPending} className="bg-[#ffd60a] hover:bg-[#e6c200]">
               {save.isPending ? "Guardando…" : "Guardar unidad"}
             </Button>
           </DialogFooter>

@@ -34,7 +34,7 @@ export function AccesosTable({ edificioId, onEdit }: { edificioId: string; onEdi
     <div className="space-y-3">
       <div className="flex flex-wrap gap-2">
         <div className="relative flex-1 min-w-[220px]">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#8b8bb5]" />
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#6b7a99]" />
           <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar visitante…" className="pl-9" />
         </div>
         <Select value={estado} onValueChange={setEstado}>
@@ -58,26 +58,26 @@ export function AccesosTable({ edificioId, onEdit }: { edificioId: string; onEdi
         </Select>
       </div>
 
-      <div className="bg-white border border-[#e0e7ff] rounded-2xl overflow-hidden">
+      <div className="bg-white border border-[#e8ecf3] rounded-2xl overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="bg-[#eef2ff] hover:bg-[#eef2ff]">
-              <TableHead className="text-[#1e1b4b] font-semibold">Visitante</TableHead>
-              <TableHead className="text-[#1e1b4b] font-semibold">Tipo · Método</TableHead>
-              <TableHead className="text-[#1e1b4b] font-semibold">Unidad</TableHead>
-              <TableHead className="text-[#1e1b4b] font-semibold">Entrada</TableHead>
-              <TableHead className="text-[#1e1b4b] font-semibold">Salida</TableHead>
-              <TableHead className="text-[#1e1b4b] font-semibold">Estado</TableHead>
-              <TableHead className="text-[#1e1b4b] font-semibold text-right">Acciones</TableHead>
+            <TableRow className="bg-[#fffdf5] hover:bg-[#fffdf5]">
+              <TableHead className="text-[#0a1e3f] font-semibold">Visitante</TableHead>
+              <TableHead className="text-[#0a1e3f] font-semibold">Tipo · Método</TableHead>
+              <TableHead className="text-[#0a1e3f] font-semibold">Unidad</TableHead>
+              <TableHead className="text-[#0a1e3f] font-semibold">Entrada</TableHead>
+              <TableHead className="text-[#0a1e3f] font-semibold">Salida</TableHead>
+              <TableHead className="text-[#0a1e3f] font-semibold">Estado</TableHead>
+              <TableHead className="text-[#0a1e3f] font-semibold text-right">Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {isLoading && <TableRow><TableCell colSpan={7} className="py-10 text-center text-[#8b8bb5]">Cargando…</TableCell></TableRow>}
-            {!isLoading && filtered.length === 0 && <TableRow><TableCell colSpan={7} className="py-10 text-center text-[#8b8bb5]">Sin accesos registrados.</TableCell></TableRow>}
+            {isLoading && <TableRow><TableCell colSpan={7} className="py-10 text-center text-[#6b7a99]">Cargando…</TableCell></TableRow>}
+            {!isLoading && filtered.length === 0 && <TableRow><TableCell colSpan={7} className="py-10 text-center text-[#6b7a99]">Sin accesos registrados.</TableCell></TableRow>}
             {filtered.map((a) => (
               <TableRow key={a.id}>
-                <TableCell><div className="font-medium text-[#1e1b4b]">{a.visitante_nombre}</div>{a.qr_code && <div className="text-xs text-[#8b8bb5]">QR: {a.qr_code}</div>}</TableCell>
-                <TableCell className="text-sm capitalize">{a.tipo ?? "—"} · <span className="text-[#8b8bb5]">{a.metodo ?? "—"}</span></TableCell>
+                <TableCell><div className="font-medium text-[#0a1e3f]">{a.visitante_nombre}</div>{a.qr_code && <div className="text-xs text-[#6b7a99]">QR: {a.qr_code}</div>}</TableCell>
+                <TableCell className="text-sm capitalize">{a.tipo ?? "—"} · <span className="text-[#6b7a99]">{a.metodo ?? "—"}</span></TableCell>
                 <TableCell className="text-sm">{a.unidad_id ? `#${uniMap.get(a.unidad_id) ?? "—"}` : "—"}</TableCell>
                 <TableCell className="text-sm">{fmtDT(a.fecha_entrada)}</TableCell>
                 <TableCell className="text-sm">{fmtDT(a.fecha_salida)}</TableCell>
@@ -97,7 +97,7 @@ export function AccesosTable({ edificioId, onEdit }: { edificioId: string; onEdi
                   })()}
                 </TableCell>
                 <TableCell className="text-right">
-                  <Button size="sm" variant="ghost" title="Ver / compartir pase" onClick={() => setPase(a)} className="h-8 w-8 p-0 text-[#818cf8]"><QrCode className="w-4 h-4" /></Button>
+                  <Button size="sm" variant="ghost" title="Ver / compartir pase" onClick={() => setPase(a)} className="h-8 w-8 p-0 text-[#ffd60a]"><QrCode className="w-4 h-4" /></Button>
                   {!a.fecha_salida && <Button size="sm" variant="ghost" title="Registrar salida" onClick={() => salir.mutate(a.id)} className="h-8 w-8 p-0 text-[#166534]"><LogOut className="w-4 h-4" /></Button>}
                   <Button size="sm" variant="ghost" onClick={() => onEdit(a)} className="h-8 w-8 p-0"><Pencil className="w-4 h-4" /></Button>
                   <Button size="sm" variant="ghost" onClick={() => { if (confirm("¿Eliminar registro?")) del.mutate(a.id); }} className="h-8 w-8 p-0 text-[#be185d] hover:text-[#be185d]"><Trash2 className="w-4 h-4" /></Button>

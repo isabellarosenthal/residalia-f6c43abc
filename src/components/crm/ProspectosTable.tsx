@@ -57,24 +57,24 @@ export function ProspectosTable({
             <SelectItem value="caliente">Caliente</SelectItem>
           </SelectContent>
         </Select>
-        <span className="ml-auto text-sm text-[#8b8bb5] self-center">{rows.length} prospectos</span>
+        <span className="ml-auto text-sm text-[#6b7a99] self-center">{rows.length} prospectos</span>
       </div>
 
       <div className="bg-white border border-[#f0e5dc] rounded-xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-[#fdfbf8] text-[#8b8bb5]">
+            <thead className="bg-[#fdfbf8] text-[#6b7a99]">
               <tr>
                 <Th>Nombre</Th><Th>Contacto</Th><Th>Tipo</Th><Th>Temp.</Th><Th>Etapa</Th>
                 <Th>Presupuesto</Th><Th>Origen</Th><Th>Último contacto</Th><Th> </Th>
               </tr>
             </thead>
             <tbody>
-              {isLoading ? <tr><td colSpan={9} className="text-center py-8 text-[#8b8bb5]">Cargando…</td></tr> :
-               rows.length === 0 ? <tr><td colSpan={9} className="text-center py-8 text-[#8b8bb5]">Sin prospectos.</td></tr> :
+              {isLoading ? <tr><td colSpan={9} className="text-center py-8 text-[#6b7a99]">Cargando…</td></tr> :
+               rows.length === 0 ? <tr><td colSpan={9} className="text-center py-8 text-[#6b7a99]">Sin prospectos.</td></tr> :
                rows.map((p) => (
-                 <tr key={p.id} className="border-t border-[#eef2ff] hover:bg-[#fdfbf8]">
-                   <Td><div className="font-medium text-[#1e1b4b]">{p.nombre} {p.apellido ?? ""}</div></Td>
+                 <tr key={p.id} className="border-t border-[#fffdf5] hover:bg-[#fdfbf8]">
+                   <Td><div className="font-medium text-[#0a1e3f]">{p.nombre} {p.apellido ?? ""}</div></Td>
                    <Td>
                      <div className="flex flex-col gap-0.5 text-xs">
                        {p.telefono && <span className="flex items-center gap-1"><Phone className="w-3 h-3" />{p.telefono}</span>}
@@ -115,5 +115,5 @@ const Th = ({ children }: { children: React.ReactNode }) => <th className="text-
 const Td = ({ children, className = "" }: any) => <td className={`px-3 py-2 ${className}`}>{children}</td>;
 const Pill = ({ children, cls }: any) => <span className={`px-2 py-0.5 rounded text-xs capitalize ${cls}`}>{children}</span>;
 const IconBtn = ({ children, className = "", ...p }: any) => (
-  <button className={`p-1.5 rounded hover:bg-[#eef2ff] text-[#8b8bb5] ${className}`} {...p}>{children}</button>
+  <button className={`p-1.5 rounded hover:bg-[#fffdf5] text-[#6b7a99] ${className}`} {...p}>{children}</button>
 );

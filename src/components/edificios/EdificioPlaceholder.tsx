@@ -1,11 +1,11 @@
 import { Building2, Home } from "lucide-react";
 
 const PALETTES = [
-  { bg: "linear-gradient(135deg,#c7d2fe,#a78bfa)", fg: "#fff" },
-  { bg: "linear-gradient(135deg,#ddd6fe,#818cf8)", fg: "#fff" },
-  { bg: "linear-gradient(135deg,#eef2ff,#c7d2fe)", fg: "#6d28d9" },
-  { bg: "linear-gradient(135deg,#a78bfa,#6366f1)", fg: "#fff" },
-  { bg: "linear-gradient(135deg,#fbcfe8,#c7d2fe)", fg: "#6d28d9" },
+  { bg: "linear-gradient(135deg,#ffe87a,#ffea5c)", fg: "#fff" },
+  { bg: "linear-gradient(135deg,#fff8d6,#ffd60a)", fg: "#fff" },
+  { bg: "linear-gradient(135deg,#fffdf5,#ffe87a)", fg: "#001a4d" },
+  { bg: "linear-gradient(135deg,#ffea5c,#e6c200)", fg: "#fff" },
+  { bg: "linear-gradient(135deg,#fbcfe8,#ffe87a)", fg: "#001a4d" },
 ];
 
 export function EdificioPlaceholder({ id, tipo, className = "" }: { id: string; tipo?: string | null; className?: string }) {

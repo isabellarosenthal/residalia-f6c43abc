@@ -44,26 +44,26 @@ export function InstallAppButton() {
   return (
     <>
       <button onClick={handleClick}
-        className="text-xs bg-[#818cf8] hover:bg-[#6366f1] text-white px-3 py-1.5 rounded-full inline-flex items-center gap-1">
+        className="text-xs bg-[#ffd60a] hover:bg-[#e6c200] text-white px-3 py-1.5 rounded-full inline-flex items-center gap-1">
         <Download className="w-3.5 h-3.5" />Instalar app
       </button>
       {iosHelp && (
         <div className="fixed inset-0 z-50 bg-black/40 flex items-end sm:items-center justify-center p-4" onClick={() => setIosHelp(false)}>
           <div className="bg-white rounded-2xl p-5 max-w-sm w-full" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-start justify-between mb-3">
-              <div className="font-display font-bold text-lg text-[#1e1b4b] flex items-center gap-2">
-                <Smartphone className="w-5 h-5 text-[#818cf8]" />Instalar Altura Cloud
+              <div className="font-display font-bold text-lg text-[#0a1e3f] flex items-center gap-2">
+                <Smartphone className="w-5 h-5 text-[#ffd60a]" />Instalar Altura Cloud
               </div>
-              <button onClick={() => setIosHelp(false)}><X className="w-5 h-5 text-[#8b8bb5]" /></button>
+              <button onClick={() => setIosHelp(false)}><X className="w-5 h-5 text-[#6b7a99]" /></button>
             </div>
             {isIOS ? (
-              <ol className="text-sm text-[#1e1b4b] space-y-2 list-decimal pl-5">
+              <ol className="text-sm text-[#0a1e3f] space-y-2 list-decimal pl-5">
                 <li>Toca el botón <strong>Compartir</strong> en la barra de Safari.</li>
                 <li>Selecciona <strong>“Agregar a la pantalla de inicio”</strong>.</li>
                 <li>Confirma con <strong>“Agregar”</strong>.</li>
               </ol>
             ) : (
-              <ol className="text-sm text-[#1e1b4b] space-y-2 list-decimal pl-5">
+              <ol className="text-sm text-[#0a1e3f] space-y-2 list-decimal pl-5">
                 <li>Abre el menú del navegador (⋮ en Chrome).</li>
                 <li>Selecciona <strong>“Instalar app”</strong> o <strong>“Agregar a pantalla de inicio”</strong>.</li>
                 <li>Confirma. La app aparecerá como ícono en tu celular.</li>

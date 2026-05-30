@@ -42,28 +42,28 @@ export function ReservasTable({ edificioId, onEdit }: { edificioId: string; onEd
           </SelectContent>
         </Select>
       </div>
-      <div className="bg-white border border-[#e0e7ff] rounded-2xl overflow-hidden">
+      <div className="bg-white border border-[#e8ecf3] rounded-2xl overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="bg-[#eef2ff] hover:bg-[#eef2ff]">
-              <TableHead className="text-[#1e1b4b] font-semibold">Área</TableHead>
-              <TableHead className="text-[#1e1b4b] font-semibold">Unidad · Residente</TableHead>
-              <TableHead className="text-[#1e1b4b] font-semibold">Inicio</TableHead>
-              <TableHead className="text-[#1e1b4b] font-semibold">Fin</TableHead>
-              <TableHead className="text-[#1e1b4b] font-semibold">Personas</TableHead>
-              <TableHead className="text-[#1e1b4b] font-semibold">Estado</TableHead>
-              <TableHead className="text-[#1e1b4b] font-semibold text-right">Acciones</TableHead>
+            <TableRow className="bg-[#fffdf5] hover:bg-[#fffdf5]">
+              <TableHead className="text-[#0a1e3f] font-semibold">Área</TableHead>
+              <TableHead className="text-[#0a1e3f] font-semibold">Unidad · Residente</TableHead>
+              <TableHead className="text-[#0a1e3f] font-semibold">Inicio</TableHead>
+              <TableHead className="text-[#0a1e3f] font-semibold">Fin</TableHead>
+              <TableHead className="text-[#0a1e3f] font-semibold">Personas</TableHead>
+              <TableHead className="text-[#0a1e3f] font-semibold">Estado</TableHead>
+              <TableHead className="text-[#0a1e3f] font-semibold text-right">Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {isLoading && <TableRow><TableCell colSpan={7} className="py-10 text-center text-[#8b8bb5]">Cargando…</TableCell></TableRow>}
-            {!isLoading && filtered.length === 0 && <TableRow><TableCell colSpan={7} className="py-10 text-center text-[#8b8bb5]">Sin reservas.</TableCell></TableRow>}
+            {isLoading && <TableRow><TableCell colSpan={7} className="py-10 text-center text-[#6b7a99]">Cargando…</TableCell></TableRow>}
+            {!isLoading && filtered.length === 0 && <TableRow><TableCell colSpan={7} className="py-10 text-center text-[#6b7a99]">Sin reservas.</TableCell></TableRow>}
             {filtered.map((r) => (
               <TableRow key={r.id}>
-                <TableCell className="font-medium text-[#1e1b4b]">{areaMap.get(r.area_id) ?? "—"}</TableCell>
+                <TableCell className="font-medium text-[#0a1e3f]">{areaMap.get(r.area_id) ?? "—"}</TableCell>
                 <TableCell className="text-sm">
-                  <div className="text-[#1e1b4b]">{r.unidad_id ? `#${uniMap.get(r.unidad_id) ?? "—"}` : "—"}</div>
-                  <div className="text-xs text-[#8b8bb5]">{r.residente_id ? resMap.get(r.residente_id) ?? "—" : "—"}</div>
+                  <div className="text-[#0a1e3f]">{r.unidad_id ? `#${uniMap.get(r.unidad_id) ?? "—"}` : "—"}</div>
+                  <div className="text-xs text-[#6b7a99]">{r.residente_id ? resMap.get(r.residente_id) ?? "—" : "—"}</div>
                 </TableCell>
                 <TableCell className="text-sm">{fmtDT(r.fecha_inicio)}</TableCell>
                 <TableCell className="text-sm">{fmtDT(r.fecha_fin)}</TableCell>

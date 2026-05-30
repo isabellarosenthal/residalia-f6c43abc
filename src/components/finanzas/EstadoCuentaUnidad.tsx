@@ -69,7 +69,7 @@ export function EstadoCuentaUnidad({ edificioId }: { edificioId: string }) {
 
       <div className="flex flex-wrap items-end justify-between gap-3 no-print">
         <div className="flex-1 min-w-[260px]">
-          <label className="text-xs uppercase tracking-wider text-[#8b8bb5]">Unidad</label>
+          <label className="text-xs uppercase tracking-wider text-[#6b7a99]">Unidad</label>
           <Select value={unidadId} onValueChange={setUnidadId}>
             <SelectTrigger><SelectValue placeholder={edificioId === "all" ? "Selecciona edificio arriba" : "Selecciona una unidad"} /></SelectTrigger>
             <SelectContent className="max-h-72">
@@ -88,21 +88,21 @@ export function EstadoCuentaUnidad({ edificioId }: { edificioId: string }) {
       {unidadId && (
         <>
           <div className="print:block hidden mb-4">
-            <h2 className="font-display font-extrabold text-2xl text-[#1e1b4b]">Estado de cuenta</h2>
-            <div className="text-sm text-[#8b8bb5]">Unidad #{unidad?.numero} · {residente ? `${residente.nombre} ${residente.apellido}` : "Sin residente"}</div>
-            <div className="text-xs text-[#8b8bb5]">Generado: {fmtDate(new Date())}</div>
+            <h2 className="font-display font-extrabold text-2xl text-[#0a1e3f]">Estado de cuenta</h2>
+            <div className="text-sm text-[#6b7a99]">Unidad #{unidad?.numero} · {residente ? `${residente.nombre} ${residente.apellido}` : "Sin residente"}</div>
+            <div className="text-xs text-[#6b7a99]">Generado: {fmtDate(new Date())}</div>
           </div>
 
           <div className="grid grid-cols-3 gap-3">
-            <div className="p-3 rounded-xl bg-[#eef2ff]"><div className="text-xs text-[#8b8bb5]">Pagado</div><div className="font-display font-bold text-[#166534] text-lg">{fmtL(totalPagado)}</div></div>
-            <div className="p-3 rounded-xl bg-[#eef2ff]"><div className="text-xs text-[#8b8bb5]">Pendiente</div><div className="font-display font-bold text-[#818cf8] text-lg">{fmtL(totalPendiente)}</div></div>
-            <div className="p-3 rounded-xl bg-[#eef2ff]"><div className="text-xs text-[#8b8bb5]">Vencido</div><div className="font-display font-bold text-[#be185d] text-lg">{fmtL(totalVencido)}</div></div>
+            <div className="p-3 rounded-xl bg-[#fffdf5]"><div className="text-xs text-[#6b7a99]">Pagado</div><div className="font-display font-bold text-[#166534] text-lg">{fmtL(totalPagado)}</div></div>
+            <div className="p-3 rounded-xl bg-[#fffdf5]"><div className="text-xs text-[#6b7a99]">Pendiente</div><div className="font-display font-bold text-[#ffd60a] text-lg">{fmtL(totalPendiente)}</div></div>
+            <div className="p-3 rounded-xl bg-[#fffdf5]"><div className="text-xs text-[#6b7a99]">Vencido</div><div className="font-display font-bold text-[#be185d] text-lg">{fmtL(totalVencido)}</div></div>
           </div>
 
-          <div className="bg-white border border-[#e0e7ff] rounded-2xl overflow-hidden">
+          <div className="bg-white border border-[#e8ecf3] rounded-2xl overflow-hidden">
             <Table>
               <TableHeader>
-                <TableRow className="bg-[#eef2ff] hover:bg-[#eef2ff]">
+                <TableRow className="bg-[#fffdf5] hover:bg-[#fffdf5]">
                   <TableHead>Concepto</TableHead>
                   <TableHead>Vence</TableHead>
                   <TableHead>Pagado</TableHead>
@@ -112,7 +112,7 @@ export function EstadoCuentaUnidad({ edificioId }: { edificioId: string }) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {movimientos.length === 0 && <TableRow><TableCell colSpan={6} className="py-8 text-center text-[#8b8bb5]">Sin movimientos.</TableCell></TableRow>}
+                {movimientos.length === 0 && <TableRow><TableCell colSpan={6} className="py-8 text-center text-[#6b7a99]">Sin movimientos.</TableCell></TableRow>}
                 {movimientos.map((c) => (
                   <TableRow key={c.id}>
                     <TableCell className="text-sm">{c.concepto}</TableCell>
@@ -120,7 +120,7 @@ export function EstadoCuentaUnidad({ edificioId }: { edificioId: string }) {
                     <TableCell className="text-sm">{fmtDate(c.fecha_pago)}</TableCell>
                     <TableCell className="text-right font-semibold">{fmtL(c.monto)}</TableCell>
                     <TableCell>{estadoBadge(c)}</TableCell>
-                    <TableCell className="text-xs text-[#8b8bb5]">{c.recibo_numero ?? "—"}</TableCell>
+                    <TableCell className="text-xs text-[#6b7a99]">{c.recibo_numero ?? "—"}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

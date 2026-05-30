@@ -49,33 +49,33 @@ function GuardiaValidar() {
 
   return (
     <div className="space-y-5">
-      <form onSubmit={(e) => { e.preventDefault(); buscar(); }} className="flex gap-2 bg-[#1e1b4b] border border-[#3d2410] rounded-2xl p-3">
+      <form onSubmit={(e) => { e.preventDefault(); buscar(); }} className="flex gap-2 bg-[#0a1e3f] border border-[#3d2410] rounded-2xl p-3">
         <input value={codigo} onChange={(e) => setCodigo(e.target.value.toUpperCase())} placeholder="PASE-XXXXXX"
-          className="flex-1 bg-transparent font-mono text-lg tracking-widest uppercase text-white placeholder:text-[#8b8bb5] outline-none px-2" autoFocus />
-        <button type="submit" disabled={!codigo.trim() || validar.isPending} className="bg-[#818cf8] hover:bg-[#6366f1] text-white px-4 py-2 rounded-lg inline-flex items-center gap-1 disabled:opacity-50">
+          className="flex-1 bg-transparent font-mono text-lg tracking-widest uppercase text-white placeholder:text-[#6b7a99] outline-none px-2" autoFocus />
+        <button type="submit" disabled={!codigo.trim() || validar.isPending} className="bg-[#ffd60a] hover:bg-[#e6c200] text-white px-4 py-2 rounded-lg inline-flex items-center gap-1 disabled:opacity-50">
           <Search className="w-4 h-4" />Buscar
         </button>
       </form>
 
-      {notFound && <div className="bg-[#7a2a10] border border-[#818cf8] text-white rounded-2xl p-4 text-sm">No se encontró el pase.</div>}
+      {notFound && <div className="bg-[#7a2a10] border border-[#ffd60a] text-white rounded-2xl p-4 text-sm">No se encontró el pase.</div>}
 
       {acceso && estado && (
-        <div className="bg-white text-[#1e1b4b] rounded-2xl p-5 space-y-4">
+        <div className="bg-white text-[#0a1e3f] rounded-2xl p-5 space-y-4">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <div className="text-xs text-[#8b8bb5]">Visitante</div>
+              <div className="text-xs text-[#6b7a99]">Visitante</div>
               <div className="font-display font-bold text-2xl">{acceso.visitante_nombre}</div>
-              <div className="text-xs text-[#8b8bb5] font-mono mt-1">{acceso.qr_code}</div>
+              <div className="text-xs text-[#6b7a99] font-mono mt-1">{acceso.qr_code}</div>
             </div>
             <span className={`px-3 py-1 rounded-full text-xs font-semibold ${estado.tone === "success" ? "bg-green-100 text-green-800" : estado.tone === "danger" ? "bg-red-100 text-red-800" : "bg-gray-100 text-gray-700"}`}>{estado.label}</span>
           </div>
           <div className="grid grid-cols-2 gap-3 text-sm">
-            <div><div className="text-xs text-[#8b8bb5]">Edificio</div><div>{edif?.nombre ?? "—"}</div></div>
-            <div><div className="text-xs text-[#8b8bb5]">Unidad</div><div>{uni ? `#${uni.numero}` : "—"}</div></div>
-            <div><div className="text-xs text-[#8b8bb5]">Tipo</div><div className="capitalize">{acceso.tipo ?? "—"}</div></div>
-            <div><div className="text-xs text-[#8b8bb5]">Usos</div><div>{acceso.usos_actuales ?? 0} / {acceso.usos_maximos ?? 1}</div></div>
-            <div><div className="text-xs text-[#8b8bb5]">Entrada</div><div>{fmtDT(acceso.fecha_entrada)}</div></div>
-            <div><div className="text-xs text-[#8b8bb5]">Salida</div><div>{fmtDT(acceso.fecha_salida)}</div></div>
+            <div><div className="text-xs text-[#6b7a99]">Edificio</div><div>{edif?.nombre ?? "—"}</div></div>
+            <div><div className="text-xs text-[#6b7a99]">Unidad</div><div>{uni ? `#${uni.numero}` : "—"}</div></div>
+            <div><div className="text-xs text-[#6b7a99]">Tipo</div><div className="capitalize">{acceso.tipo ?? "—"}</div></div>
+            <div><div className="text-xs text-[#6b7a99]">Usos</div><div>{acceso.usos_actuales ?? 0} / {acceso.usos_maximos ?? 1}</div></div>
+            <div><div className="text-xs text-[#6b7a99]">Entrada</div><div>{fmtDT(acceso.fecha_entrada)}</div></div>
+            <div><div className="text-xs text-[#6b7a99]">Salida</div><div>{fmtDT(acceso.fecha_salida)}</div></div>
           </div>
           <div className="flex flex-wrap gap-2 pt-2 border-t border-[#f0e6e0]">
             {estado.tone === "success" && (
@@ -84,9 +84,9 @@ function GuardiaValidar() {
             )}
             {!acceso.fecha_salida && (
               <button onClick={async () => setAcceso(await marcarSalida.mutateAsync(acceso.id))} disabled={marcarSalida.isPending}
-                className="border border-[#c7d2fe] text-[#1e1b4b] px-4 py-2 rounded-lg inline-flex items-center gap-1"><LogOut className="w-4 h-4" />Registrar salida</button>
+                className="border border-[#ffe87a] text-[#0a1e3f] px-4 py-2 rounded-lg inline-flex items-center gap-1"><LogOut className="w-4 h-4" />Registrar salida</button>
             )}
-            <button onClick={() => { setAcceso(null); setCodigo(""); }} className="text-[#8b8bb5] hover:text-[#818cf8] px-3 py-2">Limpiar</button>
+            <button onClick={() => { setAcceso(null); setCodigo(""); }} className="text-[#6b7a99] hover:text-[#ffd60a] px-3 py-2">Limpiar</button>
           </div>
         </div>
       )}

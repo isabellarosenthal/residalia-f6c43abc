@@ -50,8 +50,8 @@ function AreasPage() {
       <div className="space-y-5 max-w-[1400px] mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="font-display font-extrabold text-2xl text-[#1e1b4b]">Áreas Comunes</h1>
-            <p className="text-sm text-[#8b8bb5]">Gestión de áreas y reservas</p>
+            <h1 className="font-display font-extrabold text-2xl text-[#0a1e3f]">Áreas Comunes</h1>
+            <p className="text-sm text-[#6b7a99]">Gestión de áreas y reservas</p>
           </div>
           <Select value={edificioId} onValueChange={setEdificioId}>
             <SelectTrigger className="w-[260px]"><SelectValue /></SelectTrigger>
@@ -63,17 +63,17 @@ function AreasPage() {
         </div>
 
         {edificios.length === 0 ? (
-          <div className="text-center text-[#8b8bb5] py-10"><CalendarRange className="w-8 h-8 mx-auto mb-2" />Crea un edificio primero.</div>
+          <div className="text-center text-[#6b7a99] py-10"><CalendarRange className="w-8 h-8 mx-auto mb-2" />Crea un edificio primero.</div>
         ) : (
           <Tabs defaultValue="areas">
-            <TabsList className="bg-[#eef2ff]">
+            <TabsList className="bg-[#fffdf5]">
               <TabsTrigger value="areas">Áreas</TabsTrigger>
               <TabsTrigger value="reservas">Reservas</TabsTrigger>
               <TabsTrigger value="calendario">Calendario</TabsTrigger>
             </TabsList>
             <TabsContent value="areas" className="space-y-4 pt-4">
               <div className="flex justify-end">
-                <Button onClick={() => openArea(null)} disabled={areaLoading} className="bg-[#818cf8] hover:bg-[#6366f1]">
+                <Button onClick={() => openArea(null)} disabled={areaLoading} className="bg-[#ffd60a] hover:bg-[#e6c200]">
                   <Plus className="w-4 h-4 mr-1" />{areaLoading ? "Cargando..." : "Nueva área"}
                 </Button>
               </div>
@@ -81,7 +81,7 @@ function AreasPage() {
             </TabsContent>
             <TabsContent value="reservas" className="space-y-4 pt-4">
               <div className="flex justify-end">
-                <Button onClick={() => openRes(null)} disabled={resLoading} className="bg-[#818cf8] hover:bg-[#6366f1]">
+                <Button onClick={() => openRes(null)} disabled={resLoading} className="bg-[#ffd60a] hover:bg-[#e6c200]">
                   <Plus className="w-4 h-4 mr-1" />{resLoading ? "Cargando..." : "Nueva reserva"}
                 </Button>
               </div>

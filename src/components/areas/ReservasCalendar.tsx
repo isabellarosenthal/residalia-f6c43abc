@@ -17,7 +17,7 @@ function startOfWeek(d: Date) {
 }
 
 const colorFor = (id: string) => {
-  const palette = ["#818cf8", "#166534", "#7a3aa3", "#0d6f8a", "#a83a5a", "#8a5a00"];
+  const palette = ["#ffd60a", "#166534", "#7a3aa3", "#0d6f8a", "#a83a5a", "#8a5a00"];
   let h = 0;
   for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
   return palette[h % palette.length];
@@ -75,13 +75,13 @@ export function ReservasCalendar({ edificioId }: { edificioId: string }) {
         </Select>
       </div>
 
-      <div className="bg-white border border-[#e0e7ff] rounded-2xl overflow-hidden">
-        <div className="grid grid-cols-[60px_repeat(7,1fr)] border-b border-[#e0e7ff] bg-[#eef2ff]">
+      <div className="bg-white border border-[#e8ecf3] rounded-2xl overflow-hidden">
+        <div className="grid grid-cols-[60px_repeat(7,1fr)] border-b border-[#e8ecf3] bg-[#fffdf5]">
           <div></div>
           {days.map((d, i) => {
             const isToday = d.toDateString() === new Date().toDateString();
             return (
-              <div key={i} className={`text-center py-2 text-xs font-semibold ${isToday ? "text-[#818cf8]" : "text-[#1e1b4b]"}`}>
+              <div key={i} className={`text-center py-2 text-xs font-semibold ${isToday ? "text-[#ffd60a]" : "text-[#0a1e3f]"}`}>
                 {DOW[i]}<br /><span className="text-base font-display">{d.getDate()}</span>
               </div>
             );
@@ -90,7 +90,7 @@ export function ReservasCalendar({ edificioId }: { edificioId: string }) {
         <div className="relative grid grid-cols-[60px_repeat(7,1fr)]" style={{ minHeight: HOURS.length * 36 }}>
           <div className="border-r border-[#f0e6e0]">
             {HOURS.map((h) => (
-              <div key={h} className="h-9 text-[10px] text-[#8b8bb5] text-right pr-1 -mt-1">{h}:00</div>
+              <div key={h} className="h-9 text-[10px] text-[#6b7a99] text-right pr-1 -mt-1">{h}:00</div>
             ))}
           </div>
           {days.map((d, di) => {
@@ -112,7 +112,7 @@ export function ReservasCalendar({ edificioId }: { edificioId: string }) {
                   openCreate(start);
                 }}
               >
-                {HOURS.map((h) => <div key={h} className="h-9 border-b border-[#eef2ff] hover:bg-[#faf5f1]" />)}
+                {HOURS.map((h) => <div key={h} className="h-9 border-b border-[#fffdf5] hover:bg-[#faf5f1]" />)}
                 {dayReservas.map((r) => {
                   const ini = new Date(r.fecha_inicio);
                   const fin = new Date(r.fecha_fin);
@@ -141,7 +141,7 @@ export function ReservasCalendar({ edificioId }: { edificioId: string }) {
       </div>
 
       {visibles.length === 0 && (
-        <div className="text-center text-[#8b8bb5] py-6 text-sm flex items-center justify-center gap-2">
+        <div className="text-center text-[#6b7a99] py-6 text-sm flex items-center justify-center gap-2">
           <CalendarRange className="w-4 h-4" />Sin reservas esta semana. Clic en una hora para crear una.
         </div>
       )}
