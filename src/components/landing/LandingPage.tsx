@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 import heroAstronaut from "@/assets/hero-astronaut.png";
+import astronautChecklist from "@/assets/astronaut-checklist.png";
 import logoUrl from "@/assets/altura-cloud-logo.png";
 
 // Brand kit Altura Cloud v1.0
