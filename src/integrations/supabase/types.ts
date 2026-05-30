@@ -764,6 +764,42 @@ export type Database = {
           },
         ]
       }
+      planes: {
+        Row: {
+          activo: boolean
+          created_at: string
+          features: Json
+          id: string
+          max_residentes: number | null
+          max_unidades: number | null
+          nombre: string
+          orden: number
+          precio_mensual: number
+        }
+        Insert: {
+          activo?: boolean
+          created_at?: string
+          features?: Json
+          id?: string
+          max_residentes?: number | null
+          max_unidades?: number | null
+          nombre: string
+          orden?: number
+          precio_mensual?: number
+        }
+        Update: {
+          activo?: boolean
+          created_at?: string
+          features?: Json
+          id?: string
+          max_residentes?: number | null
+          max_unidades?: number | null
+          nombre?: string
+          orden?: number
+          precio_mensual?: number
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -1097,6 +1133,47 @@ export type Database = {
             columns: ["unidad_id"]
             isOneToOne: false
             referencedRelation: "unidades"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      suscripciones: {
+        Row: {
+          condominio_id: string
+          created_at: string
+          estado: string
+          fecha_fin: string | null
+          fecha_inicio: string
+          id: string
+          plan_id: string
+          updated_at: string
+        }
+        Insert: {
+          condominio_id: string
+          created_at?: string
+          estado?: string
+          fecha_fin?: string | null
+          fecha_inicio?: string
+          id?: string
+          plan_id: string
+          updated_at?: string
+        }
+        Update: {
+          condominio_id?: string
+          created_at?: string
+          estado?: string
+          fecha_fin?: string | null
+          fecha_inicio?: string
+          id?: string
+          plan_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "suscripciones_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "planes"
             referencedColumns: ["id"]
           },
         ]
