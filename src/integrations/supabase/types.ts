@@ -1360,6 +1360,21 @@ export type Database = {
           expira_en: string
         }[]
       }
+      get_admin_plan_limits: {
+        Args: { _admin_id: string }
+        Returns: {
+          max_admins: number
+          max_edificios: number
+          max_unidades: number
+        }[]
+      }
+      get_condominio_plan_limits: {
+        Args: { _condo_id: string }
+        Returns: {
+          max_admins: number
+          max_unidades: number
+        }[]
+      }
       get_user_role: {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["app_role"]
