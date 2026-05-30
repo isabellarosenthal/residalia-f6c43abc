@@ -86,14 +86,24 @@ function LoginPage() {
             <span className="text-[#0a1e3f]">Altura</span><span className="text-[#0a1e3f]">Cloud</span>
           </div>
         </div>
-        {isResidenteFlow && (
-          <div className="mt-3 mb-4 text-center">
-            <span className="inline-block text-xs font-bold uppercase tracking-wider bg-[#0a1e3f] text-white px-3 py-1 rounded-full">
-              Portal Residentes
-            </span>
-          </div>
-        )}
-        <p className="text-center text-sm text-[#6b7a99] mb-8">{isResidenteFlow ? "Ingresa con tu cuenta de residente o regístrate con tu código de invitación" : "Administración de condominios y CRM inmobiliario"}</p>
+        <p className="text-center text-sm text-[#6b7a99] mb-5">{isResidenteFlow ? "Ingresa con tu cuenta de residente o regístrate con tu código de invitación" : "Administración de condominios y CRM inmobiliario"}</p>
+
+        <div className="grid grid-cols-2 gap-2 p-1 bg-[#fff8d6] rounded-full mb-6">
+          <button
+            type="button"
+            onClick={() => { navigate({ to: "/login", search: {} }); }}
+            className={`text-sm font-semibold py-2 rounded-full transition ${!isResidenteFlow ? "bg-[#0a1e3f] text-white shadow" : "text-[#0a1e3f] hover:bg-white/60"}`}
+          >
+            Administrador
+          </button>
+          <button
+            type="button"
+            onClick={() => { navigate({ to: "/login", search: { as: "residente" } }); }}
+            className={`text-sm font-semibold py-2 rounded-full transition ${isResidenteFlow ? "bg-[#0a1e3f] text-white shadow" : "text-[#0a1e3f] hover:bg-white/60"}`}
+          >
+            Residente
+          </button>
+        </div>
 
         <form onSubmit={submit} className="space-y-4">
           {mode === "signup" && (
