@@ -56,7 +56,7 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="hidden lg:flex flex-col w-60 h-screen sticky top-0 bg-[#4F46E5] text-[#F8FAFC]">
+    <aside className="hidden lg:flex flex-col w-60 h-screen sticky top-0 bg-[#312E81] text-[#F8FAFC]">
       <div className="px-5 py-6 flex items-center gap-2.5">
         <img src={logoUrl} alt="Altura Cloud" width={36} height={36} className="w-9 h-9 drop-shadow-[0_0_12px_rgba(167,139,250,0.5)]" />
         <div className="font-display font-extrabold text-xl leading-none">
