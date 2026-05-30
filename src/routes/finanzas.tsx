@@ -10,6 +10,8 @@ import { FinanzasResumen } from "@/components/finanzas/FinanzasResumen";
 import { CobrosTable } from "@/components/finanzas/CobrosTable";
 import { EgresosTable } from "@/components/finanzas/EgresosTable";
 import { EstadoCuentaUnidad } from "@/components/finanzas/EstadoCuentaUnidad";
+import { ReportesFinancieros } from "@/components/finanzas/ReportesFinancieros";
+import { RecordatoriosMorosos } from "@/components/finanzas/RecordatoriosMorosos";
 import { useEdificios, type Cobro, type Egreso } from "@/lib/queries";
 
 const CobroFormDialog = lazy(() => import("@/components/finanzas/CobroFormDialog").then(m => ({ default: m.CobroFormDialog })));
