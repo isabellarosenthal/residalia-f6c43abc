@@ -30,7 +30,7 @@ function AdminPanel() {
   useEffect(() => {
     if (loading) return;
     if (!user) navigate({ to: "/login" });
-    else if (role && role !== "super_admin") navigate({ to: "/" });
+    else if (role && role !== "super_admin") navigate({ to: "/dashboard" });
   }, [loading, user, role, navigate]);
 
   const { data: stats } = useQuery({

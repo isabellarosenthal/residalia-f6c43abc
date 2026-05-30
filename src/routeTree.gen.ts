@@ -20,6 +20,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as GuardiaRouteImport } from './routes/guardia'
 import { Route as FinanzasRouteImport } from './routes/finanzas'
 import { Route as EdificiosRouteImport } from './routes/edificios'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ConfiguracionRouteImport } from './routes/configuracion'
 import { Route as ComunicacionesRouteImport } from './routes/comunicaciones'
 import { Route as AreasRouteImport } from './routes/areas'
@@ -94,6 +95,11 @@ const FinanzasRoute = FinanzasRouteImport.update({
 const EdificiosRoute = EdificiosRouteImport.update({
   id: '/edificios',
   path: '/edificios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConfiguracionRoute = ConfiguracionRouteImport.update({
@@ -205,6 +211,7 @@ export interface FileRoutesByFullPath {
   '/areas': typeof AreasRoute
   '/comunicaciones': typeof ComunicacionesRoute
   '/configuracion': typeof ConfiguracionRoute
+  '/dashboard': typeof DashboardRoute
   '/edificios': typeof EdificiosRouteWithChildren
   '/finanzas': typeof FinanzasRoute
   '/guardia': typeof GuardiaRouteWithChildren
@@ -237,6 +244,7 @@ export interface FileRoutesByTo {
   '/areas': typeof AreasRoute
   '/comunicaciones': typeof ComunicacionesRoute
   '/configuracion': typeof ConfiguracionRoute
+  '/dashboard': typeof DashboardRoute
   '/finanzas': typeof FinanzasRoute
   '/login': typeof LoginRoute
   '/mantenimiento': typeof MantenimientoRoute
@@ -268,6 +276,7 @@ export interface FileRoutesById {
   '/areas': typeof AreasRoute
   '/comunicaciones': typeof ComunicacionesRoute
   '/configuracion': typeof ConfiguracionRoute
+  '/dashboard': typeof DashboardRoute
   '/edificios': typeof EdificiosRouteWithChildren
   '/finanzas': typeof FinanzasRoute
   '/guardia': typeof GuardiaRouteWithChildren
@@ -303,6 +312,7 @@ export interface FileRouteTypes {
     | '/areas'
     | '/comunicaciones'
     | '/configuracion'
+    | '/dashboard'
     | '/edificios'
     | '/finanzas'
     | '/guardia'
@@ -335,6 +345,7 @@ export interface FileRouteTypes {
     | '/areas'
     | '/comunicaciones'
     | '/configuracion'
+    | '/dashboard'
     | '/finanzas'
     | '/login'
     | '/mantenimiento'
@@ -365,6 +376,7 @@ export interface FileRouteTypes {
     | '/areas'
     | '/comunicaciones'
     | '/configuracion'
+    | '/dashboard'
     | '/edificios'
     | '/finanzas'
     | '/guardia'
@@ -399,6 +411,7 @@ export interface RootRouteChildren {
   AreasRoute: typeof AreasRoute
   ComunicacionesRoute: typeof ComunicacionesRoute
   ConfiguracionRoute: typeof ConfiguracionRoute
+  DashboardRoute: typeof DashboardRoute
   EdificiosRoute: typeof EdificiosRouteWithChildren
   FinanzasRoute: typeof FinanzasRoute
   GuardiaRoute: typeof GuardiaRouteWithChildren
@@ -490,6 +503,13 @@ declare module '@tanstack/react-router' {
       path: '/edificios'
       fullPath: '/edificios'
       preLoaderRoute: typeof EdificiosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/configuracion': {
@@ -704,6 +724,7 @@ const rootRouteChildren: RootRouteChildren = {
   AreasRoute: AreasRoute,
   ComunicacionesRoute: ComunicacionesRoute,
   ConfiguracionRoute: ConfiguracionRoute,
+  DashboardRoute: DashboardRoute,
   EdificiosRoute: EdificiosRouteWithChildren,
   FinanzasRoute: FinanzasRoute,
   GuardiaRoute: GuardiaRouteWithChildren,
@@ -720,3 +741,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

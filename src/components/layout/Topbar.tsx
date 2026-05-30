@@ -4,7 +4,7 @@ import { useAuth } from "@/lib/auth-context";
 import { initials } from "@/lib/format";
 
 const titles: Record<string, string> = {
-  "/": "Dashboard",
+  "/dashboard": "Dashboard",
   "/edificios": "Edificios y Condominios",
   "/residentes": "Residentes",
   "/finanzas": "Finanzas",
@@ -23,7 +23,7 @@ const titles: Record<string, string> = {
 export function Topbar() {
   const path = useRouterState({ select: (s) => s.location.pathname });
   const { profile } = useAuth();
-  const title = Object.entries(titles).find(([k]) => k === "/" ? path === "/" : path.startsWith(k))?.[1] ?? "";
+  const title = Object.entries(titles).find(([k]) => path.startsWith(k))?.[1] ?? "";
 
   return (
     <header className="h-16 bg-white border-b border-[#e0e7ff] flex items-center px-6 gap-4 sticky top-0 z-20">

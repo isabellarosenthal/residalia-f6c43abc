@@ -97,7 +97,7 @@ export function OnboardingWizard({ open, onClose }: Props) {
     await generarCobros.mutateAsync({ edificioId, mes, concepto: "Mantenimiento", vencimiento: venc, unidadIds });
     toast.success("¡Listo! Tu edificio está operando 🎉");
     close();
-    navigate({ to: "/" });
+    navigate({ to: "/dashboard" });
   };
 
   return (

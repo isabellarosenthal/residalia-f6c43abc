@@ -19,7 +19,7 @@ function PortalLayout() {
       return;
     }
     if (role && role !== "residente" && role !== "super_admin") {
-      navigate({ to: "/" });
+      navigate({ to: "/dashboard" });
     }
   }, [user, loading, role, navigate]);
 

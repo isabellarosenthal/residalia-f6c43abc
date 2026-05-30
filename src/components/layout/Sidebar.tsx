@@ -13,7 +13,7 @@ const sections = [
   {
     label: "Administración",
     items: [
-      { to: "/", icon: LayoutDashboard, label: "Dashboard" },
+      { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
       { to: "/edificios", icon: Building2, label: "Edificios y Condominios" },
       { to: "/residentes", icon: Users, label: "Residentes" },
       { to: "/finanzas", icon: Wallet, label: "Finanzas" },
@@ -92,7 +92,7 @@ export function Sidebar() {
             </div>
             <div className="space-y-0.5">
               {sec.items.map((it) => {
-                const active = it.to === "/" ? path === "/" : path.startsWith(it.to);
+                const active = path.startsWith(it.to);
                 const Icon = it.icon;
                 return (
                   <Link
