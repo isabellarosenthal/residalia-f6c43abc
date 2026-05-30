@@ -114,7 +114,7 @@ function LoginPage() {
               {!isResidenteFlow && (
                 <div>
                   <label className="block text-sm font-medium text-[#4F46E5] mb-1.5">Soy</label>
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="grid grid-cols-2 gap-2">
                     {([["admin_condominio", "Admin"], ["residente", "Residente"]] as const).map(([v, l]) => (
                       <button key={v} type="button" onClick={() => setSignupRole(v)}
                         className={`text-sm py-2 rounded-lg border ${signupRole === v ? "bg-[#4F46E5] text-white border-[#4F46E5]" : "border-[#EBC988] text-[#4F46E5] hover:border-[#4F46E5]"}`}>
