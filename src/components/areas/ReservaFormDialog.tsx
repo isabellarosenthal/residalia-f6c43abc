@@ -141,7 +141,7 @@ export function ReservaFormDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
-        <DialogHeader><DialogTitle className="font-display text-xl text-[#0a1e3f]">{reserva ? "Editar reserva" : "Nueva reserva"}</DialogTitle></DialogHeader>
+        <DialogHeader><DialogTitle className="font-display text-xl text-[#173B7A]">{reserva ? "Editar reserva" : "Nueva reserva"}</DialogTitle></DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
             <div>
@@ -158,7 +158,7 @@ export function ReservaFormDialog({
                 <SelectContent className="max-h-72">{areas.filter(a => a.activa).map((a) => <SelectItem key={a.id} value={a.id}>{a.nombre}</SelectItem>)}</SelectContent>
               </Select>
               {areaSel?.horario_inicio && areaSel?.horario_fin && (
-                <p className="text-[11px] text-[#6b7a99] mt-1">
+                <p className="text-[11px] text-[#64748B] mt-1">
                   Disponible {areaSel.horario_inicio.slice(0, 5)}–{areaSel.horario_fin.slice(0, 5)}
                 </p>
               )}
@@ -213,7 +213,7 @@ export function ReservaFormDialog({
           )}
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-            <Button type="submit" disabled={save.isPending || !!conflicto} className="bg-[#0a1e3f] hover:bg-[#001a4d]">{save.isPending ? "Guardando…" : "Guardar"}</Button>
+            <Button type="submit" disabled={save.isPending || !!conflicto} className="bg-[#173B7A] hover:bg-[#0f2659]">{save.isPending ? "Guardando…" : "Guardar"}</Button>
           </DialogFooter>
         </form>
       </DialogContent>

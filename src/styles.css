@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap');
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -6,7 +6,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: "Poppins", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
   --font-display: "Poppins", system-ui, sans-serif;
 
   --radius-sm: 0.5rem;
@@ -55,59 +55,59 @@
 }
 
 :root {
-  /* Altura Cloud — Navy primary, yellow accent */
-  --primary: #0a1e3f;
+  /* Altura Cloud Brand Kit v1.0 */
+  --primary: #173B7A;
   --primary-foreground: #ffffff;
-  --primary-dark: #001a4d;
-  --primary-light: #13294b;
-  --primary-glow: #13294b;
+  --primary-dark: #0f2659;
+  --primary-light: #4B6FAF;
+  --primary-glow: #4B6FAF;
 
-  --text-dark: #0a1e3f;
-  --text-body: #13294b;
-  --text-muted: #6b7a99;
+  --text-dark: #1E293B;
+  --text-body: #1E293B;
+  --text-muted: #64748B;
 
-  --background: #ffffff;
-  --bg-subtle: #fffdf5;
+  --background: #F8FAFC;
+  --bg-subtle: #F1F5F9;
 
-  --card: #ffffff;
-  --card-foreground: #0a1e3f;
-  --popover: #ffffff;
-  --popover-foreground: #0a1e3f;
-  --foreground: #0a1e3f;
+  --card: #FFFFFF;
+  --card-foreground: #1E293B;
+  --popover: #FFFFFF;
+  --popover-foreground: #1E293B;
+  --foreground: #1E293B;
 
-  --secondary: #fffdf5;
-  --secondary-foreground: #0a1e3f;
-  --muted: #fffdf5;
-  --muted-foreground: #6b7a99;
-  --accent: #fff8d6;
-  --accent-foreground: #001a4d;
+  --secondary: #F1F5F9;
+  --secondary-foreground: #173B7A;
+  --muted: #F1F5F9;
+  --muted-foreground: #64748B;
+  --accent: #FAF1DC;
+  --accent-foreground: #173B7A;
 
-  --success: #166534;
-  --success-light: #dcfce7;
-  --danger: #be185d;
-  --danger-light: #fce7f3;
-  --warning: #ffd60a;
-  --warning-light: #fff8d6;
-  --destructive: #be185d;
+  --success: #16A344;
+  --success-light: #DCFCE7;
+  --danger: #EF4444;
+  --danger-light: #FEE2E2;
+  --warning: #F59E0B;
+  --warning-light: #FEF3C7;
+  --destructive: #EF4444;
   --destructive-foreground: #ffffff;
 
-  --border: #e8ecf3;
-  --border-strong: #ffe87a;
-  --input: #e8ecf3;
-  --ring: #ffd60a;
+  --border: #E2E8F0;
+  --border-strong: #CBD5E1;
+  --input: #E2E8F0;
+  --ring: #D9A441;
 
-  --sidebar: #0a1e3f;
-  --sidebar-foreground: #fffdf5;
-  --sidebar-accent: #ffd60a;
+  --sidebar: #173B7A;
+  --sidebar-foreground: #F8FAFC;
+  --sidebar-accent: #D9A441;
 
-  --gradient-sunny: linear-gradient(135deg, #ffea5c 0%, #ffd60a 50%, #ffc107 100%);
-  --gradient-deep-sky: linear-gradient(135deg, #0a1e3f 0%, #13294b 50%, #001a4d 100%);
-  --gradient-aurora: linear-gradient(135deg, #fffdf5 0%, #ffffff 50%, #fff8d6 100%);
-  --shadow-warm: 0 20px 60px -20px color-mix(in oklab, #ffd60a 45%, transparent);
-  --shadow-deep: 0 20px 60px -20px color-mix(in oklab, #0a1e3f 30%, transparent);
-  --shadow-glow: 0 0 40px color-mix(in oklab, #ffd60a 40%, transparent);
+  --gradient-sunny: linear-gradient(135deg, #E5B559 0%, #D9A441 50%, #B8862C 100%);
+  --gradient-deep-sky: linear-gradient(135deg, #173B7A 0%, #4B6FAF 50%, #0f2659 100%);
+  --gradient-aurora: linear-gradient(135deg, #F8FAFC 0%, #FFFFFF 50%, #FAF1DC 100%);
+  --shadow-warm: 0 20px 60px -20px color-mix(in oklab, #D9A441 45%, transparent);
+  --shadow-deep: 0 20px 60px -20px color-mix(in oklab, #173B7A 30%, transparent);
+  --shadow-glow: 0 0 40px color-mix(in oklab, #D9A441 40%, transparent);
 
-  /* legacy aliases (some components may still reference these names) */
+  /* legacy aliases */
   --gradient-ethereal: var(--gradient-sunny);
   --shadow-dreamy: var(--shadow-warm);
 }
@@ -120,7 +120,7 @@
     color: var(--color-text-body);
     -webkit-font-smoothing: antialiased;
   }
-  h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); color: var(--color-text-dark); font-weight: 700; letter-spacing: -0.01em; }
+  h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); color: var(--color-text-dark); font-weight: 700; letter-spacing: -0.02em; }
 }
 
 @layer utilities {
@@ -134,7 +134,7 @@
   .shadow-dreamy { box-shadow: var(--shadow-warm); }
   .shadow-glow { box-shadow: var(--shadow-glow); }
   .shimmer {
-    background: linear-gradient(90deg, #fffdf5 0%, #fff8d6 50%, #fffdf5 100%);
+    background: linear-gradient(90deg, #F1F5F9 0%, #FAF1DC 50%, #F1F5F9 100%);
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite;
   }

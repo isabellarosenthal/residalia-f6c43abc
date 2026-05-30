@@ -8,24 +8,24 @@ const fmtDT = (s: string) => new Date(s).toLocaleString("es-HN", { dateStyle: "m
 
 function Anuncios() {
   const { data: items = [], isLoading } = useComunicadosResidente();
-  if (isLoading) return <div className="text-sm text-[#6b7a99]">Cargando…</div>;
+  if (isLoading) return <div className="text-sm text-[#64748B]">Cargando…</div>;
 
   return (
     <div className="space-y-3">
-      <h1 className="font-display font-extrabold text-xl text-[#0a1e3f]">Anuncios del edificio</h1>
+      <h1 className="font-display font-extrabold text-xl text-[#173B7A]">Anuncios del edificio</h1>
       {items.length === 0 ? (
-        <div className="bg-white border border-[#e8ecf3] rounded-2xl p-8 text-center text-[#6b7a99]">
+        <div className="bg-white border border-[#E2E8F0] rounded-2xl p-8 text-center text-[#64748B]">
           <Megaphone className="w-8 h-8 mx-auto mb-2 opacity-50" />
           No hay anuncios por ahora.
         </div>
       ) : items.map((a) => (
-        <article key={a.id} className="bg-white border border-[#e8ecf3] rounded-2xl p-4">
+        <article key={a.id} className="bg-white border border-[#E2E8F0] rounded-2xl p-4">
           <div className="flex items-center gap-2 mb-1">
-            {a.tipo && <span className="text-[10px] uppercase tracking-wide bg-[#fde8e2] text-[#0a1e3f] px-2 py-0.5 rounded-full">{a.tipo}</span>}
-            <span className="text-xs text-[#6b7a99]">{fmtDT(a.created_at)}</span>
+            {a.tipo && <span className="text-[10px] uppercase tracking-wide bg-[#fde8e2] text-[#173B7A] px-2 py-0.5 rounded-full">{a.tipo}</span>}
+            <span className="text-xs text-[#64748B]">{fmtDT(a.created_at)}</span>
           </div>
-          <h2 className="font-display font-bold text-lg text-[#0a1e3f]">{a.titulo}</h2>
-          {a.cuerpo && <p className="text-sm text-[#0a1e3f] mt-1 whitespace-pre-wrap">{a.cuerpo}</p>}
+          <h2 className="font-display font-bold text-lg text-[#173B7A]">{a.titulo}</h2>
+          {a.cuerpo && <p className="text-sm text-[#173B7A] mt-1 whitespace-pre-wrap">{a.cuerpo}</p>}
         </article>
       ))}
     </div>

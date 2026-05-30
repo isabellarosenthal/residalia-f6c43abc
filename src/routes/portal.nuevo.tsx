@@ -27,7 +27,7 @@ function NuevoPase() {
   const [fechaSalida, setFechaSalida] = useState("");
   const [usos, setUsos] = useState(1);
 
-  if (isLoading) return <div className="text-sm text-[#6b7a99]">Cargando…</div>;
+  if (isLoading) return <div className="text-sm text-[#64748B]">Cargando…</div>;
   if (!residente) return <div className="text-sm text-[#7a2a10]">Tu cuenta no está vinculada a un residente.</div>;
 
   const submit = async (e: React.FormEvent) => {
@@ -50,8 +50,8 @@ function NuevoPase() {
   };
 
   return (
-    <form onSubmit={submit} className="space-y-4 bg-white border border-[#e8ecf3] rounded-2xl p-5">
-      <h1 className="font-display font-extrabold text-xl text-[#0a1e3f]">Crear pase de acceso</h1>
+    <form onSubmit={submit} className="space-y-4 bg-white border border-[#E2E8F0] rounded-2xl p-5">
+      <h1 className="font-display font-extrabold text-xl text-[#173B7A]">Crear pase de acceso</h1>
       <div>
         <Label>Nombre del visitante *</Label>
         <Input value={visitante} onChange={(e) => setVisitante(e.target.value)} required maxLength={120} />
@@ -77,7 +77,7 @@ function NuevoPase() {
         <Label>Entradas permitidas</Label>
         <Input type="number" min={1} max={50} value={usos} onChange={(e) => setUsos(Math.max(1, Number(e.target.value) || 1))} />
       </div>
-      <Button type="submit" disabled={save.isPending || !visitante.trim()} className="w-full bg-[#0a1e3f] hover:bg-[#001a4d]">
+      <Button type="submit" disabled={save.isPending || !visitante.trim()} className="w-full bg-[#173B7A] hover:bg-[#0f2659]">
         {save.isPending ? "Creando…" : "Crear pase"}
       </Button>
     </form>

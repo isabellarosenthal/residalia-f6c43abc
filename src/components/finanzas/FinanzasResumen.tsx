@@ -59,13 +59,13 @@ export function FinanzasResumen({ edificioId }: { edificioId: string }) {
       </div>
 
       <Card className="p-5">
-        <h3 className="font-display font-bold text-[#0a1e3f] mb-3">Ingresos vs Egresos · últimos 6 meses</h3>
+        <h3 className="font-display font-bold text-[#173B7A] mb-3">Ingresos vs Egresos · últimos 6 meses</h3>
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e8ecf3" />
-              <XAxis dataKey="label" stroke="#6b7a99" />
-              <YAxis stroke="#6b7a99" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
+              <XAxis dataKey="label" stroke="#64748B" />
+              <YAxis stroke="#64748B" />
               <Tooltip formatter={(v: any) => fmtL(Number(v))} />
               <Legend />
               <Bar dataKey="ingresos" fill="#166534" name="Ingresos" radius={[6, 6, 0, 0]} />

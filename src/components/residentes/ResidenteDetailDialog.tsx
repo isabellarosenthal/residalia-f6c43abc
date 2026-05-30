@@ -23,7 +23,7 @@ export function ResidenteDetailDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[760px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="font-display text-xl text-[#0a1e3f]">
+          <DialogTitle className="font-display text-xl text-[#173B7A]">
             {residente.nombre} {residente.apellido}
           </DialogTitle>
         </DialogHeader>
@@ -41,10 +41,10 @@ function DetailBody({ residente }: { residente: Residente }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap gap-3 items-center text-sm text-[#13294b] bg-[#fffdf5] rounded-lg p-3">
+      <div className="flex flex-wrap gap-3 items-center text-sm text-[#1E293B] bg-[#F8FAFC] rounded-lg p-3">
         <Badge variant={residente.tipo === "propietario" ? "venta" : "renta"}>{residente.tipo}</Badge>
         {residente.activo ? <Badge variant="success">Activo</Badge> : <Badge variant="neutral">Inactivo</Badge>}
-        <span className="text-[#6b7a99]">{edif?.nombre ?? "—"} {uni ? `· #${uni.numero}` : ""}</span>
+        <span className="text-[#64748B]">{edif?.nombre ?? "—"} {uni ? `· #${uni.numero}` : ""}</span>
         {residente.telefono && <span className="flex items-center gap-1"><Phone className="w-3 h-3" />{residente.telefono}</span>}
         {residente.email && <span className="flex items-center gap-1"><Mail className="w-3 h-3" />{residente.email}</span>}
       </div>
@@ -79,7 +79,7 @@ function PersonasTab({ residenteId }: { residenteId: string }) {
 
   return (
     <div className="space-y-3">
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_160px_auto] gap-2 items-end border border-[#e8ecf3] rounded-lg p-3 bg-[#fdfaf7]">
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr_160px_auto] gap-2 items-end border border-[#E2E8F0] rounded-lg p-3 bg-[#fdfaf7]">
         <div><Label className="text-xs">Nombre</Label><Input value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Nombre completo" /></div>
         <div><Label className="text-xs">Relación</Label><Input value={relacion} onChange={(e) => setRelacion(e.target.value)} placeholder="Familiar, empleado…" /></div>
         <div>
@@ -93,20 +93,20 @@ function PersonasTab({ residenteId }: { residenteId: string }) {
             </SelectContent>
           </Select>
         </div>
-        <Button onClick={add} disabled={!nombre.trim() || save.isPending} className="bg-[#0a1e3f] hover:bg-[#001a4d]">
+        <Button onClick={add} disabled={!nombre.trim() || save.isPending} className="bg-[#173B7A] hover:bg-[#0f2659]">
           <Plus className="w-4 h-4 mr-1" />Agregar
         </Button>
       </div>
 
-      {isLoading ? <p className="text-sm text-[#6b7a99]">Cargando…</p> : personas.length === 0 ? (
-        <p className="text-sm text-[#6b7a99] text-center py-4">Sin personas autorizadas.</p>
+      {isLoading ? <p className="text-sm text-[#64748B]">Cargando…</p> : personas.length === 0 ? (
+        <p className="text-sm text-[#64748B] text-center py-4">Sin personas autorizadas.</p>
       ) : (
         <div className="space-y-1">
           {personas.map((p) => (
-            <div key={p.id} className="flex items-center justify-between border border-[#e8ecf3] rounded-lg px-3 py-2">
+            <div key={p.id} className="flex items-center justify-between border border-[#E2E8F0] rounded-lg px-3 py-2">
               <div>
-                <div className="text-sm font-medium text-[#0a1e3f]">{p.nombre}</div>
-                <div className="text-xs text-[#6b7a99]">{p.relacion ?? "—"} · {p.tipo_acceso ?? "permanente"}</div>
+                <div className="text-sm font-medium text-[#173B7A]">{p.nombre}</div>
+                <div className="text-xs text-[#64748B]">{p.relacion ?? "—"} · {p.tipo_acceso ?? "permanente"}</div>
               </div>
               <Button size="sm" variant="ghost" onClick={() => del.mutate({ id: p.id, residenteId })} className="h-8 w-8 p-0 text-[#be185d]"><Trash2 className="w-4 h-4" /></Button>
             </div>
@@ -134,25 +134,25 @@ function VehiculosTab({ residenteId }: { residenteId: string }) {
 
   return (
     <div className="space-y-3">
-      <div className="grid grid-cols-2 md:grid-cols-[120px_1fr_1fr_120px_auto] gap-2 items-end border border-[#e8ecf3] rounded-lg p-3 bg-[#fdfaf7]">
+      <div className="grid grid-cols-2 md:grid-cols-[120px_1fr_1fr_120px_auto] gap-2 items-end border border-[#E2E8F0] rounded-lg p-3 bg-[#fdfaf7]">
         <div><Label className="text-xs">Placa *</Label><Input value={placa} onChange={(e) => setPlaca(e.target.value)} placeholder="ABC-123" /></div>
         <div><Label className="text-xs">Marca</Label><Input value={marca} onChange={(e) => setMarca(e.target.value)} /></div>
         <div><Label className="text-xs">Modelo</Label><Input value={modelo} onChange={(e) => setModelo(e.target.value)} /></div>
         <div><Label className="text-xs">Color</Label><Input value={color} onChange={(e) => setColor(e.target.value)} /></div>
-        <Button onClick={add} disabled={!placa.trim() || save.isPending} className="bg-[#0a1e3f] hover:bg-[#001a4d]"><Plus className="w-4 h-4 mr-1" />Agregar</Button>
+        <Button onClick={add} disabled={!placa.trim() || save.isPending} className="bg-[#173B7A] hover:bg-[#0f2659]"><Plus className="w-4 h-4 mr-1" />Agregar</Button>
       </div>
 
-      {isLoading ? <p className="text-sm text-[#6b7a99]">Cargando…</p> : vehiculos.length === 0 ? (
-        <p className="text-sm text-[#6b7a99] text-center py-4">Sin vehículos registrados.</p>
+      {isLoading ? <p className="text-sm text-[#64748B]">Cargando…</p> : vehiculos.length === 0 ? (
+        <p className="text-sm text-[#64748B] text-center py-4">Sin vehículos registrados.</p>
       ) : (
         <div className="space-y-1">
           {vehiculos.map((v) => (
-            <div key={v.id} className="flex items-center justify-between border border-[#e8ecf3] rounded-lg px-3 py-2">
+            <div key={v.id} className="flex items-center justify-between border border-[#E2E8F0] rounded-lg px-3 py-2">
               <div className="flex items-center gap-3">
                 <Badge variant="neutral">{v.placa}</Badge>
-                <div className="text-sm text-[#0a1e3f]">
+                <div className="text-sm text-[#173B7A]">
                   {[v.marca, v.modelo].filter(Boolean).join(" ") || "—"}
-                  {v.color && <span className="text-xs text-[#6b7a99]"> · {v.color}</span>}
+                  {v.color && <span className="text-xs text-[#64748B]"> · {v.color}</span>}
                 </div>
               </div>
               <Button size="sm" variant="ghost" onClick={() => del.mutate({ id: v.id, residenteId })} className="h-8 w-8 p-0 text-[#be185d]"><Trash2 className="w-4 h-4" /></Button>
@@ -170,29 +170,29 @@ function CuentaTab({ residenteId }: { residenteId: string }) {
   const pendiente = cobros.filter((c) => c.estado !== "pagado").reduce((s, c) => s + Number(c.monto), 0);
   const vencidos = cobros.filter((c) => c.estado !== "pagado" && new Date(c.fecha_vencimiento) < new Date());
 
-  if (isLoading) return <p className="text-sm text-[#6b7a99]">Cargando…</p>;
+  if (isLoading) return <p className="text-sm text-[#64748B]">Cargando…</p>;
 
   return (
     <div className="space-y-3">
       <div className="grid grid-cols-3 gap-2">
-        <div className="border border-[#e8ecf3] rounded-lg p-3"><div className="text-xs text-[#6b7a99]">Pagado</div><div className="font-semibold text-[#0a1e3f]">{fmtL(pagado)}</div></div>
-        <div className="border border-[#e8ecf3] rounded-lg p-3"><div className="text-xs text-[#6b7a99]">Pendiente</div><div className="font-semibold text-[#0a1e3f]">{fmtL(pendiente)}</div></div>
-        <div className="border border-[#e8ecf3] rounded-lg p-3"><div className="text-xs text-[#6b7a99]">Vencidos</div><div className="font-semibold text-[#be185d]">{vencidos.length}</div></div>
+        <div className="border border-[#E2E8F0] rounded-lg p-3"><div className="text-xs text-[#64748B]">Pagado</div><div className="font-semibold text-[#173B7A]">{fmtL(pagado)}</div></div>
+        <div className="border border-[#E2E8F0] rounded-lg p-3"><div className="text-xs text-[#64748B]">Pendiente</div><div className="font-semibold text-[#173B7A]">{fmtL(pendiente)}</div></div>
+        <div className="border border-[#E2E8F0] rounded-lg p-3"><div className="text-xs text-[#64748B]">Vencidos</div><div className="font-semibold text-[#be185d]">{vencidos.length}</div></div>
       </div>
       {cobros.length === 0 ? (
-        <p className="text-sm text-[#6b7a99] text-center py-4">Sin cobros asociados.</p>
+        <p className="text-sm text-[#64748B] text-center py-4">Sin cobros asociados.</p>
       ) : (
         <div className="space-y-1 max-h-[300px] overflow-y-auto">
           {cobros.map((c) => {
             const vencido = c.estado !== "pagado" && new Date(c.fecha_vencimiento) < new Date();
             return (
-              <div key={c.id} className="flex items-center justify-between border border-[#e8ecf3] rounded-lg px-3 py-2 text-sm">
+              <div key={c.id} className="flex items-center justify-between border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm">
                 <div>
-                  <div className="font-medium text-[#0a1e3f]">{c.concepto}</div>
-                  <div className="text-xs text-[#6b7a99]">Vence {fmtDate(c.fecha_vencimiento)}</div>
+                  <div className="font-medium text-[#173B7A]">{c.concepto}</div>
+                  <div className="text-xs text-[#64748B]">Vence {fmtDate(c.fecha_vencimiento)}</div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-[#0a1e3f]">{fmtL(Number(c.monto))}</span>
+                  <span className="font-semibold text-[#173B7A]">{fmtL(Number(c.monto))}</span>
                   {c.estado === "pagado" ? <Badge variant="success">Pagado</Badge>
                     : vencido ? <Badge variant="danger">Vencido</Badge>
                     : <Badge variant="warning">Pendiente</Badge>}
