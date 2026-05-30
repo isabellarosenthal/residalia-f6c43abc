@@ -323,7 +323,7 @@ export function LandingPage() {
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-3" style={{ backgroundColor: palette.iconBg }}>
                   {p.icon}
                 </div>
-                <h3 className="font-display font-extrabold text-2xl text-white">{p.name}</h3>
+                <h3 className="font-display font-extrabold text-2xl" style={{ color: palette.fg }}>{p.name}</h3>
                 <p className="text-sm mt-1 min-h-[2.5rem]" style={{ color: palette.sub }}>{p.tagline}</p>
                 <div className="mt-5">
                   <span className="text-5xl font-extrabold">L {p.price}</span>
