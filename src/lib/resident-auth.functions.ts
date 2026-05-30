@@ -12,35 +12,72 @@ const residentSignupSchema = z.object({
 export const createResidentAccount = createServerFn({ method: "POST" })
   .inputValidator((input) => residentSignupSchema.parse(input))
   .handler(async ({ data }) => {
+    const findUserByEmail = async () => {
+      let page = 1;
+      const perPage = 1000;
+
+      while (page <= 10) {
+        const { data: usersPage, error } = await supabaseAdmin.auth.admin.listUsers({ page, perPage });
+        if (error) throw new Error(error.message);
+
+        const match = usersPage.users.find((user) => user.email?.toLowerCase() === data.email);
+        if (match) return match;
+        if (usersPage.users.length < perPage) return null;
+        page += 1;
+      }
+
+      return null;
+    };
+
     const { data: invitation, error: invitationError } = await supabaseAdmin
       .from("invitaciones_residente")
-      .select("id,email,residente_id,unidad_id,condominio_id,estado,expira_en")
+      .select("id,email,residente_id,unidad_id,condominio_id,estado,expira_en,usada_por")
       .eq("codigo", data.invitationCode)
       .maybeSingle();
 
     if (invitationError) throw new Error(invitationError.message);
     if (!invitation) throw new Error("Código de invitación inválido.");
     if (invitation.email.toLowerCase() !== data.email) throw new Error("El correo no coincide con la invitación.");
-    if (invitation.estado !== "pendiente") throw new Error("Este código ya fue usado o no está disponible.");
     if (new Date(invitation.expira_en).getTime() < Date.now()) throw new Error("El código de invitación expiró.");
     if (!invitation.residente_id) throw new Error("La invitación no está vinculada a un residente.");
 
-    const { data: created, error: createError } = await supabaseAdmin.auth.admin.createUser({
-      email: data.email,
-      password: data.password,
-      email_confirm: true,
-      user_metadata: {
-        full_name: data.fullName,
-        role: "residente",
-        invitation_code: data.invitationCode,
-      },
-    });
+    const existingUser = await findUserByEmail();
 
-    if (createError) throw new Error(createError.message);
-    const userId = created.user.id;
+    if (invitation.estado !== "pendiente" && invitation.usada_por !== existingUser?.id) {
+      throw new Error("Este código ya fue usado o no está disponible.");
+    }
+
+    let userId = existingUser?.id;
+    let createdNewUser = false;
+
+    if (userId) {
+      const { error: updateUserError } = await supabaseAdmin.auth.admin.updateUserById(userId, {
+        password: data.password,
+        email_confirm: true,
+        user_metadata: {
+          full_name: data.fullName,
+          role: "residente",
+        },
+      });
+      if (updateUserError) throw new Error(updateUserError.message);
+    } else {
+      const { data: created, error: createError } = await supabaseAdmin.auth.admin.createUser({
+        email: data.email,
+        password: data.password,
+        email_confirm: true,
+        user_metadata: {
+          full_name: data.fullName,
+          role: "residente",
+        },
+      });
+
+      if (createError) throw new Error(createError.message);
+      userId = created.user.id;
+      createdNewUser = true;
+    }
 
     const rollback = async () => {
-      await supabaseAdmin.auth.admin.deleteUser(userId).catch(() => undefined);
+      if (createdNewUser && userId) await supabaseAdmin.auth.admin.deleteUser(userId).catch(() => undefined);
     };
 
     const { error: profileError } = await supabaseAdmin.from("profiles").upsert({
