@@ -205,15 +205,17 @@ export function LandingPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {[
             { i: Wallet, t: "Cobros y estados de cuenta", d: "Genera cuotas mensuales en lote, registra pagos, emite recibos y controla morosidad en tiempo real.", bg: "#fff8d6", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver cobros" },
-            { i: KeyRound, t: "Control de accesos con QR", d: "Autoriza visitantes con códigos QR de un solo uso, controla entradas y salidas, lleva bitácora completa.", bg: "#0a1e3f", fg: "#ffffff", sub: "#9aa8c2", accent: "#ffd60a", link: "Ver accesos" },
+            { i: KeyRound, t: "Control de accesos con QR", d: "Autoriza visitantes con códigos QR de un solo uso, controla entradas y salidas, lleva bitácora completa.", bg: "#1e3a5f", fg: "#ffffff", sub: "#c4d0e3", accent: "#ffd60a", link: "Ver accesos" },
             { i: Users, t: "Residentes y unidades", d: "Lleva un padrón limpio de propietarios, inquilinos, vehículos y personas autorizadas por cada unidad.", bg: "#fffdf5", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver residentes" },
-            { i: Wrench, t: "Mantenimiento e incidencias", d: "Levanta tickets, asigna proveedores, controla costos estimados vs reales y cierra órdenes con evidencia.", bg: "#0a1e3f", fg: "#ffffff", sub: "#9aa8c2", accent: "#ffd60a", link: "Ver tickets" },
+            { i: Wrench, t: "Mantenimiento e incidencias", d: "Levanta tickets, asigna proveedores, controla costos estimados vs reales y cierra órdenes con evidencia.", bg: "#1e3a5f", fg: "#ffffff", sub: "#c4d0e3", accent: "#ffd60a", link: "Ver tickets" },
             { i: MessageSquare, t: "Comunicados al condominio", d: "Envía avisos por grupo de residentes — emergencias, asambleas, cortes de servicio — con historial completo.", bg: "#fff8d6", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver comunicados" },
             { i: Calendar, t: "Reserva de áreas comunes", d: "Salón social, gimnasio, piscina o cancha: los residentes ven disponibilidad y reservan en minutos.", bg: "#fffdf5", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver áreas" },
-            { i: Building2, t: "CRM inmobiliario", d: "Pública las unidades en venta o renta, captura prospectos por origen, asígnales agente y precio.", bg: "#0a1e3f", fg: "#ffffff", sub: "#9aa8c2", accent: "#ffd60a", link: "Ver CRM" },
+            { i: Building2, t: "CRM inmobiliario", d: "Pública las unidades en venta o renta, captura prospectos por origen, asígnales agente y precio.", bg: "#1e3a5f", fg: "#ffffff", sub: "#c4d0e3", accent: "#ffd60a", link: "Ver CRM" },
             { i: TrendingUp, t: "Pipeline y agenda", d: "Arrastra prospectos entre etapas (nuevo → visita → oferta → cierre) y agenda visitas con recordatorios.", bg: "#fff8d6", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver pipeline" },
             { i: BarChart3, t: "Reportes y KPIs", d: "Flujo de caja, ocupación, cartera vencida, conversión del pipeline. Exporta a PDF o CSV.", bg: "#fffdf5", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver reportes" },
-          ].map((f) => (
+          ].map((f) => {
+            const isDark = f.bg === "#1e3a5f";
+            return (
             <div
               key={f.t}
               className="rounded-[1.75rem] p-7 flex flex-col min-h-[260px] transition hover:-translate-y-1 hover:shadow-xl"
@@ -221,17 +223,18 @@ export function LandingPage() {
             >
               <div
                 className="w-12 h-12 rounded-xl flex items-center justify-center mb-5"
-                style={{ backgroundColor: f.bg === "#0a1e3f" ? "rgba(255,214,10,0.15)" : "rgba(10,30,63,0.06)", color: f.accent }}
+                style={{ backgroundColor: isDark ? "rgba(255,214,10,0.15)" : "rgba(10,30,63,0.06)", color: f.accent }}
               >
                 <f.i className="w-6 h-6" />
               </div>
-              <h3 className="font-display font-extrabold text-xl leading-tight">{f.t}</h3>
+              <h3 className={`font-display font-extrabold text-xl leading-tight ${isDark ? "text-white" : "text-[#0a1e3f]"}`}>{f.t}</h3>
               <p className="text-sm mt-2 leading-relaxed" style={{ color: f.sub }}>{f.d}</p>
               <Link to="/login" className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold" style={{ color: f.accent }}>
                 {f.link} <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
