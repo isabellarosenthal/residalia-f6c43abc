@@ -376,7 +376,7 @@ export function LandingPage() {
             </div>
           </div>
           <div className="hidden lg:flex justify-center">
-            <img src={astronautChecklist} alt="Astronauta con checklist" className="w-[360px] xl:w-[420px] h-auto" />
+            <img src={astronautChecklist} alt="Astronauta con checklist" className="w-[420px] xl:w-[520px] 2xl:w-[600px] h-auto" />
           </div>
         </div>
       </section>
