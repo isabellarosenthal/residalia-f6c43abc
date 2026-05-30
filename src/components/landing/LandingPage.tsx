@@ -398,7 +398,7 @@ export function LandingPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Card 1: Cobros */}
-          <div className="bg-[#F1F5F9] border border-[#E2E8F0] rounded-3xl p-8 flex flex-col">
+          <div className="bg-white/60 backdrop-blur-xl border border-white/70 rounded-3xl p-8 flex flex-col shadow-[0_8px_30px_-12px_rgba(67,56,202,0.15)]">
             <h3 className="font-display font-extrabold text-2xl text-[#0F172A]">Cobros en un clic</h3>
             <p className="mt-2 text-sm text-[#475569]">Genera las cuotas del mes para todas las unidades ocupadas y controla quién pagó.</p>
             <Link to="/login" className="mt-3 text-sm font-semibold text-[#4F46E5] inline-flex items-center gap-1 hover:gap-2 transition-all">Ver cobros <ArrowRight className="w-4 h-4" /></Link>
