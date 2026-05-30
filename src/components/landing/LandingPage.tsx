@@ -204,25 +204,32 @@ export function LandingPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {[
-            { i: Wallet, e: "💰", t: "Cobros y estados de cuenta", d: "Genera cuotas mensuales en lote, registra pagos, emite recibos y controla morosidad en tiempo real." },
-            { i: KeyRound, e: "🔑", t: "Control de accesos con QR", d: "Autoriza visitantes con códigos QR de un solo uso, controla entradas y salidas, lleva bitácora completa." },
-            { i: Users, e: "👨‍👩‍👧", t: "Residentes y unidades", d: "Lleva un padrón limpio de propietarios, inquilinos, vehículos y personas autorizadas por cada unidad." },
-            { i: Wrench, e: "🔧", t: "Mantenimiento e incidencias", d: "Levanta tickets, asigna proveedores, controla costos estimados vs reales y cierra órdenes con evidencia." },
-            { i: MessageSquare, e: "📣", t: "Comunicados al condominio", d: "Envía avisos por grupo de residentes — emergencias, asambleas, cortes de servicio — con historial completo." },
-            { i: Calendar, e: "🏊", t: "Reserva de áreas comunes", d: "Salón social, gimnasio, piscina o cancha: los residentes ven disponibilidad y reservan en minutos." },
-            { i: Building2, e: "🏘️", t: "CRM inmobiliario", d: "Pública las unidades en venta o renta, captura prospectos por origen, asígnales agente y precio." },
-            { i: TrendingUp, e: "📈", t: "Pipeline y agenda", d: "Arrastra prospectos entre etapas (nuevo → visita → oferta → cierre) y agenda visitas con recordatorios." },
-            { i: BarChart3, e: "📊", t: "Reportes y KPIs", d: "Flujo de caja, ocupación, cartera vencida, conversión del pipeline. Exporta a PDF o CSV." },
+            { i: Wallet, t: "Cobros y estados de cuenta", d: "Genera cuotas mensuales en lote, registra pagos, emite recibos y controla morosidad en tiempo real.", bg: "#fff8d6", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver cobros" },
+            { i: KeyRound, t: "Control de accesos con QR", d: "Autoriza visitantes con códigos QR de un solo uso, controla entradas y salidas, lleva bitácora completa.", bg: "#0a1e3f", fg: "#ffffff", sub: "#9aa8c2", accent: "#ffd60a", link: "Ver accesos" },
+            { i: Users, t: "Residentes y unidades", d: "Lleva un padrón limpio de propietarios, inquilinos, vehículos y personas autorizadas por cada unidad.", bg: "#fffdf5", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver residentes" },
+            { i: Wrench, t: "Mantenimiento e incidencias", d: "Levanta tickets, asigna proveedores, controla costos estimados vs reales y cierra órdenes con evidencia.", bg: "#0a1e3f", fg: "#ffffff", sub: "#9aa8c2", accent: "#ffd60a", link: "Ver tickets" },
+            { i: MessageSquare, t: "Comunicados al condominio", d: "Envía avisos por grupo de residentes — emergencias, asambleas, cortes de servicio — con historial completo.", bg: "#fff8d6", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver comunicados" },
+            { i: Calendar, t: "Reserva de áreas comunes", d: "Salón social, gimnasio, piscina o cancha: los residentes ven disponibilidad y reservan en minutos.", bg: "#fffdf5", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver áreas" },
+            { i: Building2, t: "CRM inmobiliario", d: "Pública las unidades en venta o renta, captura prospectos por origen, asígnales agente y precio.", bg: "#0a1e3f", fg: "#ffffff", sub: "#9aa8c2", accent: "#ffd60a", link: "Ver CRM" },
+            { i: TrendingUp, t: "Pipeline y agenda", d: "Arrastra prospectos entre etapas (nuevo → visita → oferta → cierre) y agenda visitas con recordatorios.", bg: "#fff8d6", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver pipeline" },
+            { i: BarChart3, t: "Reportes y KPIs", d: "Flujo de caja, ocupación, cartera vencida, conversión del pipeline. Exporta a PDF o CSV.", bg: "#fffdf5", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver reportes" },
           ].map((f) => (
-            <div key={f.t} className="bg-white rounded-2xl border border-[#e8ecf3] p-6 hover:border-[#ffd60a] hover:shadow-md transition">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-11 h-11 rounded-xl bg-[#fffdf5] flex items-center justify-center text-[#0a1e3f]">
-                  <f.i className="w-5 h-5" />
-                </div>
-                <span className="text-2xl" aria-hidden>{f.e}</span>
+            <div
+              key={f.t}
+              className="rounded-[1.75rem] p-7 flex flex-col min-h-[260px] transition hover:-translate-y-1 hover:shadow-xl"
+              style={{ backgroundColor: f.bg, color: f.fg }}
+            >
+              <div
+                className="w-12 h-12 rounded-xl flex items-center justify-center mb-5"
+                style={{ backgroundColor: f.bg === "#0a1e3f" ? "rgba(255,214,10,0.15)" : "rgba(10,30,63,0.06)", color: f.accent }}
+              >
+                <f.i className="w-6 h-6" />
               </div>
-              <h3 className="font-display font-bold text-lg">{f.t}</h3>
-              <p className="text-sm text-[#6b7a99] mt-1.5">{f.d}</p>
+              <h3 className="font-display font-extrabold text-xl leading-tight">{f.t}</h3>
+              <p className="text-sm mt-2 leading-relaxed" style={{ color: f.sub }}>{f.d}</p>
+              <Link to="/login" className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold" style={{ color: f.accent }}>
+                {f.link} <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
           ))}
         </div>
@@ -292,45 +299,50 @@ export function LandingPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {PLANS.map((p) => (
-            <div
-              key={p.id}
-              className={`rounded-2xl border bg-white p-7 flex flex-col ${
-                p.highlight ? "border-[#ffd60a] ring-4 ring-[#ffd60a]/10 shadow-xl scale-[1.02]" : "border-[#e8ecf3]"
-              }`}
-            >
-              {p.highlight && (
-                <span className="self-start text-xs font-bold uppercase tracking-wider bg-[#0a1e3f] text-white px-3 py-1 rounded-full mb-4">
-                  Más popular
-                </span>
-              )}
-              <div className="text-3xl">{p.icon}</div>
-              <h3 className="font-display font-extrabold text-2xl mt-2">{p.name}</h3>
-              <p className="text-sm text-[#6b7a99] mt-1 min-h-[2.5rem]">{p.tagline}</p>
-              <div className="mt-5">
-                <span className="text-4xl font-extrabold">L {p.price}</span>
-                <span className="text-[#6b7a99] text-sm">/mes</span>
-              </div>
-              <ul className="mt-6 space-y-2.5 flex-1">
-                {p.limits.map((l) => (
-                  <li key={l} className="flex items-start gap-2 text-sm text-[#13294b]">
-                    <Check className="w-4 h-4 mt-0.5 text-[#166534] shrink-0" />
-                    <span>{l}</span>
-                  </li>
-                ))}
-              </ul>
-              <Link
-                to="/login"
-                className={`mt-7 text-center font-semibold py-3 rounded-full transition-colors ${
-                  p.highlight
-                    ? "bg-[#0a1e3f] text-white hover:bg-[#001a4d]"
-                    : "border border-[#e8ecf3] text-[#13294b] hover:border-[#ffd60a]"
-                }`}
+          {PLANS.map((p, idx) => {
+            const palette = p.highlight
+              ? { bg: "#0a1e3f", fg: "#ffffff", sub: "#9aa8c2", check: "#ffd60a", btnBg: "#ffd60a", btnFg: "#0a1e3f", btnHover: "hover:bg-[#ffe040]", iconBg: "rgba(255,214,10,0.15)" }
+              : idx === 0
+              ? { bg: "#fff8d6", fg: "#0a1e3f", sub: "#6b7a99", check: "#0a1e3f", btnBg: "#0a1e3f", btnFg: "#ffffff", btnHover: "hover:bg-[#001a4d]", iconBg: "rgba(10,30,63,0.08)" }
+              : { bg: "#fffdf5", fg: "#0a1e3f", sub: "#6b7a99", check: "#0a1e3f", btnBg: "#0a1e3f", btnFg: "#ffffff", btnHover: "hover:bg-[#001a4d]", iconBg: "rgba(10,30,63,0.08)" };
+            return (
+              <div
+                key={p.id}
+                className={`rounded-[1.75rem] p-8 flex flex-col transition hover:-translate-y-1 hover:shadow-2xl ${p.highlight ? "shadow-xl scale-[1.02]" : "shadow-sm"}`}
+                style={{ backgroundColor: palette.bg, color: palette.fg }}
               >
-                {p.cta}
-              </Link>
-            </div>
-          ))}
+                {p.highlight && (
+                  <span className="self-start text-xs font-bold uppercase tracking-wider bg-[#ffd60a] text-[#0a1e3f] px-3 py-1 rounded-full mb-4">
+                    Más popular
+                  </span>
+                )}
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-3" style={{ backgroundColor: palette.iconBg }}>
+                  {p.icon}
+                </div>
+                <h3 className="font-display font-extrabold text-2xl">{p.name}</h3>
+                <p className="text-sm mt-1 min-h-[2.5rem]" style={{ color: palette.sub }}>{p.tagline}</p>
+                <div className="mt-5">
+                  <span className="text-5xl font-extrabold">L {p.price}</span>
+                  <span className="text-sm ml-1" style={{ color: palette.sub }}>/mes</span>
+                </div>
+                <ul className="mt-6 space-y-2.5 flex-1">
+                  {p.limits.map((l) => (
+                    <li key={l} className="flex items-start gap-2 text-sm">
+                      <Check className="w-4 h-4 mt-0.5 shrink-0" style={{ color: palette.check }} />
+                      <span>{l}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  to="/login"
+                  className={`mt-7 text-center font-semibold py-3 rounded-full transition-colors ${palette.btnHover}`}
+                  style={{ backgroundColor: palette.btnBg, color: palette.btnFg }}
+                >
+                  {p.cta}
+                </Link>
+              </div>
+            );
+          })}
         </div>
       </section>
 
