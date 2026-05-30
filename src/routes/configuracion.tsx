@@ -498,7 +498,7 @@ function MiPlanTab() {
             <div className="text-sm text-[#6b7a99]">L {data.plan.precio.toLocaleString()} / mes</div>
           </div>
           <Link to="/" hash="planes">
-            <Button className="bg-[#ffea5c] hover:bg-[#001a4d] text-white">Actualizar plan</Button>
+            <Button className="bg-[#ffd60a] hover:bg-[#ffe040] text-[#0a1e3f] font-semibold rounded-full px-5">Actualizar plan</Button>
           </Link>
         </div>
       </Card>
