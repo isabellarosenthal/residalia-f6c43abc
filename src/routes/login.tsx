@@ -35,6 +35,8 @@ function LoginPage() {
     if (isResidenteFlow) {
       setMode("signup");
       setSignupRole("residente");
+    } else {
+      setSignupRole("admin_condominio");
     }
   }, [isResidenteFlow]);
 
@@ -111,22 +113,6 @@ function LoginPage() {
         <form onSubmit={submit} className="space-y-4">
           {mode === "signup" && (
             <>
-              {!isResidenteFlow && (
-                <div>
-                  <label className="block text-sm font-medium text-[#4F46E5] mb-1.5">Soy</label>
-                  <div className="grid grid-cols-2 gap-2">
-                    {([["admin_condominio", "Admin"], ["residente", "Residente"]] as const).map(([v, l]) => (
-                      <button key={v} type="button" onClick={() => setSignupRole(v)}
-                        className={`text-sm py-2 rounded-lg border ${signupRole === v ? "bg-[#4F46E5] text-white border-[#4F46E5]" : "border-[#EBC988] text-[#4F46E5] hover:border-[#4F46E5]"}`}>
-                        {l}
-                      </button>
-                    ))}
-                  </div>
-                  {signupRole === "residente" && (
-                    <p className="text-xs text-[#64748B] mt-2">Necesitas un código de invitación enviado por el administrador.</p>
-                  )}
-                </div>
-              )}
               {signupRole === "residente" && (
                 <div>
                   <label className="block text-sm font-medium text-[#4F46E5] mb-1.5">Código de invitación</label>
