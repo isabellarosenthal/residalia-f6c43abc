@@ -5,7 +5,7 @@ import {
   Server,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
-import heroCondo from "@/assets/hero-condo.jpg";
+import heroAstronaut from "@/assets/hero-astronaut.png";
 import logoUrl from "@/assets/altura-cloud-logo.png";
 
 const PLANS = [
@@ -156,15 +156,12 @@ export function LandingPage() {
           </div>
           <div className="relative">
             <img
-              src={heroCondo}
-              alt="Ilustración de condominio administrado con Altura Cloud"
+              src={heroAstronaut}
+              alt="Astronauta mascota de Altura Cloud saludando"
               width={1280}
               height={1024}
-              className="relative w-full h-auto"
-              style={{ maskImage: 'radial-gradient(ellipse 80% 75% at center, black 60%, transparent 100%)', WebkitMaskImage: 'radial-gradient(ellipse 80% 75% at center, black 60%, transparent 100%)' }}
+              className="relative w-full h-auto float-slow"
             />
-            <img src={logoUrl} alt="" aria-hidden width={120} height={120} className="absolute -top-6 -right-2 w-24 md:w-32 h-auto float-slow drop-shadow-xl pointer-events-none" />
-            <img src={logoUrl} alt="" aria-hidden width={80} height={80} className="absolute bottom-4 -left-4 w-16 md:w-20 h-auto float-fast opacity-90 pointer-events-none" />
           </div>
 
 
