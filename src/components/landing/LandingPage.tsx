@@ -4,6 +4,7 @@ import {
   Building2, TrendingUp, FileText, BarChart3, ShieldCheck, Zap, Clock, HeartHandshake,
   Server,
 } from "lucide-react";
+import { useAuth } from "@/lib/auth-context";
 import heroCondo from "@/assets/hero-condo.jpg";
 import logoUrl from "@/assets/altura-cloud-logo.png";
 
