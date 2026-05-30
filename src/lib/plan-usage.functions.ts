@@ -11,12 +11,11 @@ export const getMyPlanUsage = createServerFn({ method: "GET" })
     // Fetch admin's condominios with plan info
     const { data: condos, error: condosError } = await supabase
       .from("condominios")
-      .select("id, nombre, suscripciones(plan_id, planes(nombre, precio_mensual, max_edificios, max_unidades, max_admins))")
+      .select("id, nombre")
       .eq("admin_id", userId);
 
     if (condosError) throw new Error(condosError.message);
 
-    // Determine plan (use the first one — all condos of an admin share their plan limits)
     let planNombre = "Free";
     let planPrecio = 0;
     let maxEdificios = 1;
@@ -24,14 +23,26 @@ export const getMyPlanUsage = createServerFn({ method: "GET" })
     let maxAdmins = 2;
 
     if (condos && condos.length > 0) {
-      const sub: any = (condos[0] as any).suscripciones?.[0] ?? (condos[0] as any).suscripciones;
-      const plan = sub?.planes;
-      if (plan) {
-        planNombre = plan.nombre ?? "Free";
-        planPrecio = Number(plan.precio_mensual ?? 0);
-        maxEdificios = plan.max_edificios ?? UNLIMITED;
-        maxUnidades = plan.max_unidades ?? UNLIMITED;
-        maxAdmins = plan.max_admins ?? UNLIMITED;
+      const condoIds = condos.map((c: any) => c.id);
+      const { data: subs } = await supabase
+        .from("suscripciones")
+        .select("plan_id")
+        .in("condominio_id", condoIds)
+        .limit(1);
+      const planId = subs?.[0]?.plan_id;
+      if (planId) {
+        const { data: plan } = await supabase
+          .from("planes")
+          .select("nombre, precio_mensual, max_edificios, max_unidades, max_admins")
+          .eq("id", planId)
+          .maybeSingle();
+        if (plan) {
+          planNombre = plan.nombre ?? "Free";
+          planPrecio = Number(plan.precio_mensual ?? 0);
+          maxEdificios = plan.max_edificios ?? UNLIMITED;
+          maxUnidades = plan.max_unidades ?? UNLIMITED;
+          maxAdmins = plan.max_admins ?? UNLIMITED;
+        }
       }
     }
 
