@@ -136,6 +136,7 @@ function EdificiosTab() {
 
   return (
     <div className="space-y-3">
+      <PlanLimitsBanner focus="edificios" />
       {edificios.map(e => (
         <Card key={e.id} className="p-4">
           {editing === e.id ? (
@@ -196,6 +197,8 @@ function UsuariosTab() {
   };
 
   return (
+    <>
+    <PlanLimitsBanner focus="admins" />
     <Card className="p-5 space-y-4">
       <div className="border border-dashed border-[#e8ddd8] rounded-xl p-4 bg-[#fffaf5]">
         <div className="text-sm font-medium text-[#2d1200] mb-2">Asignar rol por email</div>
@@ -232,6 +235,7 @@ function UsuariosTab() {
         </div>
       )}
     </Card>
+    </>
   );
 }
 
@@ -279,6 +283,8 @@ function TenantUsuariosTab({ edificios }: { edificios: Edif[] }) {
   };
 
   return (
+    <>
+    <PlanLimitsBanner focus="admins" />
     <Card className="p-5 space-y-4">
       {edificios.length > 1 && (
         <div className="flex items-center gap-2">
@@ -323,6 +329,7 @@ function TenantUsuariosTab({ edificios }: { edificios: Edif[] }) {
         </div>
       )}
     </Card>
+    </>
   );
 }
 
@@ -398,6 +405,8 @@ function ResidentesTab() {
   });
 
   return (
+    <>
+    <PlanLimitsBanner focus="unidades" />
     <Card className="p-6 space-y-4">
       <div className="flex items-center justify-between gap-3">
         <div>
@@ -446,12 +455,51 @@ function ResidentesTab() {
         </div>
       )}
     </Card>
+    </>
+  );
+}
+
+function usePlanUsage() {
+  const fetchUsage = useServerFn(getMyPlanUsage);
+  return useQuery({ queryKey: ["plan-usage"], queryFn: () => fetchUsage() });
+}
+
+function PlanLimitsBanner({ focus }: { focus: "edificios" | "unidades" | "admins" | "all" }) {
+  const { data, isLoading } = usePlanUsage();
+  if (isLoading || !data) return null;
+  const unl = data.unlimited;
+  const fmt = (m: number) => (m >= unl ? "∞" : m.toString());
+
+  const totalUnid = data.porEdificio.reduce((a, e) => a + e.unidades.used, 0);
+  const maxUnid = data.porEdificio.reduce((a, e) => a + (e.unidades.max >= unl ? unl : e.unidades.max), 0);
+  const totalAdm = data.porEdificio.reduce((a, e) => a + e.admins.used, 0);
+  const maxAdm = data.porEdificio.reduce((a, e) => a + (e.admins.max >= unl ? unl : e.admins.max), 0);
+
+  const items: { label: string; used: number; max: number; show: boolean }[] = [
+    { label: "Edificios", used: data.edificios.used, max: data.edificios.max, show: focus === "edificios" || focus === "all" },
+    { label: "Unidades", used: totalUnid, max: maxUnid, show: focus === "unidades" || focus === "all" },
+    { label: "Admins", used: totalAdm, max: maxAdm, show: focus === "admins" || focus === "all" },
+  ];
+
+  return (
+    <Card className="p-3 mb-3 bg-[#fffaf5] border-[#f0e3da]">
+      <div className="flex flex-wrap items-center gap-4">
+        <div className="flex items-center gap-2 text-xs">
+          <Crown className="w-3.5 h-3.5 text-[#c94f0c]" />
+          <span className="font-medium text-[#2d1200]">{data.plan.nombre}</span>
+        </div>
+        {items.filter(i => i.show).map(i => (
+          <div key={i.label} className="text-xs text-[#5a4030]">
+            <span className="text-[#9a7060]">{i.label}:</span> <b>{i.used}</b> / {fmt(i.max)}
+          </div>
+        ))}
+      </div>
+    </Card>
   );
 }
 
 function MiPlanTab() {
-  const fetchUsage = useServerFn(getMyPlanUsage);
-  const { data, isLoading } = useQuery({ queryKey: ["plan-usage"], queryFn: () => fetchUsage() });
+  const { data, isLoading } = usePlanUsage();
 
   if (isLoading) return <Card><div className="p-4 text-sm text-[#9a7060]">Cargando plan...</div></Card>;
   if (!data) return <Card><div className="p-4 text-sm text-[#9a7060]">Sin datos de plan</div></Card>;
