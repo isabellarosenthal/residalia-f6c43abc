@@ -20,8 +20,8 @@ import { fmtL, fmtDate } from "@/lib/format";
 export const Route = createFileRoute("/mantenimiento")({ component: MantenimientoPage });
 
 const prioBadge: Record<string, "success" | "danger" | "warning" | "neutral"> = { baja: "neutral", media: "warning", alta: "danger", urgente: "danger" };
-const estadoIncBadge: Record<string, "success" | "danger" | "warning" | "neutral"> = { nuevo: "warning", en_proceso: "neutral", resuelto: "success", cancelado: "neutral" };
-const estadoOrdBadge: Record<string, "success" | "danger" | "warning" | "neutral"> = { pendiente: "warning", en_proceso: "neutral", completada: "success", cancelada: "neutral" };
+const estadoIncBadge: Record<string, "success" | "danger" | "warning" | "neutral"> = { nuevo: "warning", en_revision: "warning", en_proceso: "neutral", resuelto: "success", cerrado: "neutral" };
+const estadoOrdBadge: Record<string, "success" | "danger" | "warning" | "neutral"> = { pendiente: "warning", en_proceso: "neutral", completado: "success", cancelado: "neutral" };
 
 function MantenimientoPage() {
   const { data: edificios = [] } = useEdificios();
