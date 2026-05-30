@@ -82,7 +82,7 @@ function LoginPage() {
           <div className="w-11 h-11 rounded-xl bg-[#0a1e3f] flex items-center justify-center">
             <Building className="w-6 h-6 text-white" />
           </div>
-          <div className="font-display font-extrabold text-2xl text-white">
+          <div className="font-display font-extrabold text-2xl text-[#0a1e3e]">
             <span className="text-[#0a1e3f]">Altura</span><span className="text-[#0a1e3f]">Cloud</span>
           </div>
         </div>
