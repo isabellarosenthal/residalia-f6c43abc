@@ -1,40 +1,53 @@
+## Rediseño Admin Panel + gestión de suscripciones
 
-## 1. Promover isabella@zafra.cloud a super_admin
+### 1. Rediseño visual (claro, en línea con el resto de la app)
+- Reemplazar el fondo negro/gradiente por el tema claro estándar del sistema (`bg-background`, `text-foreground`, tokens semánticos de `src/styles.css`).
+- Tarjetas con `bg-card`, `border-border`, sombras suaves; acentos con `primary` en vez de naranja hardcoded.
+- Mismo header y sidebar que el resto del dashboard (no header aparte), agregando "Admin Panel" como sección dentro del layout existente.
 
-Migración rápida: borrar roles previos del usuario y asignarle `super_admin` en `user_roles`.
+### 2. Nueva sección: Gestión de Suscripciones
+Tabla principal con TODOS los condominios (no solo recientes), con columnas:
+- Nombre / Ciudad / Admin (email)
+- Plan actual (badge)
+- Estado suscripción (activa / pausada / cancelada)
+- Unidades / Residentes
+- Fecha alta
+- **Acciones**: cambiar plan, pausar/activar, revocar acceso
 
-## 2. Soporte multi-edificio en el portal del residente
+Acciones disponibles por fila:
+- **Cambiar plan**: dropdown con planes (Free/Pro/Enterprise) → actualiza `suscripciones.plan_id`
+- **Pausar / Reactivar**: cambia `suscripciones.estado` entre `activa` y `pausada`
+- **Revocar acceso**: marca `condominios.activo = false` (impide login del admin)
+- **Restaurar acceso**: `activo = true`
 
-**Problema actual:** `residentes.user_id` permite vincular un solo registro a la vez. Si el mismo email/usuario es residente en 2 edificios con administraciones distintas, hoy el código solo muestra uno.
+### 3. Gestión de Planes (sección colapsable)
+- Listar planes existentes con precio, max_unidades, max_residentes
+- Editar precio y límites inline
+- Activar/desactivar plan
 
-**Solución:** ya soportamos múltiples filas en `residentes` con el mismo `user_id` (una por edificio). Falta UI y lógica:
+### 4. Backend (server functions nuevos)
+En `src/lib/admin-stats.functions.ts` agregar:
+- `listSuscripciones()` → lista completa con joins (condominio + admin + plan + counts)
+- `updateSuscripcionPlan({ condominio_id, plan_id })`
+- `updateSuscripcionEstado({ condominio_id, estado })`
+- `toggleCondominioActivo({ condominio_id, activo })`
+- `listPlanes()` / `updatePlan({ id, precio_mensual, max_unidades, max_residentes, activo })`
 
-### a) Detectar "email ya usado en otro edificio" al crear residente
-En `src/components/residentes/ResidenteFormDialog.tsx` (o donde el admin agrega residentes): antes de insertar, consultar si existe otro `residentes` con el mismo email en otro condominio. Si existe, mostrar diálogo:
+Todos protegidos con `requireSupabaseAuth` + check de `super_admin` vía `has_role`.
 
-> "Este correo ya está registrado como residente en otro edificio. ¿Deseas vincularlo también a este edificio? El residente podrá cambiar entre ambos desde su portal."
+### 5. Estructura de la página
+```text
+┌─ Resumen (stats cards — tema claro) ─┐
+├─ Distribución por plan ──────────────┤
+├─ Signups últimos 30 días ────────────┤
+├─ GESTIÓN DE SUSCRIPCIONES ───────────┤
+│  Tabla con acciones por fila          │
+├─ PLANES ─────────────────────────────┤
+│  Editar precios y límites             │
+└──────────────────────────────────────┘
+```
 
-Al confirmar: insertar nueva fila en `residentes` con el mismo email + `user_id` (si ya tiene cuenta) en el nuevo condominio/unidad.
-
-### b) Selector de edificio en el portal
-- Nuevo hook `useMisResidencias()` → devuelve **todas** las filas de `residentes` del usuario actual (`user_id = auth.uid()`) con su condominio y unidad.
-- Contexto `PortalCondominioContext` que guarda el `residenteId` activo en `localStorage`.
-- En `src/routes/portal.tsx` header: si hay >1 residencia, mostrar dropdown (shadcn `Select`) "Edificio: [Torre A ▾]" para cambiar.
-- Refactorizar `useMiResidente()` y `useMisPases()` para que filtren por el residente activo del contexto, no el primero que encuentren.
-- Todas las queries del portal (pases, cuenta, reservas, anuncios) usan el `condominio_id` del residente activo.
-
-### c) Vinculación retroactiva al hacer signup con invitación
-`handle_new_user` ya vincula via invitación. Si el usuario ya existe y recibe nueva invitación para otro edificio, la pantalla de "aceptar invitación" debe insertar/actualizar la fila correspondiente sin tocar las otras.
-
-## Archivos a tocar
-
-- Migración: promover isabella a super_admin
-- `src/lib/queries.ts` — añadir `useMisResidencias`, ajustar `useMiResidente`/`useMisPases` para aceptar `residenteId` activo
-- `src/lib/portal-context.tsx` (nuevo) — contexto del residente activo
-- `src/routes/portal.tsx` — selector en header + provider
-- `src/routes/portal.index.tsx`, `portal.cuenta.tsx`, `portal.nuevo.tsx`, `portal.reservar.tsx`, `portal.anuncios.tsx` — usar contexto
-- `src/components/residentes/ResidenteFormDialog.tsx` — detección de email duplicado + diálogo de confirmación
-
-## Pregunta abierta
-
-Cuando el admin agrega un residente con email que ya existe en otro edificio: ¿siempre pedir confirmación, o solo avisar e insertar? Por defecto propongo **pedir confirmación** para evitar errores.
+### Archivos a tocar
+- `src/routes/admin-panel.tsx` — rediseño completo + nuevas secciones
+- `src/lib/admin-stats.functions.ts` — agregar server functions de gestión
+- Nuevos componentes: `src/components/admin/SuscripcionesTable.tsx`, `src/components/admin/PlanesEditor.tsx`
