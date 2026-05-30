@@ -79,6 +79,7 @@ export function ResidentesTable({
               <TableCell>{r.activo ? <Badge variant="success">Activo</Badge> : <Badge variant="neutral">Inactivo</Badge>}</TableCell>
               <TableCell className="text-right">
                 {onView && <Button size="sm" variant="ghost" onClick={() => onView(r)} className="h-8 w-8 p-0" title="Ver detalle"><Eye className="w-4 h-4" /></Button>}
+                <Button size="sm" variant="ghost" onClick={() => setAccesoFor(r)} className="h-8 w-8 p-0" title="Generar acceso al portal"><KeyRound className="w-4 h-4" /></Button>
                 <Button size="sm" variant="ghost" onClick={() => onEdit(r)} className="h-8 w-8 p-0"><Pencil className="w-4 h-4" /></Button>
                 <Button size="sm" variant="ghost" onClick={() => { if (confirm(`¿Eliminar ${r.nombre} ${r.apellido}?`)) del.mutate(r.id); }} className="h-8 w-8 p-0 text-[#c0392b] hover:text-[#c0392b]"><Trash2 className="w-4 h-4" /></Button>
               </TableCell>
@@ -86,6 +87,8 @@ export function ResidentesTable({
           ))}
         </TableBody>
       </Table>
+      <GenerarAccesoDialog residente={accesoFor} open={!!accesoFor} onOpenChange={(v) => !v && setAccesoFor(null)} />
+
     </div>
   );
 }
