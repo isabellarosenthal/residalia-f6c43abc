@@ -4,8 +4,9 @@ import { initials } from "@/lib/format";
 import {
   LayoutDashboard, Building2, Users, Wallet, KeyRound, CalendarRange,
   Megaphone, Wrench, Tag, UserPlus, Kanban, CalendarDays,
-  BarChart3, Settings, LogOut, Building,
+  BarChart3, Settings, LogOut, Building, Shield,
 } from "lucide-react";
+
 
 const sections = [
   {
