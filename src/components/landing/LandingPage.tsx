@@ -317,12 +317,12 @@ export function LandingPage() {
           {PLANS.map((p) => {
             const palette = p.highlight
               ? { bg: "#4338CA", fg: "#ffffff", sub: "#E9E2FF", check: "#7AA2FF", btnBg: "#ffffff", btnFg: "#4338CA", btnHover: "hover:bg-[#E9E2FF]", iconBg: "rgba(255,255,255,0.15)", priceColor: "#ffffff" }
-              : { bg: "#F1F5F9", fg: "#0F172A", sub: "#475569", check: "#16A34A", btnBg: "#4F46E5", btnFg: "#ffffff", btnHover: "hover:bg-[#4338CA]", iconBg: "#E9E2FF", priceColor: "#0F172A" };
+              : { bg: "rgba(255,255,255,0.6)", fg: "#0F172A", sub: "#475569", check: "#16A34A", btnBg: "#4F46E5", btnFg: "#ffffff", btnHover: "hover:bg-[#4338CA]", iconBg: "#E9E2FF", priceColor: "#0F172A" };
             return (
               <div
                 key={p.id}
-                className={`rounded-[1.75rem] p-8 flex flex-col transition hover:-translate-y-1 hover:shadow-2xl border ${p.highlight ? "shadow-xl scale-[1.02] border-[#4338CA]" : "shadow-sm border-[#E2E8F0]"}`}
-                style={{ backgroundColor: palette.bg, color: palette.fg }}
+                className={`rounded-[1.75rem] p-8 flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl border ${p.highlight ? "shadow-2xl scale-[1.02] border-white/30" : "shadow-[0_8px_30px_-12px_rgba(67,56,202,0.18)] border-white/70 backdrop-blur-xl"}`}
+                style={{ background: p.highlight ? "linear-gradient(160deg, #4338CA 0%, #4F46E5 60%, #7AA2FF 130%)" : palette.bg, color: palette.fg }}
               >
                 {p.highlight && (
                   <span className="self-start text-xs font-bold uppercase tracking-wider bg-[#E9E2FF] text-[#4338CA] px-3 py-1 rounded-full mb-4">
