@@ -53,7 +53,9 @@ export const createResidentAccount = createServerFn({ method: "POST" })
       throw new Error(profileError.message);
     }
 
-    const { error: roleError } = await supabaseAdmin.from("user_roles").insert({ user_id: userId, role: "residente" });
+    const { error: roleError } = await supabaseAdmin
+      .from("user_roles")
+      .upsert({ user_id: userId, role: "residente" }, { onConflict: "user_id,role", ignoreDuplicates: true });
     if (roleError) {
       await rollback();
       throw new Error(roleError.message);
