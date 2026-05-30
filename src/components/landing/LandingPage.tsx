@@ -309,7 +309,7 @@ export function LandingPage() {
       </section>
 
       {/* FAQ */}
-      <section className="bg-white border-t border-[#e8ddd8] py-20">
+      <section id="faq" className="bg-white border-t border-[#e8ddd8] py-20">
         <div className="max-w-3xl mx-auto px-6">
           <h2 className="font-display font-extrabold text-3xl md:text-4xl text-center mb-12">Preguntas frecuentes</h2>
           <div className="space-y-4">
