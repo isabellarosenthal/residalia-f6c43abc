@@ -76,6 +76,8 @@ export const createResidentAccount = createServerFn({ method: "POST" })
       createdNewUser = true;
     }
 
+    if (!userId) throw new Error("No se pudo crear o recuperar la cuenta de residente.");
+
     const rollback = async () => {
       if (createdNewUser && userId) await supabaseAdmin.auth.admin.deleteUser(userId).catch(() => undefined);
     };
