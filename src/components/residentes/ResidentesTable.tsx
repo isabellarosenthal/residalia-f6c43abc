@@ -1,10 +1,12 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui-pentos";
-import { Pencil, Trash2, Mail, Phone, Eye } from "lucide-react";
+import { Pencil, Trash2, Mail, Phone, Eye, KeyRound } from "lucide-react";
 import { fmtDate } from "@/lib/format";
 import { useResidentes, useDeleteResidente, useEdificios, useUnidades, type Residente } from "@/lib/queries";
+import { GenerarAccesoDialog } from "./GenerarAccesoDialog";
+
 
 export function ResidentesTable({
   search, edificioId, tipo, estado, onEdit, onView,
