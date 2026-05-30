@@ -169,7 +169,7 @@ export function LandingPage() {
       </section>
 
       {/* What is PropCloud */}
-      <section className="max-w-7xl mx-auto px-6 py-20">
+      <section id="funciones" className="max-w-7xl mx-auto px-6 py-20">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <h2 className="font-display font-extrabold text-3xl md:text-4xl">Todo lo que necesita un edificio, en un solo lugar</h2>
           <p className="mt-3 text-[#6b4a3a]">
