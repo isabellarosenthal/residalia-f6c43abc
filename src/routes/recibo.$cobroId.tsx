@@ -52,13 +52,13 @@ function ReciboPage() {
               ? <img src={edificio.logo_url} alt="" className="w-14 h-14 rounded-xl object-cover" />
               : <div className="w-14 h-14 rounded-xl bg-[#4F46E5] text-white flex items-center justify-center font-display font-extrabold text-lg">{edificio?.nombre?.[0] ?? "C"}</div>}
             <div>
-              <div className="font-display font-extrabold text-xl text-[#4F46E5]">{edificio?.nombre ?? "—"}</div>
+              <div className="font-display font-extrabold text-xl text-[#0F172A]">{edificio?.nombre ?? "—"}</div>
               <div className="text-xs text-[#64748B]">{[edificio?.direccion, edificio?.ciudad].filter(Boolean).join(" · ")}</div>
             </div>
           </div>
           <div className="text-right">
             <div className="text-xs text-[#64748B] uppercase tracking-wider">Recibo Nº</div>
-            <div className="font-display font-bold text-lg text-[#4F46E5]">{cobro.recibo_numero ?? "—"}</div>
+            <div className="font-display font-bold text-lg text-[#0F172A]">{cobro.recibo_numero ?? "—"}</div>
             <div className="text-xs text-[#64748B] mt-1">Emitido: {fmtDate(cobro.fecha_pago ?? cobro.created_at)}</div>
           </div>
         </header>
@@ -96,7 +96,7 @@ function ReciboPage() {
             <tfoot className="bg-[#fbf6f3]">
               <tr>
                 <td className="p-3 text-right font-semibold text-[#4F46E5]">Total pagado</td>
-                <td className="p-3 text-right font-display font-extrabold text-xl text-[#4F46E5]">{fmtL(Number(cobro.monto))}</td>
+                <td className="p-3 text-right font-display font-extrabold text-xl text-[#0F172A]">{fmtL(Number(cobro.monto))}</td>
               </tr>
             </tfoot>
           </table>

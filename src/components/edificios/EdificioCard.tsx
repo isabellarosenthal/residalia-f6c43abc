@@ -49,7 +49,7 @@ export function EdificioCard({ edificio, stats }: { edificio: Condominio; stats?
               <EdificioPlaceholder id={edificio.id} tipo={edificio.tipo} className="w-10 h-10 rounded-lg flex-shrink-0" />
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-2">
-                  <h3 className="font-display font-bold text-lg text-[#4F46E5] group-hover:text-[#4F46E5] transition-colors">{edificio.nombre}</h3>
+                  <h3 className="font-display font-bold text-lg text-[#0F172A] group-hover:text-[#0F172A] transition-colors">{edificio.nombre}</h3>
                   {edificio.activo ? <Badge variant="success">Activo</Badge> : <Badge variant="neutral">Inactivo</Badge>}
                 </div>
                 <div className="mt-0.5 flex items-center gap-1 text-xs text-[#64748B]">

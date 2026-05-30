@@ -109,7 +109,7 @@ function DashboardPage() {
       <div className="space-y-6 max-w-[1400px] mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="font-display font-extrabold text-2xl text-[#4F46E5]">{saludo}, {firstName} 👋</h1>
+            <h1 className="font-display font-extrabold text-2xl text-[#0F172A]">{saludo}, {firstName} 👋</h1>
             <p className="text-sm text-[#64748B]">Resumen de tu operación de hoy</p>
           </div>
           {edificios.length > 1 && (
@@ -136,7 +136,7 @@ function DashboardPage() {
         {edificios.length === 0 ? (
           <Card className="p-10 text-center">
             <Building2 className="w-12 h-12 text-[#4F46E5] mx-auto mb-3" />
-            <h3 className="font-display font-bold text-[#4F46E5] text-lg">Aún no tenés edificios</h3>
+            <h3 className="font-display font-bold text-[#0F172A] text-lg">Aún no tenés edificios</h3>
             <p className="text-sm text-[#64748B] mt-1">Creá tu primer edificio para ver el resumen aquí.</p>
           </Card>
         ) : (
@@ -163,7 +163,7 @@ function DashboardPage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <Card className="p-5">
-                <h3 className="font-display font-bold text-[#4F46E5] mb-1">Recaudación (últimos 6 meses)</h3>
+                <h3 className="font-display font-bold text-[#0F172A] mb-1">Recaudación (últimos 6 meses)</h3>
                 <p className="text-xs text-[#64748B] mb-4">Pagos registrados por mes</p>
                 <div className="h-64">
                   <ResponsiveContainer>
@@ -179,7 +179,7 @@ function DashboardPage() {
               </Card>
 
               <Card className="p-5">
-                <h3 className="font-display font-bold text-[#4F46E5] mb-1">Estado de cobros</h3>
+                <h3 className="font-display font-bold text-[#0F172A] mb-1">Estado de cobros</h3>
                 <p className="text-xs text-[#64748B] mb-4">Distribución actual</p>
                 {estadoPagos.length === 0 ? (
                   <div className="h-64 flex items-center justify-center text-sm text-[#64748B]">Sin cobros registrados</div>
@@ -211,7 +211,7 @@ function DashboardPage() {
             {tabla.length > 0 && (
               <Card className="overflow-hidden">
                 <div className="p-5 border-b border-[#E2E8F0]">
-                  <h3 className="font-display font-bold text-[#4F46E5]">Disponibilidad comercial de tus edificios</h3>
+                  <h3 className="font-display font-bold text-[#0F172A]">Disponibilidad comercial de tus edificios</h3>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">

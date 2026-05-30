@@ -51,7 +51,7 @@ function NuevoPase() {
 
   return (
     <form onSubmit={submit} className="space-y-4 bg-white border border-[#E2E8F0] rounded-2xl p-5">
-      <h1 className="font-display font-extrabold text-xl text-[#4F46E5]">Crear pase de acceso</h1>
+      <h1 className="font-display font-extrabold text-xl text-[#0F172A]">Crear pase de acceso</h1>
       <div>
         <Label>Nombre del visitante *</Label>
         <Input value={visitante} onChange={(e) => setVisitante(e.target.value)} required maxLength={120} />

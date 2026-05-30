@@ -23,7 +23,7 @@ export function ResidenteDetailDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[760px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="font-display text-xl text-[#4F46E5]">
+          <DialogTitle className="font-display text-xl text-[#0F172A]">
             {residente.nombre} {residente.apellido}
           </DialogTitle>
         </DialogHeader>

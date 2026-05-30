@@ -67,7 +67,7 @@ function EdificioDetail() {
             <EdificioPlaceholder id={edificio.id} tipo={edificio.tipo} className="md:w-56 h-32 md:h-auto" />
             <div className="flex-1 p-5 flex flex-col md:flex-row md:items-center justify-between gap-3">
               <div>
-                <h1 className="font-display font-extrabold text-2xl text-[#4F46E5]">{edificio.nombre}</h1>
+                <h1 className="font-display font-extrabold text-2xl text-[#0F172A]">{edificio.nombre}</h1>
                 <div className="text-sm text-[#64748B] flex items-center gap-1 mt-1">
                   <MapPin className="w-4 h-4" />
                   {edificio.direccion ?? "—"}{edificio.ciudad ? ` · ${edificio.ciudad}` : ""}{edificio.departamento ? `, ${edificio.departamento}` : ""}
@@ -103,7 +103,7 @@ function EdificioDetail() {
             </div>
 
             <Card className="p-5">
-              <h3 className="font-display font-bold text-[#4F46E5] mb-3">Datos generales</h3>
+              <h3 className="font-display font-bold text-[#0F172A] mb-3">Datos generales</h3>
               <dl className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-3 text-sm">
                 <Info label="Nombre" value={edificio.nombre} />
                 <Info label="Tipo" value={<span className="capitalize">{edificio.tipo}</span>} />
@@ -141,7 +141,7 @@ function EdificioDetail() {
             <Card className="p-5 space-y-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-display font-bold text-[#4F46E5] flex items-center gap-2"><FileText className="w-5 h-5 text-[#4F46E5]" /> Editar datos del edificio</h3>
+                  <h3 className="font-display font-bold text-[#0F172A] flex items-center gap-2"><FileText className="w-5 h-5 text-[#0F172A]" /> Editar datos del edificio</h3>
                   <p className="text-sm text-[#64748B]">Modifica nombre, dirección, cuota y otros datos.</p>
                 </div>
                 <Button variant="outline" onClick={() => setEditOpen(true)}><Pencil className="w-4 h-4 mr-1" />Editar</Button>

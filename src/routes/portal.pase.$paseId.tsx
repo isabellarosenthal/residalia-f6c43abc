@@ -50,7 +50,7 @@ ${validar}`;
       <Link to="/portal" className="inline-flex items-center text-sm text-[#64748B] hover:text-[#4F46E5]"><ArrowLeft className="w-4 h-4 mr-1" />Volver</Link>
       <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 text-center">
         <div className="text-xs text-[#64748B] uppercase tracking-wide">Pase para</div>
-        <div className="font-display font-extrabold text-2xl text-[#4F46E5] mb-5">{pase.visitante_nombre}</div>
+        <div className="font-display font-extrabold text-2xl text-[#0F172A] mb-5">{pase.visitante_nombre}</div>
 
         <div className="flex justify-center mb-4"><QRCanvas value={validar} size={240} /></div>
 

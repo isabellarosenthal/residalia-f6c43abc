@@ -37,7 +37,7 @@ function ResidentesPage() {
       <div className="space-y-5 max-w-[1400px] mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="font-display font-extrabold text-2xl text-[#4F46E5]">Residentes</h1>
+            <h1 className="font-display font-extrabold text-2xl text-[#0F172A]">Residentes</h1>
             <p className="text-sm text-[#64748B]">{residentes.length} registrados · gestiona propietarios e inquilinos</p>
           </div>
           <Button onClick={() => { setEditing(null); setOpen(true); }} className="bg-[#4F46E5] hover:bg-[#4338CA]">

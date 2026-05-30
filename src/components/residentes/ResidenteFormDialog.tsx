@@ -114,7 +114,7 @@ export function ResidenteFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[640px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="font-display text-xl text-[#4F46E5]">{residente ? "Editar residente" : "Nuevo residente"}</DialogTitle>
+          <DialogTitle className="font-display text-xl text-[#0F172A]">{residente ? "Editar residente" : "Nuevo residente"}</DialogTitle>
         </DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-2 gap-3">

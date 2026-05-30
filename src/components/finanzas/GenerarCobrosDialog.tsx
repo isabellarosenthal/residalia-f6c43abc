@@ -53,7 +53,7 @@ export function GenerarCobrosDialog({
   return (
     <Dialog open={open} onOpenChange={(v) => { if (!v) { setStage("form"); setExcluded(new Set()); } onOpenChange(v); }}>
       <DialogContent className="sm:max-w-[640px] max-h-[85vh] overflow-y-auto">
-        <DialogHeader><DialogTitle className="font-display text-xl text-[#4F46E5]">Generar cobros mensuales</DialogTitle></DialogHeader>
+        <DialogHeader><DialogTitle className="font-display text-xl text-[#0F172A]">Generar cobros mensuales</DialogTitle></DialogHeader>
 
         {stage === "form" && (
           <div className="space-y-3">
@@ -71,7 +71,7 @@ export function GenerarCobrosDialog({
               <>
                 <div className="flex items-center justify-between text-sm">
                   <div className="text-[#64748B]">{selectedIds.length} de {selectable.length} unidades seleccionadas</div>
-                  <div className="font-display font-bold text-[#4F46E5]">{fmtL(total)}</div>
+                  <div className="font-display font-bold text-[#0F172A]">{fmtL(total)}</div>
                 </div>
                 <div className="border border-[#E2E8F0] rounded-xl divide-y divide-[#f0e7e1] max-h-[50vh] overflow-y-auto">
                   {rows.length === 0 && <div className="p-6 text-center text-[#64748B] text-sm">El edificio no tiene unidades.</div>}

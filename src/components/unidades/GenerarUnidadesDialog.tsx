@@ -39,7 +39,7 @@ export function GenerarUnidadesDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[440px]">
         <DialogHeader>
-          <DialogTitle className="font-display text-xl text-[#4F46E5]">Generar unidades en bloque</DialogTitle>
+          <DialogTitle className="font-display text-xl text-[#0F172A]">Generar unidades en bloque</DialogTitle>
         </DialogHeader>
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-3">

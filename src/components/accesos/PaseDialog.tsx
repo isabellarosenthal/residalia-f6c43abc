@@ -41,7 +41,7 @@ export function PaseDialog({ open, onOpenChange, acceso }: { open: boolean; onOp
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[420px]">
-        <DialogHeader><DialogTitle className="font-display text-xl text-[#4F46E5]">Pase de acceso</DialogTitle></DialogHeader>
+        <DialogHeader><DialogTitle className="font-display text-xl text-[#0F172A]">Pase de acceso</DialogTitle></DialogHeader>
         {acceso && (
           <div className="space-y-4">
             <div className="bg-[#F8FAFC] rounded-2xl p-4 text-center">

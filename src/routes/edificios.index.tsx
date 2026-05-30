@@ -60,7 +60,7 @@ function EdificiosPage() {
       <div className="space-y-6 max-w-[1400px] mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="font-display font-extrabold text-2xl text-[#4F46E5]">Edificios</h1>
+            <h1 className="font-display font-extrabold text-2xl text-[#0F172A]">Edificios</h1>
             <p className="text-sm text-[#64748B]">Administra todos tus condominios y residenciales desde un solo lugar</p>
           </div>
           <Button onClick={() => setOpen(true)} className="bg-[#4F46E5] hover:bg-[#4338CA] text-white">

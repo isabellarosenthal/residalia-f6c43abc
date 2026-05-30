@@ -171,7 +171,7 @@ function EdificiosTab() {
           ) : (
             <div className="flex items-center justify-between">
               <div>
-                <div className="font-display font-bold text-[#4F46E5]">{e.nombre}</div>
+                <div className="font-display font-bold text-[#0F172A]">{e.nombre}</div>
                 <div className="text-sm text-[#64748B]">Cuota base: {e.moneda} {Number(e.cuota_base ?? 0).toLocaleString()} · {e.total_unidades ?? 0} unidades</div>
               </div>
               <Button variant="outline" size="sm" onClick={() => startEdit(e.id)}>Editar</Button>
@@ -364,7 +364,7 @@ function SeguridadTab() {
   return (
     <div className="space-y-4">
       <Card className="p-6 space-y-3">
-        <h3 className="font-display font-bold text-lg text-[#4F46E5]">Cambiar contraseña</h3>
+        <h3 className="font-display font-bold text-lg text-[#0F172A]">Cambiar contraseña</h3>
         <div className="flex gap-2">
           <Input type="password" placeholder="Nueva contraseña" value={pwd} onChange={(e) => setPwd(e.target.value)} className="max-w-sm" />
           <Button onClick={change} disabled={saving} className="bg-[#4F46E5] hover:bg-[#4338CA]"><Save className="w-4 h-4 mr-1" />Cambiar</Button>
@@ -424,7 +424,7 @@ function ResidentesTab() {
     <Card className="p-6 space-y-4">
       <div className="flex items-center justify-between gap-3">
         <div>
-          <h3 className="font-display font-bold text-lg text-[#4F46E5]">Residentes</h3>
+          <h3 className="font-display font-bold text-lg text-[#0F172A]">Residentes</h3>
           <p className="text-sm text-[#64748B]">{isSuper ? "Todos los residentes de la plataforma" : "Residentes de tus edificios"} · Fecha de ingreso y registro en Altura Cloud</p>
         </div>
         <Input placeholder="Buscar..." value={q} onChange={(e) => setQ(e.target.value)} className="max-w-xs" />
@@ -494,7 +494,7 @@ function MiPlanTab() {
         <div className="p-5 flex items-center justify-between flex-wrap gap-3">
           <div>
             <div className="text-xs uppercase tracking-wide text-[#64748B]">Plan actual</div>
-            <div className="font-display font-extrabold text-2xl text-[#4F46E5]">{data.plan.nombre}</div>
+            <div className="font-display font-extrabold text-2xl text-[#0F172A]">{data.plan.nombre}</div>
             <div className="text-sm text-[#64748B]">L {data.plan.precio.toLocaleString()} / mes</div>
           </div>
           <Link to="/" hash="planes">

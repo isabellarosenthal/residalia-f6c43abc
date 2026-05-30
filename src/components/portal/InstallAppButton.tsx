@@ -51,7 +51,7 @@ export function InstallAppButton() {
         <div className="fixed inset-0 z-50 bg-black/40 flex items-end sm:items-center justify-center p-4" onClick={() => setIosHelp(false)}>
           <div className="bg-white rounded-2xl p-5 max-w-sm w-full" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-start justify-between mb-3">
-              <div className="font-display font-bold text-lg text-[#4F46E5] flex items-center gap-2">
+              <div className="font-display font-bold text-lg text-[#0F172A] flex items-center gap-2">
                 <Smartphone className="w-5 h-5 text-[#4F46E5]" />Instalar Altura Cloud
               </div>
               <button onClick={() => setIosHelp(false)}><X className="w-5 h-5 text-[#64748B]" /></button>

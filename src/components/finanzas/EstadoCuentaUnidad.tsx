@@ -88,14 +88,14 @@ export function EstadoCuentaUnidad({ edificioId }: { edificioId: string }) {
       {unidadId && (
         <>
           <div className="print:block hidden mb-4">
-            <h2 className="font-display font-extrabold text-2xl text-[#4F46E5]">Estado de cuenta</h2>
+            <h2 className="font-display font-extrabold text-2xl text-[#0F172A]">Estado de cuenta</h2>
             <div className="text-sm text-[#64748B]">Unidad #{unidad?.numero} · {residente ? `${residente.nombre} ${residente.apellido}` : "Sin residente"}</div>
             <div className="text-xs text-[#64748B]">Generado: {fmtDate(new Date())}</div>
           </div>
 
           <div className="grid grid-cols-3 gap-3">
             <div className="p-3 rounded-xl bg-[#F8FAFC]"><div className="text-xs text-[#64748B]">Pagado</div><div className="font-display font-bold text-[#166534] text-lg">{fmtL(totalPagado)}</div></div>
-            <div className="p-3 rounded-xl bg-[#F8FAFC]"><div className="text-xs text-[#64748B]">Pendiente</div><div className="font-display font-bold text-[#4F46E5] text-lg">{fmtL(totalPendiente)}</div></div>
+            <div className="p-3 rounded-xl bg-[#F8FAFC]"><div className="text-xs text-[#64748B]">Pendiente</div><div className="font-display font-bold text-[#0F172A] text-lg">{fmtL(totalPendiente)}</div></div>
             <div className="p-3 rounded-xl bg-[#F8FAFC]"><div className="text-xs text-[#64748B]">Vencido</div><div className="font-display font-bold text-[#be185d] text-lg">{fmtL(totalVencido)}</div></div>
           </div>
 

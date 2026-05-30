@@ -100,7 +100,7 @@ export function RecordatoriosMorosos({ edificioId }: { edificioId: string }) {
         <div className="flex items-start gap-3 mb-3">
           <BellRing className="w-5 h-5 text-[#4F46E5] mt-0.5" />
           <div>
-            <h3 className="font-display font-bold text-[#4F46E5]">Recordatorios a morosos</h3>
+            <h3 className="font-display font-bold text-[#0F172A]">Recordatorios a morosos</h3>
             <p className="text-sm text-[#64748B]">Edita la plantilla y envía por WhatsApp o email. Variables: <code>{`{{nombre}}`}</code>, <code>{`{{total}}`}</code>, <code>{`{{unidad}}`}</code>, <code>{`{{edificio}}`}</code>, <code>{`{{detalle}}`}</code>.</p>
           </div>
         </div>
@@ -110,7 +110,7 @@ export function RecordatoriosMorosos({ edificioId }: { edificioId: string }) {
 
       <Card className="p-5">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="font-display font-bold text-[#4F46E5]">{morosos.length} residente{morosos.length === 1 ? "" : "s"} con saldo</h3>
+          <h3 className="font-display font-bold text-[#0F172A]">{morosos.length} residente{morosos.length === 1 ? "" : "s"} con saldo</h3>
         </div>
         <div className="space-y-3">
           {morosos.length === 0 && <div className="text-center text-[#64748B] py-8">Sin morosos en este edificio 🎉</div>}

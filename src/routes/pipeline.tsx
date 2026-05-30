@@ -65,7 +65,7 @@ function PipelinePage() {
       <div className="space-y-5 max-w-[1600px] mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="font-display font-extrabold text-2xl text-[#4F46E5]">Pipeline</h1>
+            <h1 className="font-display font-extrabold text-2xl text-[#0F172A]">Pipeline</h1>
             <p className="text-sm text-[#64748B]">Arrastra prospectos entre etapas</p>
           </div>
           <Select value={edificioId} onValueChange={setEdificioId}>
