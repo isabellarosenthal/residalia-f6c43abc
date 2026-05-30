@@ -5,6 +5,7 @@ import {
   Server,
 } from "lucide-react";
 import heroCondo from "@/assets/hero-condo.jpg";
+import logoUrl from "@/assets/altura-cloud-logo.png";
 
 const PLANS = [
   {
