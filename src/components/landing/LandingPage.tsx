@@ -319,7 +319,7 @@ export function LandingPage() {
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-3" style={{ backgroundColor: palette.iconBg }}>
                   {p.icon}
                 </div>
-                <h3 className="font-display font-extrabold text-2xl">{p.name}</h3>
+                <h3 className="font-display font-extrabold text-2xl text-white">{p.name}</h3>
                 <p className="text-sm mt-1 min-h-[2.5rem]" style={{ color: palette.sub }}>{p.tagline}</p>
                 <div className="mt-5">
                   <span className="text-5xl font-extrabold">L {p.price}</span>
@@ -413,7 +413,7 @@ export function LandingPage() {
 
           {/* Card 2: Accesos QR (navy) */}
           <div className="bg-[#0a1e3f] rounded-3xl p-8 flex flex-col text-white">
-            <h3 className="font-display font-extrabold text-2xl">Accesos con QR</h3>
+            <h3 className="font-display font-extrabold text-2xl text-white">Accesos con QR</h3>
             <p className="mt-2 text-sm text-white/70">Tus residentes generan códigos de un solo uso desde el celular. Tu guardia los valida en 2 segundos.</p>
             <Link to="/login" className="mt-3 text-sm font-semibold text-[#ffd60a] inline-flex items-center gap-1 hover:gap-2 transition-all">Ver accesos <ArrowRight className="w-4 h-4" /></Link>
             <div className="mt-6 bg-white rounded-2xl shadow-2xl p-5 text-[#0a1e3f]">
