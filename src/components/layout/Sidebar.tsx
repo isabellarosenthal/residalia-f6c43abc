@@ -56,12 +56,10 @@ export function Sidebar() {
 
   return (
     <aside className="hidden lg:flex flex-col w-60 h-screen sticky top-0 bg-[#1e1b4b] text-[#eef2ff]">
-      <div className="px-5 py-6 flex items-center gap-2">
-        <div className="w-9 h-9 rounded-xl bg-[#818cf8] flex items-center justify-center">
-          <Building className="w-5 h-5 text-white" />
-        </div>
+      <div className="px-5 py-6 flex items-center gap-2.5">
+        <img src={logoUrl} alt="Altura Cloud" width={36} height={36} className="w-9 h-9 drop-shadow-[0_0_12px_rgba(167,139,250,0.5)]" />
         <div className="font-display font-extrabold text-xl leading-none">
-          <span className="text-white">Prop</span><span className="text-[#818cf8]">Cloud</span>
+          <span className="text-white">Altura</span><span className="text-[#a78bfa]"> Cloud</span>
         </div>
       </div>
 
