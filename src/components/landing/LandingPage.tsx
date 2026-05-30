@@ -186,7 +186,7 @@ export function LandingPage() {
           ].map((s) => (
             <div key={s.l}>
               <div className="font-display font-extrabold text-3xl text-white">{s.n}</div>
-              <div className="text-xs uppercase tracking-wider text-[#c9a896] mt-1">{s.l}</div>
+              <div className="text-xs uppercase tracking-wider text-[#D9A441] mt-1">{s.l}</div>
             </div>
           ))}
         </div>
