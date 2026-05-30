@@ -299,45 +299,50 @@ export function LandingPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {PLANS.map((p) => (
-            <div
-              key={p.id}
-              className={`rounded-2xl border bg-white p-7 flex flex-col ${
-                p.highlight ? "border-[#ffd60a] ring-4 ring-[#ffd60a]/10 shadow-xl scale-[1.02]" : "border-[#e8ecf3]"
-              }`}
-            >
-              {p.highlight && (
-                <span className="self-start text-xs font-bold uppercase tracking-wider bg-[#0a1e3f] text-white px-3 py-1 rounded-full mb-4">
-                  Más popular
-                </span>
-              )}
-              <div className="text-3xl">{p.icon}</div>
-              <h3 className="font-display font-extrabold text-2xl mt-2">{p.name}</h3>
-              <p className="text-sm text-[#6b7a99] mt-1 min-h-[2.5rem]">{p.tagline}</p>
-              <div className="mt-5">
-                <span className="text-4xl font-extrabold">L {p.price}</span>
-                <span className="text-[#6b7a99] text-sm">/mes</span>
-              </div>
-              <ul className="mt-6 space-y-2.5 flex-1">
-                {p.limits.map((l) => (
-                  <li key={l} className="flex items-start gap-2 text-sm text-[#13294b]">
-                    <Check className="w-4 h-4 mt-0.5 text-[#166534] shrink-0" />
-                    <span>{l}</span>
-                  </li>
-                ))}
-              </ul>
-              <Link
-                to="/login"
-                className={`mt-7 text-center font-semibold py-3 rounded-full transition-colors ${
-                  p.highlight
-                    ? "bg-[#0a1e3f] text-white hover:bg-[#001a4d]"
-                    : "border border-[#e8ecf3] text-[#13294b] hover:border-[#ffd60a]"
-                }`}
+          {PLANS.map((p, idx) => {
+            const palette = p.highlight
+              ? { bg: "#0a1e3f", fg: "#ffffff", sub: "#9aa8c2", check: "#ffd60a", btnBg: "#ffd60a", btnFg: "#0a1e3f", btnHover: "hover:bg-[#ffe040]", iconBg: "rgba(255,214,10,0.15)" }
+              : idx === 0
+              ? { bg: "#fff8d6", fg: "#0a1e3f", sub: "#6b7a99", check: "#0a1e3f", btnBg: "#0a1e3f", btnFg: "#ffffff", btnHover: "hover:bg-[#001a4d]", iconBg: "rgba(10,30,63,0.08)" }
+              : { bg: "#fffdf5", fg: "#0a1e3f", sub: "#6b7a99", check: "#0a1e3f", btnBg: "#0a1e3f", btnFg: "#ffffff", btnHover: "hover:bg-[#001a4d]", iconBg: "rgba(10,30,63,0.08)" };
+            return (
+              <div
+                key={p.id}
+                className={`rounded-[1.75rem] p-8 flex flex-col transition hover:-translate-y-1 hover:shadow-2xl ${p.highlight ? "shadow-xl scale-[1.02]" : "shadow-sm"}`}
+                style={{ backgroundColor: palette.bg, color: palette.fg }}
               >
-                {p.cta}
-              </Link>
-            </div>
-          ))}
+                {p.highlight && (
+                  <span className="self-start text-xs font-bold uppercase tracking-wider bg-[#ffd60a] text-[#0a1e3f] px-3 py-1 rounded-full mb-4">
+                    Más popular
+                  </span>
+                )}
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-3" style={{ backgroundColor: palette.iconBg }}>
+                  {p.icon}
+                </div>
+                <h3 className="font-display font-extrabold text-2xl">{p.name}</h3>
+                <p className="text-sm mt-1 min-h-[2.5rem]" style={{ color: palette.sub }}>{p.tagline}</p>
+                <div className="mt-5">
+                  <span className="text-5xl font-extrabold">L {p.price}</span>
+                  <span className="text-sm ml-1" style={{ color: palette.sub }}>/mes</span>
+                </div>
+                <ul className="mt-6 space-y-2.5 flex-1">
+                  {p.limits.map((l) => (
+                    <li key={l} className="flex items-start gap-2 text-sm">
+                      <Check className="w-4 h-4 mt-0.5 shrink-0" style={{ color: palette.check }} />
+                      <span>{l}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  to="/login"
+                  className={`mt-7 text-center font-semibold py-3 rounded-full transition-colors ${palette.btnHover}`}
+                  style={{ backgroundColor: palette.btnBg, color: palette.btnFg }}
+                >
+                  {p.cta}
+                </Link>
+              </div>
+            );
+          })}
         </div>
       </section>
 
