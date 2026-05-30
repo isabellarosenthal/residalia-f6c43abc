@@ -514,6 +514,17 @@ function MiPlanTab() {
         </div>
       </Card>
 
+      <Card>
+        <div className="p-5 space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="font-semibold text-[#4F46E5]">Administradores (total del plan)</div>
+            <div className="text-sm text-[#64748B]">{data.admins.used} / {fmtMax(data.admins.max)}</div>
+          </div>
+          <Progress value={pct(data.admins.used, data.admins.max)} />
+          <div className="text-sm text-[#5a4030]">Puedes invitar a <b>{remaining(data.admins.used, data.admins.max)}</b> admins más en total (compartidos entre todos tus edificios)</div>
+        </div>
+      </Card>
+
       {data.porEdificio.map((e) => (
         <Card key={e.id}>
           <div className="p-5 space-y-3">
@@ -528,15 +539,6 @@ function MiPlanTab() {
               </div>
               <Progress value={pct(e.unidades.used, e.unidades.max)} />
               <div className="text-xs text-[#64748B]">Puedes crear <b>{remaining(e.unidades.used, e.unidades.max)}</b> unidades más</div>
-            </div>
-
-            <div className="space-y-1">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-[#5a4030]">Administradores</span>
-                <span className="text-[#64748B]">{e.admins.used} / {fmtMax(e.admins.max)}</span>
-              </div>
-              <Progress value={pct(e.admins.used, e.admins.max)} />
-              <div className="text-xs text-[#64748B]">Puedes invitar a <b>{remaining(e.admins.used, e.admins.max)}</b> admins más</div>
             </div>
           </div>
         </Card>
