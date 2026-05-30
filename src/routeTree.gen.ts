@@ -24,6 +24,7 @@ import { Route as ConfiguracionRouteImport } from './routes/configuracion'
 import { Route as ComunicacionesRouteImport } from './routes/comunicaciones'
 import { Route as AreasRouteImport } from './routes/areas'
 import { Route as AgendaRouteImport } from './routes/agenda'
+import { Route as AdminPanelRouteImport } from './routes/admin-panel'
 import { Route as AccesosRouteImport } from './routes/accesos'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PortalIndexRouteImport } from './routes/portal.index'
@@ -115,6 +116,11 @@ const AgendaRoute = AgendaRouteImport.update({
   path: '/agenda',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminPanelRoute = AdminPanelRouteImport.update({
+  id: '/admin-panel',
+  path: '/admin-panel',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AccesosRoute = AccesosRouteImport.update({
   id: '/accesos',
   path: '/accesos',
@@ -194,6 +200,7 @@ const PortalPasePaseIdRoute = PortalPasePaseIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/accesos': typeof AccesosRouteWithChildren
+  '/admin-panel': typeof AdminPanelRoute
   '/agenda': typeof AgendaRoute
   '/areas': typeof AreasRoute
   '/comunicaciones': typeof ComunicacionesRoute
@@ -225,6 +232,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin-panel': typeof AdminPanelRoute
   '/agenda': typeof AgendaRoute
   '/areas': typeof AreasRoute
   '/comunicaciones': typeof ComunicacionesRoute
@@ -255,6 +263,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/accesos': typeof AccesosRouteWithChildren
+  '/admin-panel': typeof AdminPanelRoute
   '/agenda': typeof AgendaRoute
   '/areas': typeof AreasRoute
   '/comunicaciones': typeof ComunicacionesRoute
@@ -289,6 +298,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/accesos'
+    | '/admin-panel'
     | '/agenda'
     | '/areas'
     | '/comunicaciones'
@@ -320,6 +330,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin-panel'
     | '/agenda'
     | '/areas'
     | '/comunicaciones'
@@ -349,6 +360,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/accesos'
+    | '/admin-panel'
     | '/agenda'
     | '/areas'
     | '/comunicaciones'
@@ -382,6 +394,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccesosRoute: typeof AccesosRouteWithChildren
+  AdminPanelRoute: typeof AdminPanelRoute
   AgendaRoute: typeof AgendaRoute
   AreasRoute: typeof AreasRoute
   ComunicacionesRoute: typeof ComunicacionesRoute
@@ -505,6 +518,13 @@ declare module '@tanstack/react-router' {
       path: '/agenda'
       fullPath: '/agenda'
       preLoaderRoute: typeof AgendaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin-panel': {
+      id: '/admin-panel'
+      path: '/admin-panel'
+      fullPath: '/admin-panel'
+      preLoaderRoute: typeof AdminPanelRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/accesos': {
@@ -679,6 +699,7 @@ const PortalRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccesosRoute: AccesosRouteWithChildren,
+  AdminPanelRoute: AdminPanelRoute,
   AgendaRoute: AgendaRoute,
   AreasRoute: AreasRoute,
   ComunicacionesRoute: ComunicacionesRoute,
@@ -699,3 +720,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
