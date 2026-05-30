@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Building2, Users, Home, DollarSign, TrendingUp, Shield, Ban, Play, Pause, CheckCircle2 } from "lucide-react";
@@ -12,7 +12,6 @@ import {
   updateSuscripcionPlan,
   updateSuscripcionEstado,
   toggleCondominioActivo,
-  updatePlan,
 } from "@/lib/admin-stats.functions";
 import { toast } from "sonner";
 
@@ -282,64 +281,31 @@ function EstadoBadge({ estado }: { estado: string }) {
 
 type FullPlan = { id: string; nombre: string; precio_mensual: number; max_unidades: number | null; max_residentes: number | null; activo: boolean };
 function PlanesSection({ planes }: { planes: FullPlan[] }) {
-  const qc = useQueryClient();
-  const updatePlanFn = useServerFn(updatePlan);
-  const m = useMutation({
-    mutationFn: (d: Parameters<typeof updatePlan>[0]["data"]) => updatePlanFn({ data: d }),
-    onSuccess: () => { toast.success("Plan actualizado"); qc.invalidateQueries({ queryKey: ["admin-planes"] }); qc.invalidateQueries({ queryKey: ["platform-stats"] }); },
-    onError: (e: Error) => toast.error(e.message),
-  });
-
+  const money = (n: number) => `L ${new Intl.NumberFormat("es-HN").format(n)}`;
   return (
     <section>
-      <h2 className="text-base font-semibold mb-3 text-foreground">Planes</h2>
+      <div className="flex items-baseline justify-between mb-3">
+        <h2 className="text-base font-semibold text-foreground">Planes disponibles</h2>
+        <span className="text-xs text-muted-foreground">Definidos en la landing page</span>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {planes.map((p) => (
-          <PlanCard key={p.id} plan={p} onSave={(patch) => m.mutate({ id: p.id, ...patch })} />
+          <div key={p.id} className="bg-card border border-border rounded-2xl p-5 shadow-sm">
+            <div className="flex items-center justify-between">
+              <div className="font-semibold text-foreground text-lg">{p.nombre}</div>
+              {!p.activo && <span className="text-xs text-muted-foreground">inactivo</span>}
+            </div>
+            <div className="mt-2">
+              <span className="text-2xl font-bold text-foreground">{money(p.precio_mensual)}</span>
+              <span className="text-xs text-muted-foreground"> /mes</span>
+            </div>
+            <div className="text-xs text-muted-foreground mt-3 space-y-0.5">
+              <div>Unidades: {p.max_unidades ?? "Ilimitadas"}</div>
+              <div>Residentes: {p.max_residentes ?? "Ilimitados"}</div>
+            </div>
+          </div>
         ))}
       </div>
     </section>
-  );
-}
-
-function PlanCard({ plan, onSave }: { plan: FullPlan; onSave: (p: Partial<FullPlan>) => void }) {
-  const [precio, setPrecio] = useState(String(plan.precio_mensual));
-  const [maxU, setMaxU] = useState(plan.max_unidades?.toString() ?? "");
-  const [maxR, setMaxR] = useState(plan.max_residentes?.toString() ?? "");
-  const [activo, setActivo] = useState(plan.activo);
-
-  return (
-    <div className="bg-card border border-border rounded-2xl p-5 shadow-sm space-y-3">
-      <div className="flex items-center justify-between">
-        <div className="font-semibold text-foreground text-lg">{plan.nombre}</div>
-        <label className="flex items-center gap-2 text-xs text-muted-foreground">
-          <input type="checkbox" checked={activo} onChange={(e) => setActivo(e.target.checked)} />
-          Activo
-        </label>
-      </div>
-      <div>
-        <label className="text-xs text-muted-foreground">Precio mensual (L)</label>
-        <input type="number" value={precio} onChange={(e) => setPrecio(e.target.value)} className="w-full bg-background border border-border rounded-lg px-2 py-1.5 text-sm text-foreground" />
-      </div>
-      <div className="grid grid-cols-2 gap-2">
-        <div>
-          <label className="text-xs text-muted-foreground">Max unidades</label>
-          <input type="number" value={maxU} onChange={(e) => setMaxU(e.target.value)} placeholder="∞" className="w-full bg-background border border-border rounded-lg px-2 py-1.5 text-sm text-foreground" />
-        </div>
-        <div>
-          <label className="text-xs text-muted-foreground">Max residentes</label>
-          <input type="number" value={maxR} onChange={(e) => setMaxR(e.target.value)} placeholder="∞" className="w-full bg-background border border-border rounded-lg px-2 py-1.5 text-sm text-foreground" />
-        </div>
-      </div>
-      <button
-        onClick={() => onSave({
-          precio_mensual: Number(precio),
-          max_unidades: maxU === "" ? null : Number(maxU),
-          max_residentes: maxR === "" ? null : Number(maxR),
-          activo,
-        })}
-        className="w-full bg-primary text-primary-foreground rounded-lg py-2 text-sm font-medium hover:opacity-90"
-      >Guardar</button>
-    </div>
   );
 }
