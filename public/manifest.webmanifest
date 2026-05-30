@@ -1,13 +1,13 @@
 {
-  "name": "PropCloud — Portal residente",
-  "short_name": "PropCloud",
+  "name": "Altura Cloud — Portal residente",
+  "short_name": "Altura Cloud",
   "description": "Crea pases de acceso, consulta tu saldo y reserva áreas comunes desde tu celular.",
   "start_url": "/portal",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#faf9f7",
-  "theme_color": "#c94f0c",
+  "background_color": "#faf9ff",
+  "theme_color": "#818cf8",
   "lang": "es",
   "icons": [
     { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },

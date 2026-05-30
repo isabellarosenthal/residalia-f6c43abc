@@ -1,11 +1,11 @@
 import { Building2, Home } from "lucide-react";
 
 const PALETTES = [
-  { bg: "#c94f0c", fg: "#fff" },
-  { bg: "#2d1200", fg: "#f5ede8" },
-  { bg: "#f5e6de", fg: "#c94f0c" },
-  { bg: "#a33d08", fg: "#fff" },
-  { bg: "#4a2800", fg: "#f5ede8" },
+  { bg: "linear-gradient(135deg,#c7d2fe,#a78bfa)", fg: "#fff" },
+  { bg: "linear-gradient(135deg,#ddd6fe,#818cf8)", fg: "#fff" },
+  { bg: "linear-gradient(135deg,#eef2ff,#c7d2fe)", fg: "#6d28d9" },
+  { bg: "linear-gradient(135deg,#a78bfa,#6366f1)", fg: "#fff" },
+  { bg: "linear-gradient(135deg,#fbcfe8,#c7d2fe)", fg: "#6d28d9" },
 ];
 
 export function EdificioPlaceholder({ id, tipo, className = "" }: { id: string; tipo?: string | null; className?: string }) {
@@ -15,7 +15,7 @@ export function EdificioPlaceholder({ id, tipo, className = "" }: { id: string; 
   return (
     <div className={`relative flex items-center justify-center ${className}`} style={{ background: p.bg, color: p.fg }}>
       <Icon className="w-5 h-5 opacity-90" />
-      <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle at 30% 20%, rgba(255,255,255,.4), transparent 50%)" }} />
+      <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "radial-gradient(circle at 30% 20%, rgba(255,255,255,.5), transparent 50%)" }} />
     </div>
   );
 }
