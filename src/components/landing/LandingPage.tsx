@@ -214,7 +214,7 @@ export function LandingPage() {
             { i: TrendingUp, t: "Pipeline y agenda", d: "Arrastra prospectos entre etapas (nuevo → visita → oferta → cierre) y agenda visitas con recordatorios.", bg: "#fff8d6", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver pipeline", iconBg: "#ef4444", iconFg: "#ffffff" },
             { i: BarChart3, t: "Reportes y KPIs", d: "Flujo de caja, ocupación, cartera vencida, conversión del pipeline. Exporta a PDF o CSV.", bg: "#fff8d6", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver reportes", iconBg: "#6366f1", iconFg: "#ffffff" },
           ].map((f) => {
-            const isDark = f.bg === "#1e3a5f";
+            
             return (
             <div
               key={f.t}
