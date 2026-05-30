@@ -256,7 +256,7 @@ export function LandingPage() {
             ].map((s) => (
               <li key={s.n} className="relative">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-full text-white font-display font-extrabold flex items-center justify-center bg-[#ffd60a]">{s.n}</div>
+                  <div className="w-10 h-10 rounded-full text-[#0a1e3f] font-display font-extrabold flex items-center justify-center bg-[#ffd60a]">{s.n}</div>
                   <span className="text-3xl" aria-hidden>{s.e}</span>
                 </div>
                 <h3 className="font-display font-bold text-lg">{s.t}</h3>
