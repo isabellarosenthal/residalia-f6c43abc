@@ -1,10 +1,20 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { useQuery } from "@tanstack/react-query";
-import { Building2, Users, Home, DollarSign, TrendingUp, Shield, ArrowLeft } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Building2, Users, Home, DollarSign, TrendingUp, Shield, Ban, Play, Pause, CheckCircle2 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
-import { getPlatformStats } from "@/lib/admin-stats.functions";
+import { AppShell } from "@/components/layout/AppShell";
+import {
+  getPlatformStats,
+  listSuscripciones,
+  listPlanes,
+  updateSuscripcionPlan,
+  updateSuscripcionEstado,
+  toggleCondominioActivo,
+  updatePlan,
+} from "@/lib/admin-stats.functions";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin-panel")({
   head: () => ({ meta: [{ title: "Admin Panel — PropCloud" }] }),
@@ -15,6 +25,8 @@ function AdminPanel() {
   const { role, loading, user } = useAuth();
   const navigate = useNavigate();
   const fetchStats = useServerFn(getPlatformStats);
+  const fetchSubs = useServerFn(listSuscripciones);
+  const fetchPlanes = useServerFn(listPlanes);
 
   useEffect(() => {
     if (loading) return;
@@ -22,129 +34,97 @@ function AdminPanel() {
     else if (role && role !== "super_admin") navigate({ to: "/" });
   }, [loading, user, role, navigate]);
 
-  const { data, isLoading, error } = useQuery({
+  const { data: stats } = useQuery({
     queryKey: ["platform-stats"],
     queryFn: () => fetchStats(),
     enabled: role === "super_admin",
   });
 
-  if (loading || role !== "super_admin") {
-    return <div className="min-h-screen flex items-center justify-center bg-[#0a0a14]"><div className="text-white/60">Verificando acceso…</div></div>;
-  }
+  const { data: subsData } = useQuery({
+    queryKey: ["admin-suscripciones"],
+    queryFn: () => fetchSubs(),
+    enabled: role === "super_admin",
+  });
+
+  const { data: planesData } = useQuery({
+    queryKey: ["admin-planes"],
+    queryFn: () => fetchPlanes(),
+    enabled: role === "super_admin",
+  });
+
+  if (loading || role !== "super_admin") return null;
 
   const fmt = (n: number) => new Intl.NumberFormat("es-HN").format(n);
   const money = (n: number) => `L ${new Intl.NumberFormat("es-HN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n)}`;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0a14] via-[#141425] to-[#0a0a14] text-white">
-      <header className="border-b border-white/10 bg-black/30 backdrop-blur sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#c94f0c] to-[#7a2e0a] flex items-center justify-center">
-              <Shield className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="text-xs uppercase tracking-widest text-white/50">Super Admin</div>
-              <h1 className="text-xl font-bold">Admin Panel</h1>
-            </div>
+    <AppShell>
+      <div className="max-w-7xl mx-auto space-y-8">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+            <Shield className="w-5 h-5" />
           </div>
-          <button onClick={() => navigate({ to: "/" })} className="flex items-center gap-2 text-sm text-white/70 hover:text-white px-3 py-1.5 rounded-lg hover:bg-white/5">
-            <ArrowLeft className="w-4 h-4" /> Volver al sistema
-          </button>
+          <div>
+            <div className="text-xs uppercase tracking-widest text-muted-foreground">Super Admin</div>
+            <h1 className="text-2xl font-bold text-foreground">Admin Panel</h1>
+          </div>
         </div>
-      </header>
 
-      <main className="max-w-7xl mx-auto px-6 py-8 space-y-8">
-        {isLoading && <div className="text-white/60">Cargando estadísticas…</div>}
-        {error && <div className="text-red-400">Error: {(error as Error).message}</div>}
-        {data && (
+        {stats && (
           <>
-            {/* Totales */}
             <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <StatCard icon={<Building2 className="w-5 h-5" />} label="Edificios / Condominios" value={fmt(data.totales.condominios)} sub={`${data.totales.condominios_activos} activos`} />
-              <StatCard icon={<Home className="w-5 h-5" />} label="Unidades" value={fmt(data.totales.unidades)} />
-              <StatCard icon={<Users className="w-5 h-5" />} label="Residentes" value={fmt(data.totales.residentes)} sub={`${fmt(data.totales.usuarios)} usuarios totales`} />
-              <StatCard icon={<DollarSign className="w-5 h-5" />} label="MRR estimado" value={money(data.totales.mrr)} sub={`${money(data.totales.ingresos_mes)} cobrado este mes`} accent />
+              <StatCard icon={<Building2 className="w-5 h-5" />} label="Edificios" value={fmt(stats.totales.condominios)} sub={`${stats.totales.condominios_activos} activos`} />
+              <StatCard icon={<Home className="w-5 h-5" />} label="Unidades" value={fmt(stats.totales.unidades)} />
+              <StatCard icon={<Users className="w-5 h-5" />} label="Residentes" value={fmt(stats.totales.residentes)} sub={`${fmt(stats.totales.usuarios)} usuarios`} />
+              <StatCard icon={<DollarSign className="w-5 h-5" />} label="MRR estimado" value={money(stats.totales.mrr)} sub={`${money(stats.totales.ingresos_mes)} este mes`} accent />
             </section>
 
-            {/* Distribución por plan */}
             <section>
-              <h2 className="text-lg font-semibold mb-3 flex items-center gap-2"><TrendingUp className="w-4 h-4 text-[#c94f0c]" /> Distribución por plan</h2>
+              <h2 className="text-base font-semibold mb-3 flex items-center gap-2 text-foreground">
+                <TrendingUp className="w-4 h-4 text-primary" /> Distribución por plan
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {data.distribucion_planes.map((p) => (
-                  <div key={p.plan} className="bg-white/5 border border-white/10 rounded-2xl p-5">
+                {stats.distribucion_planes.map((p) => (
+                  <div key={p.plan} className="bg-card border border-border rounded-2xl p-5 shadow-sm">
                     <div className="flex items-center justify-between">
-                      <div className="text-sm text-white/60">{p.plan}</div>
-                      <div className="text-xs text-white/40">{money(p.precio)}/mes</div>
+                      <div className="text-sm text-muted-foreground">{p.plan}</div>
+                      <div className="text-xs text-muted-foreground">{money(p.precio)}/mes</div>
                     </div>
-                    <div className="text-3xl font-bold mt-2">{p.count}</div>
-                    <div className="text-xs text-white/50 mt-1">suscripciones activas</div>
+                    <div className="text-3xl font-bold mt-2 text-foreground">{p.count}</div>
+                    <div className="text-xs text-muted-foreground mt-1">suscripciones activas</div>
                   </div>
                 ))}
               </div>
             </section>
 
-            {/* Signups 30 días */}
             <section>
-              <h2 className="text-lg font-semibold mb-3">Signups últimos 30 días</h2>
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
-                <SignupsChart data={data.signups_30d} />
-                <div className="text-xs text-white/50 mt-2">
-                  Total: {fmt(data.signups_30d.reduce((a, d) => a + d.signups, 0))} nuevos usuarios
+              <h2 className="text-base font-semibold mb-3 text-foreground">Signups últimos 30 días</h2>
+              <div className="bg-card border border-border rounded-2xl p-5 shadow-sm">
+                <SignupsChart data={stats.signups_30d} />
+                <div className="text-xs text-muted-foreground mt-2">
+                  Total: {fmt(stats.signups_30d.reduce((a, d) => a + d.signups, 0))} nuevos usuarios
                 </div>
-              </div>
-            </section>
-
-            {/* Condominios recientes */}
-            <section>
-              <h2 className="text-lg font-semibold mb-3">Empresas / Condominios recientes</h2>
-              <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
-                <table className="w-full text-sm">
-                  <thead className="bg-white/5 text-white/60 text-xs uppercase tracking-wider">
-                    <tr>
-                      <th className="text-left px-4 py-3">Nombre</th>
-                      <th className="text-left px-4 py-3">Ciudad</th>
-                      <th className="text-left px-4 py-3">Admin</th>
-                      <th className="text-left px-4 py-3">Plan</th>
-                      <th className="text-right px-4 py-3">Unidades</th>
-                      <th className="text-right px-4 py-3">Residentes</th>
-                      <th className="text-left px-4 py-3">Alta</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {data.condominios_recientes.map((c) => (
-                      <tr key={c.id} className="border-t border-white/5">
-                        <td className="px-4 py-3 font-medium">{c.nombre}</td>
-                        <td className="px-4 py-3 text-white/70">{c.ciudad ?? "—"}</td>
-                        <td className="px-4 py-3 text-white/70">{c.admin}</td>
-                        <td className="px-4 py-3">
-                          <span className="px-2 py-0.5 rounded-full text-xs bg-[#c94f0c]/20 text-[#ff9568]">{c.plan}</span>
-                        </td>
-                        <td className="px-4 py-3 text-right">{c.unidades}</td>
-                        <td className="px-4 py-3 text-right">{c.residentes}</td>
-                        <td className="px-4 py-3 text-white/50 text-xs">{new Date(c.created_at).toLocaleDateString("es-HN")}</td>
-                      </tr>
-                    ))}
-                    {data.condominios_recientes.length === 0 && (
-                      <tr><td colSpan={7} className="px-4 py-8 text-center text-white/50">Sin condominios todavía</td></tr>
-                    )}
-                  </tbody>
-                </table>
               </div>
             </section>
           </>
         )}
-      </main>
-    </div>
+
+        {subsData && (
+          <SuscripcionesSection rows={subsData.rows} planes={subsData.planes} />
+        )}
+
+        {planesData && <PlanesSection planes={planesData} />}
+      </div>
+    </AppShell>
   );
 }
 
 function StatCard({ icon, label, value, sub, accent }: { icon: React.ReactNode; label: string; value: string; sub?: string; accent?: boolean }) {
   return (
-    <div className={`rounded-2xl p-5 border ${accent ? "bg-gradient-to-br from-[#c94f0c]/20 to-[#7a2e0a]/10 border-[#c94f0c]/30" : "bg-white/5 border-white/10"}`}>
-      <div className="flex items-center gap-2 text-white/60 text-xs uppercase tracking-wider">{icon}{label}</div>
-      <div className="text-2xl font-bold mt-2">{value}</div>
-      {sub && <div className="text-xs text-white/50 mt-1">{sub}</div>}
+    <div className={`rounded-2xl p-5 border shadow-sm ${accent ? "bg-primary/5 border-primary/30" : "bg-card border-border"}`}>
+      <div className="flex items-center gap-2 text-muted-foreground text-xs uppercase tracking-wider">{icon}{label}</div>
+      <div className="text-2xl font-bold mt-2 text-foreground">{value}</div>
+      {sub && <div className="text-xs text-muted-foreground mt-1">{sub}</div>}
     </div>
   );
 }
@@ -156,12 +136,210 @@ function SignupsChart({ data }: { data: { fecha: string; signups: number }[] }) 
       {data.map((d) => (
         <div key={d.fecha} className="flex-1 group relative">
           <div
-            className="bg-gradient-to-t from-[#c94f0c] to-[#ff9568] rounded-t hover:opacity-80 transition-opacity"
+            className="bg-primary/80 hover:bg-primary rounded-t transition-colors"
             style={{ height: `${(d.signups / max) * 100}%`, minHeight: d.signups > 0 ? "2px" : "0" }}
             title={`${d.fecha}: ${d.signups}`}
           />
         </div>
       ))}
+    </div>
+  );
+}
+
+type SubRow = {
+  condominio_id: string;
+  nombre: string;
+  ciudad: string | null;
+  activo: boolean;
+  created_at: string;
+  admin_email: string;
+  admin_nombre: string;
+  plan_id: string | null;
+  estado: string;
+  unidades: number;
+  residentes: number;
+};
+type Plan = { id: string; nombre: string; precio_mensual: number };
+
+function SuscripcionesSection({ rows, planes }: { rows: SubRow[]; planes: Plan[] }) {
+  const qc = useQueryClient();
+  const updatePlanFn = useServerFn(updateSuscripcionPlan);
+  const updateEstadoFn = useServerFn(updateSuscripcionEstado);
+  const toggleActivoFn = useServerFn(toggleCondominioActivo);
+
+  const invalidate = () => {
+    qc.invalidateQueries({ queryKey: ["admin-suscripciones"] });
+    qc.invalidateQueries({ queryKey: ["platform-stats"] });
+  };
+
+  const mPlan = useMutation({
+    mutationFn: (d: { condominio_id: string; plan_id: string }) => updatePlanFn({ data: d }),
+    onSuccess: () => { toast.success("Plan actualizado"); invalidate(); },
+    onError: (e: Error) => toast.error(e.message),
+  });
+  const mEstado = useMutation({
+    mutationFn: (d: { condominio_id: string; estado: string }) => updateEstadoFn({ data: d }),
+    onSuccess: () => { toast.success("Suscripción actualizada"); invalidate(); },
+    onError: (e: Error) => toast.error(e.message),
+  });
+  const mActivo = useMutation({
+    mutationFn: (d: { condominio_id: string; activo: boolean }) => toggleActivoFn({ data: d }),
+    onSuccess: () => { toast.success("Acceso actualizado"); invalidate(); },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  return (
+    <section>
+      <h2 className="text-base font-semibold mb-3 text-foreground">Gestión de suscripciones</h2>
+      <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-sm">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="bg-muted/50 text-muted-foreground text-xs uppercase tracking-wider">
+              <tr>
+                <th className="text-left px-4 py-3">Edificio</th>
+                <th className="text-left px-4 py-3">Admin</th>
+                <th className="text-left px-4 py-3">Plan</th>
+                <th className="text-left px-4 py-3">Suscripción</th>
+                <th className="text-left px-4 py-3">Acceso</th>
+                <th className="text-right px-4 py-3">Uds / Res</th>
+                <th className="text-right px-4 py-3">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((r) => (
+                <tr key={r.condominio_id} className="border-t border-border">
+                  <td className="px-4 py-3">
+                    <div className="font-medium text-foreground">{r.nombre}</div>
+                    <div className="text-xs text-muted-foreground">{r.ciudad ?? "—"}</div>
+                  </td>
+                  <td className="px-4 py-3">
+                    <div className="text-foreground">{r.admin_nombre}</div>
+                    <div className="text-xs text-muted-foreground">{r.admin_email}</div>
+                  </td>
+                  <td className="px-4 py-3">
+                    <select
+                      value={r.plan_id ?? ""}
+                      onChange={(e) => mPlan.mutate({ condominio_id: r.condominio_id, plan_id: e.target.value })}
+                      className="bg-background border border-border rounded-lg px-2 py-1 text-sm text-foreground"
+                    >
+                      <option value="" disabled>Sin plan</option>
+                      {planes.map((p) => (
+                        <option key={p.id} value={p.id}>{p.nombre} — L{p.precio_mensual}</option>
+                      ))}
+                    </select>
+                  </td>
+                  <td className="px-4 py-3">
+                    <EstadoBadge estado={r.estado} />
+                  </td>
+                  <td className="px-4 py-3">
+                    {r.activo
+                      ? <span className="inline-flex items-center gap-1 text-xs text-green-700 bg-green-50 border border-green-200 px-2 py-0.5 rounded-full"><CheckCircle2 className="w-3 h-3" /> Activo</span>
+                      : <span className="inline-flex items-center gap-1 text-xs text-red-700 bg-red-50 border border-red-200 px-2 py-0.5 rounded-full"><Ban className="w-3 h-3" /> Suspendido</span>}
+                  </td>
+                  <td className="px-4 py-3 text-right text-foreground">{r.unidades} / {r.residentes}</td>
+                  <td className="px-4 py-3 text-right">
+                    <div className="flex items-center justify-end gap-1">
+                      {r.estado === "activa" ? (
+                        <button onClick={() => mEstado.mutate({ condominio_id: r.condominio_id, estado: "pausada" })} title="Pausar" className="p-1.5 rounded hover:bg-muted text-muted-foreground"><Pause className="w-4 h-4" /></button>
+                      ) : (
+                        <button onClick={() => mEstado.mutate({ condominio_id: r.condominio_id, estado: "activa" })} title="Activar" className="p-1.5 rounded hover:bg-muted text-muted-foreground"><Play className="w-4 h-4" /></button>
+                      )}
+                      <button
+                        onClick={() => {
+                          if (confirm(r.activo ? `¿Revocar acceso a ${r.nombre}?` : `¿Restaurar acceso a ${r.nombre}?`)) {
+                            mActivo.mutate({ condominio_id: r.condominio_id, activo: !r.activo });
+                          }
+                        }}
+                        title={r.activo ? "Revocar acceso" : "Restaurar acceso"}
+                        className={`p-1.5 rounded hover:bg-muted ${r.activo ? "text-red-600" : "text-green-600"}`}
+                      >
+                        {r.activo ? <Ban className="w-4 h-4" /> : <CheckCircle2 className="w-4 h-4" />}
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+              {rows.length === 0 && (
+                <tr><td colSpan={7} className="px-4 py-8 text-center text-muted-foreground">Sin edificios todavía</td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function EstadoBadge({ estado }: { estado: string }) {
+  const map: Record<string, string> = {
+    activa: "bg-green-50 text-green-700 border-green-200",
+    pausada: "bg-amber-50 text-amber-700 border-amber-200",
+    cancelada: "bg-red-50 text-red-700 border-red-200",
+    sin_suscripcion: "bg-muted text-muted-foreground border-border",
+  };
+  return <span className={`text-xs px-2 py-0.5 rounded-full border ${map[estado] ?? map.sin_suscripcion}`}>{estado}</span>;
+}
+
+type FullPlan = { id: string; nombre: string; precio_mensual: number; max_unidades: number | null; max_residentes: number | null; activo: boolean };
+function PlanesSection({ planes }: { planes: FullPlan[] }) {
+  const qc = useQueryClient();
+  const updatePlanFn = useServerFn(updatePlan);
+  const m = useMutation({
+    mutationFn: (d: Parameters<typeof updatePlan>[0]["data"]) => updatePlanFn({ data: d }),
+    onSuccess: () => { toast.success("Plan actualizado"); qc.invalidateQueries({ queryKey: ["admin-planes"] }); qc.invalidateQueries({ queryKey: ["platform-stats"] }); },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  return (
+    <section>
+      <h2 className="text-base font-semibold mb-3 text-foreground">Planes</h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {planes.map((p) => (
+          <PlanCard key={p.id} plan={p} onSave={(patch) => m.mutate({ id: p.id, ...patch })} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function PlanCard({ plan, onSave }: { plan: FullPlan; onSave: (p: Partial<FullPlan>) => void }) {
+  const [precio, setPrecio] = useState(String(plan.precio_mensual));
+  const [maxU, setMaxU] = useState(plan.max_unidades?.toString() ?? "");
+  const [maxR, setMaxR] = useState(plan.max_residentes?.toString() ?? "");
+  const [activo, setActivo] = useState(plan.activo);
+
+  return (
+    <div className="bg-card border border-border rounded-2xl p-5 shadow-sm space-y-3">
+      <div className="flex items-center justify-between">
+        <div className="font-semibold text-foreground text-lg">{plan.nombre}</div>
+        <label className="flex items-center gap-2 text-xs text-muted-foreground">
+          <input type="checkbox" checked={activo} onChange={(e) => setActivo(e.target.checked)} />
+          Activo
+        </label>
+      </div>
+      <div>
+        <label className="text-xs text-muted-foreground">Precio mensual (L)</label>
+        <input type="number" value={precio} onChange={(e) => setPrecio(e.target.value)} className="w-full bg-background border border-border rounded-lg px-2 py-1.5 text-sm text-foreground" />
+      </div>
+      <div className="grid grid-cols-2 gap-2">
+        <div>
+          <label className="text-xs text-muted-foreground">Max unidades</label>
+          <input type="number" value={maxU} onChange={(e) => setMaxU(e.target.value)} placeholder="∞" className="w-full bg-background border border-border rounded-lg px-2 py-1.5 text-sm text-foreground" />
+        </div>
+        <div>
+          <label className="text-xs text-muted-foreground">Max residentes</label>
+          <input type="number" value={maxR} onChange={(e) => setMaxR(e.target.value)} placeholder="∞" className="w-full bg-background border border-border rounded-lg px-2 py-1.5 text-sm text-foreground" />
+        </div>
+      </div>
+      <button
+        onClick={() => onSave({
+          precio_mensual: Number(precio),
+          max_unidades: maxU === "" ? null : Number(maxU),
+          max_residentes: maxR === "" ? null : Number(maxR),
+          activo,
+        })}
+        className="w-full bg-primary text-primary-foreground rounded-lg py-2 text-sm font-medium hover:opacity-90"
+      >Guardar</button>
     </div>
   );
 }
