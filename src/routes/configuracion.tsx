@@ -210,7 +210,7 @@ function UsuariosTab() {
     <>
     <PlanLimitsBanner focus="admins" />
     <Card className="p-5 space-y-4">
-      <div className="border border-dashed border-[#e0e7ff] rounded-xl p-4 bg-[#fffaf5]">
+      <div className="border border-dashed border-[#e0e7ff] rounded-xl p-4 bg-[#faf9ff]">
         <div className="text-sm font-medium text-[#1e1b4b] mb-2">Asignar rol por email</div>
         <p className="text-xs text-[#8b8bb5] mb-3">El usuario debe haberse registrado primero en /login</p>
         <div className="flex flex-wrap gap-2">
@@ -306,7 +306,7 @@ function TenantUsuariosTab({ edificios }: { edificios: Edif[] }) {
         </div>
       )}
 
-      <div className="border border-dashed border-[#e0e7ff] rounded-xl p-4 bg-[#fffaf5]">
+      <div className="border border-dashed border-[#e0e7ff] rounded-xl p-4 bg-[#faf9ff]">
         <div className="text-sm font-medium text-[#1e1b4b] mb-2">Invitar staff o guardia</div>
         <p className="text-xs text-[#8b8bb5] mb-3">El usuario debe registrarse primero en /login con su email. Luego asígnale aquí su rol y edificio.</p>
         <div className="flex flex-wrap gap-2">
@@ -433,7 +433,7 @@ function ResidentesTab() {
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="text-left text-[#8b8bb5] border-b border-[#f0e3da]">
+            <thead className="text-left text-[#8b8bb5] border-b border-[#e0e7ff]">
               <tr>
                 <th className="py-2 pr-3">Residente</th>
                 <th className="py-2 pr-3">Email</th>

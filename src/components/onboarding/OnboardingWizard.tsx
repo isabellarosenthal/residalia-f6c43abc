@@ -102,7 +102,7 @@ export function OnboardingWizard({ open, onClose }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && close()}>
-      <DialogContent className="max-w-2xl bg-[#fffaf5] border-[#e0e7ff]">
+      <DialogContent className="max-w-2xl bg-[#faf9ff] border-[#e0e7ff]">
         <button onClick={close} className="absolute right-4 top-4 text-[#8b8bb5] hover:text-[#1e1b4b]"><X className="w-4 h-4" /></button>
 
         <div className="flex items-center gap-2 mb-1">

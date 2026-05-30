@@ -25,7 +25,7 @@ export function PlanLimitsBanner({ focus = "all" }: { focus?: Focus }) {
   ];
 
   return (
-    <Card className="p-3 bg-[#fffaf5] border-[#f0e3da]">
+    <Card className="p-3 bg-[#faf9ff] border-[#e0e7ff]">
       <div className="flex flex-wrap items-center gap-4">
         <div className="flex items-center gap-2 text-xs">
           <Crown className="w-3.5 h-3.5 text-[#818cf8]" />

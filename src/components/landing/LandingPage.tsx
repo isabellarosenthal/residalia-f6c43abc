@@ -58,7 +58,7 @@ const PLANS = [
 
 export function LandingPage() {
   return (
-    <div className="min-h-screen bg-[#fffaf5] text-[#1e1b4b]">
+    <div className="min-h-screen bg-[#faf9ff] text-[#1e1b4b]">
       {/* Nav */}
       <header className="border-b border-[#e0e7ff] bg-white/80 backdrop-blur sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
@@ -323,7 +323,7 @@ export function LandingPage() {
               { q: "¿Puedo cambiar o cancelar mi plan después?", a: "Sí, en cualquier momento. Te cobramos sólo lo del mes en curso." },
               { q: "¿Manejan lempiras y conceptos hondureños?", a: "Sí. La plataforma está hecha en Honduras, para Honduras: lempiras nativos, IVA, cuotas extraordinarias, mora, todo en español." },
             ].map((f) => (
-              <details key={f.q} className="group bg-[#fffaf5] border border-[#e0e7ff] rounded-2xl p-5 hover:border-[#818cf8] transition">
+              <details key={f.q} className="group bg-[#faf9ff] border border-[#e0e7ff] rounded-2xl p-5 hover:border-[#818cf8] transition">
                 <summary className="font-semibold cursor-pointer flex justify-between items-center text-[#1e1b4b]">
                   {f.q}
                   <span className="text-[#818cf8] group-open:rotate-45 transition-transform text-xl leading-none">+</span>
@@ -345,7 +345,7 @@ export function LandingPage() {
       </section>
 
       {/* Footer estilo Firmax */}
-      <footer className="border-t border-[#e0e7ff] bg-[#fffaf5]">
+      <footer className="border-t border-[#e0e7ff] bg-[#faf9ff]">
         <div className="max-w-7xl mx-auto px-6 py-16">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
             {/* Col 1: Marca */}
@@ -364,7 +364,7 @@ export function LandingPage() {
                   { name: "Zafra Cloud", desc: "ERP, facturación electrónica y contabilidad", url: "https://home.zafra.cloud", icon: Building2 },
                   { name: "Firmax Cloud", desc: "Firma digital de documentos", url: "https://firmax.cloud", icon: FileText },
                   { name: "TecniCloud", desc: "Software de Mantenimiento", url: "https://tecnicloud.com", icon: Server },
-                  { name: "Altura Cloud", desc: "Administración de condominios", url: "https://propcloud.app", icon: KeyRound },
+                  { name: "Altura Cloud", desc: "Administración de condominios", url: "https://alturacloud.app", icon: KeyRound },
                   { name: "Trabajos Honduras", desc: "Reclutamiento y vacantes", url: "https://trabajoshonduras.com", icon: Users },
                 ].map((l) => {
                   const Icon = l.icon;
