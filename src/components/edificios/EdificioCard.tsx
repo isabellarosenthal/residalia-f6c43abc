@@ -39,7 +39,7 @@ export function EdificioCard({ edificio, stats }: { edificio: Condominio; stats?
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); setEditOpen(true); }}
-            className="absolute top-2 right-2 z-10 bg-white/90 hover:bg-white text-[#13294b] hover:text-[#ffd60a] rounded-full p-2 shadow-sm border border-[#f0e6df] opacity-0 group-hover:opacity-100 transition-opacity"
+            className="absolute top-2 right-2 z-10 bg-white/90 hover:bg-white text-[#13294b] hover:text-[#0a1e3f] rounded-full p-2 shadow-sm border border-[#f0e6df] opacity-0 group-hover:opacity-100 transition-opacity"
             title="Editar edificio"
           >
             <Pencil className="w-3.5 h-3.5" />
@@ -49,7 +49,7 @@ export function EdificioCard({ edificio, stats }: { edificio: Condominio; stats?
               <EdificioPlaceholder id={edificio.id} tipo={edificio.tipo} className="w-10 h-10 rounded-lg flex-shrink-0" />
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-2">
-                  <h3 className="font-display font-bold text-lg text-[#0a1e3f] group-hover:text-[#ffd60a] transition-colors">{edificio.nombre}</h3>
+                  <h3 className="font-display font-bold text-lg text-[#0a1e3f] group-hover:text-[#0a1e3f] transition-colors">{edificio.nombre}</h3>
                   {edificio.activo ? <Badge variant="success">Activo</Badge> : <Badge variant="neutral">Inactivo</Badge>}
                 </div>
                 <div className="mt-0.5 flex items-center gap-1 text-xs text-[#6b7a99]">
@@ -67,7 +67,7 @@ export function EdificioCard({ edificio, stats }: { edificio: Condominio; stats?
               <Stat icon={<Tag className="w-3.5 h-3.5" />} label="Venta" value={enVenta} accent="venta" />
               <Stat icon={<Tag className="w-3.5 h-3.5" />} label="Renta" value={enRenta} accent="renta" />
             </div>
-            <div className="mt-4 flex items-center justify-between rounded-lg border border-[#f0e6df] bg-[#fff7f2] px-3 py-2 text-sm font-semibold text-[#ffd60a]">
+            <div className="mt-4 flex items-center justify-between rounded-lg border border-[#f0e6df] bg-[#fff7f2] px-3 py-2 text-sm font-semibold text-[#0a1e3f]">
               <span>Ver / crear unidades</span>
               <ChevronRight className="w-4 h-4" />
             </div>
@@ -85,7 +85,7 @@ export function EdificioCard({ edificio, stats }: { edificio: Condominio; stats?
 }
 
 function Stat({ icon, label, value, accent }: { icon: React.ReactNode; label: string; value: React.ReactNode; accent?: "venta" | "renta" }) {
-  const color = accent === "venta" ? "text-[#ffd60a]" : accent === "renta" ? "text-[#0a1e3f]" : "text-[#13294b]";
+  const color = accent === "venta" ? "text-[#0a1e3f]" : accent === "renta" ? "text-[#0a1e3f]" : "text-[#13294b]";
   return (
     <div className="bg-[#ffffff] rounded-lg py-2">
       <div className="flex items-center justify-center gap-1 text-[#6b7a99]">{icon}<span className="text-[10px] uppercase tracking-wider">{label}</span></div>

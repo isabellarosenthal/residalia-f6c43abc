@@ -123,7 +123,7 @@ function MantenimientoPage() {
                   {["baja","media","alta","urgente"].map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
                 </SelectContent>
               </Select>
-              <Button onClick={() => { setIncEdit(null); setIncOpen(true); }} disabled={edificioId === "all"} className="bg-[#ffd60a] hover:bg-[#e6c200]">
+              <Button onClick={() => { setIncEdit(null); setIncOpen(true); }} disabled={edificioId === "all"} className="bg-[#0a1e3f] hover:bg-[#001a4d]">
                 <Plus className="w-4 h-4 mr-1" />Reportar
               </Button>
             </Card>
@@ -166,7 +166,7 @@ function MantenimientoPage() {
                   {["pendiente","en_proceso","completado","cancelado"].map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
                 </SelectContent>
               </Select>
-              <Button onClick={() => { setOrdEdit(null); setOrdOpen(true); }} disabled={edificioId === "all"} className="bg-[#ffd60a] hover:bg-[#e6c200]">
+              <Button onClick={() => { setOrdEdit(null); setOrdOpen(true); }} disabled={edificioId === "all"} className="bg-[#0a1e3f] hover:bg-[#001a4d]">
                 <Plus className="w-4 h-4 mr-1" />Nueva orden
               </Button>
             </Card>
@@ -203,7 +203,7 @@ function MantenimientoPage() {
                 <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#6b7a99]" />
                 <Input placeholder="Buscar proveedor..." value={qProv} onChange={(e) => setQProv(e.target.value)} className="pl-9" />
               </div>
-              <Button onClick={() => { setProvEdit(null); setProvOpen(true); }} className="bg-[#ffd60a] hover:bg-[#e6c200]">
+              <Button onClick={() => { setProvEdit(null); setProvOpen(true); }} className="bg-[#0a1e3f] hover:bg-[#001a4d]">
                 <Plus className="w-4 h-4 mr-1" />Nuevo proveedor
               </Button>
             </Card>
@@ -216,7 +216,7 @@ function MantenimientoPage() {
                       <div className="font-semibold text-[#0a1e3f]">{p.nombre}</div>
                       <div className="text-xs text-[#6b7a99]">{p.servicio ?? "—"}</div>
                     </div>
-                    {p.calificacion && <div className="flex items-center gap-1 text-sm text-[#ffd60a]"><Star className="w-4 h-4 fill-current" />{Number(p.calificacion).toFixed(1)}</div>}
+                    {p.calificacion && <div className="flex items-center gap-1 text-sm text-[#0a1e3f]"><Star className="w-4 h-4 fill-current" />{Number(p.calificacion).toFixed(1)}</div>}
                   </div>
                   <div className="mt-3 space-y-1 text-sm text-[#5a3520]">
                     {p.telefono && <div className="flex items-center gap-2"><Phone className="w-3.5 h-3.5" />{p.telefono}</div>}

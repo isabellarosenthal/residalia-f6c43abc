@@ -106,7 +106,7 @@ export function OnboardingWizard({ open, onClose }: Props) {
         <button onClick={close} className="absolute right-4 top-4 text-[#6b7a99] hover:text-[#0a1e3f]"><X className="w-4 h-4" /></button>
 
         <div className="flex items-center gap-2 mb-1">
-          <Sparkles className="w-5 h-5 text-[#ffd60a]" />
+          <Sparkles className="w-5 h-5 text-[#0a1e3f]" />
           <span className="text-xs uppercase tracking-widest text-[#6b7a99] font-semibold">Bienvenido a Altura Cloud</span>
         </div>
         <h2 className="font-display font-extrabold text-2xl text-[#0a1e3f]">Configura tu primer edificio en 4 pasos</h2>
@@ -121,7 +121,7 @@ export function OnboardingWizard({ open, onClose }: Props) {
               <div key={s.label} className="flex items-center flex-1 last:flex-none">
                 <div className="flex flex-col items-center gap-1">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
-                    done ? "bg-[#166534] text-white" : active ? "bg-[#ffd60a] text-white" : "bg-[#fffdf5] text-[#6b7a99]"
+                    done ? "bg-[#166534] text-white" : active ? "bg-[#0a1e3f] text-white" : "bg-[#fffdf5] text-[#6b7a99]"
                   }`}>
                     {done ? <Check className="w-5 h-5" /> : <Icon className="w-5 h-5" />}
                   </div>
@@ -213,9 +213,9 @@ export function OnboardingWizard({ open, onClose }: Props) {
           <Button variant="ghost" onClick={close} className="text-[#6b7a99]">Omitir</Button>
           <div className="flex gap-2">
             {step > 0 && <Button variant="outline" onClick={() => setStep(step - 1)}>Atrás</Button>}
-            {step === 0 && <Button className="bg-[#ffd60a] hover:bg-[#e6c200]" onClick={handleStep1} disabled={saveEdif.isPending}>Continuar <ArrowRight className="w-4 h-4 ml-1" /></Button>}
-            {step === 1 && <Button className="bg-[#ffd60a] hover:bg-[#e6c200]" onClick={handleStep2} disabled={bulkUnidades.isPending}>Generar {pisos * porPiso} unidades <ArrowRight className="w-4 h-4 ml-1" /></Button>}
-            {step === 2 && <Button className="bg-[#ffd60a] hover:bg-[#e6c200]" onClick={handleStep3} disabled={saveRes.isPending}>Continuar <ArrowRight className="w-4 h-4 ml-1" /></Button>}
+            {step === 0 && <Button className="bg-[#0a1e3f] hover:bg-[#001a4d]" onClick={handleStep1} disabled={saveEdif.isPending}>Continuar <ArrowRight className="w-4 h-4 ml-1" /></Button>}
+            {step === 1 && <Button className="bg-[#0a1e3f] hover:bg-[#001a4d]" onClick={handleStep2} disabled={bulkUnidades.isPending}>Generar {pisos * porPiso} unidades <ArrowRight className="w-4 h-4 ml-1" /></Button>}
+            {step === 2 && <Button className="bg-[#0a1e3f] hover:bg-[#001a4d]" onClick={handleStep3} disabled={saveRes.isPending}>Continuar <ArrowRight className="w-4 h-4 ml-1" /></Button>}
             {step === 3 && <Button className="bg-[#166534] hover:bg-[#1f4a1f]" onClick={handleStep4} disabled={generarCobros.isPending}>Finalizar <Check className="w-4 h-4 ml-1" /></Button>}
           </div>
         </div>

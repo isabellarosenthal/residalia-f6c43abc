@@ -77,7 +77,7 @@ function NuevoPase() {
         <Label>Entradas permitidas</Label>
         <Input type="number" min={1} max={50} value={usos} onChange={(e) => setUsos(Math.max(1, Number(e.target.value) || 1))} />
       </div>
-      <Button type="submit" disabled={save.isPending || !visitante.trim()} className="w-full bg-[#ffd60a] hover:bg-[#e6c200]">
+      <Button type="submit" disabled={save.isPending || !visitante.trim()} className="w-full bg-[#0a1e3f] hover:bg-[#001a4d]">
         {save.isPending ? "Creando…" : "Crear pase"}
       </Button>
     </form>

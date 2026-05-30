@@ -178,7 +178,7 @@ function PropiedadesPage() {
                             {u.area_m2_construccion && <div className="text-xs text-[#6b7a99] mt-0.5">{u.area_m2_construccion} m²</div>}
                           </TableCell>
                           <TableCell><EstadoComercialBadge value={u.estado_comercial} /></TableCell>
-                          <TableCell className="text-right text-sm font-semibold text-[#ffd60a]">
+                          <TableCell className="text-right text-sm font-semibold text-[#0a1e3f]">
                             {u.precio_venta ? fmtL(u.precio_venta) : <span className="text-[#6b7a99] font-normal">—</span>}
                           </TableCell>
                           <TableCell className="text-right text-sm text-[#0a1e3f]">

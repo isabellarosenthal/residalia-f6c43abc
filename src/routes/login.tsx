@@ -79,16 +79,16 @@ function LoginPage() {
     <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "linear-gradient(135deg,#ffffff 0%,#fffdf5 100%)" }}>
       <div className="w-full max-w-md bg-white shadow-lg rounded-3xl p-10">
         <div className="flex items-center gap-3 justify-center mb-2">
-          <div className="w-11 h-11 rounded-xl bg-[#ffd60a] flex items-center justify-center">
+          <div className="w-11 h-11 rounded-xl bg-[#0a1e3f] flex items-center justify-center">
             <Building className="w-6 h-6 text-white" />
           </div>
           <div className="font-display font-extrabold text-2xl">
-            <span className="text-[#0a1e3f]">Prop</span><span className="text-[#ffd60a]">Cloud</span>
+            <span className="text-[#0a1e3f]">Prop</span><span className="text-[#0a1e3f]">Cloud</span>
           </div>
         </div>
         {isResidenteFlow && (
           <div className="mt-3 mb-4 text-center">
-            <span className="inline-block text-xs font-bold uppercase tracking-wider bg-[#ffd60a] text-white px-3 py-1 rounded-full">
+            <span className="inline-block text-xs font-bold uppercase tracking-wider bg-[#0a1e3f] text-white px-3 py-1 rounded-full">
               Portal Residentes
             </span>
           </div>
@@ -104,7 +104,7 @@ function LoginPage() {
                   <div className="grid grid-cols-3 gap-2">
                     {([["admin_condominio", "Admin"], ["residente", "Residente"], ["guardia", "Guardia"]] as const).map(([v, l]) => (
                       <button key={v} type="button" onClick={() => setSignupRole(v)}
-                        className={`text-sm py-2 rounded-lg border ${signupRole === v ? "bg-[#ffd60a] text-white border-[#ffd60a]" : "border-[#ffe87a] text-[#0a1e3f] hover:border-[#ffd60a]"}`}>
+                        className={`text-sm py-2 rounded-lg border ${signupRole === v ? "bg-[#0a1e3f] text-white border-[#ffd60a]" : "border-[#ffe87a] text-[#0a1e3f] hover:border-[#ffd60a]"}`}>
                         {l}
                       </button>
                     ))}
@@ -141,18 +141,18 @@ function LoginPage() {
               className="w-full border border-[#ffe87a] rounded-xl px-4 py-2.5 text-[#0a1e3f] outline-none focus:border-[#ffd60a] focus:ring-2 focus:ring-[#ffd60a]/20" />
           </div>
           <button type="submit" disabled={busy}
-            className="w-full bg-[#ffd60a] hover:bg-[#e6c200] text-white font-semibold py-3 rounded-full transition-colors disabled:opacity-60">
+            className="w-full bg-[#0a1e3f] hover:bg-[#001a4d] text-white font-semibold py-3 rounded-full transition-colors disabled:opacity-60">
             {busy ? "Procesando…" : mode === "login" ? "Iniciar sesión" : "Crear cuenta"}
           </button>
         </form>
 
         <button onClick={() => setMode(mode === "login" ? "signup" : "login")}
-          className="w-full mt-4 text-sm text-[#6b7a99] hover:text-[#ffd60a] transition-colors">
+          className="w-full mt-4 text-sm text-[#6b7a99] hover:text-[#0a1e3f] transition-colors">
           {mode === "login" ? "¿No tienes cuenta? Crear una" : "¿Ya tienes cuenta? Iniciar sesión"}
         </button>
 
         <div className="mt-6 text-center text-xs text-[#6b7a99]">
-          <Link to="/" className="hover:text-[#ffd60a]">Volver al inicio</Link>
+          <Link to="/" className="hover:text-[#0a1e3f]">Volver al inicio</Link>
         </div>
       </div>
     </div>

@@ -58,7 +58,7 @@ function EdificioDetail() {
   return (
     <AppShell>
       <div className="space-y-5 max-w-[1400px] mx-auto">
-        <Link to="/edificios" className="inline-flex items-center text-sm text-[#6b7a99] hover:text-[#ffd60a]">
+        <Link to="/edificios" className="inline-flex items-center text-sm text-[#6b7a99] hover:text-[#0a1e3f]">
           <ChevronLeft className="w-4 h-4" /> Volver a edificios
         </Link>
 
@@ -122,7 +122,7 @@ function EdificioDetail() {
             <PlanLimitsBanner focus="unidades" />
             <div className="flex flex-wrap gap-2 justify-end">
               <Button variant="outline" onClick={() => setBulkOpen(true)}><Layers className="w-4 h-4 mr-1" />Generar en bloque</Button>
-              <Button onClick={() => { setUnidadEdit(null); setUnidadOpen(true); }} className="bg-[#ffd60a] hover:bg-[#e6c200]">
+              <Button onClick={() => { setUnidadEdit(null); setUnidadOpen(true); }} className="bg-[#0a1e3f] hover:bg-[#001a4d]">
                 <Plus className="w-4 h-4 mr-1" />Nueva unidad
               </Button>
             </div>
@@ -131,7 +131,7 @@ function EdificioDetail() {
 
           <TabsContent value="residentes" className="space-y-4 pt-4">
             <div className="flex justify-end">
-              <Button onClick={() => { setResidenteEdit(null); setResidenteOpen(true); }} className="bg-[#ffd60a] hover:bg-[#e6c200]"><Plus className="w-4 h-4 mr-1" />Nuevo residente</Button>
+              <Button onClick={() => { setResidenteEdit(null); setResidenteOpen(true); }} className="bg-[#0a1e3f] hover:bg-[#001a4d]"><Plus className="w-4 h-4 mr-1" />Nuevo residente</Button>
             </div>
             <ResidentesTable search="" edificioId={edificio.id} tipo="all" estado="all" onEdit={(r) => { setResidenteEdit(r); setResidenteOpen(true); }} />
           </TabsContent>
@@ -141,7 +141,7 @@ function EdificioDetail() {
             <Card className="p-5 space-y-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-display font-bold text-[#0a1e3f] flex items-center gap-2"><FileText className="w-5 h-5 text-[#ffd60a]" /> Editar datos del edificio</h3>
+                  <h3 className="font-display font-bold text-[#0a1e3f] flex items-center gap-2"><FileText className="w-5 h-5 text-[#0a1e3f]" /> Editar datos del edificio</h3>
                   <p className="text-sm text-[#6b7a99]">Modifica nombre, dirección, cuota y otros datos.</p>
                 </div>
                 <Button variant="outline" onClick={() => setEditOpen(true)}><Pencil className="w-4 h-4 mr-1" />Editar</Button>

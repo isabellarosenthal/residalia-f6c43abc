@@ -39,7 +39,7 @@ export function Topbar() {
         <Bell className="w-5 h-5 text-[#13294b]" />
         <span className="absolute top-1 right-1 w-2 h-2 bg-[#be185d] rounded-full" />
       </button>
-      <div className="w-9 h-9 rounded-full bg-[#ffd60a] text-white flex items-center justify-center font-semibold text-sm">
+      <div className="w-9 h-9 rounded-full bg-[#0a1e3f] text-white flex items-center justify-center font-semibold text-sm">
         {initials(profile?.full_name || "U")}
       </div>
     </header>

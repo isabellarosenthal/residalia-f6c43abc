@@ -127,7 +127,7 @@ function PerfilTab() {
         </div>
       </div>
       <div className="flex justify-end">
-        <Button onClick={save} disabled={saving} className="bg-[#ffd60a] hover:bg-[#e6c200]">
+        <Button onClick={save} disabled={saving} className="bg-[#0a1e3f] hover:bg-[#001a4d]">
           <Save className="w-4 h-4 mr-1" />Guardar
         </Button>
       </div>
@@ -162,7 +162,7 @@ function EdificiosTab() {
               </div>
               <div className="flex justify-end gap-2">
                 <Button variant="outline" onClick={() => setEditing(null)}>Cancelar</Button>
-                <Button className="bg-[#ffd60a] hover:bg-[#e6c200]" onClick={async () => {
+                <Button className="bg-[#0a1e3f] hover:bg-[#001a4d]" onClick={async () => {
                   await save.mutateAsync({ id: e.id, ...form } as any);
                   setEditing(null);
                 }}>Guardar</Button>
@@ -223,7 +223,7 @@ function UsuariosTab() {
             <SelectTrigger className="w-[200px]"><SelectValue /></SelectTrigger>
             <SelectContent>{ROLES.map(r => <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>)}</SelectContent>
           </Select>
-          <Button className="bg-[#ffd60a] hover:bg-[#e6c200]" onClick={async () => {
+          <Button className="bg-[#0a1e3f] hover:bg-[#001a4d]" onClick={async () => {
             const { data, error } = await supabase.from("profiles").select("id").eq("email", invite.email).maybeSingle();
             if (error || !data) return toast.error("Usuario no encontrado. Debe registrarse primero.");
             await updateRole(data.id, invite.role);
@@ -319,7 +319,7 @@ function TenantUsuariosTab({ edificios }: { edificios: Edif[] }) {
             <SelectTrigger className="w-[200px]"><SelectValue /></SelectTrigger>
             <SelectContent>{TENANT_ROLES.map(r => <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>)}</SelectContent>
           </Select>
-          <Button className="bg-[#ffd60a] hover:bg-[#e6c200]" onClick={assign}><Plus className="w-4 h-4 mr-1" />Asignar</Button>
+          <Button className="bg-[#0a1e3f] hover:bg-[#001a4d]" onClick={assign}><Plus className="w-4 h-4 mr-1" />Asignar</Button>
         </div>
       </div>
 
@@ -367,7 +367,7 @@ function SeguridadTab() {
         <h3 className="font-display font-bold text-lg text-[#0a1e3f]">Cambiar contraseña</h3>
         <div className="flex gap-2">
           <Input type="password" placeholder="Nueva contraseña" value={pwd} onChange={(e) => setPwd(e.target.value)} className="max-w-sm" />
-          <Button onClick={change} disabled={saving} className="bg-[#ffd60a] hover:bg-[#e6c200]"><Save className="w-4 h-4 mr-1" />Cambiar</Button>
+          <Button onClick={change} disabled={saving} className="bg-[#0a1e3f] hover:bg-[#001a4d]"><Save className="w-4 h-4 mr-1" />Cambiar</Button>
         </div>
       </Card>
       <Card className="p-6 space-y-3 border-[#fbcfe8]">

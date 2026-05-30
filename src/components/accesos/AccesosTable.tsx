@@ -97,7 +97,7 @@ export function AccesosTable({ edificioId, onEdit }: { edificioId: string; onEdi
                   })()}
                 </TableCell>
                 <TableCell className="text-right">
-                  <Button size="sm" variant="ghost" title="Ver / compartir pase" onClick={() => setPase(a)} className="h-8 w-8 p-0 text-[#ffd60a]"><QrCode className="w-4 h-4" /></Button>
+                  <Button size="sm" variant="ghost" title="Ver / compartir pase" onClick={() => setPase(a)} className="h-8 w-8 p-0 text-[#0a1e3f]"><QrCode className="w-4 h-4" /></Button>
                   {!a.fecha_salida && <Button size="sm" variant="ghost" title="Registrar salida" onClick={() => salir.mutate(a.id)} className="h-8 w-8 p-0 text-[#166534]"><LogOut className="w-4 h-4" /></Button>}
                   <Button size="sm" variant="ghost" onClick={() => onEdit(a)} className="h-8 w-8 p-0"><Pencil className="w-4 h-4" /></Button>
                   <Button size="sm" variant="ghost" onClick={() => { if (confirm("¿Eliminar registro?")) del.mutate(a.id); }} className="h-8 w-8 p-0 text-[#be185d] hover:text-[#be185d]"><Trash2 className="w-4 h-4" /></Button>

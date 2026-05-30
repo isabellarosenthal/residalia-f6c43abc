@@ -69,9 +69,9 @@ function ValidarPage() {
   return (
     <AppShell>
       <div className="max-w-[640px] mx-auto space-y-5">
-        <Link to="/accesos" className="inline-flex items-center text-sm text-[#6b7a99] hover:text-[#ffd60a]"><ArrowLeft className="w-4 h-4 mr-1" />Volver a accesos</Link>
+        <Link to="/accesos" className="inline-flex items-center text-sm text-[#6b7a99] hover:text-[#0a1e3f]"><ArrowLeft className="w-4 h-4 mr-1" />Volver a accesos</Link>
         <div>
-          <h1 className="font-display font-extrabold text-2xl text-[#0a1e3f] flex items-center gap-2"><ShieldCheck className="w-6 h-6 text-[#ffd60a]" />Validar pase</h1>
+          <h1 className="font-display font-extrabold text-2xl text-[#0a1e3f] flex items-center gap-2"><ShieldCheck className="w-6 h-6 text-[#0a1e3f]" />Validar pase</h1>
           <p className="text-sm text-[#6b7a99]">Ingresa el código del visitante para autorizar entrada o salida.</p>
         </div>
 
@@ -86,7 +86,7 @@ function ValidarPage() {
             className="font-mono text-lg tracking-widest uppercase"
             autoFocus
           />
-          <Button type="submit" disabled={!codigo.trim() || validar.isPending} className="bg-[#ffd60a] hover:bg-[#e6c200]">
+          <Button type="submit" disabled={!codigo.trim() || validar.isPending} className="bg-[#0a1e3f] hover:bg-[#001a4d]">
             <Search className="w-4 h-4 mr-1" />Buscar
           </Button>
         </form>

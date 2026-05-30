@@ -34,7 +34,7 @@ export function PropiedadCard({
         )}
         <button
           onClick={() => onEdit(unidad)}
-          className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition bg-white/95 backdrop-blur p-2 rounded-full text-[#0a1e3f] hover:bg-[#ffd60a] hover:text-white"
+          className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition bg-white/95 backdrop-blur p-2 rounded-full text-[#0a1e3f] hover:bg-[#0a1e3f] hover:text-white"
           aria-label="Editar"
         >
           <Edit className="w-4 h-4" />
@@ -66,7 +66,7 @@ export function PropiedadCard({
           {muestraVenta && (
             <div className="flex items-center justify-between">
               <span className="text-[10px] uppercase tracking-wider text-[#6b7a99] font-semibold">Venta</span>
-              <span className="font-display font-bold text-[#ffd60a]">{fmt(unidad.precio_venta, moneda)}</span>
+              <span className="font-display font-bold text-[#0a1e3f]">{fmt(unidad.precio_venta, moneda)}</span>
             </div>
           )}
           {muestraRenta && (

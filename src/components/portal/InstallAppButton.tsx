@@ -44,7 +44,7 @@ export function InstallAppButton() {
   return (
     <>
       <button onClick={handleClick}
-        className="text-xs bg-[#ffd60a] hover:bg-[#e6c200] text-white px-3 py-1.5 rounded-full inline-flex items-center gap-1">
+        className="text-xs bg-[#0a1e3f] hover:bg-[#001a4d] text-white px-3 py-1.5 rounded-full inline-flex items-center gap-1">
         <Download className="w-3.5 h-3.5" />Instalar app
       </button>
       {iosHelp && (
@@ -52,7 +52,7 @@ export function InstallAppButton() {
           <div className="bg-white rounded-2xl p-5 max-w-sm w-full" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-start justify-between mb-3">
               <div className="font-display font-bold text-lg text-[#0a1e3f] flex items-center gap-2">
-                <Smartphone className="w-5 h-5 text-[#ffd60a]" />Instalar Altura Cloud
+                <Smartphone className="w-5 h-5 text-[#0a1e3f]" />Instalar Altura Cloud
               </div>
               <button onClick={() => setIosHelp(false)}><X className="w-5 h-5 text-[#6b7a99]" /></button>
             </div>
