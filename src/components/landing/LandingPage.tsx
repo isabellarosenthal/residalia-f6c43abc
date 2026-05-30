@@ -227,7 +227,7 @@ export function LandingPage() {
               >
                 <f.i className="w-6 h-6" />
               </div>
-              <h3 className={`font-display font-extrabold text-xl leading-tight ${isDark ? "text-white" : "text-[#0a1e3f]"}`}>{f.t}</h3>
+              <h3 className="font-display font-extrabold text-xl leading-tight text-[#0a1e3f]">{f.t}</h3>
               <p className="text-sm mt-2 leading-relaxed" style={{ color: f.sub }}>{f.d}</p>
               <Link to="/login" className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold" style={{ color: f.accent }}>
                 {f.link} <ArrowRight className="w-4 h-4" />
