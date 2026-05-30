@@ -31,7 +31,10 @@ import { Route as GuardiaIndexRouteImport } from './routes/guardia.index'
 import { Route as EdificiosIndexRouteImport } from './routes/edificios.index'
 import { Route as AccesosIndexRouteImport } from './routes/accesos.index'
 import { Route as ReciboCobroIdRouteImport } from './routes/recibo.$cobroId'
+import { Route as PortalReservarRouteImport } from './routes/portal.reservar'
 import { Route as PortalNuevoRouteImport } from './routes/portal.nuevo'
+import { Route as PortalCuentaRouteImport } from './routes/portal.cuenta'
+import { Route as PortalAnunciosRouteImport } from './routes/portal.anuncios'
 import { Route as GuardiaPasesRouteImport } from './routes/guardia.pases'
 import { Route as EdificiosEdificioIdRouteImport } from './routes/edificios.$edificioId'
 import { Route as AccesosValidarRouteImport } from './routes/accesos.validar'
@@ -147,9 +150,24 @@ const ReciboCobroIdRoute = ReciboCobroIdRouteImport.update({
   path: '/recibo/$cobroId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortalReservarRoute = PortalReservarRouteImport.update({
+  id: '/reservar',
+  path: '/reservar',
+  getParentRoute: () => PortalRoute,
+} as any)
 const PortalNuevoRoute = PortalNuevoRouteImport.update({
   id: '/nuevo',
   path: '/nuevo',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalCuentaRoute = PortalCuentaRouteImport.update({
+  id: '/cuenta',
+  path: '/cuenta',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalAnunciosRoute = PortalAnunciosRouteImport.update({
+  id: '/anuncios',
+  path: '/anuncios',
   getParentRoute: () => PortalRoute,
 } as any)
 const GuardiaPasesRoute = GuardiaPasesRouteImport.update({
@@ -194,7 +212,10 @@ export interface FileRoutesByFullPath {
   '/accesos/validar': typeof AccesosValidarRoute
   '/edificios/$edificioId': typeof EdificiosEdificioIdRoute
   '/guardia/pases': typeof GuardiaPasesRoute
+  '/portal/anuncios': typeof PortalAnunciosRoute
+  '/portal/cuenta': typeof PortalCuentaRoute
   '/portal/nuevo': typeof PortalNuevoRoute
+  '/portal/reservar': typeof PortalReservarRoute
   '/recibo/$cobroId': typeof ReciboCobroIdRoute
   '/accesos/': typeof AccesosIndexRoute
   '/edificios/': typeof EdificiosIndexRoute
@@ -219,7 +240,10 @@ export interface FileRoutesByTo {
   '/accesos/validar': typeof AccesosValidarRoute
   '/edificios/$edificioId': typeof EdificiosEdificioIdRoute
   '/guardia/pases': typeof GuardiaPasesRoute
+  '/portal/anuncios': typeof PortalAnunciosRoute
+  '/portal/cuenta': typeof PortalCuentaRoute
   '/portal/nuevo': typeof PortalNuevoRoute
+  '/portal/reservar': typeof PortalReservarRoute
   '/recibo/$cobroId': typeof ReciboCobroIdRoute
   '/accesos': typeof AccesosIndexRoute
   '/edificios': typeof EdificiosIndexRoute
@@ -249,7 +273,10 @@ export interface FileRoutesById {
   '/accesos/validar': typeof AccesosValidarRoute
   '/edificios/$edificioId': typeof EdificiosEdificioIdRoute
   '/guardia/pases': typeof GuardiaPasesRoute
+  '/portal/anuncios': typeof PortalAnunciosRoute
+  '/portal/cuenta': typeof PortalCuentaRoute
   '/portal/nuevo': typeof PortalNuevoRoute
+  '/portal/reservar': typeof PortalReservarRoute
   '/recibo/$cobroId': typeof ReciboCobroIdRoute
   '/accesos/': typeof AccesosIndexRoute
   '/edificios/': typeof EdificiosIndexRoute
@@ -280,7 +307,10 @@ export interface FileRouteTypes {
     | '/accesos/validar'
     | '/edificios/$edificioId'
     | '/guardia/pases'
+    | '/portal/anuncios'
+    | '/portal/cuenta'
     | '/portal/nuevo'
+    | '/portal/reservar'
     | '/recibo/$cobroId'
     | '/accesos/'
     | '/edificios/'
@@ -305,7 +335,10 @@ export interface FileRouteTypes {
     | '/accesos/validar'
     | '/edificios/$edificioId'
     | '/guardia/pases'
+    | '/portal/anuncios'
+    | '/portal/cuenta'
     | '/portal/nuevo'
+    | '/portal/reservar'
     | '/recibo/$cobroId'
     | '/accesos'
     | '/edificios'
@@ -334,7 +367,10 @@ export interface FileRouteTypes {
     | '/accesos/validar'
     | '/edificios/$edificioId'
     | '/guardia/pases'
+    | '/portal/anuncios'
+    | '/portal/cuenta'
     | '/portal/nuevo'
+    | '/portal/reservar'
     | '/recibo/$cobroId'
     | '/accesos/'
     | '/edificios/'
@@ -520,11 +556,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReciboCobroIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/portal/reservar': {
+      id: '/portal/reservar'
+      path: '/reservar'
+      fullPath: '/portal/reservar'
+      preLoaderRoute: typeof PortalReservarRouteImport
+      parentRoute: typeof PortalRoute
+    }
     '/portal/nuevo': {
       id: '/portal/nuevo'
       path: '/nuevo'
       fullPath: '/portal/nuevo'
       preLoaderRoute: typeof PortalNuevoRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal/cuenta': {
+      id: '/portal/cuenta'
+      path: '/cuenta'
+      fullPath: '/portal/cuenta'
+      preLoaderRoute: typeof PortalCuentaRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal/anuncios': {
+      id: '/portal/anuncios'
+      path: '/anuncios'
+      fullPath: '/portal/anuncios'
+      preLoaderRoute: typeof PortalAnunciosRouteImport
       parentRoute: typeof PortalRoute
     }
     '/guardia/pases': {
@@ -599,13 +656,19 @@ const GuardiaRouteWithChildren =
   GuardiaRoute._addFileChildren(GuardiaRouteChildren)
 
 interface PortalRouteChildren {
+  PortalAnunciosRoute: typeof PortalAnunciosRoute
+  PortalCuentaRoute: typeof PortalCuentaRoute
   PortalNuevoRoute: typeof PortalNuevoRoute
+  PortalReservarRoute: typeof PortalReservarRoute
   PortalIndexRoute: typeof PortalIndexRoute
   PortalPasePaseIdRoute: typeof PortalPasePaseIdRoute
 }
 
 const PortalRouteChildren: PortalRouteChildren = {
+  PortalAnunciosRoute: PortalAnunciosRoute,
+  PortalCuentaRoute: PortalCuentaRoute,
   PortalNuevoRoute: PortalNuevoRoute,
+  PortalReservarRoute: PortalReservarRoute,
   PortalIndexRoute: PortalIndexRoute,
   PortalPasePaseIdRoute: PortalPasePaseIdRoute,
 }
