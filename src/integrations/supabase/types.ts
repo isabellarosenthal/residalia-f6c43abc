@@ -812,6 +812,7 @@ export type Database = {
           id: string
           phone: string | null
           updated_at: string
+          usd_rate: number
         }
         Insert: {
           avatar_url?: string | null
@@ -821,6 +822,7 @@ export type Database = {
           id: string
           phone?: string | null
           updated_at?: string
+          usd_rate?: number
         }
         Update: {
           avatar_url?: string | null
@@ -830,6 +832,7 @@ export type Database = {
           id?: string
           phone?: string | null
           updated_at?: string
+          usd_rate?: number
         }
         Relationships: []
       }
@@ -1202,6 +1205,7 @@ export type Database = {
           id: string
           inquilino_id: string | null
           mantenimiento_mensual: number | null
+          moneda: string
           numero: string
           parqueos: number | null
           piso: number | null
@@ -1231,6 +1235,7 @@ export type Database = {
           id?: string
           inquilino_id?: string | null
           mantenimiento_mensual?: number | null
+          moneda?: string
           numero: string
           parqueos?: number | null
           piso?: number | null
@@ -1260,6 +1265,7 @@ export type Database = {
           id?: string
           inquilino_id?: string | null
           mantenimiento_mensual?: number | null
+          moneda?: string
           numero?: string
           parqueos?: number | null
           piso?: number | null

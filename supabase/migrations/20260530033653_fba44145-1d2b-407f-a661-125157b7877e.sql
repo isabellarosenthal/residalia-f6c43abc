@@ -1,0 +1,2 @@
+ALTER TABLE public.unidades ADD COLUMN IF NOT EXISTS moneda text NOT NULL DEFAULT 'L';
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS usd_rate numeric(10,4) NOT NULL DEFAULT 24.5;
