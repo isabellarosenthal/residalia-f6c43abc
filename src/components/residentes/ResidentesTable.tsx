@@ -19,6 +19,8 @@ export function ResidentesTable({
   const { data: edificios = [] } = useEdificios();
   const { data: unidades = [] } = useUnidades();
   const del = useDeleteResidente();
+  const [accesoFor, setAccesoFor] = useState<Residente | null>(null);
+
 
   const edifMap = useMemo(() => new Map(edificios.map((e) => [e.id, e.nombre])), [edificios]);
   const uniMap = useMemo(() => new Map(unidades.map((u) => [u.id, u.numero])), [unidades]);
