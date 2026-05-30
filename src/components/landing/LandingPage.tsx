@@ -91,7 +91,13 @@ const FEATURE_ICONS = [
 export function LandingPage() {
   const { user, signOut } = useAuth();
   return (
-    <div className="min-h-screen bg-white text-[#0F172A]">
+    <div className="min-h-screen bg-white text-[#0F172A] relative overflow-x-hidden">
+      {/* Ambient gradient orbs (global) */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+        <div className="absolute -top-40 -left-32 w-[520px] h-[520px] rounded-full opacity-40 blur-3xl float-slow" style={{ background: "radial-gradient(circle, #7AA2FF 0%, transparent 70%)" }} />
+        <div className="absolute top-[40%] -right-40 w-[600px] h-[600px] rounded-full opacity-30 blur-3xl float-med" style={{ background: "radial-gradient(circle, #8B5CF6 0%, transparent 70%)" }} />
+        <div className="absolute bottom-0 left-1/3 w-[480px] h-[480px] rounded-full opacity-25 blur-3xl float-fast" style={{ background: "radial-gradient(circle, #E9E2FF 0%, transparent 70%)" }} />
+      </div>
       {/* Nav */}
       <header className="border-b border-[#E2E8F0] bg-white/85 backdrop-blur sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
