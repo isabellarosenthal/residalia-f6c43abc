@@ -79,7 +79,7 @@ export function LandingPage() {
           <div className="flex items-center gap-2 sm:gap-3">
             {user ? (
               <>
-                <Link to="/dashboard" className="text-sm font-semibold bg-[#0a1e3f] text-white px-4 py-2 rounded-full hover:bg-[#001a4d]">
+                <Link to="/dashboard" className="text-sm font-semibold bg-[#ffd60a] text-[#0a1e3f] px-5 py-2.5 rounded-full hover:bg-[#ffe040] shadow-sm">
                   Ir al Dashboard
                 </Link>
                 <button
@@ -117,7 +117,7 @@ export function LandingPage() {
                   </div>
                 </div>
 
-                <Link to="/login" className="text-sm font-semibold bg-[#0a1e3f] text-white px-4 py-2 rounded-full hover:bg-[#001a4d]">
+                <Link to="/login" className="text-sm font-semibold bg-[#ffd60a] text-[#0a1e3f] px-5 py-2.5 rounded-full hover:bg-[#ffe040] shadow-sm">
                   Crear cuenta
                 </Link>
               </>
@@ -141,7 +141,7 @@ export function LandingPage() {
               todo desde un solo panel con CRM inmobiliario integrado.
             </p>
             <div className="mt-8 flex flex-wrap justify-center md:justify-start gap-3">
-              <Link to="/login" className="inline-flex items-center gap-2 bg-[#0a1e3f] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#001a4d]">
+              <Link to="/login" className="inline-flex items-center gap-2 bg-[#ffd60a] text-[#0a1e3f] px-7 py-3.5 rounded-full font-semibold hover:bg-[#ffe040] shadow-md">
                 Crear mi cuenta gratis <ArrowRight className="w-4 h-4" />
               </Link>
               <a href="#planes" className="inline-flex items-center gap-2 border border-[#e8ecf3] bg-white px-6 py-3 rounded-full font-semibold text-[#13294b] hover:border-[#ffd60a]">
@@ -364,7 +364,7 @@ export function LandingPage() {
         <img src={logoUrl} alt="" aria-hidden width={160} height={160} className="mx-auto w-28 md:w-36 h-auto float-slow mb-6" />
         <h2 className="font-display font-extrabold text-3xl md:text-4xl">¿Listo para ordenar tu condominio?</h2>
         <p className="mt-4 text-[#6b4a3a]">Crea tu cuenta gratis y configurá tu primer edificio en menos de 5 minutos.</p>
-        <Link to="/login" className="mt-8 inline-flex items-center gap-2 bg-[#0a1e3f] text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-[#001a4d]">
+        <Link to="/login" className="mt-8 inline-flex items-center gap-2 bg-[#ffd60a] text-[#0a1e3f] px-9 py-4 rounded-full font-semibold text-lg hover:bg-[#ffe040] shadow-lg">
           Empezar ahora <ArrowRight className="w-5 h-5" />
         </Link>
       </section>
