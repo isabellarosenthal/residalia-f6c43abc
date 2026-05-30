@@ -294,9 +294,9 @@ export function LandingPage() {
               { i: Clock, t: "100% en la Nube", d: "Sin instalaciones. Accede desde cualquier lugar mediante móvil o web." },
               { i: HeartHandshake, t: "Soporte Real", d: "Ayuda directa por WhatsApp en horario local. Cero robots, solo expertos." },
             ].map((b) => (
-              <div key={b.t} className="bg-white/10 border border-white/15 p-8 rounded-3xl hover:bg-white/15 transition-colors group">
-                <div className="w-12 h-12 mb-5 text-[#7AA2FF] group-hover:text-white transition-colors">
-                  <b.i className="w-full h-full" strokeWidth={2} />
+              <div key={b.t} className="bg-white/10 backdrop-blur-xl border border-white/20 p-8 rounded-3xl hover:bg-white/20 hover:-translate-y-1 transition-all duration-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_20px_40px_-20px_rgba(0,0,0,0.3)] group">
+                <div className="w-14 h-14 mb-5 rounded-2xl bg-white/15 backdrop-blur border border-white/20 flex items-center justify-center text-[#E9E2FF] group-hover:text-white group-hover:scale-110 transition-all">
+                  <b.i className="w-7 h-7" strokeWidth={2} />
                 </div>
                 <h3 className="font-display font-bold text-xl text-white mb-2">{b.t}</h3>
                 <p className="text-[#E9E2FF] leading-relaxed">{b.d}</p>
