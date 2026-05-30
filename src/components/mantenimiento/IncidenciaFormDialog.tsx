@@ -66,7 +66,7 @@ export function IncidenciaFormDialog({ open, onOpenChange, incidencia, defaultCo
             <div><Label>Estado</Label>
               <Select value={form.estado} onValueChange={(v: any) => setForm({ ...form, estado: v })}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>{["nuevo","en_proceso","resuelto","cancelado"].map((p) => <SelectItem key={p} value={p}>{p}</SelectItem>)}</SelectContent>
+                <SelectContent>{["nuevo","en_revision","en_proceso","resuelto","cerrado"].map((p) => <SelectItem key={p} value={p}>{p}</SelectItem>)}</SelectContent>
               </Select>
             </div>
           </div>

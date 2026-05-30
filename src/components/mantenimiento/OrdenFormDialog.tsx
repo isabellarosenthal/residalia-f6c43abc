@@ -71,7 +71,7 @@ export function OrdenFormDialog({ open, onOpenChange, orden, defaultCondominioId
             <div><Label>Estado</Label>
               <Select value={form.estado} onValueChange={(v: any) => setForm({ ...form, estado: v })}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>{["pendiente","en_proceso","completada","cancelada"].map((p) => <SelectItem key={p} value={p}>{p}</SelectItem>)}</SelectContent>
+                <SelectContent>{["pendiente","en_proceso","completado","cancelado"].map((p) => <SelectItem key={p} value={p}>{p}</SelectItem>)}</SelectContent>
               </Select>
             </div>
             <div><Label>Fecha límite</Label><Input type="date" value={form.fecha_limite} onChange={(e) => setForm({ ...form, fecha_limite: e.target.value })} /></div>

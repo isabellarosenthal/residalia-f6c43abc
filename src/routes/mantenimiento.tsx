@@ -113,7 +113,7 @@ function MantenimientoPage() {
                 <SelectTrigger className="w-[160px]"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Todos los estados</SelectItem>
-                  {["nuevo","en_proceso","resuelto","cancelado"].map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                  {["nuevo","en_revision","en_proceso","resuelto","cerrado"].map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
                 </SelectContent>
               </Select>
               <Select value={fIncPrio} onValueChange={setFIncPrio}>
@@ -163,7 +163,7 @@ function MantenimientoPage() {
                 <SelectTrigger className="w-[160px]"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Todos los estados</SelectItem>
-                  {["pendiente","en_proceso","completada","cancelada"].map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                  {["pendiente","en_proceso","completado","cancelado"].map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
                 </SelectContent>
               </Select>
               <Button onClick={() => { setOrdEdit(null); setOrdOpen(true); }} disabled={edificioId === "all"} className="bg-[#c94f0c] hover:bg-[#a33d08]">
