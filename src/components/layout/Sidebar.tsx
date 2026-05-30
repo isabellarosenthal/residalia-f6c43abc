@@ -56,7 +56,7 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="hidden lg:flex flex-col w-60 h-screen sticky top-0 bg-[#4F46E5] text-[#F8FAFC]">
+    <aside className="hidden lg:flex flex-col w-60 h-screen sticky top-0 bg-[#312E81] text-[#F8FAFC]">
       <div className="px-5 py-6 flex items-center gap-2.5">
         <img src={logoUrl} alt="Altura Cloud" width={36} height={36} className="w-9 h-9 drop-shadow-[0_0_12px_rgba(167,139,250,0.5)]" />
         <div className="font-display font-extrabold text-xl leading-none">
@@ -75,8 +75,8 @@ export function Sidebar() {
                 to="/admin-panel"
                 className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
                   path.startsWith("/admin-panel")
-                    ? "bg-gradient-to-r from-[#4F46E5] to-[#7a2e0a] text-white font-semibold"
-                    : "text-[#F8FAFC] hover:bg-[#4F46E5]/15"
+                    ? "bg-[#4F46E5] text-white font-semibold"
+                    : "text-[#F8FAFC] hover:bg-white/10"
                 }`}
               >
                 <Shield className="w-4 h-4 shrink-0" />
@@ -99,7 +99,8 @@ export function Sidebar() {
                     key={it.to}
                     to={it.to}
                     className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
-                      active ? "bg-[#4F46E5] text-[#4F46E5] font-semibold" : "text-[#F8FAFC] hover:bg-[#4F46E5]/15"
+                      active ? "bg-[#4F46E5] text-white font-semibold" : "text-[#F8FAFC] hover:bg-white/10"
+
                     }`}
                   >
                     <Icon className="w-4 h-4 shrink-0" />
@@ -124,7 +125,8 @@ export function Sidebar() {
           </div>
           <button
             onClick={async () => { await signOut(); navigate({ to: "/login" }); }}
-            className="p-2 rounded-lg hover:bg-[#4F46E5]/20 text-[#F8FAFC]/80 hover:text-white transition-colors"
+            className="p-2 rounded-lg hover:bg-white/10 text-[#F8FAFC]/80 hover:text-white transition-colors"
+
             title="Cerrar sesión"
           >
             <LogOut className="w-4 h-4" />
