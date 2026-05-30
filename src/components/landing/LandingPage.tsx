@@ -239,28 +239,26 @@ export function LandingPage() {
       </section>
 
       {/* How it works */}
-      <section className="relative overflow-hidden bg-white border-y border-[#e8ecf3] py-20">
+      <section className="relative overflow-hidden bg-white py-20">
         <img src={logoUrl} alt="" aria-hidden width={100} height={100} className="absolute top-10 left-4 w-16 md:w-24 h-auto float-slow opacity-80 pointer-events-none" />
-        <img src={logoUrl} alt="" aria-hidden width={100} height={100} className="absolute bottom-10 right-6 w-20 md:w-28 h-auto float-med opacity-80 pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-6 relative">
-          <div className="text-center mb-14">
-            <h2 className="font-display font-extrabold text-3xl md:text-4xl">Empieza a operar hoy mismo</h2>
-            <p className="mt-3 text-[#6b7a99]">Cuatro pasos guiados por nuestro asistente de configuración.</p>
+        <div className="max-w-6xl mx-auto px-6 relative">
+          <div className="text-center mb-16">
+            <h2 className="font-display font-extrabold text-4xl md:text-5xl text-[#0a1e3f] tracking-tight">Empieza a operar hoy mismo</h2>
+            <p className="mt-3 text-lg text-[#6b7a99]">Configuración guiada en cuatro simples pasos.</p>
           </div>
-          <ol className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <ol className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {[
-              { n: "1", e: "🧾", t: "Crea tu cuenta", d: "Te volvés dueño de tu propio espacio aislado. Nadie más ve tus datos." },
-              { n: "2", e: "🏢", t: "Registra tu edificio", d: "Nombre, dirección, moneda y cuota base. Genera unidades en lote." },
-              { n: "3", e: "✉️", t: "Invita residentes", d: "Asóciales sus unidades, vehículos y datos de contacto." },
-              { n: "4", e: "💸", t: "Genera tu primer cobro", d: "Un clic para emitir las cuotas del mes a todas las unidades ocupadas." },
+              { n: "1", t: "Crea tu cuenta", d: "Tu espacio privado y seguro listo en segundos." },
+              { n: "2", t: "Registra el edificio", d: "Define unidades y cuotas de mantenimiento." },
+              { n: "3", t: "Suma residentes", d: "Invita a propietarios y carga sus contactos." },
+              { n: "4", t: "Genera cobros", d: "Emite cuotas masivas con un solo clic." },
             ].map((s) => (
-              <li key={s.n} className="relative">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-full text-[#0a1e3f] font-display font-extrabold flex items-center justify-center bg-[#ffd60a]">{s.n}</div>
-                  <span className="text-3xl" aria-hidden>{s.e}</span>
+              <li key={s.n} className="group flex flex-col items-start text-left">
+                <div className="w-14 h-14 rounded-2xl bg-[#ffd60a] flex items-center justify-center text-[#0a1e3f] font-display font-extrabold text-xl mb-6 shadow-lg shadow-yellow-200/50 group-hover:scale-110 transition-transform">
+                  {s.n}
                 </div>
-                <h3 className="font-display font-bold text-lg">{s.t}</h3>
-                <p className="text-sm text-[#6b7a99] mt-1">{s.d}</p>
+                <h3 className="font-display font-bold text-xl text-[#0a1e3f] mb-2">{s.t}</h3>
+                <p className="text-[#6b7a99] leading-relaxed">{s.d}</p>
               </li>
             ))}
           </ol>
@@ -269,28 +267,31 @@ export function LandingPage() {
 
       {/* Why Altura Cloud */}
       <section className="max-w-7xl mx-auto px-6 py-20">
-        <div className="text-center max-w-2xl mx-auto mb-14">
-          <h2 className="font-display font-extrabold text-3xl md:text-4xl">¿Por qué Altura Cloud?</h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {[
-            { i: ShieldCheck, t: "Datos aislados por cuenta", d: "Multi-tenant real: tu condominio sólo lo ven tú y los usuarios que invitás. Nadie más, ni siquiera otros clientes nuestros." },
-            { i: Zap, t: "Pensado para Honduras", d: "Lempiras, fechas en español, conceptos como cuota de mantenimiento, mora, parqueo de visita. No es un sistema gringo traducido." },
-            { i: Clock, t: "Sin instalación ni servidores", d: "Es web. Tus administradores entran desde cualquier laptop. Tus residentes desde el navegador del celular." },
-            { i: HeartHandshake, t: "Soporte humano", d: "Te respondemos por WhatsApp en horario hondureño, no por chatbots ni tickets que tardan días." },
-          ].map((b) => (
-            <div key={b.t} className="flex gap-4 bg-white rounded-2xl border border-[#e8ecf3] p-6">
-              <div className="w-12 h-12 rounded-xl bg-[#fffdf5] flex items-center justify-center text-[#0a1e3f] shrink-0">
-                <b.i className="w-6 h-6" />
+        <div className="relative bg-[#0a1e3f] rounded-[2.5rem] p-10 md:p-16 overflow-hidden">
+          <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#ffd60a] rounded-full opacity-10 blur-3xl pointer-events-none" />
+          <div className="text-center mb-14 relative">
+            <h2 className="font-display font-extrabold text-4xl md:text-5xl text-white tracking-tight">¿Por qué Altura Cloud?</h2>
+            <p className="mt-3 text-lg text-slate-300">La plataforma diseñada para la realidad de Honduras.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
+            {[
+              { i: ShieldCheck, t: "Privacidad total", d: "Tus datos están 100% aislados. Nadie externo tiene acceso a tu información." },
+              { i: Zap, t: "ADN Hondureño", d: "Lempiras, leyes locales y conceptos adaptados a nuestra normativa." },
+              { i: Clock, t: "100% en la Nube", d: "Sin instalaciones. Accede desde cualquier lugar mediante móvil o web." },
+              { i: HeartHandshake, t: "Soporte Real", d: "Ayuda directa por WhatsApp en horario local. Cero robots, solo expertos." },
+            ].map((b) => (
+              <div key={b.t} className="bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-white/10 transition-colors group">
+                <div className="w-12 h-12 mb-5 text-[#ffd60a]">
+                  <b.i className="w-full h-full" strokeWidth={2} />
+                </div>
+                <h3 className="font-display font-bold text-xl text-white mb-2 group-hover:text-[#ffd60a] transition-colors">{b.t}</h3>
+                <p className="text-slate-400 leading-relaxed">{b.d}</p>
               </div>
-              <div>
-                <h3 className="font-display font-bold text-lg">{b.t}</h3>
-                <p className="text-sm text-[#6b7a99] mt-1.5">{b.d}</p>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
+
 
 
 
