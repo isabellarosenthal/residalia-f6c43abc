@@ -145,7 +145,7 @@ export function LandingPage() {
                   </div>
                 </div>
 
-                <Link to="/login" className="text-sm font-semibold bg-[#4F46E5] text-white px-5 py-2.5 rounded-full hover:bg-[#4338CA] shadow-sm transition-colors">
+                <Link to="/login" search={{ mode: "signup" }} className="text-sm font-semibold bg-[#4F46E5] text-white px-5 py-2.5 rounded-full hover:bg-[#4338CA] shadow-sm transition-colors">
                   Crear cuenta
                 </Link>
               </>
