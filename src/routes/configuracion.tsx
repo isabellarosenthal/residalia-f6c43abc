@@ -197,6 +197,8 @@ function UsuariosTab() {
   };
 
   return (
+    <>
+    <PlanLimitsBanner focus="admins" />
     <Card className="p-5 space-y-4">
       <div className="border border-dashed border-[#e8ddd8] rounded-xl p-4 bg-[#fffaf5]">
         <div className="text-sm font-medium text-[#2d1200] mb-2">Asignar rol por email</div>
