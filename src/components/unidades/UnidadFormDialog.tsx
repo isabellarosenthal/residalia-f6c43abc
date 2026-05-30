@@ -29,6 +29,7 @@ const schema = z.object({
   precio_venta: z.coerce.number().min(0).optional().nullable(),
   precio_renta: z.coerce.number().min(0).optional().nullable(),
   deposito: z.coerce.number().min(0).optional().nullable(),
+  moneda: z.enum(["L", "USD"]).default("L"),
   precio_negociable: z.boolean().default(false),
   descripcion_comercial: z.string().max(2000).optional().or(z.literal("")),
   propietario_id: z.string().nullable().optional(),
