@@ -75,8 +75,8 @@ export function Sidebar() {
                 to="/admin-panel"
                 className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
                   path.startsWith("/admin-panel")
-                    ? "bg-gradient-to-r from-[#4F46E5] to-[#7a2e0a] text-white font-semibold"
-                    : "text-[#F8FAFC] hover:bg-[#4F46E5]/15"
+                    ? "bg-[#4F46E5] text-white font-semibold"
+                    : "text-[#F8FAFC] hover:bg-white/10"
                 }`}
               >
                 <Shield className="w-4 h-4 shrink-0" />
@@ -99,7 +99,8 @@ export function Sidebar() {
                     key={it.to}
                     to={it.to}
                     className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
-                      active ? "bg-[#4F46E5] text-[#4F46E5] font-semibold" : "text-[#F8FAFC] hover:bg-[#4F46E5]/15"
+                      active ? "bg-[#4F46E5] text-white font-semibold" : "text-[#F8FAFC] hover:bg-white/10"
+
                     }`}
                   >
                     <Icon className="w-4 h-4 shrink-0" />
