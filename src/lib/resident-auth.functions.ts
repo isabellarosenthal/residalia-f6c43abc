@@ -43,8 +43,15 @@ export const createResidentAccount = createServerFn({ method: "POST" })
 
     const existingUser = await findUserByEmail();
 
-    if (invitation.estado !== "pendiente" && invitation.usada_por !== existingUser?.id) {
-      throw new Error("Este código ya fue usado o no está disponible.");
+    if (invitation.estado !== "pendiente") {
+      if (invitation.estado !== "usada" || !invitation.usada_por) {
+        throw new Error("Este código ya fue usado o no está disponible.");
+      }
+
+      if (invitation.usada_por !== existingUser?.id) {
+        const { data: usedBy } = await supabaseAdmin.auth.admin.getUserById(invitation.usada_por);
+        if (usedBy.user) throw new Error("Este código ya fue usado o no está disponible.");
+      }
     }
 
     let userId = existingUser?.id;
