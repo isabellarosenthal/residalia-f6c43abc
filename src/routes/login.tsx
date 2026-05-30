@@ -17,7 +17,7 @@ function LoginPage() {
   const navigate = useNavigate();
   const { as } = Route.useSearch();
   const isResidenteFlow = as === "residente";
-  const [mode, setMode] = useState<"login" | "signup">("login");
+  const [mode, setMode] = useState<"login" | "signup">(isResidenteFlow ? "signup" : "login");
   const [signupRole, setSignupRole] = useState<SignupRole>(isResidenteFlow ? "residente" : "admin_condominio");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
