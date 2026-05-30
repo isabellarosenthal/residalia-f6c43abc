@@ -71,10 +71,11 @@ function AdminPanel() {
 
         {stats && (
           <>
-            <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <section className="grid grid-cols-2 md:grid-cols-5 gap-4">
               <StatCard icon={<Building2 className="w-5 h-5" />} label="Edificios" value={fmt(stats.totales.condominios)} sub={`${stats.totales.condominios_activos} activos`} />
               <StatCard icon={<Home className="w-5 h-5" />} label="Unidades" value={fmt(stats.totales.unidades)} />
-              <StatCard icon={<Users className="w-5 h-5" />} label="Residentes" value={fmt(stats.totales.residentes)} sub={`${fmt(stats.totales.usuarios)} usuarios`} />
+              <StatCard icon={<Users className="w-5 h-5" />} label="Residentes" value={fmt(stats.totales.residentes)} />
+              <StatCard icon={<Users className="w-5 h-5" />} label="Usuarios" value={fmt(stats.totales.usuarios)} sub="cuentas registradas" />
               <StatCard icon={<DollarSign className="w-5 h-5" />} label="MRR estimado" value={money(stats.totales.mrr)} sub={`${money(stats.totales.ingresos_mes)} este mes`} accent />
             </section>
 
