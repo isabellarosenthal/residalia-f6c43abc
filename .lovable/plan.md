@@ -1,42 +1,40 @@
-# Plan
 
-## 1. Restringir `/portal/*` a residentes y super_admin
+## 1. Promover isabella@zafra.cloud a super_admin
 
-En `src/routes/portal.tsx`, además de chequear `user`, validar `role`:
-- Si `role === 'admin_condominio'` o `'junta_directiva'` o `'guardia'` o `'agente_inmobiliario'` → redirigir a `/` (dashboard admin).
-- Permitir solo `role === 'residente'` y `role === 'super_admin'`.
-- Si `role === null` (todavía cargando), esperar.
+Migración rápida: borrar roles previos del usuario y asignarle `super_admin` en `user_roles`.
 
-## 2. Crear tablas `planes` y `suscripciones`
+## 2. Soporte multi-edificio en el portal del residente
 
-Migración:
-- `planes`: id, nombre (Free/Pro/Enterprise), precio_mensual, max_unidades, max_residentes, features (jsonb), activo.
-- `suscripciones`: id, condominio_id, plan_id, estado (activa/cancelada/trial), fecha_inicio, fecha_fin, created_at.
-- Seed: 3 planes default (Free, Pro, Enterprise).
-- Auto-asignar plan Free a condominios existentes y nuevos (trigger).
-- RLS: super_admin gestiona todo; admin del condominio ve su propia suscripción.
-- GRANTs apropiados.
+**Problema actual:** `residentes.user_id` permite vincular un solo registro a la vez. Si el mismo email/usuario es residente en 2 edificios con administraciones distintas, hoy el código solo muestra uno.
 
-## 3. Nueva ruta `/admin-panel` (solo super_admin)
+**Solución:** ya soportamos múltiples filas en `residentes` con el mismo `user_id` (una por edificio). Falta UI y lógica:
 
-Archivo `src/routes/admin-panel.tsx`:
-- `beforeLoad` valida que el usuario tenga rol `super_admin`, si no → redirige a `/`.
-- Layout con header "Admin Panel" separado del sidebar normal.
-- Server function `getPlatformStats` (con `requireSupabaseAuth` + check super_admin) que devuelve:
-  - Totales: condominios, unidades, residentes, usuarios, pagos del mes, ingresos totales.
-  - Distribución por plan (cuántos condominios en cada plan).
-  - Lista de empresas/condominios recientes (nombre, admin, plan, # unidades, # residentes, fecha alta).
-  - Signups últimos 30 días (gráfica simple).
-  - Top condominios por uso.
+### a) Detectar "email ya usado en otro edificio" al crear residente
+En `src/components/residentes/ResidenteFormDialog.tsx` (o donde el admin agrega residentes): antes de insertar, consultar si existe otro `residentes` con el mismo email en otro condominio. Si existe, mostrar diálogo:
 
-## 4. Link al Admin Panel
+> "Este correo ya está registrado como residente en otro edificio. ¿Deseas vincularlo también a este edificio? El residente podrá cambiar entre ambos desde su portal."
 
-En `src/components/layout/Sidebar.tsx`, mostrar entrada "Admin Panel" solo si `role === 'super_admin'`.
+Al confirmar: insertar nueva fila en `residentes` con el mismo email + `user_id` (si ya tiene cuenta) en el nuevo condominio/unidad.
 
-## Archivos
+### b) Selector de edificio en el portal
+- Nuevo hook `useMisResidencias()` → devuelve **todas** las filas de `residentes` del usuario actual (`user_id = auth.uid()`) con su condominio y unidad.
+- Contexto `PortalCondominioContext` que guarda el `residenteId` activo en `localStorage`.
+- En `src/routes/portal.tsx` header: si hay >1 residencia, mostrar dropdown (shadcn `Select`) "Edificio: [Torre A ▾]" para cambiar.
+- Refactorizar `useMiResidente()` y `useMisPases()` para que filtren por el residente activo del contexto, no el primero que encuentren.
+- Todas las queries del portal (pases, cuenta, reservas, anuncios) usan el `condominio_id` del residente activo.
 
-- `supabase/migrations/<timestamp>_planes.sql` (nuevo)
-- `src/routes/portal.tsx` (editado — restricción de rol)
-- `src/routes/admin-panel.tsx` (nuevo)
-- `src/lib/admin-stats.functions.ts` (nuevo — server fn)
-- `src/components/layout/Sidebar.tsx` (editado — link condicional)
+### c) Vinculación retroactiva al hacer signup con invitación
+`handle_new_user` ya vincula via invitación. Si el usuario ya existe y recibe nueva invitación para otro edificio, la pantalla de "aceptar invitación" debe insertar/actualizar la fila correspondiente sin tocar las otras.
+
+## Archivos a tocar
+
+- Migración: promover isabella a super_admin
+- `src/lib/queries.ts` — añadir `useMisResidencias`, ajustar `useMiResidente`/`useMisPases` para aceptar `residenteId` activo
+- `src/lib/portal-context.tsx` (nuevo) — contexto del residente activo
+- `src/routes/portal.tsx` — selector en header + provider
+- `src/routes/portal.index.tsx`, `portal.cuenta.tsx`, `portal.nuevo.tsx`, `portal.reservar.tsx`, `portal.anuncios.tsx` — usar contexto
+- `src/components/residentes/ResidenteFormDialog.tsx` — detección de email duplicado + diálogo de confirmación
+
+## Pregunta abierta
+
+Cuando el admin agrega un residente con email que ya existe en otro edificio: ¿siempre pedir confirmación, o solo avisar e insertar? Por defecto propongo **pedir confirmación** para evitar errores.
