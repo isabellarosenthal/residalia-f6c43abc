@@ -204,25 +204,32 @@ export function LandingPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {[
-            { i: Wallet, e: "💰", t: "Cobros y estados de cuenta", d: "Genera cuotas mensuales en lote, registra pagos, emite recibos y controla morosidad en tiempo real." },
-            { i: KeyRound, e: "🔑", t: "Control de accesos con QR", d: "Autoriza visitantes con códigos QR de un solo uso, controla entradas y salidas, lleva bitácora completa." },
-            { i: Users, e: "👨‍👩‍👧", t: "Residentes y unidades", d: "Lleva un padrón limpio de propietarios, inquilinos, vehículos y personas autorizadas por cada unidad." },
-            { i: Wrench, e: "🔧", t: "Mantenimiento e incidencias", d: "Levanta tickets, asigna proveedores, controla costos estimados vs reales y cierra órdenes con evidencia." },
-            { i: MessageSquare, e: "📣", t: "Comunicados al condominio", d: "Envía avisos por grupo de residentes — emergencias, asambleas, cortes de servicio — con historial completo." },
-            { i: Calendar, e: "🏊", t: "Reserva de áreas comunes", d: "Salón social, gimnasio, piscina o cancha: los residentes ven disponibilidad y reservan en minutos." },
-            { i: Building2, e: "🏘️", t: "CRM inmobiliario", d: "Pública las unidades en venta o renta, captura prospectos por origen, asígnales agente y precio." },
-            { i: TrendingUp, e: "📈", t: "Pipeline y agenda", d: "Arrastra prospectos entre etapas (nuevo → visita → oferta → cierre) y agenda visitas con recordatorios." },
-            { i: BarChart3, e: "📊", t: "Reportes y KPIs", d: "Flujo de caja, ocupación, cartera vencida, conversión del pipeline. Exporta a PDF o CSV." },
+            { i: Wallet, t: "Cobros y estados de cuenta", d: "Genera cuotas mensuales en lote, registra pagos, emite recibos y controla morosidad en tiempo real.", bg: "#fff8d6", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver cobros" },
+            { i: KeyRound, t: "Control de accesos con QR", d: "Autoriza visitantes con códigos QR de un solo uso, controla entradas y salidas, lleva bitácora completa.", bg: "#0a1e3f", fg: "#ffffff", sub: "#9aa8c2", accent: "#ffd60a", link: "Ver accesos" },
+            { i: Users, t: "Residentes y unidades", d: "Lleva un padrón limpio de propietarios, inquilinos, vehículos y personas autorizadas por cada unidad.", bg: "#fffdf5", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver residentes" },
+            { i: Wrench, t: "Mantenimiento e incidencias", d: "Levanta tickets, asigna proveedores, controla costos estimados vs reales y cierra órdenes con evidencia.", bg: "#0a1e3f", fg: "#ffffff", sub: "#9aa8c2", accent: "#ffd60a", link: "Ver tickets" },
+            { i: MessageSquare, t: "Comunicados al condominio", d: "Envía avisos por grupo de residentes — emergencias, asambleas, cortes de servicio — con historial completo.", bg: "#fff8d6", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver comunicados" },
+            { i: Calendar, t: "Reserva de áreas comunes", d: "Salón social, gimnasio, piscina o cancha: los residentes ven disponibilidad y reservan en minutos.", bg: "#fffdf5", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver áreas" },
+            { i: Building2, t: "CRM inmobiliario", d: "Pública las unidades en venta o renta, captura prospectos por origen, asígnales agente y precio.", bg: "#0a1e3f", fg: "#ffffff", sub: "#9aa8c2", accent: "#ffd60a", link: "Ver CRM" },
+            { i: TrendingUp, t: "Pipeline y agenda", d: "Arrastra prospectos entre etapas (nuevo → visita → oferta → cierre) y agenda visitas con recordatorios.", bg: "#fff8d6", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver pipeline" },
+            { i: BarChart3, t: "Reportes y KPIs", d: "Flujo de caja, ocupación, cartera vencida, conversión del pipeline. Exporta a PDF o CSV.", bg: "#fffdf5", fg: "#0a1e3f", sub: "#6b7a99", accent: "#0a1e3f", link: "Ver reportes" },
           ].map((f) => (
-            <div key={f.t} className="bg-white rounded-2xl border border-[#e8ecf3] p-6 hover:border-[#ffd60a] hover:shadow-md transition">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-11 h-11 rounded-xl bg-[#fffdf5] flex items-center justify-center text-[#0a1e3f]">
-                  <f.i className="w-5 h-5" />
-                </div>
-                <span className="text-2xl" aria-hidden>{f.e}</span>
+            <div
+              key={f.t}
+              className="rounded-[1.75rem] p-7 flex flex-col min-h-[260px] transition hover:-translate-y-1 hover:shadow-xl"
+              style={{ backgroundColor: f.bg, color: f.fg }}
+            >
+              <div
+                className="w-12 h-12 rounded-xl flex items-center justify-center mb-5"
+                style={{ backgroundColor: f.bg === "#0a1e3f" ? "rgba(255,214,10,0.15)" : "rgba(10,30,63,0.06)", color: f.accent }}
+              >
+                <f.i className="w-6 h-6" />
               </div>
-              <h3 className="font-display font-bold text-lg">{f.t}</h3>
-              <p className="text-sm text-[#6b7a99] mt-1.5">{f.d}</p>
+              <h3 className="font-display font-extrabold text-xl leading-tight">{f.t}</h3>
+              <p className="text-sm mt-2 leading-relaxed" style={{ color: f.sub }}>{f.d}</p>
+              <Link to="/login" className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold" style={{ color: f.accent }}>
+                {f.link} <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
           ))}
         </div>
