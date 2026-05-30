@@ -329,6 +329,7 @@ function TenantUsuariosTab({ edificios }: { edificios: Edif[] }) {
         </div>
       )}
     </Card>
+    </>
   );
 }
 
