@@ -76,6 +76,7 @@ export function UnidadFormDialog({
       precio_venta: unidad?.precio_venta ?? null,
       precio_renta: unidad?.precio_renta ?? null,
       deposito: unidad?.deposito ?? null,
+      moneda: ((unidad as any)?.moneda as "L" | "USD") ?? "L",
       precio_negociable: unidad?.precio_negociable ?? false,
       descripcion_comercial: unidad?.descripcion_comercial ?? "",
       propietario_id: unidad?.propietario_id ?? null,
