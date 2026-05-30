@@ -430,7 +430,8 @@ export function LandingPage() {
           </div>
 
           {/* Card 2: Accesos QR (indigo destacado) */}
-          <div className="bg-[#4338CA] rounded-3xl p-8 flex flex-col text-white">
+          <div className="rounded-3xl p-8 flex flex-col text-white relative overflow-hidden shadow-2xl" style={{ background: "linear-gradient(160deg, #4338CA 0%, #4F46E5 60%, #7AA2FF 130%)" }}>
+            <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-white/15 blur-3xl pointer-events-none" />
             <h3 className="font-display font-extrabold text-2xl text-white">Accesos con QR</h3>
             <p className="mt-2 text-sm text-[#E9E2FF]">Tus residentes generan códigos de un solo uso desde el celular. Tu guardia los valida en 2 segundos.</p>
             <Link to="/login" className="mt-3 text-sm font-semibold text-white inline-flex items-center gap-1 hover:gap-2 transition-all">Ver accesos <ArrowRight className="w-4 h-4" /></Link>
