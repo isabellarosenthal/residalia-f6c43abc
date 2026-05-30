@@ -99,7 +99,7 @@ export function Sidebar() {
                     key={it.to}
                     to={it.to}
                     className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
-                      active ? "bg-[#ffd60a] text-white font-semibold" : "text-[#fffdf5] hover:bg-[#ffd60a]/15"
+                      active ? "bg-[#ffd60a] text-[#0a1e3f] font-semibold" : "text-[#fffdf5] hover:bg-[#ffd60a]/15"
                     }`}
                   >
                     <Icon className="w-4 h-4 shrink-0" />
