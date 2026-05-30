@@ -71,20 +71,20 @@ export function LandingPage() {
 
           {/* Menú central */}
           <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-[#13294b]">
-            <a href="#funciones" className="hover:text-[#ffd60a]">Funciones</a>
-            <a href="#planes" className="hover:text-[#ffd60a]">Precios</a>
-            <a href="#faq" className="hover:text-[#ffd60a]">FAQ</a>
+            <a href="#funciones" className="hover:text-[#0a1e3f]">Funciones</a>
+            <a href="#planes" className="hover:text-[#0a1e3f]">Precios</a>
+            <a href="#faq" className="hover:text-[#0a1e3f]">FAQ</a>
           </nav>
 
           <div className="flex items-center gap-2 sm:gap-3">
             {user ? (
               <>
-                <Link to="/dashboard" className="text-sm font-semibold bg-[#ffd60a] text-white px-4 py-2 rounded-full hover:bg-[#e6c200]">
+                <Link to="/dashboard" className="text-sm font-semibold bg-[#0a1e3f] text-white px-4 py-2 rounded-full hover:bg-[#001a4d]">
                   Ir al Dashboard
                 </Link>
                 <button
                   onClick={signOut}
-                  className="text-sm font-medium text-[#13294b] hover:text-[#ffd60a] px-3 py-1.5"
+                  className="text-sm font-medium text-[#13294b] hover:text-[#0a1e3f] px-3 py-1.5"
                 >
                   Cerrar sesión
                 </button>
@@ -95,7 +95,7 @@ export function LandingPage() {
                 <div className="relative group">
                   <button
                     type="button"
-                    className="text-sm font-medium text-[#13294b] hover:text-[#ffd60a] px-3 py-1.5 inline-flex items-center gap-1"
+                    className="text-sm font-medium text-[#13294b] hover:text-[#0a1e3f] px-3 py-1.5 inline-flex items-center gap-1"
                   >
                     Iniciar sesión
                     <svg className="w-3 h-3" viewBox="0 0 12 12" fill="none" aria-hidden>
@@ -117,7 +117,7 @@ export function LandingPage() {
                   </div>
                 </div>
 
-                <Link to="/login" className="text-sm font-semibold bg-[#ffd60a] text-white px-4 py-2 rounded-full hover:bg-[#e6c200]">
+                <Link to="/login" className="text-sm font-semibold bg-[#0a1e3f] text-white px-4 py-2 rounded-full hover:bg-[#001a4d]">
                   Crear cuenta
                 </Link>
               </>
@@ -130,18 +130,18 @@ export function LandingPage() {
       <section className="max-w-7xl mx-auto px-6 pt-8 pb-10">
         <div className="grid md:grid-cols-2 gap-10 items-center">
           <div className="text-center md:text-left">
-            <span className="inline-block text-xs font-semibold uppercase tracking-wider bg-[#fffdf5] text-[#ffd60a] px-3 py-1 rounded-full mb-5">
+            <span className="inline-block text-xs font-semibold uppercase tracking-wider bg-[#fffdf5] text-[#0a1e3f] px-3 py-1 rounded-full mb-5">
               Hecho en Honduras 🇭🇳
             </span>
             <h1 className="font-display font-extrabold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-[1.05]">
-              Administra tu condominio <span className="text-[#ffd60a]">sin hojas de cálculo</span>. 🏢
+              Administra tu condominio <span className="text-[#0a1e3f]">sin hojas de cálculo</span>. 🏢
             </h1>
             <p className="mt-6 text-lg text-[#6b4a3a] max-w-xl mx-auto md:mx-0">
               💰 Cobros, 🔑 accesos, 👥 residentes, 🔧 mantenimiento y 🏘️ propiedades en venta o renta —
               todo desde un solo panel con CRM inmobiliario integrado.
             </p>
             <div className="mt-8 flex flex-wrap justify-center md:justify-start gap-3">
-              <Link to="/login" className="inline-flex items-center gap-2 bg-[#ffd60a] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#e6c200]">
+              <Link to="/login" className="inline-flex items-center gap-2 bg-[#0a1e3f] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#001a4d]">
                 Crear mi cuenta gratis <ArrowRight className="w-4 h-4" />
               </Link>
               <a href="#planes" className="inline-flex items-center gap-2 border border-[#e8ecf3] bg-white px-6 py-3 rounded-full font-semibold text-[#13294b] hover:border-[#ffd60a]">
@@ -216,7 +216,7 @@ export function LandingPage() {
           ].map((f) => (
             <div key={f.t} className="bg-white rounded-2xl border border-[#e8ecf3] p-6 hover:border-[#ffd60a] hover:shadow-md transition">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-11 h-11 rounded-xl bg-[#fffdf5] flex items-center justify-center text-[#ffd60a]">
+                <div className="w-11 h-11 rounded-xl bg-[#fffdf5] flex items-center justify-center text-[#0a1e3f]">
                   <f.i className="w-5 h-5" />
                 </div>
                 <span className="text-2xl" aria-hidden>{f.e}</span>
@@ -246,7 +246,7 @@ export function LandingPage() {
             ].map((s) => (
               <li key={s.n} className="relative">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-full bg-[#ffd60a] text-white font-display font-extrabold flex items-center justify-center">{s.n}</div>
+                  <div className="w-10 h-10 rounded-full bg-[#0a1e3f] text-white font-display font-extrabold flex items-center justify-center">{s.n}</div>
                   <span className="text-3xl" aria-hidden>{s.e}</span>
                 </div>
                 <h3 className="font-display font-bold text-lg">{s.t}</h3>
@@ -270,7 +270,7 @@ export function LandingPage() {
             { i: HeartHandshake, t: "Soporte humano", d: "Te respondemos por WhatsApp en horario hondureño, no por chatbots ni tickets que tardan días." },
           ].map((b) => (
             <div key={b.t} className="flex gap-4 bg-white rounded-2xl border border-[#e8ecf3] p-6">
-              <div className="w-12 h-12 rounded-xl bg-[#fffdf5] flex items-center justify-center text-[#ffd60a] shrink-0">
+              <div className="w-12 h-12 rounded-xl bg-[#fffdf5] flex items-center justify-center text-[#0a1e3f] shrink-0">
                 <b.i className="w-6 h-6" />
               </div>
               <div>
@@ -300,7 +300,7 @@ export function LandingPage() {
               }`}
             >
               {p.highlight && (
-                <span className="self-start text-xs font-bold uppercase tracking-wider bg-[#ffd60a] text-white px-3 py-1 rounded-full mb-4">
+                <span className="self-start text-xs font-bold uppercase tracking-wider bg-[#0a1e3f] text-white px-3 py-1 rounded-full mb-4">
                   Más popular
                 </span>
               )}
@@ -323,7 +323,7 @@ export function LandingPage() {
                 to="/login"
                 className={`mt-7 text-center font-semibold py-3 rounded-full transition-colors ${
                   p.highlight
-                    ? "bg-[#ffd60a] text-white hover:bg-[#e6c200]"
+                    ? "bg-[#0a1e3f] text-white hover:bg-[#001a4d]"
                     : "border border-[#e8ecf3] text-[#13294b] hover:border-[#ffd60a]"
                 }`}
               >
@@ -350,7 +350,7 @@ export function LandingPage() {
               <details key={f.q} className="group bg-[#ffffff] border border-[#e8ecf3] rounded-2xl p-5 hover:border-[#ffd60a] transition">
                 <summary className="font-semibold cursor-pointer flex justify-between items-center text-[#0a1e3f]">
                   {f.q}
-                  <span className="text-[#ffd60a] group-open:rotate-45 transition-transform text-xl leading-none">+</span>
+                  <span className="text-[#0a1e3f] group-open:rotate-45 transition-transform text-xl leading-none">+</span>
                 </summary>
                 <p className="mt-3 text-sm text-[#6b4a3a]">{f.a}</p>
               </details>
@@ -364,7 +364,7 @@ export function LandingPage() {
         <img src={logoUrl} alt="" aria-hidden width={160} height={160} className="mx-auto w-28 md:w-36 h-auto float-slow mb-6" />
         <h2 className="font-display font-extrabold text-3xl md:text-4xl">¿Listo para ordenar tu condominio?</h2>
         <p className="mt-4 text-[#6b4a3a]">Crea tu cuenta gratis y configurá tu primer edificio en menos de 5 minutos.</p>
-        <Link to="/login" className="mt-8 inline-flex items-center gap-2 bg-[#ffd60a] text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-[#e6c200]">
+        <Link to="/login" className="mt-8 inline-flex items-center gap-2 bg-[#0a1e3f] text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-[#001a4d]">
           Empezar ahora <ArrowRight className="w-5 h-5" />
         </Link>
       </section>
@@ -395,10 +395,10 @@ export function LandingPage() {
                   const Icon = l.icon;
                   return (
                     <li key={l.name}>
-                      <a href={l.url} target="_blank" rel="noopener noreferrer" className="group flex items-start gap-2 text-[#6b4a3a] hover:text-[#ffd60a] transition">
-                        <Icon className="h-4 w-4 mt-0.5 text-[#ffd60a]/70 group-hover:text-[#ffd60a] flex-shrink-0" />
+                      <a href={l.url} target="_blank" rel="noopener noreferrer" className="group flex items-start gap-2 text-[#6b4a3a] hover:text-[#0a1e3f] transition">
+                        <Icon className="h-4 w-4 mt-0.5 text-[#0a1e3f]/70 group-hover:text-[#0a1e3f] flex-shrink-0" />
                         <div>
-                          <span className="font-medium text-[#0a1e3f] group-hover:text-[#ffd60a]">{l.name}</span>
+                          <span className="font-medium text-[#0a1e3f] group-hover:text-[#0a1e3f]">{l.name}</span>
                           <p className="text-xs text-[#6b7a99]">{l.desc}</p>
                         </div>
                       </a>
@@ -412,10 +412,10 @@ export function LandingPage() {
             <div className="space-y-4">
               <h4 className="text-sm font-semibold text-[#0a1e3f] uppercase tracking-wider">Altura Cloud</h4>
               <ul className="space-y-2.5 text-sm">
-                <li><a href="#planes" className="text-[#6b4a3a] hover:text-[#ffd60a] transition">Planes</a></li>
-                <li><a href="#como-funciona" className="text-[#6b4a3a] hover:text-[#ffd60a] transition">Cómo funciona</a></li>
-                <li><Link to="/login" className="text-[#6b4a3a] hover:text-[#ffd60a] transition">Iniciar sesión</Link></li>
-                <li><Link to="/login" className="text-[#6b4a3a] hover:text-[#ffd60a] transition">Crear cuenta</Link></li>
+                <li><a href="#planes" className="text-[#6b4a3a] hover:text-[#0a1e3f] transition">Planes</a></li>
+                <li><a href="#como-funciona" className="text-[#6b4a3a] hover:text-[#0a1e3f] transition">Cómo funciona</a></li>
+                <li><Link to="/login" className="text-[#6b4a3a] hover:text-[#0a1e3f] transition">Iniciar sesión</Link></li>
+                <li><Link to="/login" className="text-[#6b4a3a] hover:text-[#0a1e3f] transition">Crear cuenta</Link></li>
               </ul>
             </div>
 
@@ -424,19 +424,19 @@ export function LandingPage() {
               <h4 className="text-sm font-semibold text-[#0a1e3f] uppercase tracking-wider">Contacto</h4>
               <ul className="space-y-3 text-sm">
                 <li>
-                  <a href="mailto:info@zafra.cloud" className="flex items-center gap-2 text-[#6b4a3a] hover:text-[#ffd60a] transition">
+                  <a href="mailto:info@zafra.cloud" className="flex items-center gap-2 text-[#6b4a3a] hover:text-[#0a1e3f] transition">
                     <MessageSquare className="h-4 w-4 flex-shrink-0" />
                     info@zafra.cloud
                   </a>
                 </li>
                 <li>
-                  <a href="https://wa.me/50494103488" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#6b4a3a] hover:text-[#ffd60a] transition">
+                  <a href="https://wa.me/50494103488" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#6b4a3a] hover:text-[#0a1e3f] transition">
                     <MessageSquare className="h-4 w-4 flex-shrink-0" />
                     WhatsApp ventas
                   </a>
                 </li>
                 <li>
-                  <a href="https://wa.me/50494460058" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#6b4a3a] hover:text-[#ffd60a] transition">
+                  <a href="https://wa.me/50494460058" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#6b4a3a] hover:text-[#0a1e3f] transition">
                     <MessageSquare className="h-4 w-4 flex-shrink-0" />
                     +504 9446-0058
                   </a>
@@ -449,7 +449,7 @@ export function LandingPage() {
         <div className="border-t border-[#e8ecf3]">
           <div className="max-w-7xl mx-auto px-6 py-5">
             <div className="flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-[#6b7a99]">
-              <p>© {new Date().getFullYear()} New Technology, S.A. Parte de <a href="https://home.zafra.cloud" target="_blank" rel="noopener noreferrer" className="text-[#ffd60a] hover:underline">Zafra Cloud</a>.</p>
+              <p>© {new Date().getFullYear()} New Technology, S.A. Parte de <a href="https://home.zafra.cloud" target="_blank" rel="noopener noreferrer" className="text-[#0a1e3f] hover:underline">Zafra Cloud</a>.</p>
               <p className="flex items-center gap-1.5">Hecho con ❤️ en Honduras 🇭🇳</p>
             </div>
           </div>

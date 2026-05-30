@@ -8,7 +8,7 @@ export function KpiCard({
   icon, label, value, sub, accent = "primary",
 }: { icon: ReactNode; label: string; value: ReactNode; sub?: ReactNode; accent?: "primary" | "danger" | "success" | "neutral" }) {
   const accentMap = {
-    primary: "text-[#ffd60a]",
+    primary: "text-[#0a1e3f]",
     danger: "text-[#be185d]",
     success: "text-[#166534]",
     neutral: "text-[#0a1e3f]",
@@ -29,9 +29,9 @@ export function Badge({ children, variant = "neutral" }: { children: ReactNode; 
   const map = {
     success: "bg-[#dcfce7] text-[#166534]",
     danger: "bg-[#fce7f3] text-[#be185d]",
-    warning: "bg-[#fff8d6] text-[#ffd60a]",
+    warning: "bg-[#fff8d6] text-[#0a1e3f]",
     neutral: "bg-[#ede8e5] text-[#6b7a99]",
-    venta: "bg-[#ffd60a] text-white",
+    venta: "bg-[#0a1e3f] text-white",
     renta: "bg-[#0a1e3f] text-[#fffdf5]",
     reservada: "bg-[#fffdf5] text-[#13294b] border border-[#ffe87a]",
   } as const;
@@ -41,7 +41,7 @@ export function Badge({ children, variant = "neutral" }: { children: ReactNode; 
 export function EmptyState({ icon, title, hint, action }: { icon: ReactNode; title: string; hint?: string; action?: ReactNode }) {
   return (
     <Card className="p-10 text-center">
-      <div className="w-14 h-14 rounded-2xl bg-[#fff8d6] text-[#ffd60a] flex items-center justify-center mx-auto mb-4">{icon}</div>
+      <div className="w-14 h-14 rounded-2xl bg-[#fff8d6] text-[#0a1e3f] flex items-center justify-center mx-auto mb-4">{icon}</div>
       <div className="font-display font-bold text-lg text-[#0a1e3f]">{title}</div>
       {hint && <div className="text-sm text-[#6b7a99] mt-1">{hint}</div>}
       {action && <div className="mt-5">{action}</div>}

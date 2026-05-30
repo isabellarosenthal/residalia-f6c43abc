@@ -38,7 +38,7 @@ function PortalIndex() {
 
       <div className="flex items-center justify-between">
         <h2 className="font-display font-extrabold text-lg text-[#0a1e3f]">Mis pases</h2>
-        <Link to="/portal/nuevo" className="bg-[#ffd60a] hover:bg-[#e6c200] text-white text-sm px-4 py-2 rounded-full inline-flex items-center gap-1"><Plus className="w-4 h-4" />Crear pase</Link>
+        <Link to="/portal/nuevo" className="bg-[#0a1e3f] hover:bg-[#001a4d] text-white text-sm px-4 py-2 rounded-full inline-flex items-center gap-1"><Plus className="w-4 h-4" />Crear pase</Link>
       </div>
 
       {pases.length === 0 ? (

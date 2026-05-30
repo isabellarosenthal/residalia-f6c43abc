@@ -53,7 +53,7 @@ export function RegistrarPagoDialog({
         <div className="grid grid-cols-3 gap-2 text-sm mb-3">
           <div className="p-2 rounded-lg bg-[#fffdf5]"><div className="text-xs text-[#6b7a99]">Total</div><div className="font-bold">{fmtL(cobro.monto)}</div></div>
           <div className="p-2 rounded-lg bg-[#fffdf5]"><div className="text-xs text-[#6b7a99]">Abonado</div><div className="font-bold text-[#166534]">{fmtL(abonado)}</div></div>
-          <div className="p-2 rounded-lg bg-[#fffdf5]"><div className="text-xs text-[#6b7a99]">Saldo</div><div className="font-bold text-[#ffd60a]">{fmtL(saldo)}</div></div>
+          <div className="p-2 rounded-lg bg-[#fffdf5]"><div className="text-xs text-[#6b7a99]">Saldo</div><div className="font-bold text-[#0a1e3f]">{fmtL(saldo)}</div></div>
         </div>
 
         {saldo > 0 && (
@@ -62,7 +62,7 @@ export function RegistrarPagoDialog({
               <div>
                 <Label>Monto *</Label>
                 <Input type="number" step="0.01" min="0.01" max={saldo} value={monto} onChange={(e) => setMonto(e.target.value)} required />
-                <button type="button" onClick={() => setMonto(String(saldo))} className="text-xs text-[#ffd60a] hover:underline mt-1">Usar saldo {fmtL(saldo)}</button>
+                <button type="button" onClick={() => setMonto(String(saldo))} className="text-xs text-[#0a1e3f] hover:underline mt-1">Usar saldo {fmtL(saldo)}</button>
               </div>
               <div>
                 <Label>Fecha</Label>
@@ -86,7 +86,7 @@ export function RegistrarPagoDialog({
             </div>
             <DialogFooter>
               <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>Cerrar</Button>
-              <Button type="submit" disabled={reg.isPending} className="bg-[#ffd60a] hover:bg-[#e6c200]">Registrar pago</Button>
+              <Button type="submit" disabled={reg.isPending} className="bg-[#0a1e3f] hover:bg-[#001a4d]">Registrar pago</Button>
             </DialogFooter>
           </form>
         )}

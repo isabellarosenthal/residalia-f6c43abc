@@ -93,7 +93,7 @@ function PersonasTab({ residenteId }: { residenteId: string }) {
             </SelectContent>
           </Select>
         </div>
-        <Button onClick={add} disabled={!nombre.trim() || save.isPending} className="bg-[#ffd60a] hover:bg-[#e6c200]">
+        <Button onClick={add} disabled={!nombre.trim() || save.isPending} className="bg-[#0a1e3f] hover:bg-[#001a4d]">
           <Plus className="w-4 h-4 mr-1" />Agregar
         </Button>
       </div>
@@ -139,7 +139,7 @@ function VehiculosTab({ residenteId }: { residenteId: string }) {
         <div><Label className="text-xs">Marca</Label><Input value={marca} onChange={(e) => setMarca(e.target.value)} /></div>
         <div><Label className="text-xs">Modelo</Label><Input value={modelo} onChange={(e) => setModelo(e.target.value)} /></div>
         <div><Label className="text-xs">Color</Label><Input value={color} onChange={(e) => setColor(e.target.value)} /></div>
-        <Button onClick={add} disabled={!placa.trim() || save.isPending} className="bg-[#ffd60a] hover:bg-[#e6c200]"><Plus className="w-4 h-4 mr-1" />Agregar</Button>
+        <Button onClick={add} disabled={!placa.trim() || save.isPending} className="bg-[#0a1e3f] hover:bg-[#001a4d]"><Plus className="w-4 h-4 mr-1" />Agregar</Button>
       </div>
 
       {isLoading ? <p className="text-sm text-[#6b7a99]">Cargando…</p> : vehiculos.length === 0 ? (

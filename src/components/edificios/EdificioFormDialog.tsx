@@ -126,7 +126,7 @@ export function EdificioFormDialog({
                   href={form.watch("maps_url") as string}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center justify-center h-10 px-3 rounded-md border border-[#e8ecf3] text-[#ffd60a] hover:bg-[#fdeee5]"
+                  className="inline-flex items-center justify-center h-10 px-3 rounded-md border border-[#e8ecf3] text-[#0a1e3f] hover:bg-[#fdeee5]"
                   title="Abrir en Google Maps"
                 >
                   <ExternalLink className="w-4 h-4" />
@@ -177,7 +177,7 @@ export function EdificioFormDialog({
 
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-            <Button type="submit" disabled={!form.formState.isValid || save.isPending} className="bg-[#ffd60a] hover:bg-[#e6c200]">
+            <Button type="submit" disabled={!form.formState.isValid || save.isPending} className="bg-[#0a1e3f] hover:bg-[#001a4d]">
               {save.isPending ? "Guardando…" : "Guardar"}
             </Button>
           </DialogFooter>

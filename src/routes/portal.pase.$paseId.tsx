@@ -47,7 +47,7 @@ ${validar}`;
 
   return (
     <div className="space-y-4">
-      <Link to="/portal" className="inline-flex items-center text-sm text-[#6b7a99] hover:text-[#ffd60a]"><ArrowLeft className="w-4 h-4 mr-1" />Volver</Link>
+      <Link to="/portal" className="inline-flex items-center text-sm text-[#6b7a99] hover:text-[#0a1e3f]"><ArrowLeft className="w-4 h-4 mr-1" />Volver</Link>
       <div className="bg-white border border-[#e8ecf3] rounded-2xl p-6 text-center">
         <div className="text-xs text-[#6b7a99] uppercase tracking-wide">Pase para</div>
         <div className="font-display font-extrabold text-2xl text-[#0a1e3f] mb-5">{pase.visitante_nombre}</div>
@@ -64,7 +64,7 @@ ${validar}`;
             className="flex items-center justify-center gap-1.5 bg-[#25D366] hover:bg-[#1ebe57] text-white text-sm py-2.5 rounded-xl">
             <MessageCircle className="w-4 h-4" />WhatsApp
           </a>
-          <button onClick={share} className="flex items-center justify-center gap-1.5 bg-[#ffd60a] hover:bg-[#e6c200] text-white text-sm py-2.5 rounded-xl">
+          <button onClick={share} className="flex items-center justify-center gap-1.5 bg-[#0a1e3f] hover:bg-[#001a4d] text-white text-sm py-2.5 rounded-xl">
             <Share2 className="w-4 h-4" />Compartir
           </button>
           <button onClick={copy} className="flex items-center justify-center gap-1.5 border border-[#ffe87a] text-[#0a1e3f] text-sm py-2.5 rounded-xl">

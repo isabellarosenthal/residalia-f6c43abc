@@ -95,7 +95,7 @@ export function EstadoCuentaUnidad({ edificioId }: { edificioId: string }) {
 
           <div className="grid grid-cols-3 gap-3">
             <div className="p-3 rounded-xl bg-[#fffdf5]"><div className="text-xs text-[#6b7a99]">Pagado</div><div className="font-display font-bold text-[#166534] text-lg">{fmtL(totalPagado)}</div></div>
-            <div className="p-3 rounded-xl bg-[#fffdf5]"><div className="text-xs text-[#6b7a99]">Pendiente</div><div className="font-display font-bold text-[#ffd60a] text-lg">{fmtL(totalPendiente)}</div></div>
+            <div className="p-3 rounded-xl bg-[#fffdf5]"><div className="text-xs text-[#6b7a99]">Pendiente</div><div className="font-display font-bold text-[#0a1e3f] text-lg">{fmtL(totalPendiente)}</div></div>
             <div className="p-3 rounded-xl bg-[#fffdf5]"><div className="text-xs text-[#6b7a99]">Vencido</div><div className="font-display font-bold text-[#be185d] text-lg">{fmtL(totalVencido)}</div></div>
           </div>
 

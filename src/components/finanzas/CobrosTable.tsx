@@ -122,7 +122,7 @@ export function CobrosTable({ edificioId, onEdit }: { edificioId: string; onEdit
                   </TableCell>
                   <TableCell className="text-right font-semibold text-[#0a1e3f]">{fmtL(c.monto)}</TableCell>
                   <TableCell className="text-right text-sm text-[#166534]">{abonado > 0 ? fmtL(abonado) : "—"}</TableCell>
-                  <TableCell className="text-right font-semibold text-[#ffd60a]">{saldo > 0 ? fmtL(saldo) : "—"}</TableCell>
+                  <TableCell className="text-right font-semibold text-[#0a1e3f]">{saldo > 0 ? fmtL(saldo) : "—"}</TableCell>
                   <TableCell className="text-sm">{fmtDate(c.fecha_vencimiento)}</TableCell>
                   <TableCell>{estadoBadge(c)}</TableCell>
                   <TableCell className="text-right">

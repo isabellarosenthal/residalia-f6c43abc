@@ -98,7 +98,7 @@ export function RecordatoriosMorosos({ edificioId }: { edificioId: string }) {
     <div className="space-y-5">
       <Card className="p-5">
         <div className="flex items-start gap-3 mb-3">
-          <BellRing className="w-5 h-5 text-[#ffd60a] mt-0.5" />
+          <BellRing className="w-5 h-5 text-[#0a1e3f] mt-0.5" />
           <div>
             <h3 className="font-display font-bold text-[#0a1e3f]">Recordatorios a morosos</h3>
             <p className="text-sm text-[#6b7a99]">Edita la plantilla y envía por WhatsApp o email. Variables: <code>{`{{nombre}}`}</code>, <code>{`{{total}}`}</code>, <code>{`{{unidad}}`}</code>, <code>{`{{edificio}}`}</code>, <code>{`{{detalle}}`}</code>.</p>
@@ -132,7 +132,7 @@ export function RecordatoriosMorosos({ edificioId }: { edificioId: string }) {
                   <Button size="sm" variant="outline" disabled={!wa} asChild={!!wa}>
                     {wa ? <a href={wa} target="_blank" rel="noreferrer"><MessageCircle className="w-4 h-4 mr-1" />WhatsApp</a> : <span><MessageCircle className="w-4 h-4 mr-1" />WhatsApp</span>}
                   </Button>
-                  <Button size="sm" className="bg-[#ffd60a] hover:bg-[#e6c200]" disabled={!ml} asChild={!!ml}>
+                  <Button size="sm" className="bg-[#0a1e3f] hover:bg-[#001a4d]" disabled={!ml} asChild={!!ml}>
                     {ml ? <a href={ml}><Mail className="w-4 h-4 mr-1" />Email</a> : <span><Mail className="w-4 h-4 mr-1" />Email</span>}
                   </Button>
                 </div>

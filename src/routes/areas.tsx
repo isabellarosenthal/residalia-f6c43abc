@@ -73,7 +73,7 @@ function AreasPage() {
             </TabsList>
             <TabsContent value="areas" className="space-y-4 pt-4">
               <div className="flex justify-end">
-                <Button onClick={() => openArea(null)} disabled={areaLoading} className="bg-[#ffd60a] hover:bg-[#e6c200]">
+                <Button onClick={() => openArea(null)} disabled={areaLoading} className="bg-[#0a1e3f] hover:bg-[#001a4d]">
                   <Plus className="w-4 h-4 mr-1" />{areaLoading ? "Cargando..." : "Nueva área"}
                 </Button>
               </div>
@@ -81,7 +81,7 @@ function AreasPage() {
             </TabsContent>
             <TabsContent value="reservas" className="space-y-4 pt-4">
               <div className="flex justify-end">
-                <Button onClick={() => openRes(null)} disabled={resLoading} className="bg-[#ffd60a] hover:bg-[#e6c200]">
+                <Button onClick={() => openRes(null)} disabled={resLoading} className="bg-[#0a1e3f] hover:bg-[#001a4d]">
                   <Plus className="w-4 h-4 mr-1" />{resLoading ? "Cargando..." : "Nueva reserva"}
                 </Button>
               </div>

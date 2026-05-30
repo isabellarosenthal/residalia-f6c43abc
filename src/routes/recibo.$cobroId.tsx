@@ -42,7 +42,7 @@ function ReciboPage() {
 
       <div className="max-w-[720px] mx-auto mb-4 flex justify-between items-center no-print">
         <div className="text-sm text-[#6b7a99]">Recibo oficial de pago</div>
-        <Button onClick={() => window.print()} className="bg-[#ffd60a] hover:bg-[#e6c200]"><Printer className="w-4 h-4 mr-2" />Imprimir</Button>
+        <Button onClick={() => window.print()} className="bg-[#0a1e3f] hover:bg-[#001a4d]"><Printer className="w-4 h-4 mr-2" />Imprimir</Button>
       </div>
 
       <div className="max-w-[720px] mx-auto bg-white border border-[#e8ecf3] rounded-2xl print:border-0 print:rounded-none shadow-sm p-10">
@@ -50,7 +50,7 @@ function ReciboPage() {
           <div className="flex items-center gap-4">
             {edificio?.logo_url
               ? <img src={edificio.logo_url} alt="" className="w-14 h-14 rounded-xl object-cover" />
-              : <div className="w-14 h-14 rounded-xl bg-[#ffd60a] text-white flex items-center justify-center font-display font-extrabold text-lg">{edificio?.nombre?.[0] ?? "C"}</div>}
+              : <div className="w-14 h-14 rounded-xl bg-[#0a1e3f] text-white flex items-center justify-center font-display font-extrabold text-lg">{edificio?.nombre?.[0] ?? "C"}</div>}
             <div>
               <div className="font-display font-extrabold text-xl text-[#0a1e3f]">{edificio?.nombre ?? "—"}</div>
               <div className="text-xs text-[#6b7a99]">{[edificio?.direccion, edificio?.ciudad].filter(Boolean).join(" · ")}</div>
@@ -96,7 +96,7 @@ function ReciboPage() {
             <tfoot className="bg-[#fbf6f3]">
               <tr>
                 <td className="p-3 text-right font-semibold text-[#0a1e3f]">Total pagado</td>
-                <td className="p-3 text-right font-display font-extrabold text-xl text-[#ffd60a]">{fmtL(Number(cobro.monto))}</td>
+                <td className="p-3 text-right font-display font-extrabold text-xl text-[#0a1e3f]">{fmtL(Number(cobro.monto))}</td>
               </tr>
             </tfoot>
           </table>

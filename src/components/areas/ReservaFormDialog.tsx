@@ -213,7 +213,7 @@ export function ReservaFormDialog({
           )}
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-            <Button type="submit" disabled={save.isPending || !!conflicto} className="bg-[#ffd60a] hover:bg-[#e6c200]">{save.isPending ? "Guardando…" : "Guardar"}</Button>
+            <Button type="submit" disabled={save.isPending || !!conflicto} className="bg-[#0a1e3f] hover:bg-[#001a4d]">{save.isPending ? "Guardando…" : "Guardar"}</Button>
           </DialogFooter>
         </form>
       </DialogContent>

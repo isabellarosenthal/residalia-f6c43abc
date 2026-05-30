@@ -116,7 +116,7 @@ export function ProspectoFormDialog({
           <Field label="Notas"><Textarea rows={2} {...form.register("notas")} /></Field>
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>Cancelar</Button>
-            <Button type="submit" disabled={save.isPending} className="bg-[#ffd60a] hover:bg-[#e6c200]">
+            <Button type="submit" disabled={save.isPending} className="bg-[#0a1e3f] hover:bg-[#001a4d]">
               {save.isPending ? "Guardando…" : "Guardar"}
             </Button>
           </DialogFooter>

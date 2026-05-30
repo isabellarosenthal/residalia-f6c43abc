@@ -71,7 +71,7 @@ export function GenerarCobrosDialog({
               <>
                 <div className="flex items-center justify-between text-sm">
                   <div className="text-[#6b7a99]">{selectedIds.length} de {selectable.length} unidades seleccionadas</div>
-                  <div className="font-display font-bold text-[#ffd60a]">{fmtL(total)}</div>
+                  <div className="font-display font-bold text-[#0a1e3f]">{fmtL(total)}</div>
                 </div>
                 <div className="border border-[#e8ecf3] rounded-xl divide-y divide-[#f0e7e1] max-h-[50vh] overflow-y-auto">
                   {rows.length === 0 && <div className="p-6 text-center text-[#6b7a99] text-sm">El edificio no tiene unidades.</div>}
@@ -100,12 +100,12 @@ export function GenerarCobrosDialog({
           {stage === "form" ? (
             <>
               <Button variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-              <Button onClick={() => setStage("preview")} disabled={!edificioId || !concepto || !mes || !vencimiento} className="bg-[#ffd60a] hover:bg-[#e6c200]">Previsualizar</Button>
+              <Button onClick={() => setStage("preview")} disabled={!edificioId || !concepto || !mes || !vencimiento} className="bg-[#0a1e3f] hover:bg-[#001a4d]">Previsualizar</Button>
             </>
           ) : (
             <>
               <Button variant="ghost" onClick={() => setStage("form")}>Volver</Button>
-              <Button onClick={confirm} disabled={selectedIds.length === 0 || mut.isPending} className="bg-[#ffd60a] hover:bg-[#e6c200]">
+              <Button onClick={confirm} disabled={selectedIds.length === 0 || mut.isPending} className="bg-[#0a1e3f] hover:bg-[#001a4d]">
                 {mut.isPending ? "Generando…" : `Generar ${selectedIds.length} cobros`}
               </Button>
             </>

@@ -96,7 +96,7 @@ function PipelinePage() {
                         <h3 className="font-semibold text-[#0a1e3f] text-sm">{etapaLabel(etapa)}</h3>
                         <span className="text-xs text-[#6b7a99]">{items.length}</span>
                       </div>
-                      <button onClick={() => openNew(etapa)} className="p-1 rounded hover:bg-[#fffdf5] text-[#ffd60a]">
+                      <button onClick={() => openNew(etapa)} className="p-1 rounded hover:bg-[#fffdf5] text-[#0a1e3f]">
                         <Plus className="w-4 h-4" />
                       </button>
                     </div>
@@ -118,7 +118,7 @@ function PipelinePage() {
                             <span className={`w-2.5 h-2.5 rounded-full shrink-0 mt-1 ${TEMP_DOT[p.temperatura]}`} title={p.temperatura} />
                           </div>
                           {(p.presupuesto_min || p.presupuesto_max) && (
-                            <p className="text-xs text-[#ffd60a] mt-1 font-medium">
+                            <p className="text-xs text-[#0a1e3f] mt-1 font-medium">
                               L {Number(p.presupuesto_min ?? 0).toLocaleString()} - {Number(p.presupuesto_max ?? 0).toLocaleString()}
                             </p>
                           )}

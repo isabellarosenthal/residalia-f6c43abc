@@ -44,7 +44,7 @@ function DashboardPage() {
           </div>
           <div className="flex items-center gap-2 bg-white border border-[#e8ecf3] rounded-full p-1">
             {["Este mes", "Mes anterior", "Este año"].map((p, i) => (
-              <button key={p} className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${i === 0 ? "bg-[#ffd60a] text-white" : "text-[#13294b] hover:bg-[#fffdf5]"}`}>{p}</button>
+              <button key={p} className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${i === 0 ? "bg-[#0a1e3f] text-white" : "text-[#13294b] hover:bg-[#fffdf5]"}`}>{p}</button>
             ))}
           </div>
         </div>

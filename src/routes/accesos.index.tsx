@@ -40,7 +40,7 @@ function AccesosPage() {
             <Button asChild variant="outline">
               <Link to="/accesos/validar"><ShieldCheck className="w-4 h-4 mr-1" />Validar pase</Link>
             </Button>
-            <Button onClick={() => { setEdit(null); setOpen(true); }} className="bg-[#ffd60a] hover:bg-[#e6c200]">
+            <Button onClick={() => { setEdit(null); setOpen(true); }} className="bg-[#0a1e3f] hover:bg-[#001a4d]">
               <Plus className="w-4 h-4 mr-1" />Registrar acceso
             </Button>
           </div>
