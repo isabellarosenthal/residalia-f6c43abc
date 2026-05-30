@@ -29,6 +29,13 @@ function LoginPage() {
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
+    if (isResidenteFlow) {
+      setMode("signup");
+      setSignupRole("residente");
+    }
+  }, [isResidenteFlow]);
+
+  useEffect(() => {
     if (loading || !user) return;
     if (role === "residente") navigate({ to: "/portal" });
     else if (role === "guardia") navigate({ to: "/guardia" });
