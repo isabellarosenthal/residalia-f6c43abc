@@ -145,7 +145,7 @@ export function LandingPage() {
                   </div>
                 </div>
 
-                <Link to="/login" className="text-sm font-semibold bg-[#4F46E5] text-white px-5 py-2.5 rounded-full hover:bg-[#4338CA] shadow-sm transition-colors">
+                <Link to="/login" search={{ mode: "signup" }} className="text-sm font-semibold bg-[#4F46E5] text-white px-5 py-2.5 rounded-full hover:bg-[#4338CA] shadow-sm transition-colors">
                   Crear cuenta
                 </Link>
               </>
@@ -169,7 +169,7 @@ export function LandingPage() {
               todo desde un solo panel con CRM inmobiliario integrado.
             </p>
             <div className="mt-8 flex flex-wrap justify-center md:justify-start gap-3">
-              <Link to="/login" className="inline-flex items-center gap-2 bg-[#4F46E5] text-white px-7 py-3.5 rounded-full font-semibold hover:bg-[#4338CA] shadow-md transition-colors">
+              <Link to="/login" search={{ mode: "signup" }} className="inline-flex items-center gap-2 bg-[#4F46E5] text-white px-7 py-3.5 rounded-full font-semibold hover:bg-[#4338CA] shadow-md transition-colors">
                 Crear mi cuenta gratis <ArrowRight className="w-4 h-4" />
               </Link>
               <a href="#planes" className="inline-flex items-center gap-2 border border-[#E2E8F0] bg-white px-6 py-3 rounded-full font-semibold text-[#0F172A] hover:border-[#4F46E5] hover:text-[#4F46E5] transition-colors">
