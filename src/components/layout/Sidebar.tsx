@@ -5,7 +5,7 @@ import logoUrl from "@/assets/altura-cloud-logo.png";
 import {
   LayoutDashboard, Building2, Users, Wallet, KeyRound, CalendarRange,
   Megaphone, Wrench, Tag, UserPlus, Kanban, CalendarDays,
-  BarChart3, Settings, LogOut, Building, Shield,
+  BarChart3, Settings, LogOut, Shield,
 } from "lucide-react";
 
 
