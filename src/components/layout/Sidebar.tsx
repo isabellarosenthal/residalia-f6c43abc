@@ -1,6 +1,7 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/lib/auth-context";
 import { initials } from "@/lib/format";
+import logoUrl from "@/assets/altura-cloud-logo.png";
 import {
   LayoutDashboard, Building2, Users, Wallet, KeyRound, CalendarRange,
   Megaphone, Wrench, Tag, UserPlus, Kanban, CalendarDays,

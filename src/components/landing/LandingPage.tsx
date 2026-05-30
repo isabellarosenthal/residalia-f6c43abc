@@ -61,7 +61,10 @@ export function LandingPage() {
       {/* Nav */}
       <header className="border-b border-[#e0e7ff] bg-white/80 backdrop-blur sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
-          <div className="font-display font-extrabold text-xl">Altura Cloud</div>
+          <div className="flex items-center gap-2">
+            <img src={logoUrl} alt="Altura Cloud" width={32} height={32} className="w-8 h-8" />
+            <div className="font-display font-extrabold text-xl">Altura Cloud</div>
+          </div>
 
           {/* Menú central */}
           <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-[#312e81]">
