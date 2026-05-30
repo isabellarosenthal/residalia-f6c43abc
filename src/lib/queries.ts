@@ -243,6 +243,19 @@ export function useDeleteResidente() {
   });
 }
 
+export function useGenerarInvitacion() {
+  return useMutation({
+    mutationFn: async (residenteId: string) => {
+      const { data, error } = await supabase.rpc("generar_invitacion_residente", { _residente_id: residenteId });
+      if (error) throw error;
+      const row = Array.isArray(data) ? data[0] : data;
+      return row as { codigo: string; expira_en: string };
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error generando código"),
+  });
+}
+
+
 // ============ COBROS ============
 export type Cobro = Database["public"]["Tables"]["cobros"]["Row"];
 export type CobroInsert = Database["public"]["Tables"]["cobros"]["Insert"];
