@@ -5,7 +5,7 @@ import {
   Server,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
-import heroCondo from "@/assets/hero-condo.jpg";
+import heroAstronaut from "@/assets/hero-astronaut.png";
 import logoUrl from "@/assets/altura-cloud-logo.png";
 
 const PLANS = [
