@@ -26,7 +26,7 @@ function AccesosPage() {
       <div className="space-y-5 max-w-[1400px] mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="font-display font-extrabold text-2xl text-[#173B7A]">Control de Accesos</h1>
+            <h1 className="font-display font-extrabold text-2xl text-[#374151]">Control de Accesos</h1>
             <p className="text-sm text-[#64748B]">Registro de visitantes, deliveries y proveedores</p>
           </div>
           <div className="flex gap-2">
@@ -40,7 +40,7 @@ function AccesosPage() {
             <Button asChild variant="outline">
               <Link to="/accesos/validar"><ShieldCheck className="w-4 h-4 mr-1" />Validar pase</Link>
             </Button>
-            <Button onClick={() => { setEdit(null); setOpen(true); }} className="bg-[#173B7A] hover:bg-[#0f2659]">
+            <Button onClick={() => { setEdit(null); setOpen(true); }} className="bg-[#374151] hover:bg-[#1F2937]">
               <Plus className="w-4 h-4 mr-1" />Registrar acceso
             </Button>
           </div>

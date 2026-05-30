@@ -103,13 +103,13 @@ export function OnboardingWizard({ open, onClose }: Props) {
   return (
     <Dialog open={open} onOpenChange={(o) => !o && close()}>
       <DialogContent className="max-w-2xl bg-[#ffffff] border-[#E2E8F0]">
-        <button onClick={close} className="absolute right-4 top-4 text-[#64748B] hover:text-[#173B7A]"><X className="w-4 h-4" /></button>
+        <button onClick={close} className="absolute right-4 top-4 text-[#64748B] hover:text-[#374151]"><X className="w-4 h-4" /></button>
 
         <div className="flex items-center gap-2 mb-1">
-          <Sparkles className="w-5 h-5 text-[#173B7A]" />
+          <Sparkles className="w-5 h-5 text-[#374151]" />
           <span className="text-xs uppercase tracking-widest text-[#64748B] font-semibold">Bienvenido a Altura Cloud</span>
         </div>
-        <h2 className="font-display font-extrabold text-2xl text-[#173B7A]">Configura tu primer edificio en 4 pasos</h2>
+        <h2 className="font-display font-extrabold text-2xl text-[#374151]">Configura tu primer edificio en 4 pasos</h2>
 
         {/* Stepper */}
         <div className="flex items-center justify-between my-4 px-1">
@@ -121,11 +121,11 @@ export function OnboardingWizard({ open, onClose }: Props) {
               <div key={s.label} className="flex items-center flex-1 last:flex-none">
                 <div className="flex flex-col items-center gap-1">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors font-display font-extrabold ${
-                    done ? "bg-[#166534] text-white" : active ? "bg-[#D9A441] text-[#173B7A]" : "bg-[#F8FAFC] text-[#64748B]"
+                    done ? "bg-[#166534] text-white" : active ? "bg-[#D97757] text-[#374151]" : "bg-[#F8FAFC] text-[#64748B]"
                   }`}>
                     {done ? <Check className="w-5 h-5" /> : <Icon className="w-5 h-5" />}
                   </div>
-                  <span className={`text-xs ${active ? "text-[#173B7A] font-semibold" : "text-[#64748B]"}`}>{s.label}</span>
+                  <span className={`text-xs ${active ? "text-[#374151] font-semibold" : "text-[#64748B]"}`}>{s.label}</span>
                 </div>
                 {i < STEPS.length - 1 && <div className={`h-0.5 flex-1 mx-2 ${done ? "bg-[#166534]" : "bg-[#F8FAFC]"}`} />}
               </div>
@@ -136,7 +136,7 @@ export function OnboardingWizard({ open, onClose }: Props) {
         <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5 space-y-3">
           {step === 0 && (
             <>
-              <h3 className="font-display font-bold text-[#173B7A]">Datos del edificio</h3>
+              <h3 className="font-display font-bold text-[#374151]">Datos del edificio</h3>
               <div className="grid sm:grid-cols-2 gap-3">
                 <div><Label>Nombre</Label><Input value={edif.nombre} onChange={(e) => setEdif({ ...edif, nombre: e.target.value })} placeholder="Torres del Valle" /></div>
                 <div><Label>Ciudad</Label><Input value={edif.ciudad} onChange={(e) => setEdif({ ...edif, ciudad: e.target.value })} /></div>
@@ -148,7 +148,7 @@ export function OnboardingWizard({ open, onClose }: Props) {
 
           {step === 1 && (
             <>
-              <h3 className="font-display font-bold text-[#173B7A]">Genera tus unidades</h3>
+              <h3 className="font-display font-bold text-[#374151]">Genera tus unidades</h3>
               <p className="text-sm text-[#64748B]">Se crearán <b>{pisos * porPiso}</b> unidades numeradas (101, 102, …)</p>
               <div className="grid sm:grid-cols-3 gap-3">
                 <div><Label>Pisos</Label><Input type="number" min={1} value={pisos} onChange={(e) => setPisos(Math.max(1, Number(e.target.value)))} /></div>
@@ -171,7 +171,7 @@ export function OnboardingWizard({ open, onClose }: Props) {
 
           {step === 2 && (
             <>
-              <h3 className="font-display font-bold text-[#173B7A]">Registra tu primer residente</h3>
+              <h3 className="font-display font-bold text-[#374151]">Registra tu primer residente</h3>
               <p className="text-sm text-[#64748B]">Puedes agregar más desde el módulo Residentes</p>
               <div className="grid sm:grid-cols-2 gap-3">
                 <div><Label>Nombre</Label><Input value={res.nombre} onChange={(e) => setRes({ ...res, nombre: e.target.value })} /></div>
@@ -202,7 +202,7 @@ export function OnboardingWizard({ open, onClose }: Props) {
 
           {step === 3 && (
             <>
-              <h3 className="font-display font-bold text-[#173B7A]">Genera los cobros del mes</h3>
+              <h3 className="font-display font-bold text-[#374151]">Genera los cobros del mes</h3>
               <p className="text-sm text-[#64748B]">Se crearán cobros de mantenimiento para todas las unidades ocupadas</p>
               <div><Label>Mes (YYYY-MM)</Label><Input value={mes} onChange={(e) => setMes(e.target.value)} /></div>
             </>
@@ -213,9 +213,9 @@ export function OnboardingWizard({ open, onClose }: Props) {
           <Button variant="ghost" onClick={close} className="text-[#64748B]">Omitir</Button>
           <div className="flex gap-2">
             {step > 0 && <Button variant="outline" onClick={() => setStep(step - 1)}>Atrás</Button>}
-            {step === 0 && <Button className="bg-[#173B7A] hover:bg-[#0f2659]" onClick={handleStep1} disabled={saveEdif.isPending}>Continuar <ArrowRight className="w-4 h-4 ml-1" /></Button>}
-            {step === 1 && <Button className="bg-[#173B7A] hover:bg-[#0f2659]" onClick={handleStep2} disabled={bulkUnidades.isPending}>Generar {pisos * porPiso} unidades <ArrowRight className="w-4 h-4 ml-1" /></Button>}
-            {step === 2 && <Button className="bg-[#173B7A] hover:bg-[#0f2659]" onClick={handleStep3} disabled={saveRes.isPending}>Continuar <ArrowRight className="w-4 h-4 ml-1" /></Button>}
+            {step === 0 && <Button className="bg-[#374151] hover:bg-[#1F2937]" onClick={handleStep1} disabled={saveEdif.isPending}>Continuar <ArrowRight className="w-4 h-4 ml-1" /></Button>}
+            {step === 1 && <Button className="bg-[#374151] hover:bg-[#1F2937]" onClick={handleStep2} disabled={bulkUnidades.isPending}>Generar {pisos * porPiso} unidades <ArrowRight className="w-4 h-4 ml-1" /></Button>}
+            {step === 2 && <Button className="bg-[#374151] hover:bg-[#1F2937]" onClick={handleStep3} disabled={saveRes.isPending}>Continuar <ArrowRight className="w-4 h-4 ml-1" /></Button>}
             {step === 3 && <Button className="bg-[#166534] hover:bg-[#1f4a1f]" onClick={handleStep4} disabled={generarCobros.isPending}>Finalizar <Check className="w-4 h-4 ml-1" /></Button>}
           </div>
         </div>

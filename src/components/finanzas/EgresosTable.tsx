@@ -22,12 +22,12 @@ export function EgresosTable({ edificioId, onEdit }: { edificioId: string; onEdi
       <Table>
         <TableHeader>
           <TableRow className="bg-[#F8FAFC] hover:bg-[#F8FAFC]">
-            <TableHead className="text-[#173B7A] font-semibold">Fecha</TableHead>
-            <TableHead className="text-[#173B7A] font-semibold">Categoría</TableHead>
-            <TableHead className="text-[#173B7A] font-semibold">Proveedor</TableHead>
-            <TableHead className="text-[#173B7A] font-semibold">Descripción</TableHead>
-            <TableHead className="text-[#173B7A] font-semibold text-right">Monto</TableHead>
-            <TableHead className="text-[#173B7A] font-semibold text-right">Acciones</TableHead>
+            <TableHead className="text-[#374151] font-semibold">Fecha</TableHead>
+            <TableHead className="text-[#374151] font-semibold">Categoría</TableHead>
+            <TableHead className="text-[#374151] font-semibold">Proveedor</TableHead>
+            <TableHead className="text-[#374151] font-semibold">Descripción</TableHead>
+            <TableHead className="text-[#374151] font-semibold text-right">Monto</TableHead>
+            <TableHead className="text-[#374151] font-semibold text-right">Acciones</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

@@ -42,7 +42,7 @@ function ReciboPage() {
 
       <div className="max-w-[720px] mx-auto mb-4 flex justify-between items-center no-print">
         <div className="text-sm text-[#64748B]">Recibo oficial de pago</div>
-        <Button onClick={() => window.print()} className="bg-[#173B7A] hover:bg-[#0f2659]"><Printer className="w-4 h-4 mr-2" />Imprimir</Button>
+        <Button onClick={() => window.print()} className="bg-[#374151] hover:bg-[#1F2937]"><Printer className="w-4 h-4 mr-2" />Imprimir</Button>
       </div>
 
       <div className="max-w-[720px] mx-auto bg-white border border-[#E2E8F0] rounded-2xl print:border-0 print:rounded-none shadow-sm p-10">
@@ -50,15 +50,15 @@ function ReciboPage() {
           <div className="flex items-center gap-4">
             {edificio?.logo_url
               ? <img src={edificio.logo_url} alt="" className="w-14 h-14 rounded-xl object-cover" />
-              : <div className="w-14 h-14 rounded-xl bg-[#173B7A] text-white flex items-center justify-center font-display font-extrabold text-lg">{edificio?.nombre?.[0] ?? "C"}</div>}
+              : <div className="w-14 h-14 rounded-xl bg-[#374151] text-white flex items-center justify-center font-display font-extrabold text-lg">{edificio?.nombre?.[0] ?? "C"}</div>}
             <div>
-              <div className="font-display font-extrabold text-xl text-[#173B7A]">{edificio?.nombre ?? "—"}</div>
+              <div className="font-display font-extrabold text-xl text-[#374151]">{edificio?.nombre ?? "—"}</div>
               <div className="text-xs text-[#64748B]">{[edificio?.direccion, edificio?.ciudad].filter(Boolean).join(" · ")}</div>
             </div>
           </div>
           <div className="text-right">
             <div className="text-xs text-[#64748B] uppercase tracking-wider">Recibo Nº</div>
-            <div className="font-display font-bold text-lg text-[#173B7A]">{cobro.recibo_numero ?? "—"}</div>
+            <div className="font-display font-bold text-lg text-[#374151]">{cobro.recibo_numero ?? "—"}</div>
             <div className="text-xs text-[#64748B] mt-1">Emitido: {fmtDate(cobro.fecha_pago ?? cobro.created_at)}</div>
           </div>
         </header>
@@ -66,16 +66,16 @@ function ReciboPage() {
         <section className="grid grid-cols-2 gap-6 py-6 text-sm">
           <div>
             <div className="text-xs text-[#64748B] uppercase tracking-wider mb-1">Pagado por</div>
-            <div className="font-medium text-[#173B7A]">{residente ? `${residente.nombre} ${residente.apellido ?? ""}`.trim() : "—"}</div>
+            <div className="font-medium text-[#374151]">{residente ? `${residente.nombre} ${residente.apellido ?? ""}`.trim() : "—"}</div>
             {residente?.dni && <div className="text-xs text-[#64748B]">DNI: {residente.dni}</div>}
             {residente?.email && <div className="text-xs text-[#64748B]">{residente.email}</div>}
             {residente?.telefono && <div className="text-xs text-[#64748B]">{residente.telefono}</div>}
           </div>
           <div>
             <div className="text-xs text-[#64748B] uppercase tracking-wider mb-1">Unidad</div>
-            <div className="font-medium text-[#173B7A]">{unidad ? `#${unidad.numero}${unidad.piso != null ? ` · piso ${unidad.piso}` : ""}` : "—"}</div>
+            <div className="font-medium text-[#374151]">{unidad ? `#${unidad.numero}${unidad.piso != null ? ` · piso ${unidad.piso}` : ""}` : "—"}</div>
             <div className="text-xs text-[#64748B] mt-2 uppercase tracking-wider">Método de pago</div>
-            <div className="font-medium text-[#173B7A] capitalize">{cobro.metodo_pago ?? "—"}</div>
+            <div className="font-medium text-[#374151] capitalize">{cobro.metodo_pago ?? "—"}</div>
           </div>
         </section>
 
@@ -83,20 +83,20 @@ function ReciboPage() {
           <table className="w-full text-sm">
             <thead className="bg-[#F8FAFC]">
               <tr>
-                <th className="text-left p-3 font-semibold text-[#173B7A]">Concepto</th>
-                <th className="text-right p-3 font-semibold text-[#173B7A]">Monto</th>
+                <th className="text-left p-3 font-semibold text-[#374151]">Concepto</th>
+                <th className="text-right p-3 font-semibold text-[#374151]">Monto</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td className="p-3 text-[#173B7A]">{cobro.concepto}<div className="text-xs text-[#64748B]">Vencía: {fmtDate(cobro.fecha_vencimiento)}</div></td>
-                <td className="p-3 text-right font-semibold text-[#173B7A]">{fmtL(Number(cobro.monto))}</td>
+                <td className="p-3 text-[#374151]">{cobro.concepto}<div className="text-xs text-[#64748B]">Vencía: {fmtDate(cobro.fecha_vencimiento)}</div></td>
+                <td className="p-3 text-right font-semibold text-[#374151]">{fmtL(Number(cobro.monto))}</td>
               </tr>
             </tbody>
             <tfoot className="bg-[#fbf6f3]">
               <tr>
-                <td className="p-3 text-right font-semibold text-[#173B7A]">Total pagado</td>
-                <td className="p-3 text-right font-display font-extrabold text-xl text-[#173B7A]">{fmtL(Number(cobro.monto))}</td>
+                <td className="p-3 text-right font-semibold text-[#374151]">Total pagado</td>
+                <td className="p-3 text-right font-display font-extrabold text-xl text-[#374151]">{fmtL(Number(cobro.monto))}</td>
               </tr>
             </tfoot>
           </table>
