@@ -64,8 +64,11 @@ export function LandingPage() {
       <header className="border-b border-[#e8ddd8] bg-white/80 backdrop-blur sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="font-display font-extrabold text-xl">PropCloud</div>
-          <div className="flex items-center gap-3">
-            <Link to="/login" className="text-sm font-medium text-[#4a2800] hover:text-[#c94f0c]">Iniciar sesión</Link>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Link to="/login" search={{ as: "residente" }} className="text-sm font-medium text-[#c94f0c] border border-[#c94f0c] px-3 py-1.5 rounded-full hover:bg-[#fde8e2]">
+              Portal residentes
+            </Link>
+            <Link to="/login" className="text-sm font-medium text-[#4a2800] hover:text-[#c94f0c] hidden sm:inline">Iniciar sesión</Link>
             <Link to="/login" className="text-sm font-semibold bg-[#c94f0c] text-white px-4 py-2 rounded-full hover:bg-[#a33d08]">
               Crear cuenta
             </Link>
