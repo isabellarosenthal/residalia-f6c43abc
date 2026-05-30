@@ -53,7 +53,7 @@ function RootComponent() {
         <Toaster
           position="top-right"
           toastOptions={{
-            style: { background: "#374151", color: "#F8FAFC", borderRadius: "12px" },
+            style: { background: "#2D3748", color: "#F8FAFC", borderRadius: "12px" },
             success: { iconTheme: { primary: "#166534", secondary: "#fff" } },
             error: { iconTheme: { primary: "#be185d", secondary: "#fff" } },
           }}

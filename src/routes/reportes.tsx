@@ -108,7 +108,7 @@ function ReportesPage() {
       <div className="space-y-5 max-w-[1400px] mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="font-display font-extrabold text-2xl text-[#374151]">Reportes</h1>
+            <h1 className="font-display font-extrabold text-2xl text-[#2D3748]">Reportes</h1>
             <p className="text-sm text-[#64748B]">Análisis financiero, ocupación y CRM</p>
           </div>
           <Select value={edificioId} onValueChange={setEdificioId}>
@@ -141,7 +141,7 @@ function ReportesPage() {
 
           <TabsContent value="financiero" className="pt-4 space-y-4">
             <Card className="p-5">
-              <h3 className="font-display font-bold text-lg text-[#374151] mb-4">Ingresos vs Egresos (6 meses)</h3>
+              <h3 className="font-display font-bold text-lg text-[#2D3748] mb-4">Ingresos vs Egresos (6 meses)</h3>
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={flujoMensual}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0e6e0" />
@@ -155,7 +155,7 @@ function ReportesPage() {
               </ResponsiveContainer>
             </Card>
             <Card className="p-5">
-              <h3 className="font-display font-bold text-lg text-[#374151] mb-4">Egresos por categoría</h3>
+              <h3 className="font-display font-bold text-lg text-[#2D3748] mb-4">Egresos por categoría</h3>
               {egresosPorCategoria.length === 0 ? (
                 <p className="text-sm text-[#64748B]">Sin egresos registrados</p>
               ) : (
@@ -173,7 +173,7 @@ function ReportesPage() {
 
           <TabsContent value="ocupacion" className="pt-4 space-y-4">
             <Card className="p-5">
-              <h3 className="font-display font-bold text-lg text-[#374151] mb-4">Ocupación por edificio</h3>
+              <h3 className="font-display font-bold text-lg text-[#2D3748] mb-4">Ocupación por edificio</h3>
               {ocupacionPorEdificio.length === 0 ? (
                 <p className="text-sm text-[#64748B]">Sin unidades registradas</p>
               ) : (
@@ -194,7 +194,7 @@ function ReportesPage() {
 
           <TabsContent value="crm" className="pt-4 space-y-4">
             <Card className="p-5">
-              <h3 className="font-display font-bold text-lg text-[#374151] mb-4">Prospectos por etapa</h3>
+              <h3 className="font-display font-bold text-lg text-[#2D3748] mb-4">Prospectos por etapa</h3>
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={pipeline}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0e6e0" />
@@ -209,7 +209,7 @@ function ReportesPage() {
 
           <TabsContent value="exportar" className="pt-4">
             <Card className="p-5 space-y-3">
-              <h3 className="font-display font-bold text-lg text-[#374151]">Exportar a CSV</h3>
+              <h3 className="font-display font-bold text-lg text-[#2D3748]">Exportar a CSV</h3>
               <p className="text-sm text-[#64748B]">Descarga los datos filtrados por edificio</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                 <Button variant="outline" onClick={() => downloadCSV("unidades.csv", unidades)}>

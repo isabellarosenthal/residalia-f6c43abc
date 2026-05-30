@@ -81,7 +81,7 @@ export function ReservasCalendar({ edificioId }: { edificioId: string }) {
           {days.map((d, i) => {
             const isToday = d.toDateString() === new Date().toDateString();
             return (
-              <div key={i} className={`text-center py-2 text-xs font-semibold ${isToday ? "text-[#374151]" : "text-[#374151]"}`}>
+              <div key={i} className={`text-center py-2 text-xs font-semibold ${isToday ? "text-[#2D3748]" : "text-[#2D3748]"}`}>
                 {DOW[i]}<br /><span className="text-base font-display">{d.getDate()}</span>
               </div>
             );

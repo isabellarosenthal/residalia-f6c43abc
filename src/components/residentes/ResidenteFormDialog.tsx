@@ -114,7 +114,7 @@ export function ResidenteFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[640px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="font-display text-xl text-[#374151]">{residente ? "Editar residente" : "Nuevo residente"}</DialogTitle>
+          <DialogTitle className="font-display text-xl text-[#2D3748]">{residente ? "Editar residente" : "Nuevo residente"}</DialogTitle>
         </DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
@@ -177,7 +177,7 @@ export function ResidenteFormDialog({
 
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-            <Button type="submit" disabled={!form.formState.isValid || save.isPending} className="bg-[#374151] hover:bg-[#1F2937]">
+            <Button type="submit" disabled={!form.formState.isValid || save.isPending} className="bg-[#2D3748] hover:bg-[#1F2937]">
               {save.isPending ? "Guardando…" : "Guardar residente"}
             </Button>
           </DialogFooter>

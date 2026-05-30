@@ -58,7 +58,7 @@ function EdificioDetail() {
   return (
     <AppShell>
       <div className="space-y-5 max-w-[1400px] mx-auto">
-        <Link to="/edificios" className="inline-flex items-center text-sm text-[#64748B] hover:text-[#374151]">
+        <Link to="/edificios" className="inline-flex items-center text-sm text-[#64748B] hover:text-[#2D3748]">
           <ChevronLeft className="w-4 h-4" /> Volver a edificios
         </Link>
 
@@ -67,7 +67,7 @@ function EdificioDetail() {
             <EdificioPlaceholder id={edificio.id} tipo={edificio.tipo} className="md:w-56 h-32 md:h-auto" />
             <div className="flex-1 p-5 flex flex-col md:flex-row md:items-center justify-between gap-3">
               <div>
-                <h1 className="font-display font-extrabold text-2xl text-[#374151]">{edificio.nombre}</h1>
+                <h1 className="font-display font-extrabold text-2xl text-[#2D3748]">{edificio.nombre}</h1>
                 <div className="text-sm text-[#64748B] flex items-center gap-1 mt-1">
                   <MapPin className="w-4 h-4" />
                   {edificio.direccion ?? "—"}{edificio.ciudad ? ` · ${edificio.ciudad}` : ""}{edificio.departamento ? `, ${edificio.departamento}` : ""}
@@ -103,7 +103,7 @@ function EdificioDetail() {
             </div>
 
             <Card className="p-5">
-              <h3 className="font-display font-bold text-[#374151] mb-3">Datos generales</h3>
+              <h3 className="font-display font-bold text-[#2D3748] mb-3">Datos generales</h3>
               <dl className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-3 text-sm">
                 <Info label="Nombre" value={edificio.nombre} />
                 <Info label="Tipo" value={<span className="capitalize">{edificio.tipo}</span>} />
@@ -122,7 +122,7 @@ function EdificioDetail() {
             <PlanLimitsBanner focus="unidades" />
             <div className="flex flex-wrap gap-2 justify-end">
               <Button variant="outline" onClick={() => setBulkOpen(true)}><Layers className="w-4 h-4 mr-1" />Generar en bloque</Button>
-              <Button onClick={() => { setUnidadEdit(null); setUnidadOpen(true); }} className="bg-[#374151] hover:bg-[#1F2937]">
+              <Button onClick={() => { setUnidadEdit(null); setUnidadOpen(true); }} className="bg-[#2D3748] hover:bg-[#1F2937]">
                 <Plus className="w-4 h-4 mr-1" />Nueva unidad
               </Button>
             </div>
@@ -131,7 +131,7 @@ function EdificioDetail() {
 
           <TabsContent value="residentes" className="space-y-4 pt-4">
             <div className="flex justify-end">
-              <Button onClick={() => { setResidenteEdit(null); setResidenteOpen(true); }} className="bg-[#374151] hover:bg-[#1F2937]"><Plus className="w-4 h-4 mr-1" />Nuevo residente</Button>
+              <Button onClick={() => { setResidenteEdit(null); setResidenteOpen(true); }} className="bg-[#2D3748] hover:bg-[#1F2937]"><Plus className="w-4 h-4 mr-1" />Nuevo residente</Button>
             </div>
             <ResidentesTable search="" edificioId={edificio.id} tipo="all" estado="all" onEdit={(r) => { setResidenteEdit(r); setResidenteOpen(true); }} />
           </TabsContent>
@@ -141,7 +141,7 @@ function EdificioDetail() {
             <Card className="p-5 space-y-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-display font-bold text-[#374151] flex items-center gap-2"><FileText className="w-5 h-5 text-[#374151]" /> Editar datos del edificio</h3>
+                  <h3 className="font-display font-bold text-[#2D3748] flex items-center gap-2"><FileText className="w-5 h-5 text-[#2D3748]" /> Editar datos del edificio</h3>
                   <p className="text-sm text-[#64748B]">Modifica nombre, dirección, cuota y otros datos.</p>
                 </div>
                 <Button variant="outline" onClick={() => setEditOpen(true)}><Pencil className="w-4 h-4 mr-1" />Editar</Button>
@@ -178,7 +178,7 @@ function Info({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div>
       <dt className="text-xs uppercase tracking-wider text-[#64748B]">{label}</dt>
-      <dd className="text-[#374151] font-medium mt-0.5">{value}</dd>
+      <dd className="text-[#2D3748] font-medium mt-0.5">{value}</dd>
     </div>
   );
 }
