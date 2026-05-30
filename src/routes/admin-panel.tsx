@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Building2, Users, Home, DollarSign, TrendingUp, Shield, Ban, Play, Pause, CheckCircle2 } from "lucide-react";
@@ -12,7 +12,6 @@ import {
   updateSuscripcionPlan,
   updateSuscripcionEstado,
   toggleCondominioActivo,
-  updatePlan,
 } from "@/lib/admin-stats.functions";
 import { toast } from "sonner";
 
