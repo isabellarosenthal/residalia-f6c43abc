@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 import heroAstronaut from "@/assets/hero-astronaut.png";
+import astronautChecklist from "@/assets/astronaut-checklist.png";
 import logoUrl from "@/assets/altura-cloud-logo.png";
 
 // Brand kit Altura Cloud v1.0
@@ -352,25 +353,30 @@ export function LandingPage() {
 
       {/* FAQ */}
       <section id="faq" className="bg-[#F1F5F9] border-t border-[#E2E8F0] py-20">
-        <div className="max-w-3xl mx-auto px-6">
-          <h2 className="font-display font-extrabold text-3xl md:text-4xl text-center mb-12 text-[#0F172A]">Preguntas frecuentes</h2>
-          <div className="space-y-4">
-            {[
-              { q: "¿Mis datos están seguros y separados de otros condominios?", a: "Sí. Cada cuenta tiene su propio espacio aislado. Las políticas de seguridad a nivel de base de datos impiden que un usuario vea información de otro, aunque conozca los IDs." },
-              { q: "¿Necesito instalar algo?", a: "No. Todo corre en la nube. Abrís el navegador, iniciás sesión y listo. Funciona en Windows, Mac y celulares." },
-              { q: "¿Puedo administrar más de un condominio con una sola cuenta?", a: "Sí, desde el plan Torre podés tener hasta 5 condominios. El plan Penthouse es ilimitado." },
-              { q: "¿Puedo invitar a otros usuarios a mi cuenta?", a: "Sí. Podés agregar miembros (administradores, conserjes, agentes inmobiliarios) según los límites de tu plan." },
-              { q: "¿Puedo cambiar o cancelar mi plan después?", a: "Sí, en cualquier momento. Te cobramos sólo lo del mes en curso." },
-              { q: "¿Manejan lempiras y conceptos hondureños?", a: "Sí. La plataforma está hecha en Honduras, para Honduras: lempiras nativos, IVA, cuotas extraordinarias, mora, todo en español." },
-            ].map((f) => (
-              <details key={f.q} className="group bg-white border border-[#E2E8F0] rounded-2xl p-5 hover:border-[#4F46E5] transition">
-                <summary className="font-semibold cursor-pointer flex justify-between items-center text-[#0F172A]">
-                  {f.q}
-                  <span className="text-[#4F46E5] group-open:rotate-45 transition-transform text-xl leading-none">+</span>
-                </summary>
-                <p className="mt-3 text-sm text-[#475569]">{f.a}</p>
-              </details>
-            ))}
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 items-center">
+          <div>
+            <h2 className="font-display font-extrabold text-3xl md:text-4xl mb-12 text-[#0F172A]">Preguntas frecuentes</h2>
+            <div className="space-y-4">
+              {[
+                { q: "¿Mis datos están seguros y separados de otros condominios?", a: "Sí. Cada cuenta tiene su propio espacio aislado. Las políticas de seguridad a nivel de base de datos impiden que un usuario vea información de otro, aunque conozca los IDs." },
+                { q: "¿Necesito instalar algo?", a: "No. Todo corre en la nube. Abrís el navegador, iniciás sesión y listo. Funciona en Windows, Mac y celulares." },
+                { q: "¿Puedo administrar más de un condominio con una sola cuenta?", a: "Sí, desde el plan Torre podés tener hasta 5 condominios. El plan Penthouse es ilimitado." },
+                { q: "¿Puedo invitar a otros usuarios a mi cuenta?", a: "Sí. Podés agregar miembros (administradores, conserjes, agentes inmobiliarios) según los límites de tu plan." },
+                { q: "¿Puedo cambiar o cancelar mi plan después?", a: "Sí, en cualquier momento. Te cobramos sólo lo del mes en curso." },
+                { q: "¿Manejan lempiras y conceptos hondureños?", a: "Sí. La plataforma está hecha en Honduras, para Honduras: lempiras nativos, IVA, cuotas extraordinarias, mora, todo en español." },
+              ].map((f) => (
+                <details key={f.q} className="group bg-white border border-[#E2E8F0] rounded-2xl p-5 hover:border-[#4F46E5] transition">
+                  <summary className="font-semibold cursor-pointer flex justify-between items-center text-[#0F172A]">
+                    {f.q}
+                    <span className="text-[#4F46E5] group-open:rotate-45 transition-transform text-xl leading-none">+</span>
+                  </summary>
+                  <p className="mt-3 text-sm text-[#475569]">{f.a}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+          <div className="hidden lg:flex justify-center">
+            <img src={astronautChecklist} alt="Astronauta con checklist" className="w-[360px] xl:w-[420px] h-auto" />
           </div>
         </div>
       </section>
