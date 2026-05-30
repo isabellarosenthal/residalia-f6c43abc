@@ -177,7 +177,7 @@ function UsuariosTab() {
       supabase.from("user_roles").select("user_id,role"),
     ]);
     const map = new Map((roles ?? []).map(r => [r.user_id, r.role as AppRole]));
-    setRows((profiles ?? []).map(p => ({ ...p, role: map.get(p.id) ?? null })));
+    setRows((profiles ?? []).map(p => ({ ...p, role: map.get(p.id) ?? null })).filter(r => r.role !== "residente"));
     setLoading(false);
   };
 
