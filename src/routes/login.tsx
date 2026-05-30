@@ -17,6 +17,7 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [invitationCode, setInvitationCode] = useState("");
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
@@ -35,9 +36,14 @@ function LoginPage() {
         if (error) throw error;
         toast.success("Bienvenido");
       } else {
+        if (signupRole === "residente" && !invitationCode.trim()) {
+          throw new Error("Necesitas un código de invitación del administrador.");
+        }
+        const meta: Record<string, any> = { full_name: name, role: signupRole };
+        if (signupRole === "residente") meta.invitation_code = invitationCode.trim().toUpperCase();
         const { error } = await supabase.auth.signUp({
           email, password,
-          options: { emailRedirectTo: window.location.origin, data: { full_name: name, role: signupRole } },
+          options: { emailRedirectTo: window.location.origin, data: meta },
         });
         if (error) throw error;
         toast.success("Cuenta creada");
@@ -46,6 +52,7 @@ function LoginPage() {
       toast.error(err?.message ?? "Error de autenticación");
     } finally { setBusy(false); }
   };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "linear-gradient(135deg,#faf9f7 0%,#f5ede8 100%)" }}>
@@ -74,9 +81,18 @@ function LoginPage() {
                   ))}
                 </div>
                 {signupRole === "residente" && (
-                  <p className="text-xs text-[#9a7060] mt-2">Usa el mismo correo con el que te registró el administrador.</p>
+                  <p className="text-xs text-[#9a7060] mt-2">Necesitas un código de invitación enviado por el administrador.</p>
                 )}
               </div>
+              {signupRole === "residente" && (
+                <div>
+                  <label className="block text-sm font-medium text-[#2d1200] mb-1.5">Código de invitación</label>
+                  <input value={invitationCode} onChange={(e) => setInvitationCode(e.target.value.toUpperCase())} required
+                    placeholder="ABC123" maxLength={6}
+                    className="w-full border border-[#c9b8b0] rounded-xl px-4 py-2.5 text-[#2d1200] font-mono tracking-widest uppercase outline-none focus:border-[#c94f0c] focus:ring-2 focus:ring-[#c94f0c]/20" />
+                </div>
+              )}
+
               <div>
                 <label className="block text-sm font-medium text-[#2d1200] mb-1.5">Nombre completo</label>
                 <input value={name} onChange={(e) => setName(e.target.value)} required

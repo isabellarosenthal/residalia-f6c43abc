@@ -563,6 +563,73 @@ export type Database = {
           },
         ]
       }
+      invitaciones_residente: {
+        Row: {
+          codigo: string
+          condominio_id: string
+          created_at: string
+          email: string
+          estado: string
+          expira_en: string
+          generado_por: string | null
+          id: string
+          residente_id: string | null
+          unidad_id: string | null
+          usada_en: string | null
+          usada_por: string | null
+        }
+        Insert: {
+          codigo: string
+          condominio_id: string
+          created_at?: string
+          email: string
+          estado?: string
+          expira_en?: string
+          generado_por?: string | null
+          id?: string
+          residente_id?: string | null
+          unidad_id?: string | null
+          usada_en?: string | null
+          usada_por?: string | null
+        }
+        Update: {
+          codigo?: string
+          condominio_id?: string
+          created_at?: string
+          email?: string
+          estado?: string
+          expira_en?: string
+          generado_por?: string | null
+          id?: string
+          residente_id?: string | null
+          unidad_id?: string | null
+          usada_en?: string | null
+          usada_por?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invitaciones_residente_condominio_id_fkey"
+            columns: ["condominio_id"]
+            isOneToOne: false
+            referencedRelation: "condominios"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invitaciones_residente_residente_id_fkey"
+            columns: ["residente_id"]
+            isOneToOne: false
+            referencedRelation: "residentes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invitaciones_residente_unidad_id_fkey"
+            columns: ["unidad_id"]
+            isOneToOne: false
+            referencedRelation: "unidades"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ordenes_mantenimiento: {
         Row: {
           area: string | null
@@ -1206,6 +1273,13 @@ export type Database = {
       }
       can_access_condominio: { Args: { _condo_id: string }; Returns: boolean }
       can_manage_condominio: { Args: { _condo_id: string }; Returns: boolean }
+      generar_invitacion_residente: {
+        Args: { _residente_id: string }
+        Returns: {
+          codigo: string
+          expira_en: string
+        }[]
+      }
       get_user_role: {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["app_role"]
@@ -1225,6 +1299,15 @@ export type Database = {
       shares_managed_condominio_with: {
         Args: { _target: string }
         Returns: boolean
+      }
+      validar_invitacion: {
+        Args: { _codigo: string; _email: string }
+        Returns: {
+          condominio_id: string
+          mensaje: string
+          residente_id: string
+          valida: boolean
+        }[]
       }
     }
     Enums: {

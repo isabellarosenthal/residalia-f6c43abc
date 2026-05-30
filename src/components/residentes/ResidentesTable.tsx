@@ -1,10 +1,12 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui-pentos";
-import { Pencil, Trash2, Mail, Phone, Eye } from "lucide-react";
+import { Pencil, Trash2, Mail, Phone, Eye, KeyRound } from "lucide-react";
 import { fmtDate } from "@/lib/format";
 import { useResidentes, useDeleteResidente, useEdificios, useUnidades, type Residente } from "@/lib/queries";
+import { GenerarAccesoDialog } from "./GenerarAccesoDialog";
+
 
 export function ResidentesTable({
   search, edificioId, tipo, estado, onEdit, onView,
@@ -17,6 +19,8 @@ export function ResidentesTable({
   const { data: edificios = [] } = useEdificios();
   const { data: unidades = [] } = useUnidades();
   const del = useDeleteResidente();
+  const [accesoFor, setAccesoFor] = useState<Residente | null>(null);
+
 
   const edifMap = useMemo(() => new Map(edificios.map((e) => [e.id, e.nombre])), [edificios]);
   const uniMap = useMemo(() => new Map(unidades.map((u) => [u.id, u.numero])), [unidades]);
@@ -75,6 +79,7 @@ export function ResidentesTable({
               <TableCell>{r.activo ? <Badge variant="success">Activo</Badge> : <Badge variant="neutral">Inactivo</Badge>}</TableCell>
               <TableCell className="text-right">
                 {onView && <Button size="sm" variant="ghost" onClick={() => onView(r)} className="h-8 w-8 p-0" title="Ver detalle"><Eye className="w-4 h-4" /></Button>}
+                <Button size="sm" variant="ghost" onClick={() => setAccesoFor(r)} className="h-8 w-8 p-0" title="Generar acceso al portal"><KeyRound className="w-4 h-4" /></Button>
                 <Button size="sm" variant="ghost" onClick={() => onEdit(r)} className="h-8 w-8 p-0"><Pencil className="w-4 h-4" /></Button>
                 <Button size="sm" variant="ghost" onClick={() => { if (confirm(`¿Eliminar ${r.nombre} ${r.apellido}?`)) del.mutate(r.id); }} className="h-8 w-8 p-0 text-[#c0392b] hover:text-[#c0392b]"><Trash2 className="w-4 h-4" /></Button>
               </TableCell>
@@ -82,6 +87,8 @@ export function ResidentesTable({
           ))}
         </TableBody>
       </Table>
+      <GenerarAccesoDialog residente={accesoFor} open={!!accesoFor} onOpenChange={(v) => !v && setAccesoFor(null)} />
+
     </div>
   );
 }
