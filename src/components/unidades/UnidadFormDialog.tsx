@@ -231,6 +231,16 @@ export function UnidadFormDialog({
                   </SelectContent>
                 </Select>
               </div>
+              <div>
+                <Label>Moneda</Label>
+                <Select value={form.watch("moneda")} onValueChange={(v) => form.setValue("moneda", v as "L" | "USD")}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="L">Lempiras (L)</SelectItem>
+                    <SelectItem value="USD">Dólares ($)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
               <div className="grid grid-cols-3 gap-3">
                 <div><Label>Precio venta</Label><Input type="number" step="0.01" {...form.register("precio_venta")} /></div>
                 <div><Label>Precio renta</Label><Input type="number" step="0.01" {...form.register("precio_renta")} /></div>
