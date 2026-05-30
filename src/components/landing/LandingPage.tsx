@@ -136,7 +136,7 @@ export function LandingPage() {
             <h1 className="font-display font-extrabold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-[1.05]">
               Administra tu condominio <span className="text-[#0a1e3f]">sin hojas de cálculo</span>. 🏢
             </h1>
-            <p className="mt-6 text-lg text-[#6b4a3a] max-w-xl mx-auto md:mx-0">
+            <p className="mt-6 text-lg text-[#6b7a99] max-w-xl mx-auto md:mx-0">
               💰 Cobros, 🔑 accesos, 👥 residentes, 🔧 mantenimiento y 🏘️ propiedades en venta o renta —
               todo desde un solo panel con CRM inmobiliario integrado.
             </p>
@@ -196,7 +196,7 @@ export function LandingPage() {
       <section id="funciones" className="max-w-7xl mx-auto px-6 py-20">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <h2 className="font-display font-extrabold text-3xl md:text-4xl">Todo lo que necesita un edificio, en un solo lugar</h2>
-          <p className="mt-3 text-[#6b4a3a]">
+          <p className="mt-3 text-[#6b7a99]">
             Reemplaza WhatsApp, Excel y cuadernos por un sistema que ordena la operación
             financiera, comercial y de seguridad de tu condominio.
           </p>
@@ -222,7 +222,7 @@ export function LandingPage() {
                 <span className="text-2xl" aria-hidden>{f.e}</span>
               </div>
               <h3 className="font-display font-bold text-lg">{f.t}</h3>
-              <p className="text-sm text-[#6b4a3a] mt-1.5">{f.d}</p>
+              <p className="text-sm text-[#6b7a99] mt-1.5">{f.d}</p>
             </div>
           ))}
         </div>
@@ -235,7 +235,7 @@ export function LandingPage() {
         <div className="max-w-7xl mx-auto px-6 relative">
           <div className="text-center mb-14">
             <h2 className="font-display font-extrabold text-3xl md:text-4xl">Empieza a operar hoy mismo</h2>
-            <p className="mt-3 text-[#6b4a3a]">Cuatro pasos guiados por nuestro asistente de configuración.</p>
+            <p className="mt-3 text-[#6b7a99]">Cuatro pasos guiados por nuestro asistente de configuración.</p>
           </div>
           <ol className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {[
@@ -250,7 +250,7 @@ export function LandingPage() {
                   <span className="text-3xl" aria-hidden>{s.e}</span>
                 </div>
                 <h3 className="font-display font-bold text-lg">{s.t}</h3>
-                <p className="text-sm text-[#6b4a3a] mt-1">{s.d}</p>
+                <p className="text-sm text-[#6b7a99] mt-1">{s.d}</p>
               </li>
             ))}
           </ol>
@@ -275,7 +275,7 @@ export function LandingPage() {
               </div>
               <div>
                 <h3 className="font-display font-bold text-lg">{b.t}</h3>
-                <p className="text-sm text-[#6b4a3a] mt-1.5">{b.d}</p>
+                <p className="text-sm text-[#6b7a99] mt-1.5">{b.d}</p>
               </div>
             </div>
           ))}
@@ -288,7 +288,7 @@ export function LandingPage() {
       <section id="planes" className="max-w-7xl mx-auto px-6 py-20">
         <div className="text-center mb-12">
           <h2 className="font-display font-extrabold text-3xl md:text-4xl">Planes simples y honestos</h2>
-          <p className="mt-3 text-[#6b4a3a]">Elige el que te queda. Cambia cuando quieras.</p>
+          <p className="mt-3 text-[#6b7a99]">Elige el que te queda. Cambia cuando quieras.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -306,7 +306,7 @@ export function LandingPage() {
               )}
               <div className="text-3xl">{p.icon}</div>
               <h3 className="font-display font-extrabold text-2xl mt-2">{p.name}</h3>
-              <p className="text-sm text-[#6b4a3a] mt-1 min-h-[2.5rem]">{p.tagline}</p>
+              <p className="text-sm text-[#6b7a99] mt-1 min-h-[2.5rem]">{p.tagline}</p>
               <div className="mt-5">
                 <span className="text-4xl font-extrabold">L {p.price}</span>
                 <span className="text-[#6b7a99] text-sm">/mes</span>
@@ -352,7 +352,7 @@ export function LandingPage() {
                   {f.q}
                   <span className="text-[#0a1e3f] group-open:rotate-45 transition-transform text-xl leading-none">+</span>
                 </summary>
-                <p className="mt-3 text-sm text-[#6b4a3a]">{f.a}</p>
+                <p className="mt-3 text-sm text-[#6b7a99]">{f.a}</p>
               </details>
             ))}
           </div>
@@ -363,7 +363,7 @@ export function LandingPage() {
       <section className="relative max-w-4xl mx-auto px-6 py-20 text-center">
         <img src={logoUrl} alt="" aria-hidden width={160} height={160} className="mx-auto w-28 md:w-36 h-auto float-slow mb-6" />
         <h2 className="font-display font-extrabold text-3xl md:text-4xl">¿Listo para ordenar tu condominio?</h2>
-        <p className="mt-4 text-[#6b4a3a]">Crea tu cuenta gratis y configurá tu primer edificio en menos de 5 minutos.</p>
+        <p className="mt-4 text-[#6b7a99]">Crea tu cuenta gratis y configurá tu primer edificio en menos de 5 minutos.</p>
         <Link to="/login" className="mt-8 inline-flex items-center gap-2 bg-[#ffd60a] text-[#0a1e3f] px-9 py-4 rounded-full font-semibold text-lg hover:bg-[#ffe040] shadow-lg">
           Empezar ahora <ArrowRight className="w-5 h-5" />
         </Link>
@@ -376,7 +376,7 @@ export function LandingPage() {
             {/* Col 1: Marca */}
             <div className="space-y-4">
               <div className="font-display font-extrabold text-2xl text-[#0a1e3f]">Altura Cloud</div>
-              <p className="text-sm text-[#6b4a3a] leading-relaxed">
+              <p className="text-sm text-[#6b7a99] leading-relaxed">
                 Plataforma de administración de condominios y propiedades para Centroamérica.
               </p>
             </div>
@@ -395,7 +395,7 @@ export function LandingPage() {
                   const Icon = l.icon;
                   return (
                     <li key={l.name}>
-                      <a href={l.url} target="_blank" rel="noopener noreferrer" className="group flex items-start gap-2 text-[#6b4a3a] hover:text-[#0a1e3f] transition">
+                      <a href={l.url} target="_blank" rel="noopener noreferrer" className="group flex items-start gap-2 text-[#6b7a99] hover:text-[#0a1e3f] transition">
                         <Icon className="h-4 w-4 mt-0.5 text-[#0a1e3f]/70 group-hover:text-[#0a1e3f] flex-shrink-0" />
                         <div>
                           <span className="font-medium text-[#0a1e3f] group-hover:text-[#0a1e3f]">{l.name}</span>
@@ -412,10 +412,10 @@ export function LandingPage() {
             <div className="space-y-4">
               <h4 className="text-sm font-semibold text-[#0a1e3f] uppercase tracking-wider">Altura Cloud</h4>
               <ul className="space-y-2.5 text-sm">
-                <li><a href="#planes" className="text-[#6b4a3a] hover:text-[#0a1e3f] transition">Planes</a></li>
-                <li><a href="#como-funciona" className="text-[#6b4a3a] hover:text-[#0a1e3f] transition">Cómo funciona</a></li>
-                <li><Link to="/login" className="text-[#6b4a3a] hover:text-[#0a1e3f] transition">Iniciar sesión</Link></li>
-                <li><Link to="/login" className="text-[#6b4a3a] hover:text-[#0a1e3f] transition">Crear cuenta</Link></li>
+                <li><a href="#planes" className="text-[#6b7a99] hover:text-[#0a1e3f] transition">Planes</a></li>
+                <li><a href="#como-funciona" className="text-[#6b7a99] hover:text-[#0a1e3f] transition">Cómo funciona</a></li>
+                <li><Link to="/login" className="text-[#6b7a99] hover:text-[#0a1e3f] transition">Iniciar sesión</Link></li>
+                <li><Link to="/login" className="text-[#6b7a99] hover:text-[#0a1e3f] transition">Crear cuenta</Link></li>
               </ul>
             </div>
 
@@ -424,19 +424,19 @@ export function LandingPage() {
               <h4 className="text-sm font-semibold text-[#0a1e3f] uppercase tracking-wider">Contacto</h4>
               <ul className="space-y-3 text-sm">
                 <li>
-                  <a href="mailto:info@zafra.cloud" className="flex items-center gap-2 text-[#6b4a3a] hover:text-[#0a1e3f] transition">
+                  <a href="mailto:info@zafra.cloud" className="flex items-center gap-2 text-[#6b7a99] hover:text-[#0a1e3f] transition">
                     <MessageSquare className="h-4 w-4 flex-shrink-0" />
                     info@zafra.cloud
                   </a>
                 </li>
                 <li>
-                  <a href="https://wa.me/50494103488" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#6b4a3a] hover:text-[#0a1e3f] transition">
+                  <a href="https://wa.me/50494103488" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#6b7a99] hover:text-[#0a1e3f] transition">
                     <MessageSquare className="h-4 w-4 flex-shrink-0" />
                     WhatsApp ventas
                   </a>
                 </li>
                 <li>
-                  <a href="https://wa.me/50494460058" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#6b4a3a] hover:text-[#0a1e3f] transition">
+                  <a href="https://wa.me/50494460058" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#6b7a99] hover:text-[#0a1e3f] transition">
                     <MessageSquare className="h-4 w-4 flex-shrink-0" />
                     +504 9446-0058
                   </a>
