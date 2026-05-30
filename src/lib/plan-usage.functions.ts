@@ -8,7 +8,6 @@ export const getMyPlanUsage = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     const { supabase, userId } = context;
 
-    // Fetch admin's condominios with plan info
     const { data: condos, error: condosError } = await supabase
       .from("condominios")
       .select("id, nombre")
@@ -47,19 +46,27 @@ export const getMyPlanUsage = createServerFn({ method: "GET" })
     }
 
     const edificiosUsed = condos?.length ?? 0;
+    const condoIds = (condos ?? []).map((c: any) => c.id);
 
-    // Per-condominio counts
+    // Distinct admins across all condominios of this account (plan-level)
+    let adminsUsed = 0;
+    if (condoIds.length > 0) {
+      const { data: members } = await supabase
+        .from("condominio_members")
+        .select("user_id")
+        .in("condominio_id", condoIds)
+        .in("role", ["admin", "owner"]);
+      adminsUsed = new Set((members ?? []).map((m: any) => m.user_id)).size;
+    }
+
     const porEdificio = await Promise.all(
       (condos ?? []).map(async (c: any) => {
-        const [{ count: unidadesCount }, { count: adminsCount }] = await Promise.all([
-          supabase.from("unidades").select("id", { count: "exact", head: true }).eq("condominio_id", c.id),
-          supabase.from("condominio_members").select("id", { count: "exact", head: true }).eq("condominio_id", c.id).in("role", ["admin", "owner"]),
-        ]);
+        const { count: unidadesCount } = await supabase
+          .from("unidades").select("id", { count: "exact", head: true }).eq("condominio_id", c.id);
         return {
           id: c.id,
           nombre: c.nombre,
           unidades: { used: unidadesCount ?? 0, max: maxUnidades },
-          admins: { used: adminsCount ?? 0, max: maxAdmins },
         };
       })
     );
@@ -67,6 +74,7 @@ export const getMyPlanUsage = createServerFn({ method: "GET" })
     return {
       plan: { nombre: planNombre, precio: planPrecio },
       edificios: { used: edificiosUsed, max: maxEdificios },
+      admins: { used: adminsUsed, max: maxAdmins },
       porEdificio,
       unlimited: UNLIMITED,
     };

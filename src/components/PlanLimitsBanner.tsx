@@ -15,13 +15,11 @@ export function PlanLimitsBanner({ focus = "all" }: { focus?: Focus }) {
 
   const totalUnid = data.porEdificio.reduce((a, e) => a + e.unidades.used, 0);
   const maxUnid = data.porEdificio.reduce((a, e) => a + (e.unidades.max >= unl ? unl : e.unidades.max), 0);
-  const totalAdm = data.porEdificio.reduce((a, e) => a + e.admins.used, 0);
-  const maxAdm = data.porEdificio.reduce((a, e) => a + (e.admins.max >= unl ? unl : e.admins.max), 0);
 
   const items = [
     { label: "Edificios", used: data.edificios.used, max: data.edificios.max, show: focus === "edificios" || focus === "all" },
     { label: "Unidades", used: totalUnid, max: maxUnid, show: focus === "unidades" || focus === "all" },
-    { label: "Admins", used: totalAdm, max: maxAdm, show: focus === "admins" || focus === "all" },
+    { label: "Admins", used: data.admins.used, max: data.admins.max, show: focus === "admins" || focus === "all" },
   ];
 
   return (
