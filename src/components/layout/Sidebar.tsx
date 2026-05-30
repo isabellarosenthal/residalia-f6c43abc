@@ -66,6 +66,26 @@ export function Sidebar() {
       </div>
 
       <nav className="flex-1 overflow-y-auto px-3 pb-4 space-y-5">
+        {role === "super_admin" && (
+          <div>
+            <div className="px-3 mb-2 text-[10px] uppercase tracking-widest text-[#f5ede8]/50 font-semibold">
+              Plataforma
+            </div>
+            <div className="space-y-0.5">
+              <Link
+                to="/admin-panel"
+                className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                  path.startsWith("/admin-panel")
+                    ? "bg-gradient-to-r from-[#c94f0c] to-[#7a2e0a] text-white font-semibold"
+                    : "text-[#f5ede8] hover:bg-[#c94f0c]/15"
+                }`}
+              >
+                <Shield className="w-4 h-4 shrink-0" />
+                <span className="truncate">Admin Panel</span>
+              </Link>
+            </div>
+          </div>
+        )}
         {sections.map((sec) => (
           <div key={sec.label}>
             <div className="px-3 mb-2 text-[10px] uppercase tracking-widest text-[#f5ede8]/50 font-semibold">
@@ -92,6 +112,7 @@ export function Sidebar() {
           </div>
         ))}
       </nav>
+
 
       <div className="border-t border-[#f5ede8]/15 p-3">
         <div className="flex items-center gap-3 px-2 py-2">
