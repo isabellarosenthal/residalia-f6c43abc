@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Search, Pencil, Trash2, BedDouble, Bath, Car, X } from "lucide-react";
 import { EstadoAdminBadge, EstadoComercialBadge } from "./EstadoBadge";
-import { fmtL } from "@/lib/format";
+import { fmtL, fmtMoney } from "@/lib/format";
 import {
   useUnidades,
   useDeleteUnidad,
