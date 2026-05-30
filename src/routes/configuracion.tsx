@@ -37,7 +37,7 @@ function ConfiguracionPage() {
       <div className="space-y-5 max-w-[1100px] mx-auto">
         <div>
           <h1 className="font-display font-extrabold text-2xl text-[#2d1200]">Configuración</h1>
-          <p className="text-sm text-[#9a7060]">Perfil, edificios, usuarios y preferencias</p>
+          <p className="text-sm text-[#9a7060]">Perfil, edificios, usuarios, residentes y preferencias</p>
         </div>
 
         <Tabs defaultValue="perfil">
@@ -45,6 +45,7 @@ function ConfiguracionPage() {
             <TabsTrigger value="perfil"><UserIcon className="w-4 h-4 mr-1" />Perfil</TabsTrigger>
             <TabsTrigger value="edificios"><Building2 className="w-4 h-4 mr-1" />Edificios</TabsTrigger>
             <TabsTrigger value="usuarios"><Users className="w-4 h-4 mr-1" />Usuarios</TabsTrigger>
+            <TabsTrigger value="residentes"><Home className="w-4 h-4 mr-1" />Residentes</TabsTrigger>
             <TabsTrigger value="seguridad"><Shield className="w-4 h-4 mr-1" />Seguridad</TabsTrigger>
           </TabsList>
 
@@ -53,6 +54,7 @@ function ConfiguracionPage() {
           <TabsContent value="usuarios" className="pt-4">
             {isSuper ? <UsuariosTab /> : canManage ? <TenantUsuariosTab edificios={edificios} /> : <p className="text-sm text-[#9a7060] p-4">No tienes edificios asignados.</p>}
           </TabsContent>
+          <TabsContent value="residentes" className="pt-4"><ResidentesTab /></TabsContent>
           <TabsContent value="seguridad" className="pt-4"><SeguridadTab /></TabsContent>
         </Tabs>
       </div>
