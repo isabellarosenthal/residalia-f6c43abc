@@ -17,6 +17,7 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [invitationCode, setInvitationCode] = useState("");
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
@@ -35,9 +36,14 @@ function LoginPage() {
         if (error) throw error;
         toast.success("Bienvenido");
       } else {
+        if (signupRole === "residente" && !invitationCode.trim()) {
+          throw new Error("Necesitas un código de invitación del administrador.");
+        }
+        const meta: Record<string, any> = { full_name: name, role: signupRole };
+        if (signupRole === "residente") meta.invitation_code = invitationCode.trim().toUpperCase();
         const { error } = await supabase.auth.signUp({
           email, password,
-          options: { emailRedirectTo: window.location.origin, data: { full_name: name, role: signupRole } },
+          options: { emailRedirectTo: window.location.origin, data: meta },
         });
         if (error) throw error;
         toast.success("Cuenta creada");
@@ -46,6 +52,7 @@ function LoginPage() {
       toast.error(err?.message ?? "Error de autenticación");
     } finally { setBusy(false); }
   };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "linear-gradient(135deg,#faf9f7 0%,#f5ede8 100%)" }}>
