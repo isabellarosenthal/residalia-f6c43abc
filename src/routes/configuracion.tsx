@@ -235,6 +235,7 @@ function UsuariosTab() {
         </div>
       )}
     </Card>
+    </>
   );
 }
 
