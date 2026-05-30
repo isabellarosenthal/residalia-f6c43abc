@@ -56,7 +56,7 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="hidden lg:flex flex-col w-60 h-screen sticky top-0 bg-[#374151] text-[#F8FAFC]">
+    <aside className="hidden lg:flex flex-col w-60 h-screen sticky top-0 bg-[#2D3748] text-[#F8FAFC]">
       <div className="px-5 py-6 flex items-center gap-2.5">
         <img src={logoUrl} alt="Altura Cloud" width={36} height={36} className="w-9 h-9 drop-shadow-[0_0_12px_rgba(167,139,250,0.5)]" />
         <div className="font-display font-extrabold text-xl leading-none">
@@ -99,7 +99,7 @@ export function Sidebar() {
                     key={it.to}
                     to={it.to}
                     className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
-                      active ? "bg-[#D97757] text-[#374151] font-semibold" : "text-[#F8FAFC] hover:bg-[#D97757]/15"
+                      active ? "bg-[#D97757] text-[#2D3748] font-semibold" : "text-[#F8FAFC] hover:bg-[#D97757]/15"
                     }`}
                   >
                     <Icon className="w-4 h-4 shrink-0" />

@@ -23,7 +23,7 @@ export function ResidenteDetailDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[760px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="font-display text-xl text-[#374151]">
+          <DialogTitle className="font-display text-xl text-[#2D3748]">
             {residente.nombre} {residente.apellido}
           </DialogTitle>
         </DialogHeader>
@@ -93,7 +93,7 @@ function PersonasTab({ residenteId }: { residenteId: string }) {
             </SelectContent>
           </Select>
         </div>
-        <Button onClick={add} disabled={!nombre.trim() || save.isPending} className="bg-[#374151] hover:bg-[#1F2937]">
+        <Button onClick={add} disabled={!nombre.trim() || save.isPending} className="bg-[#2D3748] hover:bg-[#1F2937]">
           <Plus className="w-4 h-4 mr-1" />Agregar
         </Button>
       </div>
@@ -105,7 +105,7 @@ function PersonasTab({ residenteId }: { residenteId: string }) {
           {personas.map((p) => (
             <div key={p.id} className="flex items-center justify-between border border-[#E2E8F0] rounded-lg px-3 py-2">
               <div>
-                <div className="text-sm font-medium text-[#374151]">{p.nombre}</div>
+                <div className="text-sm font-medium text-[#2D3748]">{p.nombre}</div>
                 <div className="text-xs text-[#64748B]">{p.relacion ?? "—"} · {p.tipo_acceso ?? "permanente"}</div>
               </div>
               <Button size="sm" variant="ghost" onClick={() => del.mutate({ id: p.id, residenteId })} className="h-8 w-8 p-0 text-[#be185d]"><Trash2 className="w-4 h-4" /></Button>
@@ -139,7 +139,7 @@ function VehiculosTab({ residenteId }: { residenteId: string }) {
         <div><Label className="text-xs">Marca</Label><Input value={marca} onChange={(e) => setMarca(e.target.value)} /></div>
         <div><Label className="text-xs">Modelo</Label><Input value={modelo} onChange={(e) => setModelo(e.target.value)} /></div>
         <div><Label className="text-xs">Color</Label><Input value={color} onChange={(e) => setColor(e.target.value)} /></div>
-        <Button onClick={add} disabled={!placa.trim() || save.isPending} className="bg-[#374151] hover:bg-[#1F2937]"><Plus className="w-4 h-4 mr-1" />Agregar</Button>
+        <Button onClick={add} disabled={!placa.trim() || save.isPending} className="bg-[#2D3748] hover:bg-[#1F2937]"><Plus className="w-4 h-4 mr-1" />Agregar</Button>
       </div>
 
       {isLoading ? <p className="text-sm text-[#64748B]">Cargando…</p> : vehiculos.length === 0 ? (
@@ -150,7 +150,7 @@ function VehiculosTab({ residenteId }: { residenteId: string }) {
             <div key={v.id} className="flex items-center justify-between border border-[#E2E8F0] rounded-lg px-3 py-2">
               <div className="flex items-center gap-3">
                 <Badge variant="neutral">{v.placa}</Badge>
-                <div className="text-sm text-[#374151]">
+                <div className="text-sm text-[#2D3748]">
                   {[v.marca, v.modelo].filter(Boolean).join(" ") || "—"}
                   {v.color && <span className="text-xs text-[#64748B]"> · {v.color}</span>}
                 </div>
@@ -175,8 +175,8 @@ function CuentaTab({ residenteId }: { residenteId: string }) {
   return (
     <div className="space-y-3">
       <div className="grid grid-cols-3 gap-2">
-        <div className="border border-[#E2E8F0] rounded-lg p-3"><div className="text-xs text-[#64748B]">Pagado</div><div className="font-semibold text-[#374151]">{fmtL(pagado)}</div></div>
-        <div className="border border-[#E2E8F0] rounded-lg p-3"><div className="text-xs text-[#64748B]">Pendiente</div><div className="font-semibold text-[#374151]">{fmtL(pendiente)}</div></div>
+        <div className="border border-[#E2E8F0] rounded-lg p-3"><div className="text-xs text-[#64748B]">Pagado</div><div className="font-semibold text-[#2D3748]">{fmtL(pagado)}</div></div>
+        <div className="border border-[#E2E8F0] rounded-lg p-3"><div className="text-xs text-[#64748B]">Pendiente</div><div className="font-semibold text-[#2D3748]">{fmtL(pendiente)}</div></div>
         <div className="border border-[#E2E8F0] rounded-lg p-3"><div className="text-xs text-[#64748B]">Vencidos</div><div className="font-semibold text-[#be185d]">{vencidos.length}</div></div>
       </div>
       {cobros.length === 0 ? (
@@ -188,11 +188,11 @@ function CuentaTab({ residenteId }: { residenteId: string }) {
             return (
               <div key={c.id} className="flex items-center justify-between border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm">
                 <div>
-                  <div className="font-medium text-[#374151]">{c.concepto}</div>
+                  <div className="font-medium text-[#2D3748]">{c.concepto}</div>
                   <div className="text-xs text-[#64748B]">Vence {fmtDate(c.fecha_vencimiento)}</div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-[#374151]">{fmtL(Number(c.monto))}</span>
+                  <span className="font-semibold text-[#2D3748]">{fmtL(Number(c.monto))}</span>
                   {c.estado === "pagado" ? <Badge variant="success">Pagado</Badge>
                     : vencido ? <Badge variant="danger">Vencido</Badge>
                     : <Badge variant="warning">Pendiente</Badge>}

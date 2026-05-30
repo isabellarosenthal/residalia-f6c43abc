@@ -123,7 +123,7 @@ export function ReportesFinancieros({ edificioId }: { edificioId: string }) {
       {/* P&L */}
       <Card className="p-5">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="font-display font-bold text-[#374151]">Estado de resultados</h3>
+          <h3 className="font-display font-bold text-[#2D3748]">Estado de resultados</h3>
           <Button size="sm" variant="outline" onClick={exportPL}><Download className="w-4 h-4 mr-1" />CSV</Button>
         </div>
         <div className="grid md:grid-cols-2 gap-5">
@@ -151,14 +151,14 @@ export function ReportesFinancieros({ edificioId }: { edificioId: string }) {
           </div>
         </div>
         <div className="mt-4 pt-3 border-t border-[#E2E8F0] flex items-center justify-between">
-          <span className="font-display font-bold text-[#374151]">Utilidad del periodo</span>
+          <span className="font-display font-bold text-[#2D3748]">Utilidad del periodo</span>
           <span className={`font-display font-extrabold text-2xl ${totalIngresos - totalEgresos >= 0 ? "text-[#166534]" : "text-[#be185d]"}`}>{fmtL(totalIngresos - totalEgresos)}</span>
         </div>
       </Card>
 
       <div className="grid lg:grid-cols-2 gap-5">
         <Card className="p-5">
-          <h3 className="font-display font-bold text-[#374151] mb-3">Ingresos por concepto</h3>
+          <h3 className="font-display font-bold text-[#2D3748] mb-3">Ingresos por concepto</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -171,7 +171,7 @@ export function ReportesFinancieros({ edificioId }: { edificioId: string }) {
           </div>
         </Card>
         <Card className="p-5">
-          <h3 className="font-display font-bold text-[#374151] mb-3">Egresos por categoría</h3>
+          <h3 className="font-display font-bold text-[#2D3748] mb-3">Egresos por categoría</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={egresosPorCategoria}>
@@ -190,7 +190,7 @@ export function ReportesFinancieros({ edificioId }: { edificioId: string }) {
       {/* Top morosos */}
       <Card className="p-5">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="font-display font-bold text-[#374151]">Top 10 morosos</h3>
+          <h3 className="font-display font-bold text-[#2D3748]">Top 10 morosos</h3>
           <Button size="sm" variant="outline" onClick={exportMorosos}><Download className="w-4 h-4 mr-1" />CSV</Button>
         </div>
         <div className="overflow-x-auto">
@@ -217,7 +217,7 @@ export function ReportesFinancieros({ edificioId }: { edificioId: string }) {
       {/* Flujo de caja */}
       <Card className="p-5">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="font-display font-bold text-[#374151]">Flujo de caja</h3>
+          <h3 className="font-display font-bold text-[#2D3748]">Flujo de caja</h3>
           <Button size="sm" variant="outline" onClick={exportFlujo}><Download className="w-4 h-4 mr-1" />CSV</Button>
         </div>
         <div className="overflow-x-auto max-h-[420px] overflow-y-auto">

@@ -47,16 +47,16 @@ ${validar}`;
 
   return (
     <div className="space-y-4">
-      <Link to="/portal" className="inline-flex items-center text-sm text-[#64748B] hover:text-[#374151]"><ArrowLeft className="w-4 h-4 mr-1" />Volver</Link>
+      <Link to="/portal" className="inline-flex items-center text-sm text-[#64748B] hover:text-[#2D3748]"><ArrowLeft className="w-4 h-4 mr-1" />Volver</Link>
       <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 text-center">
         <div className="text-xs text-[#64748B] uppercase tracking-wide">Pase para</div>
-        <div className="font-display font-extrabold text-2xl text-[#374151] mb-5">{pase.visitante_nombre}</div>
+        <div className="font-display font-extrabold text-2xl text-[#2D3748] mb-5">{pase.visitante_nombre}</div>
 
         <div className="flex justify-center mb-4"><QRCanvas value={validar} size={240} /></div>
 
         <div className="bg-[#ffffff] border border-dashed border-[#D97757] rounded-xl p-3 mb-4">
           <div className="text-[11px] text-[#64748B] mb-1">Código</div>
-          <div className="font-mono text-lg font-bold tracking-widest text-[#374151] break-all">{code}</div>
+          <div className="font-mono text-lg font-bold tracking-widest text-[#2D3748] break-all">{code}</div>
         </div>
 
         <div className="grid grid-cols-3 gap-2 mb-4">
@@ -64,10 +64,10 @@ ${validar}`;
             className="flex items-center justify-center gap-1.5 bg-[#25D366] hover:bg-[#1ebe57] text-white text-sm py-2.5 rounded-xl">
             <MessageCircle className="w-4 h-4" />WhatsApp
           </a>
-          <button onClick={share} className="flex items-center justify-center gap-1.5 bg-[#374151] hover:bg-[#1F2937] text-white text-sm py-2.5 rounded-xl">
+          <button onClick={share} className="flex items-center justify-center gap-1.5 bg-[#2D3748] hover:bg-[#1F2937] text-white text-sm py-2.5 rounded-xl">
             <Share2 className="w-4 h-4" />Compartir
           </button>
-          <button onClick={copy} className="flex items-center justify-center gap-1.5 border border-[#EBC988] text-[#374151] text-sm py-2.5 rounded-xl">
+          <button onClick={copy} className="flex items-center justify-center gap-1.5 border border-[#EBC988] text-[#2D3748] text-sm py-2.5 rounded-xl">
             <Copy className="w-4 h-4" />Copiar
           </button>
         </div>

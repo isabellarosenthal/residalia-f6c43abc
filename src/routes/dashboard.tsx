@@ -85,7 +85,7 @@ function DashboardPage() {
     { name: "Al día", value: cobros.filter((c) => c.estado === "pagado").length, color: "#166534" },
     { name: "Pendientes", value: cobros.filter((c) => c.estado === "pendiente").length, color: "#D97757" },
     { name: "Morosos", value: cobros.filter((c) => c.estado === "vencido").length, color: "#be185d" },
-    { name: "Parcial", value: cobros.filter((c) => c.estado === "parcial").length, color: "#374151" },
+    { name: "Parcial", value: cobros.filter((c) => c.estado === "parcial").length, color: "#2D3748" },
   ].filter((e) => e.value > 0);
 
   // Tabla por edificio
@@ -109,14 +109,14 @@ function DashboardPage() {
       <div className="space-y-6 max-w-[1400px] mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="font-display font-extrabold text-2xl text-[#374151]">{saludo}, {firstName} 👋</h1>
+            <h1 className="font-display font-extrabold text-2xl text-[#2D3748]">{saludo}, {firstName} 👋</h1>
             <p className="text-sm text-[#64748B]">Resumen de tu operación de hoy</p>
           </div>
           {edificios.length > 1 && (
             <div className="flex items-center gap-2 bg-white border border-[#E2E8F0] rounded-full p-1">
               <button
                 onClick={() => setEdificioId("all")}
-                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${edificioId === "all" ? "bg-[#374151] text-white" : "text-[#1E293B] hover:bg-[#F8FAFC]"}`}
+                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${edificioId === "all" ? "bg-[#2D3748] text-white" : "text-[#1E293B] hover:bg-[#F8FAFC]"}`}
               >
                 Todos
               </button>
@@ -124,7 +124,7 @@ function DashboardPage() {
                 <button
                   key={e.id}
                   onClick={() => setEdificioId(e.id)}
-                  className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${edificioId === e.id ? "bg-[#374151] text-white" : "text-[#1E293B] hover:bg-[#F8FAFC]"}`}
+                  className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${edificioId === e.id ? "bg-[#2D3748] text-white" : "text-[#1E293B] hover:bg-[#F8FAFC]"}`}
                 >
                   {e.nombre}
                 </button>
@@ -136,7 +136,7 @@ function DashboardPage() {
         {edificios.length === 0 ? (
           <Card className="p-10 text-center">
             <Building2 className="w-12 h-12 text-[#D97757] mx-auto mb-3" />
-            <h3 className="font-display font-bold text-[#374151] text-lg">Aún no tenés edificios</h3>
+            <h3 className="font-display font-bold text-[#2D3748] text-lg">Aún no tenés edificios</h3>
             <p className="text-sm text-[#64748B] mt-1">Creá tu primer edificio para ver el resumen aquí.</p>
           </Card>
         ) : (
@@ -163,7 +163,7 @@ function DashboardPage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <Card className="p-5">
-                <h3 className="font-display font-bold text-[#374151] mb-1">Recaudación (últimos 6 meses)</h3>
+                <h3 className="font-display font-bold text-[#2D3748] mb-1">Recaudación (últimos 6 meses)</h3>
                 <p className="text-xs text-[#64748B] mb-4">Pagos registrados por mes</p>
                 <div className="h-64">
                   <ResponsiveContainer>
@@ -171,7 +171,7 @@ function DashboardPage() {
                       <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
                       <XAxis dataKey="mes" stroke="#64748B" fontSize={12} />
                       <YAxis stroke="#64748B" fontSize={12} tickFormatter={(v) => `L${v / 1000}k`} />
-                      <Tooltip contentStyle={{ background: "#374151", border: "none", borderRadius: 12, color: "#F8F7F5" }} formatter={(v: any) => fmtL(v as number)} />
+                      <Tooltip contentStyle={{ background: "#2D3748", border: "none", borderRadius: 12, color: "#F8F7F5" }} formatter={(v: any) => fmtL(v as number)} />
                       <Bar dataKey="monto" fill="#D97757" radius={[6, 6, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
@@ -179,7 +179,7 @@ function DashboardPage() {
               </Card>
 
               <Card className="p-5">
-                <h3 className="font-display font-bold text-[#374151] mb-1">Estado de cobros</h3>
+                <h3 className="font-display font-bold text-[#2D3748] mb-1">Estado de cobros</h3>
                 <p className="text-xs text-[#64748B] mb-4">Distribución actual</p>
                 {estadoPagos.length === 0 ? (
                   <div className="h-64 flex items-center justify-center text-sm text-[#64748B]">Sin cobros registrados</div>
@@ -191,7 +191,7 @@ function DashboardPage() {
                           <Pie data={estadoPagos} dataKey="value" nameKey="name" innerRadius={55} outerRadius={90} paddingAngle={3}>
                             {estadoPagos.map((e) => <Cell key={e.name} fill={e.color} />)}
                           </Pie>
-                          <Tooltip contentStyle={{ background: "#374151", border: "none", borderRadius: 12, color: "#F8F7F5" }} />
+                          <Tooltip contentStyle={{ background: "#2D3748", border: "none", borderRadius: 12, color: "#F8F7F5" }} />
                         </PieChart>
                       </ResponsiveContainer>
                     </div>
@@ -211,11 +211,11 @@ function DashboardPage() {
             {tabla.length > 0 && (
               <Card className="overflow-hidden">
                 <div className="p-5 border-b border-[#E2E8F0]">
-                  <h3 className="font-display font-bold text-[#374151]">Disponibilidad comercial de tus edificios</h3>
+                  <h3 className="font-display font-bold text-[#2D3748]">Disponibilidad comercial de tus edificios</h3>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
-                    <thead className="bg-[#F8FAFC] text-[#374151]">
+                    <thead className="bg-[#F8FAFC] text-[#2D3748]">
                       <tr>
                         {["Edificio", "Total", "Ocupadas", "En venta", "En renta", "Prospectos", "Cierres"].map((h) => (
                           <th key={h} className="text-left px-5 py-3 font-semibold uppercase text-xs">{h}</th>
@@ -225,7 +225,7 @@ function DashboardPage() {
                     <tbody className="text-[#1E293B]">
                       {tabla.map((r) => (
                         <tr key={r.e} className="border-b border-[#E2E8F0] hover:bg-[#ffffff] transition-colors">
-                          <td className="px-5 py-3 font-medium text-[#374151]">{r.e}</td>
+                          <td className="px-5 py-3 font-medium text-[#2D3748]">{r.e}</td>
                           <td className="px-5 py-3">{r.t}</td>
                           <td className="px-5 py-3">{r.o}</td>
                           <td className="px-5 py-3"><Badge variant="venta">{r.v}</Badge></td>

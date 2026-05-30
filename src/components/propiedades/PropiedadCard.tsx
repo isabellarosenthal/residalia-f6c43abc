@@ -28,13 +28,13 @@ export function PropiedadCard({
         )}
         <div className="absolute top-3 left-3"><EstadoComercialBadge value={unidad.estado_comercial} /></div>
         {unidad.precio_negociable && (
-          <div className="absolute top-3 right-3 bg-white/95 backdrop-blur text-[10px] font-semibold px-2 py-1 rounded-full text-[#374151]">
+          <div className="absolute top-3 right-3 bg-white/95 backdrop-blur text-[10px] font-semibold px-2 py-1 rounded-full text-[#2D3748]">
             Negociable
           </div>
         )}
         <button
           onClick={() => onEdit(unidad)}
-          className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition bg-white/95 backdrop-blur p-2 rounded-full text-[#374151] hover:bg-[#374151] hover:text-white"
+          className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition bg-white/95 backdrop-blur p-2 rounded-full text-[#2D3748] hover:bg-[#2D3748] hover:text-white"
           aria-label="Editar"
         >
           <Edit className="w-4 h-4" />
@@ -43,7 +43,7 @@ export function PropiedadCard({
       <div className="p-4 space-y-3">
         <div>
           <div className="flex items-start justify-between gap-2">
-            <h3 className="font-display font-bold text-[#374151] text-lg leading-tight">
+            <h3 className="font-display font-bold text-[#2D3748] text-lg leading-tight">
               {unidad.tipo ? unidad.tipo[0].toUpperCase() + unidad.tipo.slice(1) : "Unidad"} #{unidad.numero}
             </h3>
             {unidad.piso != null && <span className="text-xs text-[#64748B] mt-1">Piso {unidad.piso}</span>}
@@ -66,13 +66,13 @@ export function PropiedadCard({
           {muestraVenta && (
             <div className="flex items-center justify-between">
               <span className="text-[10px] uppercase tracking-wider text-[#64748B] font-semibold">Venta</span>
-              <span className="font-display font-bold text-[#374151]">{fmt(unidad.precio_venta, moneda)}</span>
+              <span className="font-display font-bold text-[#2D3748]">{fmt(unidad.precio_venta, moneda)}</span>
             </div>
           )}
           {muestraRenta && (
             <div className="flex items-center justify-between">
               <span className="text-[10px] uppercase tracking-wider text-[#64748B] font-semibold">Renta/mes</span>
-              <span className="font-display font-bold text-[#374151]">{fmt(unidad.precio_renta, moneda)}</span>
+              <span className="font-display font-bold text-[#2D3748]">{fmt(unidad.precio_renta, moneda)}</span>
             </div>
           )}
           {!muestraVenta && !muestraRenta && (
