@@ -299,7 +299,6 @@ function EstadoBadge({ estado }: { estado: string }) {
 type FullPlan = { id: string; nombre: string; precio_mensual: number; max_edificios: number | null; max_unidades: number | null; max_admins: number | null; activo: boolean };
 function PlanesSection({ planes }: { planes: FullPlan[] }) {
   const money = (n: number) => `L ${new Intl.NumberFormat("es-HN").format(n)}`;
-  const lim = (n: number | null, plural: string) => n === null ? `${plural} ilimitados` : `${n}`;
   return (
     <section>
       <div className="flex items-baseline justify-between mb-3">
