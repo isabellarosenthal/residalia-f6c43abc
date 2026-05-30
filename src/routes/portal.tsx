@@ -7,16 +7,25 @@ import { InstallAppButton } from "@/components/portal/InstallAppButton";
 export const Route = createFileRoute("/portal")({ component: PortalLayout });
 
 function PortalLayout() {
-  const { user, loading, profile, signOut } = useAuth();
+  const { user, loading, profile, role, signOut } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading && !user) navigate({ to: "/login", search: { as: "residente" } });
-  }, [user, loading, navigate]);
+    if (loading) return;
+    if (!user) {
+      navigate({ to: "/login", search: { as: "residente" } });
+      return;
+    }
+    // Solo residentes y super_admin pueden ver el portal
+    if (role && role !== "residente" && role !== "super_admin") {
+      navigate({ to: "/" });
+    }
+  }, [user, loading, role, navigate]);
 
-  if (loading || !user) {
+  if (loading || !user || (role && role !== "residente" && role !== "super_admin")) {
     return <div className="min-h-screen flex items-center justify-center bg-[#faf9f7]"><div className="text-[#9a7060] text-sm">Cargando…</div></div>;
   }
+
 
   const linkBase = "flex flex-col items-center gap-0.5 text-[11px] py-1.5 px-2 rounded-lg flex-1 text-[#9a7060]";
   const active = { className: linkBase + " text-[#c94f0c] bg-[#fde8e2]" };
