@@ -35,6 +35,8 @@ function LoginPage() {
     if (isResidenteFlow) {
       setMode("signup");
       setSignupRole("residente");
+    } else {
+      setSignupRole("admin_condominio");
     }
   }, [isResidenteFlow]);
 
