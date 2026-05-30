@@ -1,7 +1,9 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth-context";
+import { createResidentAccount } from "@/lib/resident-auth.functions";
 import { Building } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -15,6 +17,7 @@ type SignupRole = "admin_condominio" | "residente" | "guardia";
 function LoginPage() {
   const { user, role, loading } = useAuth();
   const navigate = useNavigate();
+  const createResident = useServerFn(createResidentAccount);
   const { as } = Route.useSearch();
   const isResidenteFlow = as === "residente";
   const [mode, setMode] = useState<"login" | "signup">(isResidenteFlow ? "signup" : "login");
@@ -24,6 +27,13 @@ function LoginPage() {
   const [name, setName] = useState("");
   const [invitationCode, setInvitationCode] = useState("");
   const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    if (isResidenteFlow) {
+      setMode("signup");
+      setSignupRole("residente");
+    }
+  }, [isResidenteFlow]);
 
   useEffect(() => {
     if (loading || !user) return;
@@ -44,8 +54,14 @@ function LoginPage() {
         if (signupRole === "residente" && !invitationCode.trim()) {
           throw new Error("Necesitas un código de invitación del administrador.");
         }
+        if (signupRole === "residente") {
+          await createResident({ data: { email, password, fullName: name, invitationCode } });
+          const { error } = await supabase.auth.signInWithPassword({ email, password });
+          if (error) throw error;
+          toast.success("Cuenta creada");
+          return;
+        }
         const meta: Record<string, any> = { full_name: name, role: signupRole };
-        if (signupRole === "residente") meta.invitation_code = invitationCode.trim().toUpperCase();
         const { error } = await supabase.auth.signUp({
           email, password,
           options: { emailRedirectTo: window.location.origin, data: meta },
