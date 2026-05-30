@@ -79,7 +79,7 @@ export function LandingPage() {
           <div className="flex items-center gap-2 sm:gap-3">
             {user ? (
               <>
-                <Link to="/dashboard" className="text-sm font-semibold bg-[#0a1e3f] text-white px-4 py-2 rounded-full hover:bg-[#001a4d]">
+                <Link to="/dashboard" className="text-sm font-semibold bg-[#ffd60a] text-[#0a1e3f] px-5 py-2.5 rounded-full hover:bg-[#ffe040] shadow-sm">
                   Ir al Dashboard
                 </Link>
                 <button
@@ -117,7 +117,7 @@ export function LandingPage() {
                   </div>
                 </div>
 
-                <Link to="/login" className="text-sm font-semibold bg-[#0a1e3f] text-white px-4 py-2 rounded-full hover:bg-[#001a4d]">
+                <Link to="/login" className="text-sm font-semibold bg-[#ffd60a] text-[#0a1e3f] px-5 py-2.5 rounded-full hover:bg-[#ffe040] shadow-sm">
                   Crear cuenta
                 </Link>
               </>
@@ -133,15 +133,15 @@ export function LandingPage() {
             <span className="inline-block text-xs font-semibold uppercase tracking-wider bg-[#fffdf5] text-[#0a1e3f] px-3 py-1 rounded-full mb-5">
               Hecho en Honduras 🇭🇳
             </span>
-            <h1 className="font-display font-extrabold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-[1.05]">
-              Administra tu condominio <span className="text-[#0a1e3f]">sin hojas de cálculo</span>. 🏢
+            <h1 className="font-display font-extrabold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-[1.05] text-[#0a1e3f]">
+              Administra tu condominio sin hojas de cálculo.
             </h1>
-            <p className="mt-6 text-lg text-[#6b4a3a] max-w-xl mx-auto md:mx-0">
+            <p className="mt-6 text-lg text-[#6b7a99] max-w-xl mx-auto md:mx-0">
               💰 Cobros, 🔑 accesos, 👥 residentes, 🔧 mantenimiento y 🏘️ propiedades en venta o renta —
               todo desde un solo panel con CRM inmobiliario integrado.
             </p>
             <div className="mt-8 flex flex-wrap justify-center md:justify-start gap-3">
-              <Link to="/login" className="inline-flex items-center gap-2 bg-[#0a1e3f] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#001a4d]">
+              <Link to="/login" className="inline-flex items-center gap-2 bg-[#ffd60a] text-[#0a1e3f] px-7 py-3.5 rounded-full font-semibold hover:bg-[#ffe040] shadow-md">
                 Crear mi cuenta gratis <ArrowRight className="w-4 h-4" />
               </Link>
               <a href="#planes" className="inline-flex items-center gap-2 border border-[#e8ecf3] bg-white px-6 py-3 rounded-full font-semibold text-[#13294b] hover:border-[#ffd60a]">
@@ -196,7 +196,7 @@ export function LandingPage() {
       <section id="funciones" className="max-w-7xl mx-auto px-6 py-20">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <h2 className="font-display font-extrabold text-3xl md:text-4xl">Todo lo que necesita un edificio, en un solo lugar</h2>
-          <p className="mt-3 text-[#6b4a3a]">
+          <p className="mt-3 text-[#6b7a99]">
             Reemplaza WhatsApp, Excel y cuadernos por un sistema que ordena la operación
             financiera, comercial y de seguridad de tu condominio.
           </p>
@@ -222,7 +222,7 @@ export function LandingPage() {
                 <span className="text-2xl" aria-hidden>{f.e}</span>
               </div>
               <h3 className="font-display font-bold text-lg">{f.t}</h3>
-              <p className="text-sm text-[#6b4a3a] mt-1.5">{f.d}</p>
+              <p className="text-sm text-[#6b7a99] mt-1.5">{f.d}</p>
             </div>
           ))}
         </div>
@@ -235,7 +235,7 @@ export function LandingPage() {
         <div className="max-w-7xl mx-auto px-6 relative">
           <div className="text-center mb-14">
             <h2 className="font-display font-extrabold text-3xl md:text-4xl">Empieza a operar hoy mismo</h2>
-            <p className="mt-3 text-[#6b4a3a]">Cuatro pasos guiados por nuestro asistente de configuración.</p>
+            <p className="mt-3 text-[#6b7a99]">Cuatro pasos guiados por nuestro asistente de configuración.</p>
           </div>
           <ol className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {[
@@ -250,7 +250,7 @@ export function LandingPage() {
                   <span className="text-3xl" aria-hidden>{s.e}</span>
                 </div>
                 <h3 className="font-display font-bold text-lg">{s.t}</h3>
-                <p className="text-sm text-[#6b4a3a] mt-1">{s.d}</p>
+                <p className="text-sm text-[#6b7a99] mt-1">{s.d}</p>
               </li>
             ))}
           </ol>
@@ -275,7 +275,7 @@ export function LandingPage() {
               </div>
               <div>
                 <h3 className="font-display font-bold text-lg">{b.t}</h3>
-                <p className="text-sm text-[#6b4a3a] mt-1.5">{b.d}</p>
+                <p className="text-sm text-[#6b7a99] mt-1.5">{b.d}</p>
               </div>
             </div>
           ))}
@@ -288,7 +288,7 @@ export function LandingPage() {
       <section id="planes" className="max-w-7xl mx-auto px-6 py-20">
         <div className="text-center mb-12">
           <h2 className="font-display font-extrabold text-3xl md:text-4xl">Planes simples y honestos</h2>
-          <p className="mt-3 text-[#6b4a3a]">Elige el que te queda. Cambia cuando quieras.</p>
+          <p className="mt-3 text-[#6b7a99]">Elige el que te queda. Cambia cuando quieras.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -306,7 +306,7 @@ export function LandingPage() {
               )}
               <div className="text-3xl">{p.icon}</div>
               <h3 className="font-display font-extrabold text-2xl mt-2">{p.name}</h3>
-              <p className="text-sm text-[#6b4a3a] mt-1 min-h-[2.5rem]">{p.tagline}</p>
+              <p className="text-sm text-[#6b7a99] mt-1 min-h-[2.5rem]">{p.tagline}</p>
               <div className="mt-5">
                 <span className="text-4xl font-extrabold">L {p.price}</span>
                 <span className="text-[#6b7a99] text-sm">/mes</span>
@@ -352,21 +352,114 @@ export function LandingPage() {
                   {f.q}
                   <span className="text-[#0a1e3f] group-open:rotate-45 transition-transform text-xl leading-none">+</span>
                 </summary>
-                <p className="mt-3 text-sm text-[#6b4a3a]">{f.a}</p>
+                <p className="mt-3 text-sm text-[#6b7a99]">{f.a}</p>
               </details>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="relative max-w-4xl mx-auto px-6 py-20 text-center">
-        <img src={logoUrl} alt="" aria-hidden width={160} height={160} className="mx-auto w-28 md:w-36 h-auto float-slow mb-6" />
-        <h2 className="font-display font-extrabold text-3xl md:text-4xl">¿Listo para ordenar tu condominio?</h2>
-        <p className="mt-4 text-[#6b4a3a]">Crea tu cuenta gratis y configurá tu primer edificio en menos de 5 minutos.</p>
-        <Link to="/login" className="mt-8 inline-flex items-center gap-2 bg-[#0a1e3f] text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-[#001a4d]">
-          Empezar ahora <ArrowRight className="w-5 h-5" />
-        </Link>
+      {/* Preview cards — un vistazo al producto */}
+      <section className="max-w-7xl mx-auto px-6 py-20">
+        <div className="text-center max-w-2xl mx-auto mb-12">
+          <h2 className="font-display font-extrabold text-3xl md:text-4xl text-[#0a1e3f]">Un vistazo a lo que vas a usar</h2>
+          <p className="mt-3 text-[#6b7a99]">Tres módulos centrales del panel, exactamente como los vas a ver.</p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Card 1: Cobros */}
+          <div className="bg-[#fff8d6] rounded-3xl p-8 flex flex-col">
+            <h3 className="font-display font-extrabold text-2xl text-[#0a1e3f]">Cobros en un clic</h3>
+            <p className="mt-2 text-sm text-[#13294b]/80">Genera las cuotas del mes para todas las unidades ocupadas y controla quién pagó.</p>
+            <Link to="/login" className="mt-3 text-sm font-semibold text-[#0a1e3f] inline-flex items-center gap-1 hover:gap-2 transition-all">Ver cobros <ArrowRight className="w-4 h-4" /></Link>
+            <div className="mt-6 bg-white rounded-2xl shadow-lg p-4 border border-white">
+              <div className="flex items-center justify-between mb-3">
+                <div className="text-xs font-semibold text-[#0a1e3f]">Cobros · Noviembre</div>
+                <span className="text-[10px] font-bold uppercase tracking-wider bg-[#fff8d6] text-[#0a1e3f] px-2 py-0.5 rounded-full">42 unidades</span>
+              </div>
+              <div className="space-y-2">
+                {[
+                  { u: "A-101", n: "M. López", m: "L 3,200", s: "pagado" },
+                  { u: "A-204", n: "J. Mejía", m: "L 3,200", s: "pagado" },
+                  { u: "B-305", n: "K. Núñez", m: "L 4,500", s: "pendiente" },
+                  { u: "B-402", n: "R. Cruz", m: "L 3,200", s: "moroso" },
+                ].map((r) => (
+                  <div key={r.u} className="flex items-center justify-between text-xs py-1.5 border-b border-[#f1f5f9] last:border-0">
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 rounded-full bg-[#fffdf5] text-[#0a1e3f] flex items-center justify-center text-[9px] font-bold">{r.u}</div>
+                      <span className="text-[#13294b]">{r.n}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-[#0a1e3f]">{r.m}</span>
+                      <span className={`text-[9px] font-bold uppercase px-1.5 py-0.5 rounded ${r.s === "pagado" ? "bg-[#dcfce7] text-[#166534]" : r.s === "pendiente" ? "bg-[#fff8d6] text-[#92580a]" : "bg-[#fce7f3] text-[#be185d]"}`}>{r.s}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Card 2: Accesos QR (navy) */}
+          <div className="bg-[#0a1e3f] rounded-3xl p-8 flex flex-col text-white">
+            <h3 className="font-display font-extrabold text-2xl">Accesos con QR</h3>
+            <p className="mt-2 text-sm text-white/70">Tus residentes generan códigos de un solo uso desde el celular. Tu guardia los valida en 2 segundos.</p>
+            <Link to="/login" className="mt-3 text-sm font-semibold text-[#ffd60a] inline-flex items-center gap-1 hover:gap-2 transition-all">Ver accesos <ArrowRight className="w-4 h-4" /></Link>
+            <div className="mt-6 bg-white rounded-2xl shadow-2xl p-5 text-[#0a1e3f]">
+              <div className="flex items-center justify-between mb-3">
+                <div className="text-xs font-semibold">Pase #A7F2K9</div>
+                <span className="text-[10px] font-bold uppercase bg-[#dcfce7] text-[#166534] px-2 py-0.5 rounded-full">Válido</span>
+              </div>
+              <div className="bg-[#fffdf5] rounded-xl p-4 flex items-center justify-center mb-3">
+                <div className="w-28 h-28 grid grid-cols-8 gap-px bg-[#0a1e3f] p-1.5 rounded-lg">
+                  {Array.from({ length: 64 }).map((_, i) => {
+                    const seed = (i * 73 + 17) % 100;
+                    return <div key={i} className={seed > 45 ? "bg-white" : "bg-[#0a1e3f]"} />;
+                  })}
+                </div>
+              </div>
+              <div className="text-xs space-y-1">
+                <div className="flex justify-between"><span className="text-[#6b7a99]">Visitante</span><span className="font-semibold">Carlos Ramírez</span></div>
+                <div className="flex justify-between"><span className="text-[#6b7a99]">Unidad</span><span className="font-semibold">B-305</span></div>
+                <div className="flex justify-between"><span className="text-[#6b7a99]">Vence</span><span className="font-semibold">Hoy · 8:00 PM</span></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 3: Pipeline */}
+          <div className="bg-[#fffdf5] rounded-3xl p-8 flex flex-col">
+            <h3 className="font-display font-extrabold text-2xl text-[#0a1e3f]">Pipeline inmobiliario</h3>
+            <p className="mt-2 text-sm text-[#13294b]/80">Arrastra prospectos entre etapas, agenda visitas y nunca pierdas una venta o renta.</p>
+            <Link to="/login" className="mt-3 text-sm font-semibold text-[#0a1e3f] inline-flex items-center gap-1 hover:gap-2 transition-all">Ver pipeline <ArrowRight className="w-4 h-4" /></Link>
+            <div className="mt-6 bg-white rounded-2xl shadow-lg p-3 border border-[#e8ecf3]">
+              <div className="grid grid-cols-3 gap-2">
+                {[
+                  { t: "Nuevo", c: "#fff8d6", items: [{ n: "A. Pérez", m: "L 1.2M" }, { n: "L. Gómez", m: "L 850K" }] },
+                  { t: "Visita", c: "#e8ecf3", items: [{ n: "M. Soto", m: "L 2.1M" }] },
+                  { t: "Cierre", c: "#dcfce7", items: [{ n: "J. Ríos", m: "L 1.6M" }] },
+                ].map((col) => (
+                  <div key={col.t} className="space-y-2">
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-[#6b7a99] px-1">{col.t}</div>
+                    {col.items.map((it) => (
+                      <div key={it.n} className="rounded-lg p-2 text-[10px]" style={{ background: col.c }}>
+                        <div className="font-semibold text-[#0a1e3f]">{it.n}</div>
+                        <div className="text-[#13294b]/70 mt-0.5">{it.m}</div>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* CTA final */}
+        <div className="mt-16 bg-[#ffd60a] rounded-[2.5rem] p-10 md:p-14 text-center" style={{ borderTopLeftRadius: '3rem', borderBottomRightRadius: '3rem' }}>
+          <h3 className="font-display font-extrabold text-3xl md:text-4xl text-[#0a1e3f]">¿Listo para ordenar tu condominio?</h3>
+          <p className="mt-3 text-[#13294b]/80 max-w-xl mx-auto">Crea tu cuenta gratis y configurá tu primer edificio en menos de 5 minutos.</p>
+          <Link to="/login" className="mt-7 inline-flex items-center gap-2 bg-[#0a1e3f] text-white px-9 py-4 rounded-full font-semibold text-lg hover:bg-[#001a4d] shadow-lg">
+            Empezar ahora <ArrowRight className="w-5 h-5" />
+          </Link>
+        </div>
       </section>
 
       {/* Footer estilo Firmax */}
@@ -376,7 +469,7 @@ export function LandingPage() {
             {/* Col 1: Marca */}
             <div className="space-y-4">
               <div className="font-display font-extrabold text-2xl text-[#0a1e3f]">Altura Cloud</div>
-              <p className="text-sm text-[#6b4a3a] leading-relaxed">
+              <p className="text-sm text-[#6b7a99] leading-relaxed">
                 Plataforma de administración de condominios y propiedades para Centroamérica.
               </p>
             </div>
@@ -395,7 +488,7 @@ export function LandingPage() {
                   const Icon = l.icon;
                   return (
                     <li key={l.name}>
-                      <a href={l.url} target="_blank" rel="noopener noreferrer" className="group flex items-start gap-2 text-[#6b4a3a] hover:text-[#0a1e3f] transition">
+                      <a href={l.url} target="_blank" rel="noopener noreferrer" className="group flex items-start gap-2 text-[#6b7a99] hover:text-[#0a1e3f] transition">
                         <Icon className="h-4 w-4 mt-0.5 text-[#0a1e3f]/70 group-hover:text-[#0a1e3f] flex-shrink-0" />
                         <div>
                           <span className="font-medium text-[#0a1e3f] group-hover:text-[#0a1e3f]">{l.name}</span>
@@ -412,10 +505,10 @@ export function LandingPage() {
             <div className="space-y-4">
               <h4 className="text-sm font-semibold text-[#0a1e3f] uppercase tracking-wider">Altura Cloud</h4>
               <ul className="space-y-2.5 text-sm">
-                <li><a href="#planes" className="text-[#6b4a3a] hover:text-[#0a1e3f] transition">Planes</a></li>
-                <li><a href="#como-funciona" className="text-[#6b4a3a] hover:text-[#0a1e3f] transition">Cómo funciona</a></li>
-                <li><Link to="/login" className="text-[#6b4a3a] hover:text-[#0a1e3f] transition">Iniciar sesión</Link></li>
-                <li><Link to="/login" className="text-[#6b4a3a] hover:text-[#0a1e3f] transition">Crear cuenta</Link></li>
+                <li><a href="#planes" className="text-[#6b7a99] hover:text-[#0a1e3f] transition">Planes</a></li>
+                <li><a href="#como-funciona" className="text-[#6b7a99] hover:text-[#0a1e3f] transition">Cómo funciona</a></li>
+                <li><Link to="/login" className="text-[#6b7a99] hover:text-[#0a1e3f] transition">Iniciar sesión</Link></li>
+                <li><Link to="/login" className="text-[#6b7a99] hover:text-[#0a1e3f] transition">Crear cuenta</Link></li>
               </ul>
             </div>
 
@@ -424,19 +517,19 @@ export function LandingPage() {
               <h4 className="text-sm font-semibold text-[#0a1e3f] uppercase tracking-wider">Contacto</h4>
               <ul className="space-y-3 text-sm">
                 <li>
-                  <a href="mailto:info@zafra.cloud" className="flex items-center gap-2 text-[#6b4a3a] hover:text-[#0a1e3f] transition">
+                  <a href="mailto:info@zafra.cloud" className="flex items-center gap-2 text-[#6b7a99] hover:text-[#0a1e3f] transition">
                     <MessageSquare className="h-4 w-4 flex-shrink-0" />
                     info@zafra.cloud
                   </a>
                 </li>
                 <li>
-                  <a href="https://wa.me/50494103488" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#6b4a3a] hover:text-[#0a1e3f] transition">
+                  <a href="https://wa.me/50494103488" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#6b7a99] hover:text-[#0a1e3f] transition">
                     <MessageSquare className="h-4 w-4 flex-shrink-0" />
                     WhatsApp ventas
                   </a>
                 </li>
                 <li>
-                  <a href="https://wa.me/50494460058" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#6b4a3a] hover:text-[#0a1e3f] transition">
+                  <a href="https://wa.me/50494460058" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#6b7a99] hover:text-[#0a1e3f] transition">
                     <MessageSquare className="h-4 w-4 flex-shrink-0" />
                     +504 9446-0058
                   </a>
