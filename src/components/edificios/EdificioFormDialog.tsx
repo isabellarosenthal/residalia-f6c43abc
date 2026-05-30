@@ -75,7 +75,7 @@ export function EdificioFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[640px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="font-display text-xl text-[#1e1b4b]">{edificio ? "Editar edificio" : "Nuevo edificio"}</DialogTitle>
+          <DialogTitle className="font-display text-xl text-[#0a1e3f]">{edificio ? "Editar edificio" : "Nuevo edificio"}</DialogTitle>
         </DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div>
@@ -126,7 +126,7 @@ export function EdificioFormDialog({
                   href={form.watch("maps_url") as string}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center justify-center h-10 px-3 rounded-md border border-[#e0e7ff] text-[#818cf8] hover:bg-[#fdeee5]"
+                  className="inline-flex items-center justify-center h-10 px-3 rounded-md border border-[#e8ecf3] text-[#ffd60a] hover:bg-[#fdeee5]"
                   title="Abrir en Google Maps"
                 >
                   <ExternalLink className="w-4 h-4" />
@@ -177,7 +177,7 @@ export function EdificioFormDialog({
 
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-            <Button type="submit" disabled={!form.formState.isValid || save.isPending} className="bg-[#818cf8] hover:bg-[#6366f1]">
+            <Button type="submit" disabled={!form.formState.isValid || save.isPending} className="bg-[#ffd60a] hover:bg-[#e6c200]">
               {save.isPending ? "Guardando…" : "Guardar"}
             </Button>
           </DialogFooter>

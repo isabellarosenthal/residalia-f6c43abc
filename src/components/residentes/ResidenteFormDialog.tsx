@@ -114,7 +114,7 @@ export function ResidenteFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[640px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="font-display text-xl text-[#1e1b4b]">{residente ? "Editar residente" : "Nuevo residente"}</DialogTitle>
+          <DialogTitle className="font-display text-xl text-[#0a1e3f]">{residente ? "Editar residente" : "Nuevo residente"}</DialogTitle>
         </DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
@@ -170,14 +170,14 @@ export function ResidenteFormDialog({
             <div><Label>Fecha de ingreso *</Label><Input type="date" {...form.register("fecha_ingreso")} /></div>
             <div><Label>Foto URL</Label><Input {...form.register("foto_url")} placeholder="https://…" /></div>
           </div>
-          <div className="flex items-center justify-between border border-[#e0e7ff] rounded-lg p-3">
+          <div className="flex items-center justify-between border border-[#e8ecf3] rounded-lg p-3">
             <Label className="text-sm">Residente activo</Label>
             <Switch checked={form.watch("activo")} onCheckedChange={(v) => form.setValue("activo", v)} />
           </div>
 
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-            <Button type="submit" disabled={!form.formState.isValid || save.isPending} className="bg-[#818cf8] hover:bg-[#6366f1]">
+            <Button type="submit" disabled={!form.formState.isValid || save.isPending} className="bg-[#ffd60a] hover:bg-[#e6c200]">
               {save.isPending ? "Guardando…" : "Guardar residente"}
             </Button>
           </DialogFooter>

@@ -17,8 +17,8 @@ export function PropiedadCard({
   const muestraRenta = unidad.estado_comercial === "en_renta" || unidad.estado_comercial === "en_venta_y_renta";
 
   return (
-    <div className="group bg-white border border-[#e0e7ff] rounded-2xl overflow-hidden hover:shadow-lg hover:border-[#818cf8]/40 transition-all">
-      <div className="relative aspect-[4/3] bg-gradient-to-br from-[#eef2ff] to-[#e0e7ff] overflow-hidden">
+    <div className="group bg-white border border-[#e8ecf3] rounded-2xl overflow-hidden hover:shadow-lg hover:border-[#ffd60a]/40 transition-all">
+      <div className="relative aspect-[4/3] bg-gradient-to-br from-[#fffdf5] to-[#e8ecf3] overflow-hidden">
         {cover ? (
           <img src={cover} alt={`Unidad ${unidad.numero}`} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
         ) : (
@@ -28,13 +28,13 @@ export function PropiedadCard({
         )}
         <div className="absolute top-3 left-3"><EstadoComercialBadge value={unidad.estado_comercial} /></div>
         {unidad.precio_negociable && (
-          <div className="absolute top-3 right-3 bg-white/95 backdrop-blur text-[10px] font-semibold px-2 py-1 rounded-full text-[#1e1b4b]">
+          <div className="absolute top-3 right-3 bg-white/95 backdrop-blur text-[10px] font-semibold px-2 py-1 rounded-full text-[#0a1e3f]">
             Negociable
           </div>
         )}
         <button
           onClick={() => onEdit(unidad)}
-          className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition bg-white/95 backdrop-blur p-2 rounded-full text-[#1e1b4b] hover:bg-[#818cf8] hover:text-white"
+          className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition bg-white/95 backdrop-blur p-2 rounded-full text-[#0a1e3f] hover:bg-[#ffd60a] hover:text-white"
           aria-label="Editar"
         >
           <Edit className="w-4 h-4" />
@@ -43,13 +43,13 @@ export function PropiedadCard({
       <div className="p-4 space-y-3">
         <div>
           <div className="flex items-start justify-between gap-2">
-            <h3 className="font-display font-bold text-[#1e1b4b] text-lg leading-tight">
+            <h3 className="font-display font-bold text-[#0a1e3f] text-lg leading-tight">
               {unidad.tipo ? unidad.tipo[0].toUpperCase() + unidad.tipo.slice(1) : "Unidad"} #{unidad.numero}
             </h3>
-            {unidad.piso != null && <span className="text-xs text-[#8b8bb5] mt-1">Piso {unidad.piso}</span>}
+            {unidad.piso != null && <span className="text-xs text-[#6b7a99] mt-1">Piso {unidad.piso}</span>}
           </div>
           {edificio && (
-            <p className="text-xs text-[#8b8bb5] flex items-center gap-1 mt-0.5">
+            <p className="text-xs text-[#6b7a99] flex items-center gap-1 mt-0.5">
               <MapPin className="w-3 h-3" />{edificio.nombre}{edificio.ciudad ? ` · ${edificio.ciudad}` : ""}
             </p>
           )}
@@ -65,18 +65,18 @@ export function PropiedadCard({
         <div className="pt-2 border-t border-[#f0e6e0] space-y-1">
           {muestraVenta && (
             <div className="flex items-center justify-between">
-              <span className="text-[10px] uppercase tracking-wider text-[#8b8bb5] font-semibold">Venta</span>
-              <span className="font-display font-bold text-[#818cf8]">{fmt(unidad.precio_venta, moneda)}</span>
+              <span className="text-[10px] uppercase tracking-wider text-[#6b7a99] font-semibold">Venta</span>
+              <span className="font-display font-bold text-[#ffd60a]">{fmt(unidad.precio_venta, moneda)}</span>
             </div>
           )}
           {muestraRenta && (
             <div className="flex items-center justify-between">
-              <span className="text-[10px] uppercase tracking-wider text-[#8b8bb5] font-semibold">Renta/mes</span>
-              <span className="font-display font-bold text-[#1e1b4b]">{fmt(unidad.precio_renta, moneda)}</span>
+              <span className="text-[10px] uppercase tracking-wider text-[#6b7a99] font-semibold">Renta/mes</span>
+              <span className="font-display font-bold text-[#0a1e3f]">{fmt(unidad.precio_renta, moneda)}</span>
             </div>
           )}
           {!muestraVenta && !muestraRenta && (
-            <div className="flex items-center gap-1 text-xs text-[#8b8bb5]"><Tag className="w-3 h-3" />Sin publicar comercialmente</div>
+            <div className="flex items-center gap-1 text-xs text-[#6b7a99]"><Tag className="w-3 h-3" />Sin publicar comercialmente</div>
           )}
         </div>
       </div>

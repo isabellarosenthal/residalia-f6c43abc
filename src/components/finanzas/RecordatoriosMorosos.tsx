@@ -98,10 +98,10 @@ export function RecordatoriosMorosos({ edificioId }: { edificioId: string }) {
     <div className="space-y-5">
       <Card className="p-5">
         <div className="flex items-start gap-3 mb-3">
-          <BellRing className="w-5 h-5 text-[#818cf8] mt-0.5" />
+          <BellRing className="w-5 h-5 text-[#ffd60a] mt-0.5" />
           <div>
-            <h3 className="font-display font-bold text-[#1e1b4b]">Recordatorios a morosos</h3>
-            <p className="text-sm text-[#8b8bb5]">Edita la plantilla y envía por WhatsApp o email. Variables: <code>{`{{nombre}}`}</code>, <code>{`{{total}}`}</code>, <code>{`{{unidad}}`}</code>, <code>{`{{edificio}}`}</code>, <code>{`{{detalle}}`}</code>.</p>
+            <h3 className="font-display font-bold text-[#0a1e3f]">Recordatorios a morosos</h3>
+            <p className="text-sm text-[#6b7a99]">Edita la plantilla y envía por WhatsApp o email. Variables: <code>{`{{nombre}}`}</code>, <code>{`{{total}}`}</code>, <code>{`{{unidad}}`}</code>, <code>{`{{edificio}}`}</code>, <code>{`{{detalle}}`}</code>.</p>
           </div>
         </div>
         <Label className="text-xs">Plantilla del mensaje</Label>
@@ -110,19 +110,19 @@ export function RecordatoriosMorosos({ edificioId }: { edificioId: string }) {
 
       <Card className="p-5">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="font-display font-bold text-[#1e1b4b]">{morosos.length} residente{morosos.length === 1 ? "" : "s"} con saldo</h3>
+          <h3 className="font-display font-bold text-[#0a1e3f]">{morosos.length} residente{morosos.length === 1 ? "" : "s"} con saldo</h3>
         </div>
         <div className="space-y-3">
-          {morosos.length === 0 && <div className="text-center text-[#8b8bb5] py-8">Sin morosos en este edificio 🎉</div>}
+          {morosos.length === 0 && <div className="text-center text-[#6b7a99] py-8">Sin morosos en este edificio 🎉</div>}
           {morosos.map((m) => {
             const wa = waLink(m);
             const ml = mailLink(m);
             return (
-              <div key={m.residenteId} className="border border-[#e0e7ff] rounded-xl p-4 flex flex-wrap gap-4 items-start">
+              <div key={m.residenteId} className="border border-[#e8ecf3] rounded-xl p-4 flex flex-wrap gap-4 items-start">
                 <div className="flex-1 min-w-[200px]">
-                  <div className="font-semibold text-[#1e1b4b]">{m.nombre} <span className="text-xs text-[#8b8bb5] font-normal">· Unidad {m.unidad}</span></div>
-                  <div className="text-xs text-[#8b8bb5] mt-0.5">{m.cobros.length} cobro{m.cobros.length === 1 ? "" : "s"} · máx {m.diasMax > 0 ? `${m.diasMax} días vencido` : "vigente"}</div>
-                  <div className="text-xs text-[#8b8bb5] mt-1">{m.email ?? "sin email"} · {m.whatsapp ?? "sin teléfono"}</div>
+                  <div className="font-semibold text-[#0a1e3f]">{m.nombre} <span className="text-xs text-[#6b7a99] font-normal">· Unidad {m.unidad}</span></div>
+                  <div className="text-xs text-[#6b7a99] mt-0.5">{m.cobros.length} cobro{m.cobros.length === 1 ? "" : "s"} · máx {m.diasMax > 0 ? `${m.diasMax} días vencido` : "vigente"}</div>
+                  <div className="text-xs text-[#6b7a99] mt-1">{m.email ?? "sin email"} · {m.whatsapp ?? "sin teléfono"}</div>
                 </div>
                 <div className="text-right">
                   <div className="font-display font-extrabold text-[#be185d] text-xl">{fmtL(m.total)}</div>
@@ -132,7 +132,7 @@ export function RecordatoriosMorosos({ edificioId }: { edificioId: string }) {
                   <Button size="sm" variant="outline" disabled={!wa} asChild={!!wa}>
                     {wa ? <a href={wa} target="_blank" rel="noreferrer"><MessageCircle className="w-4 h-4 mr-1" />WhatsApp</a> : <span><MessageCircle className="w-4 h-4 mr-1" />WhatsApp</span>}
                   </Button>
-                  <Button size="sm" className="bg-[#818cf8] hover:bg-[#6366f1]" disabled={!ml} asChild={!!ml}>
+                  <Button size="sm" className="bg-[#ffd60a] hover:bg-[#e6c200]" disabled={!ml} asChild={!!ml}>
                     {ml ? <a href={ml}><Mail className="w-4 h-4 mr-1" />Email</a> : <span><Mail className="w-4 h-4 mr-1" />Email</span>}
                   </Button>
                 </div>

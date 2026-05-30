@@ -11,7 +11,7 @@ function PortalIndex() {
   const { data: residente, isLoading } = useMiResidente();
   const { data: pases = [] } = useMisPases();
 
-  if (isLoading) return <div className="text-sm text-[#8b8bb5]">Cargando…</div>;
+  if (isLoading) return <div className="text-sm text-[#6b7a99]">Cargando…</div>;
 
   if (!residente) {
     return (
@@ -30,19 +30,19 @@ function PortalIndex() {
 
   return (
     <div className="space-y-5">
-      <div className="bg-white border border-[#e0e7ff] rounded-2xl p-5">
-        <div className="text-xs text-[#8b8bb5]">Residente en</div>
-        <div className="font-display font-bold text-xl text-[#1e1b4b]">{condo?.nombre ?? "—"}</div>
-        <div className="text-sm text-[#8b8bb5]">Unidad #{uni?.numero ?? "—"}</div>
+      <div className="bg-white border border-[#e8ecf3] rounded-2xl p-5">
+        <div className="text-xs text-[#6b7a99]">Residente en</div>
+        <div className="font-display font-bold text-xl text-[#0a1e3f]">{condo?.nombre ?? "—"}</div>
+        <div className="text-sm text-[#6b7a99]">Unidad #{uni?.numero ?? "—"}</div>
       </div>
 
       <div className="flex items-center justify-between">
-        <h2 className="font-display font-extrabold text-lg text-[#1e1b4b]">Mis pases</h2>
-        <Link to="/portal/nuevo" className="bg-[#818cf8] hover:bg-[#6366f1] text-white text-sm px-4 py-2 rounded-full inline-flex items-center gap-1"><Plus className="w-4 h-4" />Crear pase</Link>
+        <h2 className="font-display font-extrabold text-lg text-[#0a1e3f]">Mis pases</h2>
+        <Link to="/portal/nuevo" className="bg-[#ffd60a] hover:bg-[#e6c200] text-white text-sm px-4 py-2 rounded-full inline-flex items-center gap-1"><Plus className="w-4 h-4" />Crear pase</Link>
       </div>
 
       {pases.length === 0 ? (
-        <div className="bg-white border border-[#e0e7ff] rounded-2xl p-8 text-center text-[#8b8bb5]">
+        <div className="bg-white border border-[#e8ecf3] rounded-2xl p-8 text-center text-[#6b7a99]">
           <KeyRound className="w-8 h-8 mx-auto mb-2 opacity-50" />
           Aún no has creado ningún pase.
         </div>
@@ -55,12 +55,12 @@ function PortalIndex() {
             const label = p.fecha_salida ? "Ya salió" : usados >= max ? "Agotado" : `${usados}/${max} usos`;
             return (
               <Link key={p.id} to="/portal/pase/$paseId" params={{ paseId: p.id }}
-                className="block bg-white border border-[#e0e7ff] rounded-2xl p-4 hover:border-[#818cf8] transition-colors">
+                className="block bg-white border border-[#e8ecf3] rounded-2xl p-4 hover:border-[#ffd60a] transition-colors">
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <div className="font-semibold text-[#1e1b4b]">{p.visitante_nombre}</div>
-                    <div className="text-xs text-[#8b8bb5] font-mono">{p.qr_code}</div>
-                    <div className="text-xs text-[#8b8bb5] mt-1">Entrada: {fmtDT(p.fecha_entrada)}</div>
+                    <div className="font-semibold text-[#0a1e3f]">{p.visitante_nombre}</div>
+                    <div className="text-xs text-[#6b7a99] font-mono">{p.qr_code}</div>
+                    <div className="text-xs text-[#6b7a99] mt-1">Entrada: {fmtDT(p.fecha_entrada)}</div>
                   </div>
                   <Badge variant={tone as any}>{label}</Badge>
                 </div>

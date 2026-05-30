@@ -103,7 +103,7 @@ export function AccesoFormDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[560px] max-h-[90vh] overflow-y-auto">
-        <DialogHeader><DialogTitle className="font-display text-xl text-[#1e1b4b]">{acceso ? "Editar acceso" : "Registrar acceso"}</DialogTitle></DialogHeader>
+        <DialogHeader><DialogTitle className="font-display text-xl text-[#0a1e3f]">{acceso ? "Editar acceso" : "Registrar acceso"}</DialogTitle></DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <Label>Edificio *</Label>
@@ -158,18 +158,18 @@ export function AccesoFormDialog({
             <div>
               <Label>Entradas permitidas *</Label>
               <Input type="number" min={1} {...form.register("usos_maximos")} />
-              <p className="text-xs text-[#8b8bb5] mt-1">Por defecto 1 (un solo ingreso)</p>
+              <p className="text-xs text-[#6b7a99] mt-1">Por defecto 1 (un solo ingreso)</p>
             </div>
             <div>
               <Label>Tiempo máx. adentro (min)</Label>
               <Input type="number" min={0} placeholder="Sin límite" {...form.register("minutos_max_estadia")} />
-              <p className="text-xs text-[#8b8bb5] mt-1">Delivery: 15 min sugerido</p>
+              <p className="text-xs text-[#6b7a99] mt-1">Delivery: 15 min sugerido</p>
             </div>
           </div>
           <div><Label>Código del pase</Label><Input {...form.register("qr_code")} placeholder="Se genera automáticamente si lo dejas vacío" /></div>
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-            <Button type="submit" disabled={save.isPending} className="bg-[#818cf8] hover:bg-[#6366f1]">{save.isPending ? "Guardando…" : "Guardar"}</Button>
+            <Button type="submit" disabled={save.isPending} className="bg-[#ffd60a] hover:bg-[#e6c200]">{save.isPending ? "Guardando…" : "Guardar"}</Button>
           </DialogFooter>
         </form>
       </DialogContent>

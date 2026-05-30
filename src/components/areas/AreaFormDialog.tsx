@@ -66,7 +66,7 @@ export function AreaFormDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[520px]">
-        <DialogHeader><DialogTitle className="font-display text-xl text-[#1e1b4b]">{area ? "Editar área" : "Nueva área común"}</DialogTitle></DialogHeader>
+        <DialogHeader><DialogTitle className="font-display text-xl text-[#0a1e3f]">{area ? "Editar área" : "Nueva área común"}</DialogTitle></DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <Label>Edificio *</Label>
@@ -87,7 +87,7 @@ export function AreaFormDialog({
           </div>
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-            <Button type="submit" disabled={save.isPending} className="bg-[#818cf8] hover:bg-[#6366f1]">{save.isPending ? "Guardando…" : "Guardar"}</Button>
+            <Button type="submit" disabled={save.isPending} className="bg-[#ffd60a] hover:bg-[#e6c200]">{save.isPending ? "Guardando…" : "Guardar"}</Button>
           </DialogFooter>
         </form>
       </DialogContent>

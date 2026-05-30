@@ -41,15 +41,15 @@ export function PaseDialog({ open, onOpenChange, acceso }: { open: boolean; onOp
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[420px]">
-        <DialogHeader><DialogTitle className="font-display text-xl text-[#1e1b4b]">Pase de acceso</DialogTitle></DialogHeader>
+        <DialogHeader><DialogTitle className="font-display text-xl text-[#0a1e3f]">Pase de acceso</DialogTitle></DialogHeader>
         {acceso && (
           <div className="space-y-4">
-            <div className="bg-[#eef2ff] rounded-2xl p-4 text-center">
+            <div className="bg-[#fffdf5] rounded-2xl p-4 text-center">
               {qrUrl && <img src={qrUrl} alt="QR del pase" className="mx-auto rounded-lg bg-white p-2" width={240} height={240} />}
-              <div className="mt-3 text-xs text-[#8b8bb5]">Código</div>
-              <div className="font-mono text-lg font-bold text-[#1e1b4b] tracking-widest">{acceso.qr_code}</div>
+              <div className="mt-3 text-xs text-[#6b7a99]">Código</div>
+              <div className="font-mono text-lg font-bold text-[#0a1e3f] tracking-widest">{acceso.qr_code}</div>
             </div>
-            <div className="text-sm text-[#5a3a2a] whitespace-pre-line bg-white border border-[#e0e7ff] rounded-xl p-3">{mensaje}</div>
+            <div className="text-sm text-[#5a3a2a] whitespace-pre-line bg-white border border-[#e8ecf3] rounded-xl p-3">{mensaje}</div>
             <div className="grid grid-cols-3 gap-2">
               <Button variant="outline" onClick={copiar}><Copy className="w-4 h-4 mr-1" />Copiar</Button>
               <Button onClick={whatsapp} className="bg-[#25D366] hover:bg-[#1da851] text-white"><MessageCircle className="w-4 h-4 mr-1" />WhatsApp</Button>

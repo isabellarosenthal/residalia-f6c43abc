@@ -55,55 +55,61 @@
 }
 
 :root {
-  /* Altura Cloud — Twilight Glow (dreamy lavender + indigo) */
-  --primary: #818cf8;
-  --primary-foreground: #ffffff;
-  --primary-dark: #6366f1;
-  --primary-light: #c7d2fe;
-  --primary-glow: #a78bfa;
+  /* Altura Cloud — Astronaut Yellow (yellow + deep navy + white) */
+  --primary: #ffd60a;
+  --primary-foreground: #0a1e3f;
+  --primary-dark: #e6c200;
+  --primary-light: #ffe87a;
+  --primary-glow: #ffea5c;
 
-  --text-dark: #1e1b4b;
-  --text-body: #312e81;
-  --text-muted: #8b8bb5;
+  --text-dark: #0a1e3f;
+  --text-body: #13294b;
+  --text-muted: #6b7a99;
 
-  --background: #faf9ff;
-  --bg-subtle: #eef2ff;
+  --background: #ffffff;
+  --bg-subtle: #fffdf5;
 
   --card: #ffffff;
-  --card-foreground: #1e1b4b;
+  --card-foreground: #0a1e3f;
   --popover: #ffffff;
-  --popover-foreground: #1e1b4b;
-  --foreground: #1e1b4b;
+  --popover-foreground: #0a1e3f;
+  --foreground: #0a1e3f;
 
-  --secondary: #eef2ff;
-  --secondary-foreground: #1e1b4b;
-  --muted: #eef2ff;
-  --muted-foreground: #8b8bb5;
-  --accent: #ddd6fe;
-  --accent-foreground: #6d28d9;
+  --secondary: #fffdf5;
+  --secondary-foreground: #0a1e3f;
+  --muted: #fffdf5;
+  --muted-foreground: #6b7a99;
+  --accent: #fff8d6;
+  --accent-foreground: #001a4d;
 
   --success: #166534;
   --success-light: #dcfce7;
   --danger: #be185d;
   --danger-light: #fce7f3;
-  --warning: #a78bfa;
-  --warning-light: #ddd6fe;
+  --warning: #ffd60a;
+  --warning-light: #fff8d6;
   --destructive: #be185d;
   --destructive-foreground: #ffffff;
 
-  --border: #e0e7ff;
-  --border-strong: #c7d2fe;
-  --input: #c7d2fe;
-  --ring: #a78bfa;
+  --border: #e8ecf3;
+  --border-strong: #ffe87a;
+  --input: #e8ecf3;
+  --ring: #ffd60a;
 
-  --sidebar: #1e1b4b;
-  --sidebar-foreground: #eef2ff;
-  --sidebar-accent: #a78bfa;
+  --sidebar: #0a1e3f;
+  --sidebar-foreground: #fffdf5;
+  --sidebar-accent: #ffd60a;
 
-  --gradient-ethereal: linear-gradient(135deg, #c7d2fe 0%, #ddd6fe 50%, #a78bfa 100%);
-  --gradient-aurora: linear-gradient(135deg, #eef2ff 0%, #faf9ff 50%, #ddd6fe 100%);
-  --shadow-dreamy: 0 20px 60px -20px color-mix(in oklab, #a78bfa 40%, transparent);
-  --shadow-glow: 0 0 40px color-mix(in oklab, #a78bfa 35%, transparent);
+  --gradient-sunny: linear-gradient(135deg, #ffea5c 0%, #ffd60a 50%, #ffc107 100%);
+  --gradient-deep-sky: linear-gradient(135deg, #0a1e3f 0%, #13294b 50%, #001a4d 100%);
+  --gradient-aurora: linear-gradient(135deg, #fffdf5 0%, #ffffff 50%, #fff8d6 100%);
+  --shadow-warm: 0 20px 60px -20px color-mix(in oklab, #ffd60a 45%, transparent);
+  --shadow-deep: 0 20px 60px -20px color-mix(in oklab, #0a1e3f 30%, transparent);
+  --shadow-glow: 0 0 40px color-mix(in oklab, #ffd60a 40%, transparent);
+
+  /* legacy aliases (some components may still reference these names) */
+  --gradient-ethereal: var(--gradient-sunny);
+  --shadow-dreamy: var(--shadow-warm);
 }
 
 @layer base {
@@ -119,12 +125,16 @@
 
 @layer utilities {
   .font-display { font-family: var(--font-display); }
-  .bg-gradient-ethereal { background: var(--gradient-ethereal); }
+  .bg-gradient-sunny { background: var(--gradient-sunny); }
+  .bg-gradient-deep-sky { background: var(--gradient-deep-sky); }
   .bg-gradient-aurora { background: var(--gradient-aurora); }
-  .shadow-dreamy { box-shadow: var(--shadow-dreamy); }
+  .bg-gradient-ethereal { background: var(--gradient-sunny); }
+  .shadow-warm { box-shadow: var(--shadow-warm); }
+  .shadow-deep { box-shadow: var(--shadow-deep); }
+  .shadow-dreamy { box-shadow: var(--shadow-warm); }
   .shadow-glow { box-shadow: var(--shadow-glow); }
   .shimmer {
-    background: linear-gradient(90deg, #eef2ff 0%, #ddd6fe 50%, #eef2ff 100%);
+    background: linear-gradient(90deg, #fffdf5 0%, #fff8d6 50%, #fffdf5 100%);
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite;
   }

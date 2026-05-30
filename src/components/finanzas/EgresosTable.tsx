@@ -18,27 +18,27 @@ export function EgresosTable({ edificioId, onEdit }: { edificioId: string; onEdi
   const del = useDeleteEgreso();
 
   return (
-    <div className="bg-white border border-[#e0e7ff] rounded-2xl overflow-hidden">
+    <div className="bg-white border border-[#e8ecf3] rounded-2xl overflow-hidden">
       <Table>
         <TableHeader>
-          <TableRow className="bg-[#eef2ff] hover:bg-[#eef2ff]">
-            <TableHead className="text-[#1e1b4b] font-semibold">Fecha</TableHead>
-            <TableHead className="text-[#1e1b4b] font-semibold">Categoría</TableHead>
-            <TableHead className="text-[#1e1b4b] font-semibold">Proveedor</TableHead>
-            <TableHead className="text-[#1e1b4b] font-semibold">Descripción</TableHead>
-            <TableHead className="text-[#1e1b4b] font-semibold text-right">Monto</TableHead>
-            <TableHead className="text-[#1e1b4b] font-semibold text-right">Acciones</TableHead>
+          <TableRow className="bg-[#fffdf5] hover:bg-[#fffdf5]">
+            <TableHead className="text-[#0a1e3f] font-semibold">Fecha</TableHead>
+            <TableHead className="text-[#0a1e3f] font-semibold">Categoría</TableHead>
+            <TableHead className="text-[#0a1e3f] font-semibold">Proveedor</TableHead>
+            <TableHead className="text-[#0a1e3f] font-semibold">Descripción</TableHead>
+            <TableHead className="text-[#0a1e3f] font-semibold text-right">Monto</TableHead>
+            <TableHead className="text-[#0a1e3f] font-semibold text-right">Acciones</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {isLoading && <TableRow><TableCell colSpan={6} className="py-10 text-center text-[#8b8bb5]">Cargando…</TableCell></TableRow>}
-          {!isLoading && egresos.length === 0 && <TableRow><TableCell colSpan={6} className="py-10 text-center text-[#8b8bb5]">Sin egresos registrados.</TableCell></TableRow>}
+          {isLoading && <TableRow><TableCell colSpan={6} className="py-10 text-center text-[#6b7a99]">Cargando…</TableCell></TableRow>}
+          {!isLoading && egresos.length === 0 && <TableRow><TableCell colSpan={6} className="py-10 text-center text-[#6b7a99]">Sin egresos registrados.</TableCell></TableRow>}
           {egresos.map((e) => (
             <TableRow key={e.id}>
               <TableCell className="text-sm">{fmtDate(e.fecha)}</TableCell>
               <TableCell className="capitalize text-sm">{e.categoria}</TableCell>
               <TableCell className="text-sm">{e.proveedor ?? "—"}</TableCell>
-              <TableCell className="text-sm text-[#312e81] max-w-[280px] truncate">{e.descripcion ?? "—"}</TableCell>
+              <TableCell className="text-sm text-[#13294b] max-w-[280px] truncate">{e.descripcion ?? "—"}</TableCell>
               <TableCell className="text-right font-semibold text-[#be185d]">{fmtL(e.monto)}</TableCell>
               <TableCell className="text-right">
                 {e.comprobante_url && <Button size="sm" variant="ghost" onClick={() => openComprobante(e.comprobante_url!)} className="h-8 w-8 p-0"><ExternalLink className="w-4 h-4" /></Button>}
