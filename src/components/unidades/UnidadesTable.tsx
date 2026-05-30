@@ -183,8 +183,8 @@ export function UnidadesTable({ edificioId, onEdit }: { edificioId: string; onEd
                   <div className="text-xs text-[#9a7060]">{u.inquilino_id ? `Inq: ${residentesMap?.get(u.inquilino_id) ?? "—"}` : ""}</div>
                 </TableCell>
                 <TableCell className="text-right">
-                  {u.precio_venta && <div className="text-sm font-semibold text-[#c94f0c]">{fmtL(u.precio_venta)}</div>}
-                  {u.precio_renta && <div className="text-xs text-[#4a2800]">Renta: {fmtL(u.precio_renta)}</div>}
+                  {u.precio_venta && <div className="text-sm font-semibold text-[#c94f0c]">{fmtMoney(u.precio_venta, (u as any).moneda)}</div>}
+                  {u.precio_renta && <div className="text-xs text-[#4a2800]">Renta: {fmtMoney(u.precio_renta, (u as any).moneda)}</div>}
                   {!u.precio_venta && !u.precio_renta && <span className="text-[#9a7060] text-sm">—</span>}
                 </TableCell>
                 <TableCell className="text-right">
