@@ -71,7 +71,7 @@ function ValidarPage() {
       <div className="max-w-[640px] mx-auto space-y-5">
         <Link to="/accesos" className="inline-flex items-center text-sm text-[#64748B] hover:text-[#4F46E5]"><ArrowLeft className="w-4 h-4 mr-1" />Volver a accesos</Link>
         <div>
-          <h1 className="font-display font-extrabold text-2xl text-[#4F46E5] flex items-center gap-2"><ShieldCheck className="w-6 h-6 text-[#4F46E5]" />Validar pase</h1>
+          <h1 className="font-display font-extrabold text-2xl text-[#0F172A] flex items-center gap-2"><ShieldCheck className="w-6 h-6 text-[#0F172A]" />Validar pase</h1>
           <p className="text-sm text-[#64748B]">Ingresa el código del visitante para autorizar entrada o salida.</p>
         </div>
 
@@ -102,7 +102,7 @@ function ValidarPage() {
             <div className="flex items-start justify-between gap-3">
               <div>
                 <div className="text-xs text-[#64748B]">Visitante</div>
-                <div className="font-display font-bold text-xl text-[#4F46E5]">{acceso.visitante_nombre}</div>
+                <div className="font-display font-bold text-xl text-[#0F172A]">{acceso.visitante_nombre}</div>
                 <div className="text-xs text-[#64748B] font-mono mt-1">{acceso.qr_code}</div>
               </div>
               <Badge variant={estado.tone}>{estado.label}</Badge>

@@ -123,7 +123,7 @@ export function EgresoFormDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px]">
-        <DialogHeader><DialogTitle className="font-display text-xl text-[#4F46E5]">{egreso ? "Editar egreso" : "Nuevo egreso"}</DialogTitle></DialogHeader>
+        <DialogHeader><DialogTitle className="font-display text-xl text-[#0F172A]">{egreso ? "Editar egreso" : "Nuevo egreso"}</DialogTitle></DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <Label>Edificio *</Label>

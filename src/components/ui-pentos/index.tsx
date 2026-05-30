@@ -42,7 +42,7 @@ export function EmptyState({ icon, title, hint, action }: { icon: ReactNode; tit
   return (
     <Card className="p-10 text-center">
       <div className="w-14 h-14 rounded-2xl bg-[#F1F5F9] text-[#4F46E5] flex items-center justify-center mx-auto mb-4">{icon}</div>
-      <div className="font-display font-bold text-lg text-[#4F46E5]">{title}</div>
+      <div className="font-display font-bold text-lg text-[#0F172A]">{title}</div>
       {hint && <div className="text-sm text-[#64748B] mt-1">{hint}</div>}
       {action && <div className="mt-5">{action}</div>}
     </Card>

@@ -103,7 +103,7 @@ export function AccesoFormDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[560px] max-h-[90vh] overflow-y-auto">
-        <DialogHeader><DialogTitle className="font-display text-xl text-[#4F46E5]">{acceso ? "Editar acceso" : "Registrar acceso"}</DialogTitle></DialogHeader>
+        <DialogHeader><DialogTitle className="font-display text-xl text-[#0F172A]">{acceso ? "Editar acceso" : "Registrar acceso"}</DialogTitle></DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <Label>Edificio *</Label>

@@ -117,7 +117,7 @@ export function UnidadFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[680px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="font-display text-xl text-[#4F46E5]">{unidad ? `Editar unidad #${unidad.numero}` : "Nueva unidad"}</DialogTitle>
+          <DialogTitle className="font-display text-xl text-[#0F172A]">{unidad ? `Editar unidad #${unidad.numero}` : "Nueva unidad"}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

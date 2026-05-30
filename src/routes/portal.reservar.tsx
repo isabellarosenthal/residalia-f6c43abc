@@ -78,7 +78,7 @@ function Reservar() {
 
   return (
     <div className="space-y-5">
-      <h1 className="font-display font-extrabold text-xl text-[#4F46E5]">Reservar área común</h1>
+      <h1 className="font-display font-extrabold text-xl text-[#0F172A]">Reservar área común</h1>
 
       <form onSubmit={submit} className="space-y-4 bg-white border border-[#E2E8F0] rounded-2xl p-5">
         <div>
@@ -113,7 +113,7 @@ function Reservar() {
 
       {proximas.length > 0 && (
         <div>
-          <h2 className="font-display font-extrabold text-lg text-[#4F46E5] mb-2">Mis próximas reservas</h2>
+          <h2 className="font-display font-extrabold text-lg text-[#0F172A] mb-2">Mis próximas reservas</h2>
           <div className="space-y-2">
             {proximas.map((r) => {
               const a = areas.find((x) => x.id === r.area_id);

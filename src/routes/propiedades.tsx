@@ -71,7 +71,7 @@ function PropiedadesPage() {
       <div className="space-y-5 max-w-[1500px] mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="font-display font-extrabold text-2xl text-[#4F46E5]">Propiedades en Venta / Renta</h1>
+            <h1 className="font-display font-extrabold text-2xl text-[#0F172A]">Propiedades en Venta / Renta</h1>
             <p className="text-sm text-[#64748B]">Catálogo comercial de unidades publicadas</p>
           </div>
           <div className="inline-flex rounded-lg border border-[#E2E8F0] bg-white p-0.5">
@@ -124,7 +124,7 @@ function PropiedadesPage() {
         ) : filtered.length === 0 ? (
           <div className="text-center py-16 bg-white border border-dashed border-[#E2E8F0] rounded-2xl">
             <Tag className="w-10 h-10 mx-auto mb-3 text-[#c4a896]" />
-            <p className="font-display font-semibold text-[#4F46E5]">No hay propiedades publicadas</p>
+            <p className="font-display font-semibold text-[#0F172A]">No hay propiedades publicadas</p>
             <p className="text-sm text-[#64748B] mt-1">
               {unidades.length === 0
                 ? <>Crea unidades desde <Building2 className="inline w-3.5 h-3.5" /> Edificios.</>

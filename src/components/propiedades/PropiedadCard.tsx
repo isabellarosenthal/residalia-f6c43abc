@@ -43,7 +43,7 @@ export function PropiedadCard({
       <div className="p-4 space-y-3">
         <div>
           <div className="flex items-start justify-between gap-2">
-            <h3 className="font-display font-bold text-[#4F46E5] text-lg leading-tight">
+            <h3 className="font-display font-bold text-[#0F172A] text-lg leading-tight">
               {unidad.tipo ? unidad.tipo[0].toUpperCase() + unidad.tipo.slice(1) : "Unidad"} #{unidad.numero}
             </h3>
             {unidad.piso != null && <span className="text-xs text-[#64748B] mt-1">Piso {unidad.piso}</span>}
@@ -66,13 +66,13 @@ export function PropiedadCard({
           {muestraVenta && (
             <div className="flex items-center justify-between">
               <span className="text-[10px] uppercase tracking-wider text-[#64748B] font-semibold">Venta</span>
-              <span className="font-display font-bold text-[#4F46E5]">{fmt(unidad.precio_venta, moneda)}</span>
+              <span className="font-display font-bold text-[#0F172A]">{fmt(unidad.precio_venta, moneda)}</span>
             </div>
           )}
           {muestraRenta && (
             <div className="flex items-center justify-between">
               <span className="text-[10px] uppercase tracking-wider text-[#64748B] font-semibold">Renta/mes</span>
-              <span className="font-display font-bold text-[#4F46E5]">{fmt(unidad.precio_renta, moneda)}</span>
+              <span className="font-display font-bold text-[#0F172A]">{fmt(unidad.precio_renta, moneda)}</span>
             </div>
           )}
           {!muestraVenta && !muestraRenta && (

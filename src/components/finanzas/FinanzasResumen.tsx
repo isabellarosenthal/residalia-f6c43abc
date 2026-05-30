@@ -59,7 +59,7 @@ export function FinanzasResumen({ edificioId }: { edificioId: string }) {
       </div>
 
       <Card className="p-5">
-        <h3 className="font-display font-bold text-[#4F46E5] mb-3">Ingresos vs Egresos · últimos 6 meses</h3>
+        <h3 className="font-display font-bold text-[#0F172A] mb-3">Ingresos vs Egresos · últimos 6 meses</h3>
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData}>

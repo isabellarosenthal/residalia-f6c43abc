@@ -32,12 +32,12 @@ function PortalIndex() {
     <div className="space-y-5">
       <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5">
         <div className="text-xs text-[#64748B]">Residente en</div>
-        <div className="font-display font-bold text-xl text-[#4F46E5]">{condo?.nombre ?? "—"}</div>
+        <div className="font-display font-bold text-xl text-[#0F172A]">{condo?.nombre ?? "—"}</div>
         <div className="text-sm text-[#64748B]">Unidad #{uni?.numero ?? "—"}</div>
       </div>
 
       <div className="flex items-center justify-between">
-        <h2 className="font-display font-extrabold text-lg text-[#4F46E5]">Mis pases</h2>
+        <h2 className="font-display font-extrabold text-lg text-[#0F172A]">Mis pases</h2>
         <Link to="/portal/nuevo" className="bg-[#4F46E5] hover:bg-[#4338CA] text-white text-sm px-4 py-2 rounded-full inline-flex items-center gap-1"><Plus className="w-4 h-4" />Crear pase</Link>
       </div>
 

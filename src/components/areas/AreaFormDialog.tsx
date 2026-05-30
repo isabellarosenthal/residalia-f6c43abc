@@ -66,7 +66,7 @@ export function AreaFormDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[520px]">
-        <DialogHeader><DialogTitle className="font-display text-xl text-[#4F46E5]">{area ? "Editar área" : "Nueva área común"}</DialogTitle></DialogHeader>
+        <DialogHeader><DialogTitle className="font-display text-xl text-[#0F172A]">{area ? "Editar área" : "Nueva área común"}</DialogTitle></DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <Label>Edificio *</Label>
