@@ -71,10 +71,11 @@ function AdminPanel() {
 
         {stats && (
           <>
-            <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <section className="grid grid-cols-2 md:grid-cols-5 gap-4">
               <StatCard icon={<Building2 className="w-5 h-5" />} label="Edificios" value={fmt(stats.totales.condominios)} sub={`${stats.totales.condominios_activos} activos`} />
               <StatCard icon={<Home className="w-5 h-5" />} label="Unidades" value={fmt(stats.totales.unidades)} />
-              <StatCard icon={<Users className="w-5 h-5" />} label="Residentes" value={fmt(stats.totales.residentes)} sub={`${fmt(stats.totales.usuarios)} usuarios`} />
+              <StatCard icon={<Users className="w-5 h-5" />} label="Residentes" value={fmt(stats.totales.residentes)} />
+              <StatCard icon={<Users className="w-5 h-5" />} label="Usuarios" value={fmt(stats.totales.usuarios)} sub="cuentas registradas" />
               <StatCard icon={<DollarSign className="w-5 h-5" />} label="MRR estimado" value={money(stats.totales.mrr)} sub={`${money(stats.totales.ingresos_mes)} este mes`} accent />
             </section>
 
@@ -130,17 +131,33 @@ function StatCard({ icon, label, value, sub, accent }: { icon: React.ReactNode; 
 
 function SignupsChart({ data }: { data: { fecha: string; signups: number }[] }) {
   const max = Math.max(1, ...data.map((d) => d.signups));
+  const fmtLabel = (s: string) => {
+    const d = new Date(s);
+    return d.toLocaleDateString("es-HN", { day: "numeric", month: "short" });
+  };
   return (
-    <div className="flex items-end gap-1 h-32">
-      {data.map((d) => (
-        <div key={d.fecha} className="flex-1 group relative">
-          <div
-            className="bg-primary/80 hover:bg-primary rounded-t transition-colors"
-            style={{ height: `${(d.signups / max) * 100}%`, minHeight: d.signups > 0 ? "2px" : "0" }}
-            title={`${d.fecha}: ${d.signups}`}
-          />
-        </div>
-      ))}
+    <div>
+      <div className="flex items-end gap-1 h-32 border-b border-border">
+        {data.map((d) => (
+          <div key={d.fecha} className="flex-1 group relative flex flex-col justify-end h-full">
+            <div
+              className={`rounded-t transition-colors ${d.signups > 0 ? "bg-primary hover:bg-primary/80" : "bg-muted"}`}
+              style={{ height: `${Math.max((d.signups / max) * 100, 4)}%` }}
+              title={`${d.fecha}: ${d.signups} signup${d.signups === 1 ? "" : "s"}`}
+            />
+            {d.signups > 0 && (
+              <div className="absolute -top-5 left-1/2 -translate-x-1/2 text-[10px] font-semibold text-primary">
+                {d.signups}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      <div className="flex justify-between text-[10px] text-muted-foreground mt-1.5">
+        <span>{fmtLabel(data[0].fecha)}</span>
+        <span>{fmtLabel(data[Math.floor(data.length / 2)].fecha)}</span>
+        <span>{fmtLabel(data[data.length - 1].fecha)}</span>
+      </div>
     </div>
   );
 }
