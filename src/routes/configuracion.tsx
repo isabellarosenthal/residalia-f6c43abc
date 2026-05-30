@@ -74,20 +74,24 @@ function PerfilTab() {
   const { user, profile, role } = useAuth();
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
+  const [usdRate, setUsdRate] = useState<string>("24.5");
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     if (!user) return;
     setFullName(profile?.full_name ?? "");
-    supabase.from("profiles").select("phone").eq("id", user.id).maybeSingle().then(({ data }) => {
+    supabase.from("profiles").select("phone, usd_rate").eq("id", user.id).maybeSingle().then(({ data }) => {
       setPhone(data?.phone ?? "");
+      if (data && (data as any).usd_rate != null) setUsdRate(String((data as any).usd_rate));
     });
   }, [user, profile]);
 
   const save = async () => {
     if (!user) return;
+    const rate = Number(usdRate);
+    if (!Number.isFinite(rate) || rate <= 0) return toast.error("Tasa USD inválida");
     setSaving(true);
-    const { error } = await supabase.from("profiles").update({ full_name: fullName, phone: phone || null }).eq("id", user.id);
+    const { error } = await supabase.from("profiles").update({ full_name: fullName, phone: phone || null, usd_rate: rate } as any).eq("id", user.id);
     setSaving(false);
     if (error) toast.error(error.message);
     else toast.success("Perfil actualizado");
@@ -111,6 +115,11 @@ function PerfilTab() {
         <div>
           <Label>Rol</Label>
           <Input value={role ?? ""} disabled />
+        </div>
+        <div>
+          <Label>Tasa de conversión USD → L</Label>
+          <Input type="number" step="0.0001" value={usdRate} onChange={(e) => setUsdRate(e.target.value)} />
+          <p className="text-xs text-[#9a7060] mt-1">Cuántos Lempiras equivalen a 1 USD. Se usa para convertir precios entre monedas.</p>
         </div>
       </div>
       <div className="flex justify-end">

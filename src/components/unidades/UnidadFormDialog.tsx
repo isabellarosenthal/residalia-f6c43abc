@@ -29,6 +29,7 @@ const schema = z.object({
   precio_venta: z.coerce.number().min(0).optional().nullable(),
   precio_renta: z.coerce.number().min(0).optional().nullable(),
   deposito: z.coerce.number().min(0).optional().nullable(),
+  moneda: z.enum(["L", "USD"]).default("L"),
   precio_negociable: z.boolean().default(false),
   descripcion_comercial: z.string().max(2000).optional().or(z.literal("")),
   propietario_id: z.string().nullable().optional(),
@@ -50,7 +51,7 @@ export function UnidadFormDialog({
       habitaciones: 0, banos: 0, banos_visita: 0, parqueos: 0,
       area_m2_construccion: null, area_m2_terreno: null,
       estado_administrativo: "disponible", mantenimiento_mensual: null, fecha_disponibilidad: "",
-      estado_comercial: "disponible", precio_venta: null, precio_renta: null, deposito: null,
+      estado_comercial: "disponible", precio_venta: null, precio_renta: null, deposito: null, moneda: "L",
       precio_negociable: false, descripcion_comercial: "",
       propietario_id: null, inquilino_id: null,
     },
@@ -75,6 +76,7 @@ export function UnidadFormDialog({
       precio_venta: unidad?.precio_venta ?? null,
       precio_renta: unidad?.precio_renta ?? null,
       deposito: unidad?.deposito ?? null,
+      moneda: ((unidad as any)?.moneda as "L" | "USD") ?? "L",
       precio_negociable: unidad?.precio_negociable ?? false,
       descripcion_comercial: unidad?.descripcion_comercial ?? "",
       propietario_id: unidad?.propietario_id ?? null,
@@ -102,6 +104,7 @@ export function UnidadFormDialog({
       precio_venta: v.precio_venta ?? null,
       precio_renta: v.precio_renta ?? null,
       deposito: v.deposito ?? null,
+      moneda: v.moneda,
       precio_negociable: v.precio_negociable,
       descripcion_comercial: v.descripcion_comercial || null,
       propietario_id: v.propietario_id || null,
@@ -225,6 +228,16 @@ export function UnidadFormDialog({
                     <SelectItem value="en_venta_y_renta">En venta y renta</SelectItem>
                     <SelectItem value="reservada">Reservada</SelectItem>
                     <SelectItem value="ocupada">Ocupada (no comercial)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label>Moneda</Label>
+                <Select value={form.watch("moneda")} onValueChange={(v) => form.setValue("moneda", v as "L" | "USD")}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="L">Lempiras (L)</SelectItem>
+                    <SelectItem value="USD">Dólares ($)</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
