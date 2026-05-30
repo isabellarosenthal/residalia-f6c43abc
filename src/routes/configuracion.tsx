@@ -5,6 +5,7 @@ import { useServerFn } from "@tanstack/react-start";
 import toast from "react-hot-toast";
 import { User as UserIcon, Building2, Users, Shield, Save, Trash2, Plus, Home, Crown } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
+import logoUrl from "@/assets/altura-cloud-logo.png";
 import { Card } from "@/components/ui-pentos";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -40,9 +41,12 @@ function ConfiguracionPage() {
   return (
     <AppShell>
       <div className="space-y-5 max-w-[1100px] mx-auto">
-        <div>
-          <h1 className="font-display font-extrabold text-2xl text-[#0a1e3f]">Configuración</h1>
-          <p className="text-sm text-[#6b7a99]">Perfil, edificios, usuarios, residentes y preferencias</p>
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-deep-sky text-white p-6 md:p-8 shadow-deep">
+          <img src={logoUrl} alt="" aria-hidden width={160} height={160} className="absolute -right-2 -top-2 w-28 md:w-40 h-auto float-slow opacity-95 pointer-events-none" />
+          <div className="relative max-w-2xl">
+            <h1 className="font-display font-extrabold text-2xl md:text-3xl text-white">Configuración</h1>
+            <p className="text-sm text-white/80 mt-1">Perfil, edificios, usuarios, residentes y preferencias — todo desde tu base espacial.</p>
+          </div>
         </div>
 
         <Tabs defaultValue="perfil">

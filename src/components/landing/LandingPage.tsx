@@ -163,7 +163,10 @@ export function LandingPage() {
               className="relative w-full h-auto"
               style={{ maskImage: 'radial-gradient(ellipse 80% 75% at center, black 60%, transparent 100%)', WebkitMaskImage: 'radial-gradient(ellipse 80% 75% at center, black 60%, transparent 100%)' }}
             />
+            <img src={logoUrl} alt="" aria-hidden width={120} height={120} className="absolute -top-6 -right-2 w-24 md:w-32 h-auto float-slow drop-shadow-xl pointer-events-none" />
+            <img src={logoUrl} alt="" aria-hidden width={80} height={80} className="absolute bottom-4 -left-4 w-16 md:w-20 h-auto float-fast opacity-90 pointer-events-none" />
           </div>
+
 
 
 
@@ -172,8 +175,9 @@ export function LandingPage() {
       </section>
 
       {/* Stats band */}
-      <section className="bg-[#0a1e3f] text-[#fffdf5] py-10">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <section className="relative overflow-hidden bg-[#0a1e3f] text-[#fffdf5] py-10">
+        <img src={logoUrl} alt="" aria-hidden width={140} height={140} className="absolute -top-6 right-8 w-28 h-auto float-med opacity-90 pointer-events-none hidden md:block" />
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center relative">
           {[
             { n: "13+", l: "Módulos integrados" },
             { n: "100%", l: "Aislado por condominio" },
@@ -225,8 +229,10 @@ export function LandingPage() {
       </section>
 
       {/* How it works */}
-      <section className="bg-white border-y border-[#e8ecf3] py-20">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="relative overflow-hidden bg-white border-y border-[#e8ecf3] py-20">
+        <img src={logoUrl} alt="" aria-hidden width={100} height={100} className="absolute top-10 left-4 w-16 md:w-24 h-auto float-slow opacity-80 pointer-events-none" />
+        <img src={logoUrl} alt="" aria-hidden width={100} height={100} className="absolute bottom-10 right-6 w-20 md:w-28 h-auto float-med opacity-80 pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-6 relative">
           <div className="text-center mb-14">
             <h2 className="font-display font-extrabold text-3xl md:text-4xl">Empieza a operar hoy mismo</h2>
             <p className="mt-3 text-[#6b4a3a]">Cuatro pasos guiados por nuestro asistente de configuración.</p>
@@ -354,7 +360,8 @@ export function LandingPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="max-w-4xl mx-auto px-6 py-20 text-center">
+      <section className="relative max-w-4xl mx-auto px-6 py-20 text-center">
+        <img src={logoUrl} alt="" aria-hidden width={160} height={160} className="mx-auto w-28 md:w-36 h-auto float-slow mb-6" />
         <h2 className="font-display font-extrabold text-3xl md:text-4xl">¿Listo para ordenar tu condominio?</h2>
         <p className="mt-4 text-[#6b4a3a]">Crea tu cuenta gratis y configurá tu primer edificio en menos de 5 minutos.</p>
         <Link to="/login" className="mt-8 inline-flex items-center gap-2 bg-[#ffd60a] text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-[#e6c200]">
