@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -8,7 +8,12 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
+  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { useSaveResidente, useEdificios, useUnidades, type Residente } from "@/lib/queries";
+import { supabase } from "@/integrations/supabase/client";
 
 const schema = z.object({
   nombre: z.string().min(1, "Requerido").max(80),
@@ -32,6 +37,8 @@ export function ResidenteFormDialog({
 }: { open: boolean; onOpenChange: (v: boolean) => void; residente?: Residente | null; defaultCondominioId?: string }) {
   const save = useSaveResidente();
   const { data: edificios = [] } = useEdificios();
+  const [confirmDup, setConfirmDup] = useState<null | { values: FormOut; existingUserId: string | null; otrosEdificios: string[] }>(null);
+
   const form = useForm<FormVals, any, FormOut>({
     resolver: zodResolver(schema),
     mode: "onChange",
@@ -64,7 +71,7 @@ export function ResidenteFormDialog({
     });
   }, [open, residente, defaultCondominioId, form]);
 
-  const onSubmit = async (v: FormOut) => {
+  const persist = async (v: FormOut, userIdOverride?: string | null) => {
     await save.mutateAsync({
       id: residente?.id,
       nombre: v.nombre,
@@ -79,11 +86,31 @@ export function ResidenteFormDialog({
       fecha_ingreso: v.fecha_ingreso,
       foto_url: v.foto_url || null,
       activo: v.activo,
-    });
+      ...(userIdOverride !== undefined ? { user_id: userIdOverride } : {}),
+    } as any);
     onOpenChange(false);
   };
 
+  const onSubmit = async (v: FormOut) => {
+    // Solo en creación, con email, detectar si ya es residente en otro edificio
+    if (!residente?.id && v.email) {
+      const { data: existentes } = await supabase
+        .from("residentes")
+        .select("id, condominio_id, user_id, condominio:condominios(nombre)")
+        .ilike("email", v.email)
+        .neq("condominio_id", v.condominio_id);
+      if (existentes && existentes.length > 0) {
+        const otros = Array.from(new Set(existentes.map((r: any) => r.condominio?.nombre).filter(Boolean)));
+        const existingUserId = (existentes.find((r: any) => r.user_id)?.user_id) ?? null;
+        setConfirmDup({ values: v, existingUserId, otrosEdificios: otros });
+        return;
+      }
+    }
+    await persist(v);
+  };
+
   return (
+    <>
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[640px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
@@ -157,5 +184,30 @@ export function ResidenteFormDialog({
         </form>
       </DialogContent>
     </Dialog>
+
+    <AlertDialog open={!!confirmDup} onOpenChange={(o) => !o && setConfirmDup(null)}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Este correo ya es residente en otro edificio</AlertDialogTitle>
+          <AlertDialogDescription>
+            El correo <strong>{confirmDup?.values.email}</strong> ya está registrado como residente en:{" "}
+            <strong>{confirmDup?.otrosEdificios.join(", ")}</strong>.
+            <br /><br />
+            ¿Deseas vincularlo también a este edificio? El residente podrá cambiar entre edificios desde su portal.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+          <AlertDialogAction
+            onClick={async () => {
+              if (!confirmDup) return;
+              await persist(confirmDup.values, confirmDup.existingUserId ?? null);
+              setConfirmDup(null);
+            }}
+          >Sí, vincular</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+    </>
   );
 }

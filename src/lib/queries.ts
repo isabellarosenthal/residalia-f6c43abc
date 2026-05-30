@@ -656,34 +656,28 @@ export function useRegistrarUso() {
   });
 }
 
-// ============ MI RESIDENTE (portal) ============
+// ============ MI RESIDENTE (portal) — usa contexto de residencia activa ============
+import { useResidenciaActiva } from "@/lib/portal-context";
+
 export function useMiResidente() {
-  return useQuery({
-    queryKey: ["mi-residente"],
-    queryFn: async () => {
-      const { data: u } = await supabase.auth.getUser();
-      if (!u.user) return null;
-      const { data, error } = await supabase
-        .from("residentes")
-        .select("*, condominio:condominios(id,nombre), unidad:unidades(id,numero)")
-        .eq("user_id", u.user.id)
-        .maybeSingle();
-      if (error) throw error;
-      return data;
-    },
-  });
+  const { activa, isLoading } = useResidenciaActiva();
+  return { data: activa, isLoading } as const;
 }
 
 export function useMisPases() {
+  const { activa } = useResidenciaActiva();
+  const condoId = activa?.condominio_id;
   return useQuery({
-    queryKey: ["mis-pases"],
+    queryKey: ["mis-pases", condoId ?? "none"],
+    enabled: !!condoId,
     queryFn: async (): Promise<Acceso[]> => {
       const { data: u } = await supabase.auth.getUser();
-      if (!u.user) return [];
+      if (!u.user || !condoId) return [];
       const { data, error } = await supabase
         .from("accesos")
         .select("*")
         .eq("autorizado_por", u.user.id)
+        .eq("condominio_id", condoId)
         .order("created_at", { ascending: false })
         .limit(100);
       if (error) throw error;
@@ -693,14 +687,13 @@ export function useMisPases() {
 }
 
 export function useMisCobros() {
+  const { activa } = useResidenciaActiva();
   return useQuery({
-    queryKey: ["mis-cobros"],
+    queryKey: ["mis-cobros", activa?.id ?? "none"],
+    enabled: !!activa?.id,
     queryFn: async (): Promise<Cobro[]> => {
-      const { data: u } = await supabase.auth.getUser();
-      if (!u.user) return [];
-      const { data: r } = await supabase.from("residentes").select("id").eq("user_id", u.user.id).maybeSingle();
-      if (!r) return [];
-      const { data, error } = await supabase.from("cobros").select("*").eq("residente_id", r.id).order("fecha_vencimiento", { ascending: false });
+      if (!activa?.id) return [];
+      const { data, error } = await supabase.from("cobros").select("*").eq("residente_id", activa.id).order("fecha_vencimiento", { ascending: false });
       if (error) throw error;
       return data ?? [];
     },
@@ -708,14 +701,14 @@ export function useMisCobros() {
 }
 
 export function useComunicadosResidente() {
+  const { activa } = useResidenciaActiva();
+  const condoId = activa?.condominio_id;
   return useQuery({
-    queryKey: ["mis-comunicados"],
+    queryKey: ["mis-comunicados", condoId ?? "none"],
+    enabled: !!condoId,
     queryFn: async () => {
-      const { data: u } = await supabase.auth.getUser();
-      if (!u.user) return [];
-      const { data: r } = await supabase.from("residentes").select("condominio_id").eq("user_id", u.user.id).maybeSingle();
-      if (!r) return [];
-      const { data, error } = await supabase.from("comunicados").select("*").eq("condominio_id", r.condominio_id).order("created_at", { ascending: false }).limit(50);
+      if (!condoId) return [];
+      const { data, error } = await supabase.from("comunicados").select("*").eq("condominio_id", condoId).order("created_at", { ascending: false }).limit(50);
       if (error) throw error;
       return data ?? [];
     },
