@@ -175,8 +175,9 @@ export function LandingPage() {
       </section>
 
       {/* Stats band */}
-      <section className="bg-[#0a1e3f] text-[#fffdf5] py-10">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <section className="relative overflow-hidden bg-[#0a1e3f] text-[#fffdf5] py-10">
+        <img src={logoUrl} alt="" aria-hidden width={140} height={140} className="absolute -top-6 right-8 w-28 h-auto float-med opacity-90 pointer-events-none hidden md:block" />
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center relative">
           {[
             { n: "13+", l: "Módulos integrados" },
             { n: "100%", l: "Aislado por condominio" },
