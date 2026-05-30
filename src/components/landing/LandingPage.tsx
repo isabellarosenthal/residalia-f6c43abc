@@ -99,7 +99,7 @@ export function LandingPage() {
         <div className="absolute bottom-0 left-1/3 w-[480px] h-[480px] rounded-full opacity-25 blur-3xl float-fast" style={{ background: "radial-gradient(circle, #E9E2FF 0%, transparent 70%)" }} />
       </div>
       {/* Nav */}
-      <header className="border-b border-[#E2E8F0] bg-white/85 backdrop-blur sticky top-0 z-20">
+      <header className="border-b border-white/40 bg-white/60 backdrop-blur-xl sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <img src={logoUrl} alt="Altura Cloud" width={32} height={32} className="w-8 h-8" />
