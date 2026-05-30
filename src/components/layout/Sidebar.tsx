@@ -55,20 +55,20 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="hidden lg:flex flex-col w-60 h-screen sticky top-0 bg-[#2d1200] text-[#f5ede8]">
+    <aside className="hidden lg:flex flex-col w-60 h-screen sticky top-0 bg-[#1e1b4b] text-[#eef2ff]">
       <div className="px-5 py-6 flex items-center gap-2">
-        <div className="w-9 h-9 rounded-xl bg-[#c94f0c] flex items-center justify-center">
+        <div className="w-9 h-9 rounded-xl bg-[#818cf8] flex items-center justify-center">
           <Building className="w-5 h-5 text-white" />
         </div>
         <div className="font-display font-extrabold text-xl leading-none">
-          <span className="text-white">Prop</span><span className="text-[#c94f0c]">Cloud</span>
+          <span className="text-white">Prop</span><span className="text-[#818cf8]">Cloud</span>
         </div>
       </div>
 
       <nav className="flex-1 overflow-y-auto px-3 pb-4 space-y-5">
         {role === "super_admin" && (
           <div>
-            <div className="px-3 mb-2 text-[10px] uppercase tracking-widest text-[#f5ede8]/50 font-semibold">
+            <div className="px-3 mb-2 text-[10px] uppercase tracking-widest text-[#eef2ff]/50 font-semibold">
               Plataforma
             </div>
             <div className="space-y-0.5">
@@ -76,8 +76,8 @@ export function Sidebar() {
                 to="/admin-panel"
                 className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
                   path.startsWith("/admin-panel")
-                    ? "bg-gradient-to-r from-[#c94f0c] to-[#7a2e0a] text-white font-semibold"
-                    : "text-[#f5ede8] hover:bg-[#c94f0c]/15"
+                    ? "bg-gradient-to-r from-[#818cf8] to-[#7a2e0a] text-white font-semibold"
+                    : "text-[#eef2ff] hover:bg-[#818cf8]/15"
                 }`}
               >
                 <Shield className="w-4 h-4 shrink-0" />
@@ -88,7 +88,7 @@ export function Sidebar() {
         )}
         {sections.map((sec) => (
           <div key={sec.label}>
-            <div className="px-3 mb-2 text-[10px] uppercase tracking-widest text-[#f5ede8]/50 font-semibold">
+            <div className="px-3 mb-2 text-[10px] uppercase tracking-widest text-[#eef2ff]/50 font-semibold">
               {sec.label}
             </div>
             <div className="space-y-0.5">
@@ -100,7 +100,7 @@ export function Sidebar() {
                     key={it.to}
                     to={it.to}
                     className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
-                      active ? "bg-[#c94f0c] text-white font-semibold" : "text-[#f5ede8] hover:bg-[#c94f0c]/15"
+                      active ? "bg-[#818cf8] text-white font-semibold" : "text-[#eef2ff] hover:bg-[#818cf8]/15"
                     }`}
                   >
                     <Icon className="w-4 h-4 shrink-0" />
@@ -114,18 +114,18 @@ export function Sidebar() {
       </nav>
 
 
-      <div className="border-t border-[#f5ede8]/15 p-3">
+      <div className="border-t border-[#eef2ff]/15 p-3">
         <div className="flex items-center gap-3 px-2 py-2">
-          <div className="w-9 h-9 rounded-full bg-[#c94f0c] text-white flex items-center justify-center font-semibold text-sm shrink-0">
+          <div className="w-9 h-9 rounded-full bg-[#818cf8] text-white flex items-center justify-center font-semibold text-sm shrink-0">
             {initials(profile?.full_name || "U")}
           </div>
           <div className="min-w-0 flex-1">
             <div className="text-sm font-medium text-white truncate">{profile?.full_name || "Usuario"}</div>
-            <div className="text-[11px] text-[#f5ede8]/60 truncate">{role ? roleLabel[role] : ""}</div>
+            <div className="text-[11px] text-[#eef2ff]/60 truncate">{role ? roleLabel[role] : ""}</div>
           </div>
           <button
             onClick={async () => { await signOut(); navigate({ to: "/login" }); }}
-            className="p-2 rounded-lg hover:bg-[#c94f0c]/20 text-[#f5ede8]/80 hover:text-white transition-colors"
+            className="p-2 rounded-lg hover:bg-[#818cf8]/20 text-[#eef2ff]/80 hover:text-white transition-colors"
             title="Cerrar sesión"
           >
             <LogOut className="w-4 h-4" />

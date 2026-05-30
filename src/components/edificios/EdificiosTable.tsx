@@ -26,15 +26,15 @@ function Row({ edificio, stats, onEdit }: { edificio: Condominio; stats?: StatsE
   return (
     <TableRow onClick={go} className="cursor-pointer hover:bg-[#faf6f3]">
       <TableCell>
-        <div className="font-semibold text-[#2d1200]">{edificio.nombre}</div>
-        <div className="text-xs text-[#9a7060] flex items-center gap-1 mt-0.5">
+        <div className="font-semibold text-[#1e1b4b]">{edificio.nombre}</div>
+        <div className="text-xs text-[#8b8bb5] flex items-center gap-1 mt-0.5">
           <MapPin className="w-3 h-3" />
           {edificio.ciudad ?? "—"}{edificio.departamento ? `, ${edificio.departamento}` : ""}
         </div>
       </TableCell>
-      <TableCell className="capitalize text-sm text-[#4a2800]">{edificio.tipo}</TableCell>
+      <TableCell className="capitalize text-sm text-[#312e81]">{edificio.tipo}</TableCell>
       <TableCell className="text-sm">{total}</TableCell>
-      <TableCell className="text-sm">{ocupacion}% <span className="text-xs text-[#9a7060]">({disponibles} libres)</span></TableCell>
+      <TableCell className="text-sm">{ocupacion}% <span className="text-xs text-[#8b8bb5]">({disponibles} libres)</span></TableCell>
       <TableCell className="text-sm">{enVenta} / {enRenta}</TableCell>
       <TableCell className="text-sm">{fmtL(edificio.cuota_base ?? 0)}</TableCell>
       <TableCell>{edificio.activo ? <Badge variant="success">Activo</Badge> : <Badge variant="neutral">Inactivo</Badge>}</TableCell>
@@ -49,17 +49,17 @@ export function EdificiosTable({ edificios, statsMap }: { edificios: Condominio[
   const [edit, setEdit] = useState<Condominio | null>(null);
   return (
     <>
-      <div className="bg-white border border-[#e8ddd8] rounded-2xl overflow-hidden">
+      <div className="bg-white border border-[#e0e7ff] rounded-2xl overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="bg-[#f5ede8] hover:bg-[#f5ede8]">
-              <TableHead className="text-[#2d1200] font-semibold">Edificio</TableHead>
-              <TableHead className="text-[#2d1200] font-semibold">Tipo</TableHead>
-              <TableHead className="text-[#2d1200] font-semibold">Unidades</TableHead>
-              <TableHead className="text-[#2d1200] font-semibold">Ocupación</TableHead>
-              <TableHead className="text-[#2d1200] font-semibold">Venta / Renta</TableHead>
-              <TableHead className="text-[#2d1200] font-semibold">Cuota base</TableHead>
-              <TableHead className="text-[#2d1200] font-semibold">Estado</TableHead>
+            <TableRow className="bg-[#eef2ff] hover:bg-[#eef2ff]">
+              <TableHead className="text-[#1e1b4b] font-semibold">Edificio</TableHead>
+              <TableHead className="text-[#1e1b4b] font-semibold">Tipo</TableHead>
+              <TableHead className="text-[#1e1b4b] font-semibold">Unidades</TableHead>
+              <TableHead className="text-[#1e1b4b] font-semibold">Ocupación</TableHead>
+              <TableHead className="text-[#1e1b4b] font-semibold">Venta / Renta</TableHead>
+              <TableHead className="text-[#1e1b4b] font-semibold">Cuota base</TableHead>
+              <TableHead className="text-[#1e1b4b] font-semibold">Estado</TableHead>
               <TableHead className="text-right" />
             </TableRow>
           </TableHeader>

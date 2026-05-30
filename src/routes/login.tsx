@@ -76,83 +76,83 @@ function LoginPage() {
 
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "linear-gradient(135deg,#faf9f7 0%,#f5ede8 100%)" }}>
+    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "linear-gradient(135deg,#faf9ff 0%,#eef2ff 100%)" }}>
       <div className="w-full max-w-md bg-white shadow-lg rounded-3xl p-10">
         <div className="flex items-center gap-3 justify-center mb-2">
-          <div className="w-11 h-11 rounded-xl bg-[#c94f0c] flex items-center justify-center">
+          <div className="w-11 h-11 rounded-xl bg-[#818cf8] flex items-center justify-center">
             <Building className="w-6 h-6 text-white" />
           </div>
           <div className="font-display font-extrabold text-2xl">
-            <span className="text-[#2d1200]">Prop</span><span className="text-[#c94f0c]">Cloud</span>
+            <span className="text-[#1e1b4b]">Prop</span><span className="text-[#818cf8]">Cloud</span>
           </div>
         </div>
         {isResidenteFlow && (
           <div className="mt-3 mb-4 text-center">
-            <span className="inline-block text-xs font-bold uppercase tracking-wider bg-[#c94f0c] text-white px-3 py-1 rounded-full">
+            <span className="inline-block text-xs font-bold uppercase tracking-wider bg-[#818cf8] text-white px-3 py-1 rounded-full">
               Portal Residentes
             </span>
           </div>
         )}
-        <p className="text-center text-sm text-[#9a7060] mb-8">{isResidenteFlow ? "Ingresa con tu cuenta de residente o regístrate con tu código de invitación" : "Administración de condominios y CRM inmobiliario"}</p>
+        <p className="text-center text-sm text-[#8b8bb5] mb-8">{isResidenteFlow ? "Ingresa con tu cuenta de residente o regístrate con tu código de invitación" : "Administración de condominios y CRM inmobiliario"}</p>
 
         <form onSubmit={submit} className="space-y-4">
           {mode === "signup" && (
             <>
               {!isResidenteFlow && (
                 <div>
-                  <label className="block text-sm font-medium text-[#2d1200] mb-1.5">Soy</label>
+                  <label className="block text-sm font-medium text-[#1e1b4b] mb-1.5">Soy</label>
                   <div className="grid grid-cols-3 gap-2">
                     {([["admin_condominio", "Admin"], ["residente", "Residente"], ["guardia", "Guardia"]] as const).map(([v, l]) => (
                       <button key={v} type="button" onClick={() => setSignupRole(v)}
-                        className={`text-sm py-2 rounded-lg border ${signupRole === v ? "bg-[#c94f0c] text-white border-[#c94f0c]" : "border-[#c9b8b0] text-[#2d1200] hover:border-[#c94f0c]"}`}>
+                        className={`text-sm py-2 rounded-lg border ${signupRole === v ? "bg-[#818cf8] text-white border-[#818cf8]" : "border-[#c7d2fe] text-[#1e1b4b] hover:border-[#818cf8]"}`}>
                         {l}
                       </button>
                     ))}
                   </div>
                   {signupRole === "residente" && (
-                    <p className="text-xs text-[#9a7060] mt-2">Necesitas un código de invitación enviado por el administrador.</p>
+                    <p className="text-xs text-[#8b8bb5] mt-2">Necesitas un código de invitación enviado por el administrador.</p>
                   )}
                 </div>
               )}
               {signupRole === "residente" && (
                 <div>
-                  <label className="block text-sm font-medium text-[#2d1200] mb-1.5">Código de invitación</label>
+                  <label className="block text-sm font-medium text-[#1e1b4b] mb-1.5">Código de invitación</label>
                   <input value={invitationCode} onChange={(e) => setInvitationCode(e.target.value.toUpperCase())} required
                     placeholder="ABC123" maxLength={6}
-                    className="w-full border border-[#c9b8b0] rounded-xl px-4 py-2.5 text-[#2d1200] font-mono tracking-widest uppercase outline-none focus:border-[#c94f0c] focus:ring-2 focus:ring-[#c94f0c]/20" />
-                  <p className="text-xs text-[#9a7060] mt-1.5">Tu administrador te lo envió por WhatsApp o correo.</p>
+                    className="w-full border border-[#c7d2fe] rounded-xl px-4 py-2.5 text-[#1e1b4b] font-mono tracking-widest uppercase outline-none focus:border-[#818cf8] focus:ring-2 focus:ring-[#818cf8]/20" />
+                  <p className="text-xs text-[#8b8bb5] mt-1.5">Tu administrador te lo envió por WhatsApp o correo.</p>
                 </div>
               )}
               <div>
-                <label className="block text-sm font-medium text-[#2d1200] mb-1.5">Nombre completo</label>
+                <label className="block text-sm font-medium text-[#1e1b4b] mb-1.5">Nombre completo</label>
                 <input value={name} onChange={(e) => setName(e.target.value)} required
-                  className="w-full border border-[#c9b8b0] rounded-xl px-4 py-2.5 text-[#2d1200] outline-none focus:border-[#c94f0c] focus:ring-2 focus:ring-[#c94f0c]/20" />
+                  className="w-full border border-[#c7d2fe] rounded-xl px-4 py-2.5 text-[#1e1b4b] outline-none focus:border-[#818cf8] focus:ring-2 focus:ring-[#818cf8]/20" />
               </div>
             </>
           )}
           <div>
-            <label className="block text-sm font-medium text-[#2d1200] mb-1.5">Correo electrónico</label>
+            <label className="block text-sm font-medium text-[#1e1b4b] mb-1.5">Correo electrónico</label>
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="tu@email.com"
-              className="w-full border border-[#c9b8b0] rounded-xl px-4 py-2.5 text-[#2d1200] placeholder:text-[#9a7060] outline-none focus:border-[#c94f0c] focus:ring-2 focus:ring-[#c94f0c]/20" />
+              className="w-full border border-[#c7d2fe] rounded-xl px-4 py-2.5 text-[#1e1b4b] placeholder:text-[#8b8bb5] outline-none focus:border-[#818cf8] focus:ring-2 focus:ring-[#818cf8]/20" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-[#2d1200] mb-1.5">Contraseña</label>
+            <label className="block text-sm font-medium text-[#1e1b4b] mb-1.5">Contraseña</label>
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6}
-              className="w-full border border-[#c9b8b0] rounded-xl px-4 py-2.5 text-[#2d1200] outline-none focus:border-[#c94f0c] focus:ring-2 focus:ring-[#c94f0c]/20" />
+              className="w-full border border-[#c7d2fe] rounded-xl px-4 py-2.5 text-[#1e1b4b] outline-none focus:border-[#818cf8] focus:ring-2 focus:ring-[#818cf8]/20" />
           </div>
           <button type="submit" disabled={busy}
-            className="w-full bg-[#c94f0c] hover:bg-[#a33d08] text-white font-semibold py-3 rounded-full transition-colors disabled:opacity-60">
+            className="w-full bg-[#818cf8] hover:bg-[#6366f1] text-white font-semibold py-3 rounded-full transition-colors disabled:opacity-60">
             {busy ? "Procesando…" : mode === "login" ? "Iniciar sesión" : "Crear cuenta"}
           </button>
         </form>
 
         <button onClick={() => setMode(mode === "login" ? "signup" : "login")}
-          className="w-full mt-4 text-sm text-[#9a7060] hover:text-[#c94f0c] transition-colors">
+          className="w-full mt-4 text-sm text-[#8b8bb5] hover:text-[#818cf8] transition-colors">
           {mode === "login" ? "¿No tienes cuenta? Crear una" : "¿Ya tienes cuenta? Iniciar sesión"}
         </button>
 
-        <div className="mt-6 text-center text-xs text-[#9a7060]">
-          <Link to="/" className="hover:text-[#c94f0c]">Volver al inicio</Link>
+        <div className="mt-6 text-center text-xs text-[#8b8bb5]">
+          <Link to="/" className="hover:text-[#818cf8]">Volver al inicio</Link>
         </div>
       </div>
     </div>

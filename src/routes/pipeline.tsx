@@ -65,8 +65,8 @@ function PipelinePage() {
       <div className="space-y-5 max-w-[1600px] mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="font-display font-extrabold text-2xl text-[#2d1200]">Pipeline</h1>
-            <p className="text-sm text-[#9a7060]">Arrastra prospectos entre etapas</p>
+            <h1 className="font-display font-extrabold text-2xl text-[#1e1b4b]">Pipeline</h1>
+            <p className="text-sm text-[#8b8bb5]">Arrastra prospectos entre etapas</p>
           </div>
           <Select value={edificioId} onValueChange={setEdificioId}>
             <SelectTrigger className="w-[240px]"><SelectValue /></SelectTrigger>
@@ -78,7 +78,7 @@ function PipelinePage() {
         </div>
 
         {edificios.length === 0 ? (
-          <div className="text-center text-[#9a7060] py-10"><Users className="w-8 h-8 mx-auto mb-2" />Crea un edificio primero.</div>
+          <div className="text-center text-[#8b8bb5] py-10"><Users className="w-8 h-8 mx-auto mb-2" />Crea un edificio primero.</div>
         ) : (
           <div className="overflow-x-auto pb-4">
             <div className="flex gap-3 min-w-max">
@@ -93,10 +93,10 @@ function PipelinePage() {
                   >
                     <div className="p-3 flex items-center justify-between">
                       <div>
-                        <h3 className="font-semibold text-[#2d1200] text-sm">{etapaLabel(etapa)}</h3>
-                        <span className="text-xs text-[#9a7060]">{items.length}</span>
+                        <h3 className="font-semibold text-[#1e1b4b] text-sm">{etapaLabel(etapa)}</h3>
+                        <span className="text-xs text-[#8b8bb5]">{items.length}</span>
                       </div>
-                      <button onClick={() => openNew(etapa)} className="p-1 rounded hover:bg-[#f5ede8] text-[#c94f0c]">
+                      <button onClick={() => openNew(etapa)} className="p-1 rounded hover:bg-[#eef2ff] text-[#818cf8]">
                         <Plus className="w-4 h-4" />
                       </button>
                     </div>
@@ -108,21 +108,21 @@ function PipelinePage() {
                           onDragStart={() => setDragId(p.id)}
                           onDragEnd={() => setDragId(null)}
                           onClick={() => openEdit(p)}
-                          className={`bg-white rounded-lg border border-[#f0e5dc] p-3 cursor-grab hover:border-[#c94f0c] hover:shadow-sm transition ${dragId === p.id ? "opacity-50" : ""}`}
+                          className={`bg-white rounded-lg border border-[#f0e5dc] p-3 cursor-grab hover:border-[#818cf8] hover:shadow-sm transition ${dragId === p.id ? "opacity-50" : ""}`}
                         >
                           <div className="flex items-start justify-between gap-2">
                             <div className="min-w-0 flex-1">
-                              <p className="font-medium text-sm text-[#2d1200] truncate">{p.nombre} {p.apellido ?? ""}</p>
-                              <p className="text-xs text-[#9a7060] capitalize">{p.tipo}{p.origen ? ` · ${p.origen}` : ""}</p>
+                              <p className="font-medium text-sm text-[#1e1b4b] truncate">{p.nombre} {p.apellido ?? ""}</p>
+                              <p className="text-xs text-[#8b8bb5] capitalize">{p.tipo}{p.origen ? ` · ${p.origen}` : ""}</p>
                             </div>
                             <span className={`w-2.5 h-2.5 rounded-full shrink-0 mt-1 ${TEMP_DOT[p.temperatura]}`} title={p.temperatura} />
                           </div>
                           {(p.presupuesto_min || p.presupuesto_max) && (
-                            <p className="text-xs text-[#c94f0c] mt-1 font-medium">
+                            <p className="text-xs text-[#818cf8] mt-1 font-medium">
                               L {Number(p.presupuesto_min ?? 0).toLocaleString()} - {Number(p.presupuesto_max ?? 0).toLocaleString()}
                             </p>
                           )}
-                          <div className="flex gap-2 mt-2 text-[#9a7060]">
+                          <div className="flex gap-2 mt-2 text-[#8b8bb5]">
                             {p.telefono && <Phone className="w-3 h-3" />}
                             {p.whatsapp && <MessageCircle className="w-3 h-3" />}
                             {p.email && <Mail className="w-3 h-3" />}
@@ -132,7 +132,7 @@ function PipelinePage() {
                           </div>
                         </div>
                       ))}
-                      {items.length === 0 && <p className="text-xs text-[#9a7060] text-center py-4">Vacío</p>}
+                      {items.length === 0 && <p className="text-xs text-[#8b8bb5] text-center py-4">Vacío</p>}
                     </div>
                   </div>
                 );

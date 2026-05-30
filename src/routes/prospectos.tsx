@@ -39,8 +39,8 @@ function ProspectosPage() {
       <div className="space-y-5 max-w-[1400px] mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="font-display font-extrabold text-2xl text-[#2d1200]">Prospectos</h1>
-            <p className="text-sm text-[#9a7060]">CRM de leads y oportunidades</p>
+            <h1 className="font-display font-extrabold text-2xl text-[#1e1b4b]">Prospectos</h1>
+            <p className="text-sm text-[#8b8bb5]">CRM de leads y oportunidades</p>
           </div>
           <div className="flex gap-2">
             <Select value={edificioId} onValueChange={setEdificioId}>
@@ -50,14 +50,14 @@ function ProspectosPage() {
                 {edificios.map((e) => <SelectItem key={e.id} value={e.id}>{e.nombre}</SelectItem>)}
               </SelectContent>
             </Select>
-            <Button onClick={() => openForm(null)} disabled={loading} className="bg-[#c94f0c] hover:bg-[#a33d08]">
+            <Button onClick={() => openForm(null)} disabled={loading} className="bg-[#818cf8] hover:bg-[#6366f1]">
               <Plus className="w-4 h-4 mr-1" />{loading ? "Cargando…" : "Nuevo prospecto"}
             </Button>
           </div>
         </div>
 
         {edificios.length === 0 ? (
-          <div className="text-center text-[#9a7060] py-10"><Users className="w-8 h-8 mx-auto mb-2" />Crea un edificio primero.</div>
+          <div className="text-center text-[#8b8bb5] py-10"><Users className="w-8 h-8 mx-auto mb-2" />Crea un edificio primero.</div>
         ) : (
           <ProspectosTable edificioId={edificioId} onEdit={(p) => openForm(p)} onActivity={openActs} />
         )}

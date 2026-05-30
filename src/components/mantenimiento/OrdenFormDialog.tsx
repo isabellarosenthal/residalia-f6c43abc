@@ -81,7 +81,7 @@ export function OrdenFormDialog({ open, onOpenChange, orden, defaultCondominioId
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>Cancelar</Button>
-          <Button className="bg-[#c94f0c] hover:bg-[#a33d08]" onClick={submit} disabled={save.isPending}>Guardar</Button>
+          <Button className="bg-[#818cf8] hover:bg-[#6366f1]" onClick={submit} disabled={save.isPending}>Guardar</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

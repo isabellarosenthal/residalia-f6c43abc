@@ -53,11 +53,11 @@ export function GenerarCobrosDialog({
   return (
     <Dialog open={open} onOpenChange={(v) => { if (!v) { setStage("form"); setExcluded(new Set()); } onOpenChange(v); }}>
       <DialogContent className="sm:max-w-[640px] max-h-[85vh] overflow-y-auto">
-        <DialogHeader><DialogTitle className="font-display text-xl text-[#2d1200]">Generar cobros mensuales</DialogTitle></DialogHeader>
+        <DialogHeader><DialogTitle className="font-display text-xl text-[#1e1b4b]">Generar cobros mensuales</DialogTitle></DialogHeader>
 
         {stage === "form" && (
           <div className="space-y-3">
-            <p className="text-sm text-[#9a7060]">Generaremos un cobro por cada unidad usando su mantenimiento mensual o la cuota base del edificio.</p>
+            <p className="text-sm text-[#8b8bb5]">Generaremos un cobro por cada unidad usando su mantenimiento mensual o la cuota base del edificio.</p>
             <div><Label>Concepto</Label><Input value={concepto} onChange={(e) => setConcepto(e.target.value)} /></div>
             <div><Label>Periodo</Label><Input value={mes} onChange={(e) => setMes(e.target.value)} placeholder="octubre 2025" /></div>
             <div><Label>Fecha de vencimiento</Label><Input type="date" value={vencimiento} onChange={(e) => setVencimiento(e.target.value)} /></div>
@@ -66,15 +66,15 @@ export function GenerarCobrosDialog({
 
         {stage === "preview" && (
           <div className="space-y-3">
-            {isLoading && <div className="py-8 text-center text-[#9a7060]">Calculando…</div>}
+            {isLoading && <div className="py-8 text-center text-[#8b8bb5]">Calculando…</div>}
             {!isLoading && (
               <>
                 <div className="flex items-center justify-between text-sm">
-                  <div className="text-[#9a7060]">{selectedIds.length} de {selectable.length} unidades seleccionadas</div>
-                  <div className="font-display font-bold text-[#c94f0c]">{fmtL(total)}</div>
+                  <div className="text-[#8b8bb5]">{selectedIds.length} de {selectable.length} unidades seleccionadas</div>
+                  <div className="font-display font-bold text-[#818cf8]">{fmtL(total)}</div>
                 </div>
-                <div className="border border-[#e8ddd8] rounded-xl divide-y divide-[#f0e7e1] max-h-[50vh] overflow-y-auto">
-                  {rows.length === 0 && <div className="p-6 text-center text-[#9a7060] text-sm">El edificio no tiene unidades.</div>}
+                <div className="border border-[#e0e7ff] rounded-xl divide-y divide-[#f0e7e1] max-h-[50vh] overflow-y-auto">
+                  {rows.length === 0 && <div className="p-6 text-center text-[#8b8bb5] text-sm">El edificio no tiene unidades.</div>}
                   {rows.map((r) => (
                     <label key={r.unidad_id} className={`flex items-center gap-3 p-3 ${r.duplicado ? "opacity-60 bg-[#fafafa]" : "hover:bg-[#fbf6f3] cursor-pointer"}`}>
                       <Checkbox
@@ -83,11 +83,11 @@ export function GenerarCobrosDialog({
                         onCheckedChange={() => toggle(r.unidad_id)}
                       />
                       <div className="flex-1">
-                        <div className="text-sm font-medium text-[#2d1200]">Unidad #{r.unidad_numero}</div>
-                        {r.duplicado && <div className="text-xs text-[#c0392b] mt-0.5">Ya tiene un cobro de este concepto para este periodo</div>}
+                        <div className="text-sm font-medium text-[#1e1b4b]">Unidad #{r.unidad_numero}</div>
+                        {r.duplicado && <div className="text-xs text-[#be185d] mt-0.5">Ya tiene un cobro de este concepto para este periodo</div>}
                       </div>
                       {r.duplicado && <Badge variant="warning">Duplicado</Badge>}
-                      <div className="text-sm font-semibold text-[#2d1200] tabular-nums">{fmtL(r.monto)}</div>
+                      <div className="text-sm font-semibold text-[#1e1b4b] tabular-nums">{fmtL(r.monto)}</div>
                     </label>
                   ))}
                 </div>
@@ -100,12 +100,12 @@ export function GenerarCobrosDialog({
           {stage === "form" ? (
             <>
               <Button variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-              <Button onClick={() => setStage("preview")} disabled={!edificioId || !concepto || !mes || !vencimiento} className="bg-[#c94f0c] hover:bg-[#a33d08]">Previsualizar</Button>
+              <Button onClick={() => setStage("preview")} disabled={!edificioId || !concepto || !mes || !vencimiento} className="bg-[#818cf8] hover:bg-[#6366f1]">Previsualizar</Button>
             </>
           ) : (
             <>
               <Button variant="ghost" onClick={() => setStage("form")}>Volver</Button>
-              <Button onClick={confirm} disabled={selectedIds.length === 0 || mut.isPending} className="bg-[#c94f0c] hover:bg-[#a33d08]">
+              <Button onClick={confirm} disabled={selectedIds.length === 0 || mut.isPending} className="bg-[#818cf8] hover:bg-[#6366f1]">
                 {mut.isPending ? "Generando…" : `Generar ${selectedIds.length} cobros`}
               </Button>
             </>

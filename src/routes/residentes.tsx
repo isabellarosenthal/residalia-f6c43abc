@@ -37,17 +37,17 @@ function ResidentesPage() {
       <div className="space-y-5 max-w-[1400px] mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="font-display font-extrabold text-2xl text-[#2d1200]">Residentes</h1>
-            <p className="text-sm text-[#9a7060]">{residentes.length} registrados · gestiona propietarios e inquilinos</p>
+            <h1 className="font-display font-extrabold text-2xl text-[#1e1b4b]">Residentes</h1>
+            <p className="text-sm text-[#8b8bb5]">{residentes.length} registrados · gestiona propietarios e inquilinos</p>
           </div>
-          <Button onClick={() => { setEditing(null); setOpen(true); }} className="bg-[#c94f0c] hover:bg-[#a33d08]">
+          <Button onClick={() => { setEditing(null); setOpen(true); }} className="bg-[#818cf8] hover:bg-[#6366f1]">
             <Plus className="w-4 h-4 mr-1" /> Nuevo residente
           </Button>
         </div>
 
         <div className="flex flex-wrap gap-2">
           <div className="relative flex-1 min-w-[220px]">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#9a7060]" />
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#8b8bb5]" />
             <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar por nombre, DNI, teléfono…" className="pl-9" />
           </div>
           <Select value={edificioId} onValueChange={setEdificioId}>
@@ -80,7 +80,7 @@ function ResidentesPage() {
             icon={<Users className="w-7 h-7" />}
             title="Aún no hay residentes"
             hint="Registra el primer propietario o inquilino de tus edificios."
-            action={<Button onClick={() => { setEditing(null); setOpen(true); }} className="bg-[#c94f0c] hover:bg-[#a33d08]"><Plus className="w-4 h-4 mr-1" />Nuevo residente</Button>}
+            action={<Button onClick={() => { setEditing(null); setOpen(true); }} className="bg-[#818cf8] hover:bg-[#6366f1]"><Plus className="w-4 h-4 mr-1" />Nuevo residente</Button>}
           />
         ) : (
           <ResidentesTable

@@ -63,7 +63,7 @@ export function GenerarAccesoDialog({ residente, open, onOpenChange }: {
 
         {residente?.email && !codigo && (
           <div className="space-y-3">
-            <p className="text-sm text-[#4a2800]">
+            <p className="text-sm text-[#312e81]">
               Se generará un código único de 6 caracteres válido por 30 días. El residente lo usará junto con su email para registrarse en el portal.
             </p>
             <Button onClick={handleGenerar} disabled={generar.isPending} className="w-full bg-[#c0511f] hover:bg-[#a8451a]">
@@ -76,12 +76,12 @@ export function GenerarAccesoDialog({ residente, open, onOpenChange }: {
         {codigo && (
           <div className="space-y-4">
             <div className="text-center p-6 bg-[#fdf5ee] border-2 border-dashed border-[#c0511f] rounded-xl">
-              <div className="text-xs text-[#9a7060] uppercase tracking-wider mb-2">Código de invitación</div>
+              <div className="text-xs text-[#8b8bb5] uppercase tracking-wider mb-2">Código de invitación</div>
               <div className="text-4xl font-mono font-bold text-[#c0511f] tracking-widest">{codigo}</div>
-              {expira && <div className="text-xs text-[#9a7060] mt-2">Expira: {new Date(expira).toLocaleDateString()}</div>}
+              {expira && <div className="text-xs text-[#8b8bb5] mt-2">Expira: {new Date(expira).toLocaleDateString()}</div>}
             </div>
 
-            <div className="bg-[#f5ede8] p-3 rounded-lg text-xs text-[#4a2800] whitespace-pre-wrap">
+            <div className="bg-[#eef2ff] p-3 rounded-lg text-xs text-[#312e81] whitespace-pre-wrap">
               {mensajeWhatsApp}
             </div>
 
@@ -94,7 +94,7 @@ export function GenerarAccesoDialog({ residente, open, onOpenChange }: {
               </Button>
             </div>
 
-            <p className="text-xs text-center text-[#9a7060]">
+            <p className="text-xs text-center text-[#8b8bb5]">
               Si generas otro código, el anterior queda revocado.
             </p>
           </div>
