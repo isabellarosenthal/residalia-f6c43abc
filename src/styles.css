@@ -134,7 +134,7 @@
   .shadow-dreamy { box-shadow: var(--shadow-warm); }
   .shadow-glow { box-shadow: var(--shadow-glow); }
   .shimmer {
-    background: linear-gradient(90deg, #fffdf5 0%, #fff8d6 50%, #fffdf5 100%);
+    background: linear-gradient(90deg, #F1F5F9 0%, #FAF1DC 50%, #F1F5F9 100%);
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite;
   }
