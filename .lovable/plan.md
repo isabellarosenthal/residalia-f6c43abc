@@ -1,9 +1,34 @@
 ## Plan
 
-1. **Generar versión sin fondo** de la imagen subida usando `imagegen--edit_image` con `transparent_background: true` → guardar como `src/assets/hero-astronaut.png`.
-2. **Actualizar `src/components/landing/LandingPage.tsx`**:
-   - Reemplazar el import de `hero-condo.jpg` por `hero-astronaut.png` en la sección hero.
-   - Quitar el contenedor con fondo/marco de la imagen (sin `rounded`, sin `shadow`, sin `bg`) para que el PNG transparente fluya con el fondo crema de la landing.
-3. **Verificar el resto de la landing**: confirmé con búsqueda que no existen otras imágenes ni emojis de astronauta en el código (`rg` no encontró coincidencias). La única imagen visual en la landing es el hero, así que no hay otros astronautas que remover.
+**1. Hero — nueva imagen del astronauta (paleta morado/azul)**
+- Copiar `user-uploads://image-51.png` → `src/assets/hero-astronaut.png` (sobrescribe la actual).
+- Remover fondo con `rembg` para que fluya sobre el fondo de la landing, conservando astronauta + edificio + nube + tarjetas flotantes.
 
-Nota: si te referías a otra cosa con "el resto de los astronautas" (ej. tarjetas de features o ilustraciones que ves en preview), avísame qué sección y la quito.
+**2. Aplicar nuevo brand kit Altura Cloud v1.0 globalmente**
+
+Paleta (reemplazos hex via find-and-replace en todo `src/`):
+- `#2D3748` (slate actual primario) → `#4F46E5` (Royal Blue / Primario)
+- `#1F2937` (secundario actual) → `#4338CA` (Deep Indigo)
+- `#64748B` (terciario) → `#475569` (Text Secondary) — coincide igual, mantener
+- `#D97757` (terracotta) → `#8B5CF6` (Neutral morado / acento)
+- `#E8916F` → `#7AA2FF` (Cornflower Blue)
+- `#B85A3E` → `#4338CA` (Deep Indigo, hover oscuro)
+- `#F8F7F5` (crema fondo) → `#F1F5F9` (Surface)
+- Fondo página → `#FFFFFF`
+- Texto principal → `#0F172A` (Text Primary)
+- Bordes → `#E2E8F0` (Border)
+- Estados: success `#16A34A`, info `#3B82F6`, warning `#F59E0B`, error `#EF4444`
+
+**3. Tipografía**
+- Headings: Poppins (SemiBold/Bold/ExtraBold)
+- Body: Inter (Regular/Medium/SemiBold)
+- Agregar `@import` de Google Fonts en `src/styles.css` y definir variables `--font-heading` / `--font-body`.
+- Aplicar a `body` y a clases de heading (h1-h6).
+
+**4. Tokens en `src/styles.css`**
+- Actualizar variables `oklch`/`hex` del design system (`--primary`, `--secondary`, `--accent`, `--background`, `--foreground`, `--muted`, `--border`) para que shadcn use la nueva paleta.
+
+**5. Hero (landing)**
+- Mantener layout limpio (sin máscara radial, sin logos flotantes que añadimos antes), botón primario Royal Blue con texto blanco, botón secundario outline indigo.
+
+No tocar lógica de negocio — solo imagen, colores, tipografía y tokens.
