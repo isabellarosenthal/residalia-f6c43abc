@@ -10,6 +10,7 @@ import { UnidadesTable } from "@/components/unidades/UnidadesTable";
 import { ResidentesTable } from "@/components/residentes/ResidentesTable";
 import { useEdificio, useUnidades, useDeleteEdificio, type Unidad, type Residente } from "@/lib/queries";
 import { fmtL } from "@/lib/format";
+import { PlanLimitsBanner } from "@/components/PlanLimitsBanner";
 
 const EdificioFormDialog = lazy(() => import("@/components/edificios/EdificioFormDialog").then(m => ({ default: m.EdificioFormDialog })));
 const UnidadFormDialog = lazy(() => import("@/components/unidades/UnidadFormDialog").then(m => ({ default: m.UnidadFormDialog })));
@@ -118,6 +119,7 @@ function EdificioDetail() {
           </TabsContent>
 
           <TabsContent value="unidades" className="space-y-4 pt-4">
+            <PlanLimitsBanner focus="unidades" />
             <div className="flex flex-wrap gap-2 justify-end">
               <Button variant="outline" onClick={() => setBulkOpen(true)}><Layers className="w-4 h-4 mr-1" />Generar en bloque</Button>
               <Button onClick={() => { setUnidadEdit(null); setUnidadOpen(true); }} className="bg-[#c94f0c] hover:bg-[#a33d08]">

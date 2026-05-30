@@ -16,6 +16,7 @@ import { useAuth, type AppRole } from "@/lib/auth-context";
 import { supabase } from "@/integrations/supabase/client";
 import { useEdificios, useSaveEdificio } from "@/lib/queries";
 import { getMyPlanUsage } from "@/lib/plan-usage.functions";
+import { PlanLimitsBanner } from "@/components/PlanLimitsBanner";
 
 export const Route = createFileRoute("/configuracion")({ component: ConfiguracionPage });
 
@@ -462,40 +463,6 @@ function ResidentesTab() {
 function usePlanUsage() {
   const fetchUsage = useServerFn(getMyPlanUsage);
   return useQuery({ queryKey: ["plan-usage"], queryFn: () => fetchUsage() });
-}
-
-function PlanLimitsBanner({ focus }: { focus: "edificios" | "unidades" | "admins" | "all" }) {
-  const { data, isLoading } = usePlanUsage();
-  if (isLoading || !data) return null;
-  const unl = data.unlimited;
-  const fmt = (m: number) => (m >= unl ? "∞" : m.toString());
-
-  const totalUnid = data.porEdificio.reduce((a, e) => a + e.unidades.used, 0);
-  const maxUnid = data.porEdificio.reduce((a, e) => a + (e.unidades.max >= unl ? unl : e.unidades.max), 0);
-  const totalAdm = data.porEdificio.reduce((a, e) => a + e.admins.used, 0);
-  const maxAdm = data.porEdificio.reduce((a, e) => a + (e.admins.max >= unl ? unl : e.admins.max), 0);
-
-  const items: { label: string; used: number; max: number; show: boolean }[] = [
-    { label: "Edificios", used: data.edificios.used, max: data.edificios.max, show: focus === "edificios" || focus === "all" },
-    { label: "Unidades", used: totalUnid, max: maxUnid, show: focus === "unidades" || focus === "all" },
-    { label: "Admins", used: totalAdm, max: maxAdm, show: focus === "admins" || focus === "all" },
-  ];
-
-  return (
-    <Card className="p-3 mb-3 bg-[#fffaf5] border-[#f0e3da]">
-      <div className="flex flex-wrap items-center gap-4">
-        <div className="flex items-center gap-2 text-xs">
-          <Crown className="w-3.5 h-3.5 text-[#c94f0c]" />
-          <span className="font-medium text-[#2d1200]">{data.plan.nombre}</span>
-        </div>
-        {items.filter(i => i.show).map(i => (
-          <div key={i.label} className="text-xs text-[#5a4030]">
-            <span className="text-[#9a7060]">{i.label}:</span> <b>{i.used}</b> / {fmt(i.max)}
-          </div>
-        ))}
-      </div>
-    </Card>
-  );
 }
 
 function MiPlanTab() {
