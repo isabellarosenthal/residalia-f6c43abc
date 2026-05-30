@@ -141,7 +141,7 @@ export function LandingPage() {
               todo desde un solo panel con CRM inmobiliario integrado.
             </p>
             <div className="mt-8 flex flex-wrap justify-center md:justify-start gap-3">
-              <Link to="/login" className="inline-flex items-center gap-2 bg-[#D9A441] text-[#173B7A] px-7 py-3.5 rounded-full font-semibold hover:bg-[#E5B559] shadow-md">
+              <Link to="/login" className="inline-flex items-center gap-2 bg-[#173B7A] text-white px-7 py-3.5 rounded-full font-semibold hover:bg-[#0f2659] shadow-md">
                 Crear mi cuenta gratis <ArrowRight className="w-4 h-4" />
               </Link>
               <a href="#planes" className="inline-flex items-center gap-2 border border-[#E2E8F0] bg-white px-6 py-3 rounded-full font-semibold text-[#1E293B] hover:border-[#D9A441]">
