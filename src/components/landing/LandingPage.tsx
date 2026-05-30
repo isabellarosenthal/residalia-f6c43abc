@@ -484,7 +484,7 @@ export function LandingPage() {
         </div>
 
         {/* CTA final */}
-        <div className="mt-16 bg-[#4338CA] rounded-[2.5rem] p-10 md:p-14 text-center relative overflow-hidden">
+        <div className="mt-16 rounded-[2.5rem] p-10 md:p-14 text-center relative overflow-hidden shadow-2xl" style={{ background: "linear-gradient(135deg, #4338CA 0%, #4F46E5 50%, #7AA2FF 100%)" }}>
           <div className="absolute -top-20 -right-20 w-64 h-64 bg-[#7AA2FF] rounded-full opacity-20 blur-3xl pointer-events-none" />
           <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-[#8B5CF6] rounded-full opacity-20 blur-3xl pointer-events-none" />
           <h3 className="font-display font-extrabold text-3xl md:text-4xl text-white relative">¿Listo para ordenar tu condominio?</h3>
