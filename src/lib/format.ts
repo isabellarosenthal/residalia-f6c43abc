@@ -1,6 +1,14 @@
 export const fmtL = (n: number | null | undefined) =>
   typeof n === "number" ? `L ${n.toLocaleString("es-HN", { minimumFractionDigits: 0, maximumFractionDigits: 2 })}` : "L 0";
 
+export const fmtMoney = (n: number | null | undefined, moneda?: string | null) => {
+  const code = (moneda ?? "L").toUpperCase();
+  const symbol = code === "USD" || code === "$" ? "$" : "L";
+  return typeof n === "number"
+    ? `${symbol} ${n.toLocaleString("es-HN", { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`
+    : `${symbol} 0`;
+};
+
 export const fmtDate = (d: string | Date | null | undefined) => {
   if (!d) return "—";
   const date = typeof d === "string" ? new Date(d) : d;
