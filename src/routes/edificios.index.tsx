@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { EdificioCard } from "@/components/edificios/EdificioCard";
 import { EdificiosSkeleton } from "@/components/edificios/EdificiosSkeleton";
 import { useEdificios, useUnidades } from "@/lib/queries";
+import { PlanLimitsBanner } from "@/components/PlanLimitsBanner";
 
 const EdificiosTable = lazy(() =>
   import("@/components/edificios/EdificiosTable").then((m) => ({ default: m.EdificiosTable }))
