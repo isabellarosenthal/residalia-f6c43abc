@@ -67,6 +67,9 @@ function EdificiosPage() {
           </Button>
         </div>
 
+        <PlanLimitsBanner focus="all" />
+
+
         <div className="flex flex-wrap gap-2">
           <div className="relative flex-1 min-w-[220px]">
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#9a7060]" />
