@@ -133,8 +133,8 @@ export function LandingPage() {
             <span className="inline-block text-xs font-semibold uppercase tracking-wider bg-[#fffdf5] text-[#0a1e3f] px-3 py-1 rounded-full mb-5">
               Hecho en Honduras 🇭🇳
             </span>
-            <h1 className="font-display font-extrabold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-[1.05]">
-              Administra tu condominio <span className="text-[#0a1e3f]">sin hojas de cálculo</span>. 🏢
+            <h1 className="font-display font-extrabold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-[1.05] text-[#0a1e3f]">
+              Administra tu condominio sin hojas de cálculo.
             </h1>
             <p className="mt-6 text-lg text-[#6b7a99] max-w-xl mx-auto md:mx-0">
               💰 Cobros, 🔑 accesos, 👥 residentes, 🔧 mantenimiento y 🏘️ propiedades en venta o renta —
