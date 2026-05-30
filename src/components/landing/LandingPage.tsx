@@ -91,9 +91,15 @@ const FEATURE_ICONS = [
 export function LandingPage() {
   const { user, signOut } = useAuth();
   return (
-    <div className="min-h-screen bg-white text-[#0F172A]">
+    <div className="min-h-screen bg-white text-[#0F172A] relative overflow-x-hidden">
+      {/* Ambient gradient orbs (global) */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+        <div className="absolute -top-40 -left-32 w-[520px] h-[520px] rounded-full opacity-40 blur-3xl float-slow" style={{ background: "radial-gradient(circle, #7AA2FF 0%, transparent 70%)" }} />
+        <div className="absolute top-[40%] -right-40 w-[600px] h-[600px] rounded-full opacity-30 blur-3xl float-med" style={{ background: "radial-gradient(circle, #8B5CF6 0%, transparent 70%)" }} />
+        <div className="absolute bottom-0 left-1/3 w-[480px] h-[480px] rounded-full opacity-25 blur-3xl float-fast" style={{ background: "radial-gradient(circle, #E9E2FF 0%, transparent 70%)" }} />
+      </div>
       {/* Nav */}
-      <header className="border-b border-[#E2E8F0] bg-white/85 backdrop-blur sticky top-0 z-20">
+      <header className="border-b border-white/40 bg-white/60 backdrop-blur-xl sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <img src={logoUrl} alt="Altura Cloud" width={32} height={32} className="w-8 h-8" />
@@ -196,16 +202,18 @@ export function LandingPage() {
       </section>
 
       {/* Stats band */}
-      <section className="relative overflow-hidden bg-[#7AA2FF] text-white py-12">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center relative">
+      <section className="relative overflow-hidden py-14" style={{ background: "linear-gradient(135deg, #7AA2FF 0%, #4F46E5 100%)" }}>
+        <div className="absolute -top-20 -left-20 w-80 h-80 rounded-full bg-white/10 blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-[#8B5CF6]/30 blur-3xl pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center relative">
           {[
             { n: "13+", l: "Módulos integrados" },
             { n: "100%", l: "Aislado por condominio" },
             { n: "L", l: "Lempiras nativos" },
             { n: "24/7", l: "Acceso desde la nube" },
           ].map((s) => (
-            <div key={s.l}>
-              <div className="font-display font-extrabold text-4xl text-white">{s.n}</div>
+            <div key={s.l} className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl py-6 px-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
+              <div className="font-display font-extrabold text-4xl text-white drop-shadow">{s.n}</div>
               <div className="text-xs uppercase tracking-wider text-[#E9E2FF] mt-2 font-semibold">{s.l}</div>
             </div>
           ))}
@@ -226,7 +234,7 @@ export function LandingPage() {
           {FEATURE_ICONS.map((f) => (
             <div
               key={f.t}
-              className="rounded-[1.75rem] p-7 flex flex-col min-h-[260px] transition hover:-translate-y-1 hover:shadow-xl bg-[#F1F5F9] border border-[#E2E8F0]"
+              className="group rounded-[1.75rem] p-7 flex flex-col min-h-[260px] transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl bg-white/60 backdrop-blur-xl border border-white/70 shadow-[0_8px_30px_-12px_rgba(67,56,202,0.15)]"
             >
               <div
                 className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 shadow-sm text-white"
@@ -245,25 +253,25 @@ export function LandingPage() {
       </section>
 
       {/* How it works */}
-      <section className="relative overflow-hidden bg-[#F1F5F9] py-20">
+      <section className="relative overflow-hidden py-20" style={{ background: "linear-gradient(180deg, transparent 0%, rgba(233,226,255,0.6) 50%, transparent 100%)" }}>
         <div className="max-w-6xl mx-auto px-6 relative">
           <div className="text-center mb-16">
             <h2 className="font-display font-extrabold text-4xl md:text-5xl text-[#0F172A] tracking-tight">Empieza a operar hoy mismo</h2>
             <p className="mt-3 text-lg text-[#475569]">Configuración guiada en cuatro simples pasos.</p>
           </div>
-          <ol className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <ol className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {[
               { n: "1", t: "Crea tu cuenta", d: "Tu espacio privado y seguro listo en segundos." },
               { n: "2", t: "Registra el edificio", d: "Define unidades y cuotas de mantenimiento." },
               { n: "3", t: "Suma residentes", d: "Invita a propietarios y carga sus contactos." },
               { n: "4", t: "Genera cobros", d: "Emite cuotas masivas con un solo clic." },
             ].map((s) => (
-              <li key={s.n} className="group flex flex-col items-start text-left">
-                <div className="w-14 h-14 rounded-2xl bg-[#4F46E5] flex items-center justify-center text-white font-display font-extrabold text-xl mb-6 shadow-lg group-hover:scale-110 group-hover:bg-[#4338CA] transition-all">
+              <li key={s.n} className="group flex flex-col items-start text-left bg-white/60 backdrop-blur-xl border border-white/70 rounded-3xl p-6 shadow-[0_8px_30px_-12px_rgba(67,56,202,0.15)] hover:-translate-y-1 hover:shadow-2xl transition-all">
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white font-display font-extrabold text-xl mb-5 shadow-lg group-hover:scale-110 transition-transform" style={{ background: "linear-gradient(135deg, #4F46E5, #7AA2FF)" }}>
                   {s.n}
                 </div>
                 <h3 className="font-display font-bold text-xl text-[#0F172A] mb-2">{s.t}</h3>
-                <p className="text-[#475569] leading-relaxed">{s.d}</p>
+                <p className="text-[#475569] leading-relaxed text-sm">{s.d}</p>
               </li>
             ))}
           </ol>
@@ -286,9 +294,9 @@ export function LandingPage() {
               { i: Clock, t: "100% en la Nube", d: "Sin instalaciones. Accede desde cualquier lugar mediante móvil o web." },
               { i: HeartHandshake, t: "Soporte Real", d: "Ayuda directa por WhatsApp en horario local. Cero robots, solo expertos." },
             ].map((b) => (
-              <div key={b.t} className="bg-white/10 border border-white/15 p-8 rounded-3xl hover:bg-white/15 transition-colors group">
-                <div className="w-12 h-12 mb-5 text-[#7AA2FF] group-hover:text-white transition-colors">
-                  <b.i className="w-full h-full" strokeWidth={2} />
+              <div key={b.t} className="bg-white/10 backdrop-blur-xl border border-white/20 p-8 rounded-3xl hover:bg-white/20 hover:-translate-y-1 transition-all duration-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_20px_40px_-20px_rgba(0,0,0,0.3)] group">
+                <div className="w-14 h-14 mb-5 rounded-2xl bg-white/15 backdrop-blur border border-white/20 flex items-center justify-center text-[#E9E2FF] group-hover:text-white group-hover:scale-110 transition-all">
+                  <b.i className="w-7 h-7" strokeWidth={2} />
                 </div>
                 <h3 className="font-display font-bold text-xl text-white mb-2">{b.t}</h3>
                 <p className="text-[#E9E2FF] leading-relaxed">{b.d}</p>
@@ -309,12 +317,12 @@ export function LandingPage() {
           {PLANS.map((p) => {
             const palette = p.highlight
               ? { bg: "#4338CA", fg: "#ffffff", sub: "#E9E2FF", check: "#7AA2FF", btnBg: "#ffffff", btnFg: "#4338CA", btnHover: "hover:bg-[#E9E2FF]", iconBg: "rgba(255,255,255,0.15)", priceColor: "#ffffff" }
-              : { bg: "#F1F5F9", fg: "#0F172A", sub: "#475569", check: "#16A34A", btnBg: "#4F46E5", btnFg: "#ffffff", btnHover: "hover:bg-[#4338CA]", iconBg: "#E9E2FF", priceColor: "#0F172A" };
+              : { bg: "rgba(255,255,255,0.6)", fg: "#0F172A", sub: "#475569", check: "#16A34A", btnBg: "#4F46E5", btnFg: "#ffffff", btnHover: "hover:bg-[#4338CA]", iconBg: "#E9E2FF", priceColor: "#0F172A" };
             return (
               <div
                 key={p.id}
-                className={`rounded-[1.75rem] p-8 flex flex-col transition hover:-translate-y-1 hover:shadow-2xl border ${p.highlight ? "shadow-xl scale-[1.02] border-[#4338CA]" : "shadow-sm border-[#E2E8F0]"}`}
-                style={{ backgroundColor: palette.bg, color: palette.fg }}
+                className={`rounded-[1.75rem] p-8 flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl border ${p.highlight ? "shadow-2xl scale-[1.02] border-white/30" : "shadow-[0_8px_30px_-12px_rgba(67,56,202,0.18)] border-white/70 backdrop-blur-xl"}`}
+                style={{ background: p.highlight ? "linear-gradient(160deg, #4338CA 0%, #4F46E5 60%, #7AA2FF 130%)" : palette.bg, color: palette.fg }}
               >
                 {p.highlight && (
                   <span className="self-start text-xs font-bold uppercase tracking-wider bg-[#E9E2FF] text-[#4338CA] px-3 py-1 rounded-full mb-4">
@@ -352,7 +360,7 @@ export function LandingPage() {
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="bg-[#F1F5F9] border-t border-[#E2E8F0] py-20">
+      <section id="faq" className="relative py-20" style={{ background: "linear-gradient(180deg, transparent, rgba(241,245,249,0.6))" }}>
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 items-center">
           <div>
             <h2 className="font-display font-extrabold text-3xl md:text-4xl mb-12 text-[#0F172A]">Preguntas frecuentes</h2>
@@ -365,7 +373,7 @@ export function LandingPage() {
                 { q: "¿Puedo cambiar o cancelar mi plan después?", a: "Sí, en cualquier momento. Te cobramos sólo lo del mes en curso." },
                 { q: "¿Manejan lempiras y conceptos hondureños?", a: "Sí. La plataforma está hecha en Honduras, para Honduras: lempiras nativos, IVA, cuotas extraordinarias, mora, todo en español." },
               ].map((f) => (
-                <details key={f.q} className="group bg-white border border-[#E2E8F0] rounded-2xl p-5 hover:border-[#4F46E5] transition">
+                <details key={f.q} className="group bg-white/60 backdrop-blur-xl border border-white/70 rounded-2xl p-5 hover:border-[#7AA2FF] hover:shadow-lg transition-all">
                   <summary className="font-semibold cursor-pointer flex justify-between items-center text-[#0F172A]">
                     {f.q}
                     <span className="text-[#4F46E5] group-open:rotate-45 transition-transform text-xl leading-none">+</span>
@@ -390,7 +398,7 @@ export function LandingPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Card 1: Cobros */}
-          <div className="bg-[#F1F5F9] border border-[#E2E8F0] rounded-3xl p-8 flex flex-col">
+          <div className="bg-white/60 backdrop-blur-xl border border-white/70 rounded-3xl p-8 flex flex-col shadow-[0_8px_30px_-12px_rgba(67,56,202,0.15)]">
             <h3 className="font-display font-extrabold text-2xl text-[#0F172A]">Cobros en un clic</h3>
             <p className="mt-2 text-sm text-[#475569]">Genera las cuotas del mes para todas las unidades ocupadas y controla quién pagó.</p>
             <Link to="/login" className="mt-3 text-sm font-semibold text-[#4F46E5] inline-flex items-center gap-1 hover:gap-2 transition-all">Ver cobros <ArrowRight className="w-4 h-4" /></Link>
@@ -422,7 +430,8 @@ export function LandingPage() {
           </div>
 
           {/* Card 2: Accesos QR (indigo destacado) */}
-          <div className="bg-[#4338CA] rounded-3xl p-8 flex flex-col text-white">
+          <div className="rounded-3xl p-8 flex flex-col text-white relative overflow-hidden shadow-2xl" style={{ background: "linear-gradient(160deg, #4338CA 0%, #4F46E5 60%, #7AA2FF 130%)" }}>
+            <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-white/15 blur-3xl pointer-events-none" />
             <h3 className="font-display font-extrabold text-2xl text-white">Accesos con QR</h3>
             <p className="mt-2 text-sm text-[#E9E2FF]">Tus residentes generan códigos de un solo uso desde el celular. Tu guardia los valida en 2 segundos.</p>
             <Link to="/login" className="mt-3 text-sm font-semibold text-white inline-flex items-center gap-1 hover:gap-2 transition-all">Ver accesos <ArrowRight className="w-4 h-4" /></Link>
@@ -448,7 +457,7 @@ export function LandingPage() {
           </div>
 
           {/* Card 3: Pipeline */}
-          <div className="bg-[#F1F5F9] border border-[#E2E8F0] rounded-3xl p-8 flex flex-col">
+          <div className="bg-white/60 backdrop-blur-xl border border-white/70 rounded-3xl p-8 flex flex-col shadow-[0_8px_30px_-12px_rgba(67,56,202,0.15)]">
             <h3 className="font-display font-extrabold text-2xl text-[#0F172A]">Pipeline inmobiliario</h3>
             <p className="mt-2 text-sm text-[#475569]">Arrastra prospectos entre etapas, agenda visitas y nunca pierdas una venta o renta.</p>
             <Link to="/login" className="mt-3 text-sm font-semibold text-[#4F46E5] inline-flex items-center gap-1 hover:gap-2 transition-all">Ver pipeline <ArrowRight className="w-4 h-4" /></Link>
@@ -475,7 +484,7 @@ export function LandingPage() {
         </div>
 
         {/* CTA final */}
-        <div className="mt-16 bg-[#4338CA] rounded-[2.5rem] p-10 md:p-14 text-center relative overflow-hidden">
+        <div className="mt-16 rounded-[2.5rem] p-10 md:p-14 text-center relative overflow-hidden shadow-2xl" style={{ background: "linear-gradient(135deg, #4338CA 0%, #4F46E5 50%, #7AA2FF 100%)" }}>
           <div className="absolute -top-20 -right-20 w-64 h-64 bg-[#7AA2FF] rounded-full opacity-20 blur-3xl pointer-events-none" />
           <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-[#8B5CF6] rounded-full opacity-20 blur-3xl pointer-events-none" />
           <h3 className="font-display font-extrabold text-3xl md:text-4xl text-white relative">¿Listo para ordenar tu condominio?</h3>
@@ -487,7 +496,7 @@ export function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-[#E2E8F0] bg-white">
+      <footer className="border-t border-white/40 bg-white/60 backdrop-blur-xl relative">
         <div className="max-w-7xl mx-auto px-6 py-16">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
             <div className="space-y-4">
