@@ -281,8 +281,9 @@ export function LandingPage() {
       {/* Why Altura Cloud */}
       <section className="max-w-7xl mx-auto px-6 py-20">
         <div className="relative rounded-[2.5rem] p-10 md:p-16 overflow-hidden" style={{ background: "linear-gradient(135deg, #4338CA 0%, #4F46E5 55%, #7AA2FF 100%)" }}>
-          <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#7AA2FF] rounded-full opacity-20 blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-[#8B5CF6] rounded-full opacity-20 blur-3xl pointer-events-none" />
+          <div className="absolute -top-32 -right-24 w-80 h-80 rounded-full opacity-50 blur-3xl pointer-events-none float-slow" style={{ background: "radial-gradient(circle, #ffea5c 0%, transparent 70%)" }} />
+          <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-[#8B5CF6] rounded-full opacity-25 blur-3xl pointer-events-none" />
+          <div className="absolute top-1/2 right-1/3 w-40 h-40 rounded-full opacity-30 blur-3xl pointer-events-none float-med" style={{ background: "radial-gradient(circle, #ffea5c 0%, transparent 70%)" }} />
           <div className="text-center mb-14 relative">
             <h2 className="font-display font-extrabold text-4xl md:text-5xl text-white tracking-tight">¿Por qué Altura Cloud?</h2>
             <p className="mt-3 text-lg text-[#E9E2FF]">La plataforma diseñada para la realidad de Honduras.</p>
