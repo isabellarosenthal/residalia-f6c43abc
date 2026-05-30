@@ -360,7 +360,8 @@ export function LandingPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="max-w-4xl mx-auto px-6 py-20 text-center">
+      <section className="relative max-w-4xl mx-auto px-6 py-20 text-center">
+        <img src={logoUrl} alt="" aria-hidden width={160} height={160} className="mx-auto w-28 md:w-36 h-auto float-slow mb-6" />
         <h2 className="font-display font-extrabold text-3xl md:text-4xl">¿Listo para ordenar tu condominio?</h2>
         <p className="mt-4 text-[#6b4a3a]">Crea tu cuenta gratis y configurá tu primer edificio en menos de 5 minutos.</p>
         <Link to="/login" className="mt-8 inline-flex items-center gap-2 bg-[#ffd60a] text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-[#e6c200]">
