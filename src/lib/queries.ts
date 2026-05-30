@@ -1044,3 +1044,122 @@ export function useCobrosDeResidente(residenteId?: string) {
   });
 }
 
+
+// ============ MANTENIMIENTO ============
+export type Incidencia = Database["public"]["Tables"]["incidencias"]["Row"];
+export type IncidenciaInsert = Database["public"]["Tables"]["incidencias"]["Insert"];
+export type OrdenMantenimiento = Database["public"]["Tables"]["ordenes_mantenimiento"]["Row"];
+export type OrdenMantenimientoInsert = Database["public"]["Tables"]["ordenes_mantenimiento"]["Insert"];
+export type Proveedor = Database["public"]["Tables"]["proveedores"]["Row"];
+export type ProveedorInsert = Database["public"]["Tables"]["proveedores"]["Insert"];
+
+export function useIncidencias(edificioId?: string) {
+  return useQuery({
+    queryKey: ["incidencias", edificioId ?? "all"],
+    queryFn: async (): Promise<Incidencia[]> => {
+      let q = supabase.from("incidencias").select("*").order("created_at", { ascending: false });
+      if (edificioId) q = q.eq("condominio_id", edificioId);
+      const { data, error } = await q;
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
+export function useSaveIncidencia() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: IncidenciaInsert & { id?: string }) => {
+      if (input.id) {
+        const { id, ...rest } = input;
+        const { data, error } = await supabase.from("incidencias").update(rest).eq("id", id).select().single();
+        if (error) throw error; return data;
+      }
+      const { data, error } = await supabase.from("incidencias").insert(input).select().single();
+      if (error) throw error; return data;
+    },
+    onSuccess: (_d, v) => { qc.invalidateQueries({ queryKey: ["incidencias"] }); toast.success(v.id ? "Incidencia actualizada" : "Incidencia reportada"); },
+    onError: (e: any) => toast.error(e?.message ?? "Error"),
+  });
+}
+export function useDeleteIncidencia() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => { const { error } = await supabase.from("incidencias").delete().eq("id", id); if (error) throw error; },
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["incidencias"] }); toast.success("Incidencia eliminada"); },
+    onError: (e: any) => toast.error(e?.message ?? "Error"),
+  });
+}
+
+export function useOrdenes(edificioId?: string) {
+  return useQuery({
+    queryKey: ["ordenes", edificioId ?? "all"],
+    queryFn: async (): Promise<OrdenMantenimiento[]> => {
+      let q = supabase.from("ordenes_mantenimiento").select("*").order("created_at", { ascending: false });
+      if (edificioId) q = q.eq("condominio_id", edificioId);
+      const { data, error } = await q;
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
+export function useSaveOrden() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: OrdenMantenimientoInsert & { id?: string }) => {
+      if (input.id) {
+        const { id, ...rest } = input;
+        const { data, error } = await supabase.from("ordenes_mantenimiento").update(rest).eq("id", id).select().single();
+        if (error) throw error; return data;
+      }
+      const { data, error } = await supabase.from("ordenes_mantenimiento").insert(input).select().single();
+      if (error) throw error; return data;
+    },
+    onSuccess: (_d, v) => { qc.invalidateQueries({ queryKey: ["ordenes"] }); toast.success(v.id ? "Orden actualizada" : "Orden creada"); },
+    onError: (e: any) => toast.error(e?.message ?? "Error"),
+  });
+}
+export function useDeleteOrden() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => { const { error } = await supabase.from("ordenes_mantenimiento").delete().eq("id", id); if (error) throw error; },
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["ordenes"] }); toast.success("Orden eliminada"); },
+    onError: (e: any) => toast.error(e?.message ?? "Error"),
+  });
+}
+
+export function useProveedores(edificioId?: string) {
+  return useQuery({
+    queryKey: ["proveedores", edificioId ?? "all"],
+    queryFn: async (): Promise<Proveedor[]> => {
+      let q = supabase.from("proveedores").select("*").order("nombre");
+      if (edificioId) q = q.eq("condominio_id", edificioId);
+      const { data, error } = await q;
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
+export function useSaveProveedor() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: ProveedorInsert & { id?: string }) => {
+      if (input.id) {
+        const { id, ...rest } = input;
+        const { data, error } = await supabase.from("proveedores").update(rest).eq("id", id).select().single();
+        if (error) throw error; return data;
+      }
+      const { data, error } = await supabase.from("proveedores").insert(input).select().single();
+      if (error) throw error; return data;
+    },
+    onSuccess: (_d, v) => { qc.invalidateQueries({ queryKey: ["proveedores"] }); toast.success(v.id ? "Proveedor actualizado" : "Proveedor creado"); },
+    onError: (e: any) => toast.error(e?.message ?? "Error"),
+  });
+}
+export function useDeleteProveedor() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => { const { error } = await supabase.from("proveedores").delete().eq("id", id); if (error) throw error; },
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["proveedores"] }); toast.success("Proveedor eliminado"); },
+    onError: (e: any) => toast.error(e?.message ?? "Error"),
+  });
+}
