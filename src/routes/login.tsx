@@ -70,7 +70,14 @@ function LoginPage() {
             <span className="text-[#2d1200]">Prop</span><span className="text-[#c94f0c]">Cloud</span>
           </div>
         </div>
-        <p className="text-center text-sm text-[#9a7060] mb-8">{isResidenteFlow ? "Portal del residente — ingresa o crea tu cuenta con tu código de invitación" : "Administración de condominios y CRM inmobiliario"}</p>
+        {isResidenteFlow && (
+          <div className="mt-3 mb-4 text-center">
+            <span className="inline-block text-xs font-bold uppercase tracking-wider bg-[#c94f0c] text-white px-3 py-1 rounded-full">
+              Portal Residentes
+            </span>
+          </div>
+        )}
+        <p className="text-center text-sm text-[#9a7060] mb-8">{isResidenteFlow ? "Ingresa con tu cuenta de residente o regístrate con tu código de invitación" : "Administración de condominios y CRM inmobiliario"}</p>
 
         <form onSubmit={submit} className="space-y-4">
           {mode === "signup" && (
