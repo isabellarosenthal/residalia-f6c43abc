@@ -136,6 +136,7 @@ function EdificiosTab() {
 
   return (
     <div className="space-y-3">
+      <PlanLimitsBanner focus="edificios" />
       {edificios.map(e => (
         <Card key={e.id} className="p-4">
           {editing === e.id ? (
