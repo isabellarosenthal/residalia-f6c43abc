@@ -45,8 +45,8 @@ function MantenimientoPage() {
   const delInc = useDeleteIncidencia(); const delOrd = useDeleteOrden(); const delProv = useDeleteProveedor();
 
   const stats = useMemo(() => {
-    const incAbiertas = incidencias.filter((i) => i.estado !== "resuelto" && i.estado !== "cancelado").length;
-    const incUrgentes = incidencias.filter((i) => (i.prioridad === "urgente" || i.prioridad === "alta") && i.estado !== "resuelto" && i.estado !== "cancelado").length;
+    const incAbiertas = incidencias.filter((i) => i.estado !== "resuelto" && i.estado !== "cerrado").length;
+    const incUrgentes = incidencias.filter((i) => (i.prioridad === "urgente" || i.prioridad === "alta") && i.estado !== "resuelto" && i.estado !== "cerrado").length;
     const ordPendientes = ordenes.filter((o) => o.estado === "pendiente" || o.estado === "en_proceso").length;
     const costoMes = ordenes
       .filter((o) => o.costo_real && new Date(o.created_at).getMonth() === new Date().getMonth())
