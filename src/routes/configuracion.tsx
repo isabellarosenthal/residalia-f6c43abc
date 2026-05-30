@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import toast from "react-hot-toast";
-import { User as UserIcon, Building2, Users, Shield, Save, Trash2, Plus } from "lucide-react";
+import { User as UserIcon, Building2, Users, Shield, Save, Trash2, Plus, Home } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import { Card } from "@/components/ui-pentos";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -37,7 +37,7 @@ function ConfiguracionPage() {
       <div className="space-y-5 max-w-[1100px] mx-auto">
         <div>
           <h1 className="font-display font-extrabold text-2xl text-[#2d1200]">Configuración</h1>
-          <p className="text-sm text-[#9a7060]">Perfil, edificios, usuarios y preferencias</p>
+          <p className="text-sm text-[#9a7060]">Perfil, edificios, usuarios, residentes y preferencias</p>
         </div>
 
         <Tabs defaultValue="perfil">
@@ -45,6 +45,7 @@ function ConfiguracionPage() {
             <TabsTrigger value="perfil"><UserIcon className="w-4 h-4 mr-1" />Perfil</TabsTrigger>
             <TabsTrigger value="edificios"><Building2 className="w-4 h-4 mr-1" />Edificios</TabsTrigger>
             <TabsTrigger value="usuarios"><Users className="w-4 h-4 mr-1" />Usuarios</TabsTrigger>
+            <TabsTrigger value="residentes"><Home className="w-4 h-4 mr-1" />Residentes</TabsTrigger>
             <TabsTrigger value="seguridad"><Shield className="w-4 h-4 mr-1" />Seguridad</TabsTrigger>
           </TabsList>
 
@@ -53,6 +54,7 @@ function ConfiguracionPage() {
           <TabsContent value="usuarios" className="pt-4">
             {isSuper ? <UsuariosTab /> : canManage ? <TenantUsuariosTab edificios={edificios} /> : <p className="text-sm text-[#9a7060] p-4">No tienes edificios asignados.</p>}
           </TabsContent>
+          <TabsContent value="residentes" className="pt-4"><ResidentesTab /></TabsContent>
           <TabsContent value="seguridad" className="pt-4"><SeguridadTab /></TabsContent>
         </Tabs>
       </div>
@@ -351,5 +353,92 @@ function SeguridadTab() {
         <div className="text-xs text-[#9a7060] pt-2">ID de usuario: <code className="bg-[#f5ede8] px-2 py-0.5 rounded">{user?.id}</code></div>
       </Card>
     </div>
+  );
+}
+
+function ResidentesTab() {
+  const { role } = useAuth();
+  const isSuper = role === "super_admin";
+  const [rows, setRows] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [q, setQ] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      const { data: residentes } = await supabase
+        .from("residentes")
+        .select("id, nombre, apellido, email, telefono, fecha_ingreso, created_at, user_id, activo, condominio_id, condominios(nombre)")
+        .order("created_at", { ascending: false });
+      const userIds = (residentes ?? []).map(r => r.user_id).filter(Boolean) as string[];
+      let profilesMap: Record<string, { created_at: string }> = {};
+      if (userIds.length) {
+        const { data: profs } = await supabase.from("profiles").select("id, created_at").in("id", userIds);
+        profilesMap = Object.fromEntries((profs ?? []).map(p => [p.id, { created_at: p.created_at }]));
+      }
+      setRows((residentes ?? []).map(r => ({
+        ...r,
+        cuenta_creada: r.user_id ? profilesMap[r.user_id]?.created_at ?? null : null,
+        condominio_nombre: (r as any).condominios?.nombre ?? "—",
+      })));
+      setLoading(false);
+    })();
+  }, []);
+
+  const fmt = (d?: string | null) => d ? new Date(d).toLocaleDateString("es-HN", { year: "numeric", month: "short", day: "numeric" }) : "—";
+  const filtered = rows.filter(r => {
+    const s = `${r.nombre} ${r.apellido} ${r.email ?? ""} ${r.condominio_nombre}`.toLowerCase();
+    return s.includes(q.toLowerCase());
+  });
+
+  return (
+    <Card className="p-6 space-y-4">
+      <div className="flex items-center justify-between gap-3">
+        <div>
+          <h3 className="font-display font-bold text-lg text-[#2d1200]">Residentes</h3>
+          <p className="text-sm text-[#9a7060]">{isSuper ? "Todos los residentes de la plataforma" : "Residentes de tus edificios"} · Fecha de ingreso y registro en PropCloud</p>
+        </div>
+        <Input placeholder="Buscar..." value={q} onChange={(e) => setQ(e.target.value)} className="max-w-xs" />
+      </div>
+
+      {loading ? (
+        <p className="text-sm text-[#9a7060]">Cargando...</p>
+      ) : filtered.length === 0 ? (
+        <p className="text-sm text-[#9a7060]">No hay residentes.</p>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="text-left text-[#9a7060] border-b border-[#f0e3da]">
+              <tr>
+                <th className="py-2 pr-3">Residente</th>
+                <th className="py-2 pr-3">Email</th>
+                <th className="py-2 pr-3">Edificio</th>
+                <th className="py-2 pr-3">Se unió</th>
+                <th className="py-2 pr-3">Cuenta en PropCloud</th>
+                <th className="py-2 pr-3">Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map((r) => (
+                <tr key={r.id} className="border-b border-[#f5ede8]">
+                  <td className="py-2 pr-3 font-medium text-[#2d1200]">{r.nombre} {r.apellido}</td>
+                  <td className="py-2 pr-3 text-[#9a7060]">{r.email ?? "—"}</td>
+                  <td className="py-2 pr-3 text-[#9a7060]">{r.condominio_nombre}</td>
+                  <td className="py-2 pr-3 text-[#9a7060]">{fmt(r.fecha_ingreso)}</td>
+                  <td className="py-2 pr-3 text-[#9a7060]">
+                    {r.cuenta_creada ? fmt(r.cuenta_creada) : <span className="text-[#c0392b]">Sin cuenta</span>}
+                  </td>
+                  <td className="py-2 pr-3">
+                    <span className={`px-2 py-0.5 rounded text-xs ${r.activo ? "bg-[#e6f4ea] text-[#1e6b3a]" : "bg-[#fbeae6] text-[#c0392b]"}`}>
+                      {r.activo ? "Activo" : "Inactivo"}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </Card>
   );
 }
