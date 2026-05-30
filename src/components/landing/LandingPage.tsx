@@ -360,7 +360,7 @@ export function LandingPage() {
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="bg-[#F1F5F9] border-t border-[#E2E8F0] py-20">
+      <section id="faq" className="relative py-20" style={{ background: "linear-gradient(180deg, transparent, rgba(241,245,249,0.6))" }}>
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 items-center">
           <div>
             <h2 className="font-display font-extrabold text-3xl md:text-4xl mb-12 text-[#0F172A]">Preguntas frecuentes</h2>
