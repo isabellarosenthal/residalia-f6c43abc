@@ -455,6 +455,7 @@ function ResidentesTab() {
         </div>
       )}
     </Card>
+    </>
   );
 }
 
