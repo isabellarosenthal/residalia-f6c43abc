@@ -202,16 +202,18 @@ export function LandingPage() {
       </section>
 
       {/* Stats band */}
-      <section className="relative overflow-hidden bg-[#7AA2FF] text-white py-12">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center relative">
+      <section className="relative overflow-hidden py-14" style={{ background: "linear-gradient(135deg, #7AA2FF 0%, #4F46E5 100%)" }}>
+        <div className="absolute -top-20 -left-20 w-80 h-80 rounded-full bg-white/10 blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-[#8B5CF6]/30 blur-3xl pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center relative">
           {[
             { n: "13+", l: "Módulos integrados" },
             { n: "100%", l: "Aislado por condominio" },
             { n: "L", l: "Lempiras nativos" },
             { n: "24/7", l: "Acceso desde la nube" },
           ].map((s) => (
-            <div key={s.l}>
-              <div className="font-display font-extrabold text-4xl text-white">{s.n}</div>
+            <div key={s.l} className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl py-6 px-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
+              <div className="font-display font-extrabold text-4xl text-white drop-shadow">{s.n}</div>
               <div className="text-xs uppercase tracking-wider text-[#E9E2FF] mt-2 font-semibold">{s.l}</div>
             </div>
           ))}
