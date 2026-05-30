@@ -120,8 +120,8 @@ export function OnboardingWizard({ open, onClose }: Props) {
             return (
               <div key={s.label} className="flex items-center flex-1 last:flex-none">
                 <div className="flex flex-col items-center gap-1">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
-                    done ? "bg-[#166534] text-white" : active ? "bg-[#0a1e3f] text-white" : "bg-[#fffdf5] text-[#6b7a99]"
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors font-display font-extrabold ${
+                    done ? "bg-[#166534] text-white" : active ? "bg-[#ffd60a] text-[#0a1e3f]" : "bg-[#fffdf5] text-[#6b7a99]"
                   }`}>
                     {done ? <Check className="w-5 h-5" /> : <Icon className="w-5 h-5" />}
                   </div>
