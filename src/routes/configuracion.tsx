@@ -47,6 +47,7 @@ function ConfiguracionPage() {
         <Tabs defaultValue="perfil">
           <TabsList className="bg-[#f5ede8]">
             <TabsTrigger value="perfil"><UserIcon className="w-4 h-4 mr-1" />Perfil</TabsTrigger>
+            {!isSuper && <TabsTrigger value="plan"><Crown className="w-4 h-4 mr-1" />Mi Plan</TabsTrigger>}
             <TabsTrigger value="edificios"><Building2 className="w-4 h-4 mr-1" />Edificios</TabsTrigger>
             <TabsTrigger value="usuarios"><Users className="w-4 h-4 mr-1" />Usuarios</TabsTrigger>
             <TabsTrigger value="residentes"><Home className="w-4 h-4 mr-1" />Residentes</TabsTrigger>
@@ -54,6 +55,7 @@ function ConfiguracionPage() {
           </TabsList>
 
           <TabsContent value="perfil" className="pt-4"><PerfilTab /></TabsContent>
+          {!isSuper && <TabsContent value="plan" className="pt-4"><MiPlanTab /></TabsContent>}
           <TabsContent value="edificios" className="pt-4"><EdificiosTab /></TabsContent>
           <TabsContent value="usuarios" className="pt-4">
             {isSuper ? <UsuariosTab /> : canManage ? <TenantUsuariosTab edificios={edificios} /> : <p className="text-sm text-[#9a7060] p-4">No tienes edificios asignados.</p>}
