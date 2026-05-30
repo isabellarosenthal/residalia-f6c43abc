@@ -81,9 +81,18 @@ function LoginPage() {
                   ))}
                 </div>
                 {signupRole === "residente" && (
-                  <p className="text-xs text-[#9a7060] mt-2">Usa el mismo correo con el que te registró el administrador.</p>
+                  <p className="text-xs text-[#9a7060] mt-2">Necesitas un código de invitación enviado por el administrador.</p>
                 )}
               </div>
+              {signupRole === "residente" && (
+                <div>
+                  <label className="block text-sm font-medium text-[#2d1200] mb-1.5">Código de invitación</label>
+                  <input value={invitationCode} onChange={(e) => setInvitationCode(e.target.value.toUpperCase())} required
+                    placeholder="ABC123" maxLength={6}
+                    className="w-full border border-[#c9b8b0] rounded-xl px-4 py-2.5 text-[#2d1200] font-mono tracking-widest uppercase outline-none focus:border-[#c94f0c] focus:ring-2 focus:ring-[#c94f0c]/20" />
+                </div>
+              )}
+
               <div>
                 <label className="block text-sm font-medium text-[#2d1200] mb-1.5">Nombre completo</label>
                 <input value={name} onChange={(e) => setName(e.target.value)} required
