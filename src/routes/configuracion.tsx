@@ -283,6 +283,8 @@ function TenantUsuariosTab({ edificios }: { edificios: Edif[] }) {
   };
 
   return (
+    <>
+    <PlanLimitsBanner focus="admins" />
     <Card className="p-5 space-y-4">
       {edificios.length > 1 && (
         <div className="flex items-center gap-2">
