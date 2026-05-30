@@ -305,7 +305,7 @@ export function LandingPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {PLANS.map((p, idx) => {
             const palette = p.highlight
-              ? { bg: "#173B7A", fg: "#ffffff", sub: "#9aa8c2", check: "#D9A441", btnBg: "#D9A441", btnFg: "#173B7A", btnHover: "hover:bg-[#E5B559]", iconBg: "rgba(255,214,10,0.15)" }
+              ? { bg: "#173B7A", fg: "#ffffff", sub: "#9aa8c2", check: "#D9A441", btnBg: "#ffffff", btnFg: "#173B7A", btnHover: "hover:bg-[#F1F5F9]", iconBg: "rgba(255,214,10,0.15)" }
               : idx === 0
               ? { bg: "#FAF1DC", fg: "#173B7A", sub: "#64748B", check: "#173B7A", btnBg: "#173B7A", btnFg: "#ffffff", btnHover: "hover:bg-[#0f2659]", iconBg: "rgba(10,30,63,0.08)" }
               : { bg: "#F8FAFC", fg: "#173B7A", sub: "#64748B", check: "#173B7A", btnBg: "#173B7A", btnFg: "#ffffff", btnHover: "hover:bg-[#0f2659]", iconBg: "rgba(10,30,63,0.08)" };
