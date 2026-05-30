@@ -1,62 +1,48 @@
-## Rebrand: Twilight Glow → Astronaut Yellow
+## Reasignar roles: navy = primary, amarillo = accent
 
-Cambiar la paleta lavanda/morada actual a amarillo + blanco + dark navy blue, con un astronauta como mascot/logo de Altura Cloud.
+El problema: amarillo `#ffd60a` sobre blanco no tiene contraste suficiente (WCAG falla a ~1.5:1), y lo estamos usando como color de botones, links, headlines resaltados e iconos. Hay que invertir los roles.
 
-### 1. Nueva paleta (`src/styles.css`)
+### Nueva jerarquía cromática
 
-Reemplazar tokens Twilight Glow por:
-- **Yellow primary**: `#ffd60a` (CTAs, acentos) → glow `#ffea5c`
-- **Dark navy**: `#0a1e3f` (texto principal, sidebar, headers) → `#13294b` (body text)
-- **White**: `#ffffff` (background principal) → `#fffdf5` (warm white para secciones)
-- **Soft yellow surface**: `#fff8d6` (cards suaves, hovers)
-- **Muted**: `#6b7a99` (text secundario sobre blanco)
-- **Accent dark**: `#001a4d` (deep navy para contraste)
-- Gradients: `--gradient-sunny` (yellow → soft yellow), `--gradient-deep-sky` (navy → mid navy)
-- Sombras: `--shadow-warm` (yellow glow sutil), `--shadow-deep` (navy soft)
-- Sidebar: navy oscuro `#0a1e3f` con acentos amarillos
-- Mantener Outfit + Figtree
+- **Primary (navy `#0a1e3f`)** — botones CTA, links, headlines destacados, iconos principales, badges sólidos. Sobre blanco da contraste 15:1 ✓
+- **Accent (yellow `#ffd60a`)** — solo para: highlights pequeños (underlines, dots, borders activos), fondo del visor del astronauta, hover states, badges decorativos sobre navy, líneas/divisores, focus rings
+- **Backgrounds suaves**: `#fffdf5` (warm cream) sigue igual
+- Texto y muted sin cambios
 
-### 2. Logo astronauta
+### Cambios
 
-Generar nuevo `src/assets/altura-cloud-logo.png`:
-- Astronauta minimalista flotando sobre/al lado de una nube
-- Casco con visor reflejando un toque amarillo
-- Estilo line-art moderno sobre fondo transparente
-- Paleta: navy + amarillo + blanco
-- Reemplaza el logo lavanda actual (mismo path, importado en Sidebar + LandingPage)
+**1. `src/styles.css`** — swap de tokens:
+- `--primary: #0a1e3f` (era amarillo)
+- `--primary-foreground: #ffffff`
+- `--primary-dark: #001a4d`
+- `--primary-glow: #13294b`
+- Crear `--accent-yellow: #ffd60a` y `--accent-yellow-soft: #fff8d6` como tokens dedicados
+- `--ring: #0a1e3f` (focus visible navy)
+- Mantener gradient sunny para fondos amarillos contenidos
 
-### 3. Sweep de hex hardcodeados (~73 files)
+**2. Sweep en componentes (~70 archivos)** — reemplazos contextuales:
+- `bg-[#ffd60a]` en botones CTA / pills → `bg-[#0a1e3f] text-white`
+- `text-[#ffd60a]` en headlines / labels sobre fondo blanco → `text-[#0a1e3f]` (o `text-[#001a4d]`)
+- `hover:bg-[#e6c200]` → `hover:bg-[#001a4d]`
+- `hover:border-[#ffd60a]` → mantener (borde de hover, amarillo OK como acento)
+- Iconos amarillos sobre fondo blanco (`text-[#ffd60a]` en chips) → cambiar a `text-[#0a1e3f]` con fondo `bg-[#fff8d6]` (amarillo se queda como surface decorativo)
+- Badges del tipo `bg-[#fffdf5] text-[#ffd60a]` → `bg-[#fff8d6] text-[#0a1e3f]`
 
-Reemplazo 1:1 de los hex Twilight Glow por los nuevos:
-- `#818cf8` (indigo) → `#ffd60a` (yellow primary)
-- `#6366f1` (primary-dark) → `#e6c200` (yellow dark)
-- `#a78bfa` (lavender glow) → `#ffea5c` (yellow glow)
-- `#1e1b4b` (deep) → `#0a1e3f` (navy deep)
-- `#312e81` (body) → `#13294b` (navy body)
-- `#8b8bb5` (muted) → `#6b7a99`
-- `#eef2ff` (bg suave) → `#fffdf5` (warm white)
-- `#faf9ff` (bg base) → `#ffffff`
-- `#ddd6fe` (accent suave) → `#fff8d6` (soft yellow)
-- `#8b5cf6` (purple action) → `#001a4d` (deep navy)
-- `#c7d2fe` → `#ffe87a`
-- `#6d28d9` → `#001a4d`
+**3. Conservar amarillo como acento en:**
+- Visor del astronauta (logo)
+- Pequeños dots / underlines decorativos en hero ("sin hojas de cálculo" → mantener color amarillo pero con sombra/bg navy detrás, o cambiarlo a underline navy con highlight amarillo fino)
+- Hover borders en cards
+- Bullets de "Hecho en Honduras" badge → fondo amarillo OK porque texto es navy
+- Footer accent
+- Banda navy de stats (amarillo sobre navy = excelente contraste)
 
-Aplica a los 73 archivos del rebrand anterior (componentes, routes, EdificioPlaceholder, etc.).
+**4. Sidebar admin** — ya es navy con texto cream; mantener accent amarillo solo en item activo (background sutil `#fff8d6/10` o borde amarillo).
 
-### 4. EdificioPlaceholder
-
-Regenerar las 5 paletas de gradientes a combinaciones yellow/navy/white en vez de lavender.
-
-### 5. Manifest
-
-`public/manifest.webmanifest`: `theme_color: #ffd60a`, `background_color: #ffffff`.
-
-### 6. Verificación
-
+**5. Verificación**
 - Restart dev server
-- Revisar landing, dashboard, sidebar, portal residentes, configuracion
-- Confirmar 0 referencias residuales a `#818cf8`, `#a78bfa`, `#1e1b4b`
+- Revisar landing, /dashboard, /configuracion, /portal
+- Confirmar que cada uso restante de `#ffd60a` está sobre fondo navy o es un highlight pequeño
 
 ### Fuera de alcance
 
-Sin cambios en lógica, queries, layout o copy. Solo color, logo y tokens visuales. Mantengo nombre "Altura Cloud".
+Sin tocar lógica, layout, ni el logo del astronauta. Solo reasignar colores.
