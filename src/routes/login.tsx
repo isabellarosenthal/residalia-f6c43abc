@@ -8,7 +8,10 @@ import { Building } from "lucide-react";
 import toast from "react-hot-toast";
 
 export const Route = createFileRoute("/login")({
-  validateSearch: (s: Record<string, unknown>) => ({ as: (s.as as string) === "residente" ? "residente" : undefined }),
+  validateSearch: (s: Record<string, unknown>) => ({
+    as: (s.as as string) === "residente" ? "residente" : undefined,
+    mode: (s.mode as string) === "signup" ? "signup" : undefined,
+  }),
   component: LoginPage,
 });
 
@@ -18,9 +21,9 @@ function LoginPage() {
   const { user, role, loading } = useAuth();
   const navigate = useNavigate();
   const createResident = useServerFn(createResidentAccount);
-  const { as } = Route.useSearch();
+  const { as, mode: searchMode } = Route.useSearch();
   const isResidenteFlow = as === "residente";
-  const [mode, setMode] = useState<"login" | "signup">(isResidenteFlow ? "signup" : "login");
+  const [mode, setMode] = useState<"login" | "signup">(isResidenteFlow || searchMode === "signup" ? "signup" : "login");
   const [signupRole, setSignupRole] = useState<SignupRole>(isResidenteFlow ? "residente" : "admin_condominio");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
