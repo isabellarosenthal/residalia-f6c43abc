@@ -55,12 +55,12 @@
 }
 
 :root {
-  /* Altura Cloud — Astronaut Yellow (yellow + deep navy + white) */
-  --primary: #ffd60a;
-  --primary-foreground: #0a1e3f;
-  --primary-dark: #e6c200;
-  --primary-light: #ffe87a;
-  --primary-glow: #ffea5c;
+  /* Altura Cloud — Navy primary, yellow accent */
+  --primary: #0a1e3f;
+  --primary-foreground: #ffffff;
+  --primary-dark: #001a4d;
+  --primary-light: #13294b;
+  --primary-glow: #13294b;
 
   --text-dark: #0a1e3f;
   --text-body: #13294b;
