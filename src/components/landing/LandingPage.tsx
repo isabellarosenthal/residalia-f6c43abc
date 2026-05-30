@@ -253,25 +253,25 @@ export function LandingPage() {
       </section>
 
       {/* How it works */}
-      <section className="relative overflow-hidden bg-[#F1F5F9] py-20">
+      <section className="relative overflow-hidden py-20" style={{ background: "linear-gradient(180deg, transparent 0%, rgba(233,226,255,0.6) 50%, transparent 100%)" }}>
         <div className="max-w-6xl mx-auto px-6 relative">
           <div className="text-center mb-16">
             <h2 className="font-display font-extrabold text-4xl md:text-5xl text-[#0F172A] tracking-tight">Empieza a operar hoy mismo</h2>
             <p className="mt-3 text-lg text-[#475569]">Configuración guiada en cuatro simples pasos.</p>
           </div>
-          <ol className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <ol className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {[
               { n: "1", t: "Crea tu cuenta", d: "Tu espacio privado y seguro listo en segundos." },
               { n: "2", t: "Registra el edificio", d: "Define unidades y cuotas de mantenimiento." },
               { n: "3", t: "Suma residentes", d: "Invita a propietarios y carga sus contactos." },
               { n: "4", t: "Genera cobros", d: "Emite cuotas masivas con un solo clic." },
             ].map((s) => (
-              <li key={s.n} className="group flex flex-col items-start text-left">
-                <div className="w-14 h-14 rounded-2xl bg-[#4F46E5] flex items-center justify-center text-white font-display font-extrabold text-xl mb-6 shadow-lg group-hover:scale-110 group-hover:bg-[#4338CA] transition-all">
+              <li key={s.n} className="group flex flex-col items-start text-left bg-white/60 backdrop-blur-xl border border-white/70 rounded-3xl p-6 shadow-[0_8px_30px_-12px_rgba(67,56,202,0.15)] hover:-translate-y-1 hover:shadow-2xl transition-all">
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-white font-display font-extrabold text-xl mb-5 shadow-lg group-hover:scale-110 transition-transform" style={{ background: "linear-gradient(135deg, #4F46E5, #7AA2FF)" }}>
                   {s.n}
                 </div>
                 <h3 className="font-display font-bold text-xl text-[#0F172A] mb-2">{s.t}</h3>
-                <p className="text-[#475569] leading-relaxed">{s.d}</p>
+                <p className="text-[#475569] leading-relaxed text-sm">{s.d}</p>
               </li>
             ))}
           </ol>
