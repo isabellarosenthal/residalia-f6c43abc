@@ -770,7 +770,8 @@ export type Database = {
           created_at: string
           features: Json
           id: string
-          max_residentes: number | null
+          max_admins: number | null
+          max_edificios: number | null
           max_unidades: number | null
           nombre: string
           orden: number
@@ -781,7 +782,8 @@ export type Database = {
           created_at?: string
           features?: Json
           id?: string
-          max_residentes?: number | null
+          max_admins?: number | null
+          max_edificios?: number | null
           max_unidades?: number | null
           nombre: string
           orden?: number
@@ -792,7 +794,8 @@ export type Database = {
           created_at?: string
           features?: Json
           id?: string
-          max_residentes?: number | null
+          max_admins?: number | null
+          max_edificios?: number | null
           max_unidades?: number | null
           nombre?: string
           orden?: number

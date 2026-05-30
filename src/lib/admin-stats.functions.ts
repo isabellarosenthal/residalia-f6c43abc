@@ -201,7 +201,7 @@ export const listPlanes = createServerFn({ method: "GET" })
 
 export const updatePlan = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: { id: string; precio_mensual?: number; max_unidades?: number | null; max_residentes?: number | null; activo?: boolean }) => d)
+  .inputValidator((d: { id: string; precio_mensual?: number; max_unidades?: number | null; max_edificios?: number | null; max_admins?: number | null; activo?: boolean }) => d)
   .handler(async ({ context, data }) => {
     await assertSuperAdmin(context.userId);
     const { id, ...patch } = data;

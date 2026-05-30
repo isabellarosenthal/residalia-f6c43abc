@@ -296,7 +296,7 @@ function EstadoBadge({ estado }: { estado: string }) {
   return <span className={`text-xs px-2 py-0.5 rounded-full border ${map[estado] ?? map.sin_suscripcion}`}>{estado}</span>;
 }
 
-type FullPlan = { id: string; nombre: string; precio_mensual: number; max_unidades: number | null; max_residentes: number | null; activo: boolean };
+type FullPlan = { id: string; nombre: string; precio_mensual: number; max_edificios: number | null; max_unidades: number | null; max_admins: number | null; activo: boolean };
 function PlanesSection({ planes }: { planes: FullPlan[] }) {
   const money = (n: number) => `L ${new Intl.NumberFormat("es-HN").format(n)}`;
   return (
@@ -317,8 +317,9 @@ function PlanesSection({ planes }: { planes: FullPlan[] }) {
               <span className="text-xs text-muted-foreground"> /mes</span>
             </div>
             <div className="text-xs text-muted-foreground mt-3 space-y-0.5">
-              <div>Unidades: {p.max_unidades ?? "Ilimitadas"}</div>
-              <div>Residentes: {p.max_residentes ?? "Ilimitados"}</div>
+              <div>Edificios: {p.max_edificios ?? "ilimitados"}</div>
+              <div>Unidades por edificio: {p.max_unidades ?? "ilimitadas"}</div>
+              <div>Admins: {p.max_admins ?? "ilimitados"}</div>
             </div>
           </div>
         ))}
