@@ -234,7 +234,7 @@ export function LandingPage() {
           {FEATURE_ICONS.map((f) => (
             <div
               key={f.t}
-              className="rounded-[1.75rem] p-7 flex flex-col min-h-[260px] transition hover:-translate-y-1 hover:shadow-xl bg-[#F1F5F9] border border-[#E2E8F0]"
+              className="group rounded-[1.75rem] p-7 flex flex-col min-h-[260px] transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl bg-white/60 backdrop-blur-xl border border-white/70 shadow-[0_8px_30px_-12px_rgba(67,56,202,0.15)]"
             >
               <div
                 className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 shadow-sm text-white"
