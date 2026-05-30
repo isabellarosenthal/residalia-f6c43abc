@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import toast from "react-hot-toast";
-import { User as UserIcon, Building2, Users, Shield, Save, Trash2, Plus } from "lucide-react";
+import { User as UserIcon, Building2, Users, Shield, Save, Trash2, Plus, Home } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import { Card } from "@/components/ui-pentos";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
