@@ -22,10 +22,10 @@ function GuardiaLayout() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#ffffff] px-4">
         <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 max-w-md text-center">
-          <ShieldCheck className="w-10 h-10 mx-auto text-[#D97757] mb-2" />
-          <div className="font-semibold text-[#2D3748] mb-1">Acceso restringido</div>
+          <ShieldCheck className="w-10 h-10 mx-auto text-[#4F46E5] mb-2" />
+          <div className="font-semibold text-[#4F46E5] mb-1">Acceso restringido</div>
           <p className="text-sm text-[#64748B]">Esta vista es solo para personal de seguridad.</p>
-          <Link to="/" className="text-sm text-[#D97757] hover:underline mt-3 inline-block">Ir al inicio</Link>
+          <Link to="/" className="text-sm text-[#4F46E5] hover:underline mt-3 inline-block">Ir al inicio</Link>
         </div>
       </div>
     );
@@ -33,10 +33,10 @@ function GuardiaLayout() {
 
   return (
     <div className="min-h-screen bg-[#1a0f08] text-white">
-      <header className="bg-[#2D3748] border-b border-[#1F2937] sticky top-0 z-10">
+      <header className="bg-[#4F46E5] border-b border-[#4338CA] sticky top-0 z-10">
         <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
           <Link to="/guardia" className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-lg bg-[#D97757] flex items-center justify-center"><ShieldCheck className="w-5 h-5 text-white" /></div>
+            <div className="w-9 h-9 rounded-lg bg-[#4F46E5] flex items-center justify-center"><ShieldCheck className="w-5 h-5 text-white" /></div>
             <div className="font-display font-extrabold text-lg">Vigilancia</div>
           </Link>
           <div className="flex items-center gap-3">

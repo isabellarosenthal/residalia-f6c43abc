@@ -117,7 +117,7 @@ export function UnidadFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[680px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="font-display text-xl text-[#2D3748]">{unidad ? `Editar unidad #${unidad.numero}` : "Nueva unidad"}</DialogTitle>
+          <DialogTitle className="font-display text-xl text-[#4F46E5]">{unidad ? `Editar unidad #${unidad.numero}` : "Nueva unidad"}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -259,7 +259,7 @@ export function UnidadFormDialog({
 
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-            <Button type="submit" disabled={!form.formState.isValid || save.isPending} className="bg-[#2D3748] hover:bg-[#1F2937]">
+            <Button type="submit" disabled={!form.formState.isValid || save.isPending} className="bg-[#4F46E5] hover:bg-[#4338CA]">
               {save.isPending ? "Guardando…" : "Guardar unidad"}
             </Button>
           </DialogFooter>

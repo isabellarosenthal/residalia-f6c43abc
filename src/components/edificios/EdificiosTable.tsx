@@ -26,7 +26,7 @@ function Row({ edificio, stats, onEdit }: { edificio: Condominio; stats?: StatsE
   return (
     <TableRow onClick={go} className="cursor-pointer hover:bg-[#faf6f3]">
       <TableCell>
-        <div className="font-semibold text-[#2D3748]">{edificio.nombre}</div>
+        <div className="font-semibold text-[#4F46E5]">{edificio.nombre}</div>
         <div className="text-xs text-[#64748B] flex items-center gap-1 mt-0.5">
           <MapPin className="w-3 h-3" />
           {edificio.ciudad ?? "—"}{edificio.departamento ? `, ${edificio.departamento}` : ""}
@@ -53,13 +53,13 @@ export function EdificiosTable({ edificios, statsMap }: { edificios: Condominio[
         <Table>
           <TableHeader>
             <TableRow className="bg-[#F8FAFC] hover:bg-[#F8FAFC]">
-              <TableHead className="text-[#2D3748] font-semibold">Edificio</TableHead>
-              <TableHead className="text-[#2D3748] font-semibold">Tipo</TableHead>
-              <TableHead className="text-[#2D3748] font-semibold">Unidades</TableHead>
-              <TableHead className="text-[#2D3748] font-semibold">Ocupación</TableHead>
-              <TableHead className="text-[#2D3748] font-semibold">Venta / Renta</TableHead>
-              <TableHead className="text-[#2D3748] font-semibold">Cuota base</TableHead>
-              <TableHead className="text-[#2D3748] font-semibold">Estado</TableHead>
+              <TableHead className="text-[#4F46E5] font-semibold">Edificio</TableHead>
+              <TableHead className="text-[#4F46E5] font-semibold">Tipo</TableHead>
+              <TableHead className="text-[#4F46E5] font-semibold">Unidades</TableHead>
+              <TableHead className="text-[#4F46E5] font-semibold">Ocupación</TableHead>
+              <TableHead className="text-[#4F46E5] font-semibold">Venta / Renta</TableHead>
+              <TableHead className="text-[#4F46E5] font-semibold">Cuota base</TableHead>
+              <TableHead className="text-[#4F46E5] font-semibold">Estado</TableHead>
               <TableHead className="text-right" />
             </TableRow>
           </TableHeader>

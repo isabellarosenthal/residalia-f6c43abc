@@ -28,8 +28,8 @@ export function PlanLimitsBanner({ focus = "all" }: { focus?: Focus }) {
     <Card className="p-3 bg-[#ffffff] border-[#E2E8F0]">
       <div className="flex flex-wrap items-center gap-4">
         <div className="flex items-center gap-2 text-xs">
-          <Crown className="w-3.5 h-3.5 text-[#2D3748]" />
-          <span className="font-medium text-[#2D3748]">{data.plan.nombre}</span>
+          <Crown className="w-3.5 h-3.5 text-[#4F46E5]" />
+          <span className="font-medium text-[#4F46E5]">{data.plan.nombre}</span>
         </div>
         {items.filter(i => i.show).map(i => (
           <div key={i.label} className="text-xs text-[#5a4030]">

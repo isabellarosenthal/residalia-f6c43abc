@@ -34,7 +34,7 @@ function FinanzasPage() {
       <div className="space-y-5 max-w-[1400px] mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="font-display font-extrabold text-2xl text-[#2D3748]">Finanzas</h1>
+            <h1 className="font-display font-extrabold text-2xl text-[#4F46E5]">Finanzas</h1>
             <p className="text-sm text-[#64748B]">Cobros, egresos y estados de cuenta</p>
           </div>
           <Select value={edificioId} onValueChange={setEdificioId}>
@@ -65,7 +65,7 @@ function FinanzasPage() {
               <Button variant="outline" disabled={edificioId === "all"} onClick={() => setGenOpen(true)}>
                 <Layers className="w-4 h-4 mr-1" />Generar mensuales
               </Button>
-              <Button onClick={() => { setCobroEdit(null); setCobroOpen(true); }} className="bg-[#2D3748] hover:bg-[#1F2937]">
+              <Button onClick={() => { setCobroEdit(null); setCobroOpen(true); }} className="bg-[#4F46E5] hover:bg-[#4338CA]">
                 <Plus className="w-4 h-4 mr-1" />Nuevo cobro
               </Button>
             </div>
@@ -74,7 +74,7 @@ function FinanzasPage() {
 
           <TabsContent value="egresos" className="space-y-4 pt-4">
             <div className="flex justify-end">
-              <Button onClick={() => { setEgresoEdit(null); setEgresoOpen(true); }} className="bg-[#2D3748] hover:bg-[#1F2937]">
+              <Button onClick={() => { setEgresoEdit(null); setEgresoOpen(true); }} className="bg-[#4F46E5] hover:bg-[#4338CA]">
                 <Plus className="w-4 h-4 mr-1" />Nuevo egreso
               </Button>
             </div>

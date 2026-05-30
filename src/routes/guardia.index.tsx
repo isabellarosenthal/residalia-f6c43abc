@@ -49,18 +49,18 @@ function GuardiaValidar() {
 
   return (
     <div className="space-y-5">
-      <form onSubmit={(e) => { e.preventDefault(); buscar(); }} className="flex gap-2 bg-[#2D3748] border border-[#1F2937] rounded-2xl p-3">
+      <form onSubmit={(e) => { e.preventDefault(); buscar(); }} className="flex gap-2 bg-[#4F46E5] border border-[#4338CA] rounded-2xl p-3">
         <input value={codigo} onChange={(e) => setCodigo(e.target.value.toUpperCase())} placeholder="PASE-XXXXXX"
           className="flex-1 bg-transparent font-mono text-lg tracking-widest uppercase text-white placeholder:text-[#64748B] outline-none px-2" autoFocus />
-        <button type="submit" disabled={!codigo.trim() || validar.isPending} className="bg-[#D97757] hover:bg-[#e6c200] text-white px-4 py-2 rounded-lg inline-flex items-center gap-1 disabled:opacity-50">
+        <button type="submit" disabled={!codigo.trim() || validar.isPending} className="bg-[#4F46E5] hover:bg-[#e6c200] text-white px-4 py-2 rounded-lg inline-flex items-center gap-1 disabled:opacity-50">
           <Search className="w-4 h-4" />Buscar
         </button>
       </form>
 
-      {notFound && <div className="bg-[#7a2a10] border border-[#D97757] text-white rounded-2xl p-4 text-sm">No se encontró el pase.</div>}
+      {notFound && <div className="bg-[#7a2a10] border border-[#4F46E5] text-white rounded-2xl p-4 text-sm">No se encontró el pase.</div>}
 
       {acceso && estado && (
-        <div className="bg-white text-[#2D3748] rounded-2xl p-5 space-y-4">
+        <div className="bg-white text-[#4F46E5] rounded-2xl p-5 space-y-4">
           <div className="flex items-start justify-between gap-3">
             <div>
               <div className="text-xs text-[#64748B]">Visitante</div>
@@ -84,9 +84,9 @@ function GuardiaValidar() {
             )}
             {!acceso.fecha_salida && (
               <button onClick={async () => setAcceso(await marcarSalida.mutateAsync(acceso.id))} disabled={marcarSalida.isPending}
-                className="border border-[#EBC988] text-[#2D3748] px-4 py-2 rounded-lg inline-flex items-center gap-1"><LogOut className="w-4 h-4" />Registrar salida</button>
+                className="border border-[#EBC988] text-[#4F46E5] px-4 py-2 rounded-lg inline-flex items-center gap-1"><LogOut className="w-4 h-4" />Registrar salida</button>
             )}
-            <button onClick={() => { setAcceso(null); setCodigo(""); }} className="text-[#64748B] hover:text-[#D97757] px-3 py-2">Limpiar</button>
+            <button onClick={() => { setAcceso(null); setCodigo(""); }} className="text-[#64748B] hover:text-[#4F46E5] px-3 py-2">Limpiar</button>
           </div>
         </div>
       )}

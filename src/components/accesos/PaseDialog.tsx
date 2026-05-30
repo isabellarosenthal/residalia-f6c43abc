@@ -41,13 +41,13 @@ export function PaseDialog({ open, onOpenChange, acceso }: { open: boolean; onOp
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[420px]">
-        <DialogHeader><DialogTitle className="font-display text-xl text-[#2D3748]">Pase de acceso</DialogTitle></DialogHeader>
+        <DialogHeader><DialogTitle className="font-display text-xl text-[#4F46E5]">Pase de acceso</DialogTitle></DialogHeader>
         {acceso && (
           <div className="space-y-4">
             <div className="bg-[#F8FAFC] rounded-2xl p-4 text-center">
               {qrUrl && <img src={qrUrl} alt="QR del pase" className="mx-auto rounded-lg bg-white p-2" width={240} height={240} />}
               <div className="mt-3 text-xs text-[#64748B]">Código</div>
-              <div className="font-mono text-lg font-bold text-[#2D3748] tracking-widest">{acceso.qr_code}</div>
+              <div className="font-mono text-lg font-bold text-[#4F46E5] tracking-widest">{acceso.qr_code}</div>
             </div>
             <div className="text-sm text-[#5a3a2a] whitespace-pre-line bg-white border border-[#E2E8F0] rounded-xl p-3">{mensaje}</div>
             <div className="grid grid-cols-3 gap-2">

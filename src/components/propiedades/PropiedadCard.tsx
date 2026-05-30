@@ -17,7 +17,7 @@ export function PropiedadCard({
   const muestraRenta = unidad.estado_comercial === "en_renta" || unidad.estado_comercial === "en_venta_y_renta";
 
   return (
-    <div className="group bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden hover:shadow-lg hover:border-[#D97757]/40 transition-all">
+    <div className="group bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden hover:shadow-lg hover:border-[#4F46E5]/40 transition-all">
       <div className="relative aspect-[4/3] bg-gradient-to-br from-[#F8FAFC] to-[#E2E8F0] overflow-hidden">
         {cover ? (
           <img src={cover} alt={`Unidad ${unidad.numero}`} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -28,13 +28,13 @@ export function PropiedadCard({
         )}
         <div className="absolute top-3 left-3"><EstadoComercialBadge value={unidad.estado_comercial} /></div>
         {unidad.precio_negociable && (
-          <div className="absolute top-3 right-3 bg-white/95 backdrop-blur text-[10px] font-semibold px-2 py-1 rounded-full text-[#2D3748]">
+          <div className="absolute top-3 right-3 bg-white/95 backdrop-blur text-[10px] font-semibold px-2 py-1 rounded-full text-[#4F46E5]">
             Negociable
           </div>
         )}
         <button
           onClick={() => onEdit(unidad)}
-          className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition bg-white/95 backdrop-blur p-2 rounded-full text-[#2D3748] hover:bg-[#2D3748] hover:text-white"
+          className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition bg-white/95 backdrop-blur p-2 rounded-full text-[#4F46E5] hover:bg-[#4F46E5] hover:text-white"
           aria-label="Editar"
         >
           <Edit className="w-4 h-4" />
@@ -43,7 +43,7 @@ export function PropiedadCard({
       <div className="p-4 space-y-3">
         <div>
           <div className="flex items-start justify-between gap-2">
-            <h3 className="font-display font-bold text-[#2D3748] text-lg leading-tight">
+            <h3 className="font-display font-bold text-[#4F46E5] text-lg leading-tight">
               {unidad.tipo ? unidad.tipo[0].toUpperCase() + unidad.tipo.slice(1) : "Unidad"} #{unidad.numero}
             </h3>
             {unidad.piso != null && <span className="text-xs text-[#64748B] mt-1">Piso {unidad.piso}</span>}
@@ -66,13 +66,13 @@ export function PropiedadCard({
           {muestraVenta && (
             <div className="flex items-center justify-between">
               <span className="text-[10px] uppercase tracking-wider text-[#64748B] font-semibold">Venta</span>
-              <span className="font-display font-bold text-[#2D3748]">{fmt(unidad.precio_venta, moneda)}</span>
+              <span className="font-display font-bold text-[#4F46E5]">{fmt(unidad.precio_venta, moneda)}</span>
             </div>
           )}
           {muestraRenta && (
             <div className="flex items-center justify-between">
               <span className="text-[10px] uppercase tracking-wider text-[#64748B] font-semibold">Renta/mes</span>
-              <span className="font-display font-bold text-[#2D3748]">{fmt(unidad.precio_renta, moneda)}</span>
+              <span className="font-display font-bold text-[#4F46E5]">{fmt(unidad.precio_renta, moneda)}</span>
             </div>
           )}
           {!muestraVenta && !muestraRenta && (

@@ -29,7 +29,7 @@ export function Topbar() {
     <header className="h-16 bg-white border-b border-[#E2E8F0] flex items-center px-6 gap-4 sticky top-0 z-20">
       <div className="flex-1 min-w-0">
         <div className="text-[11px] uppercase tracking-widest text-[#64748B] font-semibold">Altura Cloud</div>
-        <div className="font-display font-bold text-[#2D3748] truncate">{title}</div>
+        <div className="font-display font-bold text-[#4F46E5] truncate">{title}</div>
       </div>
       <button className="hidden md:flex items-center gap-2 text-sm text-[#1E293B] px-3 py-1.5 rounded-full border border-[#E2E8F0] hover:bg-[#F8FAFC] transition-colors">
         <Building2 className="w-4 h-4" />
@@ -39,7 +39,7 @@ export function Topbar() {
         <Bell className="w-5 h-5 text-[#1E293B]" />
         <span className="absolute top-1 right-1 w-2 h-2 bg-[#be185d] rounded-full" />
       </button>
-      <div className="w-9 h-9 rounded-full bg-[#2D3748] text-white flex items-center justify-center font-semibold text-sm">
+      <div className="w-9 h-9 rounded-full bg-[#4F46E5] text-white flex items-center justify-center font-semibold text-sm">
         {initials(profile?.full_name || "U")}
       </div>
     </header>

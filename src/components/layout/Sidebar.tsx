@@ -56,7 +56,7 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="hidden lg:flex flex-col w-60 h-screen sticky top-0 bg-[#2D3748] text-[#F8FAFC]">
+    <aside className="hidden lg:flex flex-col w-60 h-screen sticky top-0 bg-[#4F46E5] text-[#F8FAFC]">
       <div className="px-5 py-6 flex items-center gap-2.5">
         <img src={logoUrl} alt="Altura Cloud" width={36} height={36} className="w-9 h-9 drop-shadow-[0_0_12px_rgba(167,139,250,0.5)]" />
         <div className="font-display font-extrabold text-xl leading-none">
@@ -75,8 +75,8 @@ export function Sidebar() {
                 to="/admin-panel"
                 className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
                   path.startsWith("/admin-panel")
-                    ? "bg-gradient-to-r from-[#D97757] to-[#7a2e0a] text-white font-semibold"
-                    : "text-[#F8FAFC] hover:bg-[#D97757]/15"
+                    ? "bg-gradient-to-r from-[#4F46E5] to-[#7a2e0a] text-white font-semibold"
+                    : "text-[#F8FAFC] hover:bg-[#4F46E5]/15"
                 }`}
               >
                 <Shield className="w-4 h-4 shrink-0" />
@@ -99,7 +99,7 @@ export function Sidebar() {
                     key={it.to}
                     to={it.to}
                     className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
-                      active ? "bg-[#D97757] text-[#2D3748] font-semibold" : "text-[#F8FAFC] hover:bg-[#D97757]/15"
+                      active ? "bg-[#4F46E5] text-[#4F46E5] font-semibold" : "text-[#F8FAFC] hover:bg-[#4F46E5]/15"
                     }`}
                   >
                     <Icon className="w-4 h-4 shrink-0" />
@@ -115,7 +115,7 @@ export function Sidebar() {
 
       <div className="border-t border-[#F8FAFC]/15 p-3">
         <div className="flex items-center gap-3 px-2 py-2">
-          <div className="w-9 h-9 rounded-full bg-[#D97757] text-white flex items-center justify-center font-semibold text-sm shrink-0">
+          <div className="w-9 h-9 rounded-full bg-[#4F46E5] text-white flex items-center justify-center font-semibold text-sm shrink-0">
             {initials(profile?.full_name || "U")}
           </div>
           <div className="min-w-0 flex-1">
@@ -124,7 +124,7 @@ export function Sidebar() {
           </div>
           <button
             onClick={async () => { await signOut(); navigate({ to: "/login" }); }}
-            className="p-2 rounded-lg hover:bg-[#D97757]/20 text-[#F8FAFC]/80 hover:text-white transition-colors"
+            className="p-2 rounded-lg hover:bg-[#4F46E5]/20 text-[#F8FAFC]/80 hover:text-white transition-colors"
             title="Cerrar sesión"
           >
             <LogOut className="w-4 h-4" />

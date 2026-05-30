@@ -71,16 +71,16 @@ function PropiedadesPage() {
       <div className="space-y-5 max-w-[1500px] mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="font-display font-extrabold text-2xl text-[#2D3748]">Propiedades en Venta / Renta</h1>
+            <h1 className="font-display font-extrabold text-2xl text-[#4F46E5]">Propiedades en Venta / Renta</h1>
             <p className="text-sm text-[#64748B]">Catálogo comercial de unidades publicadas</p>
           </div>
           <div className="inline-flex rounded-lg border border-[#E2E8F0] bg-white p-0.5">
             <Button size="sm" variant="ghost" onClick={() => setView("table")}
-              className={`h-8 px-3 ${view === "table" ? "bg-[#F8FAFC] text-[#2D3748]" : "text-[#64748B]"}`}>
+              className={`h-8 px-3 ${view === "table" ? "bg-[#F8FAFC] text-[#4F46E5]" : "text-[#64748B]"}`}>
               <TableIcon className="w-4 h-4 mr-1" /> Tabla
             </Button>
             <Button size="sm" variant="ghost" onClick={() => setView("cards")}
-              className={`h-8 px-3 ${view === "cards" ? "bg-[#F8FAFC] text-[#2D3748]" : "text-[#64748B]"}`}>
+              className={`h-8 px-3 ${view === "cards" ? "bg-[#F8FAFC] text-[#4F46E5]" : "text-[#64748B]"}`}>
               <LayoutGrid className="w-4 h-4 mr-1" /> Cards
             </Button>
           </div>
@@ -124,7 +124,7 @@ function PropiedadesPage() {
         ) : filtered.length === 0 ? (
           <div className="text-center py-16 bg-white border border-dashed border-[#E2E8F0] rounded-2xl">
             <Tag className="w-10 h-10 mx-auto mb-3 text-[#c4a896]" />
-            <p className="font-display font-semibold text-[#2D3748]">No hay propiedades publicadas</p>
+            <p className="font-display font-semibold text-[#4F46E5]">No hay propiedades publicadas</p>
             <p className="text-sm text-[#64748B] mt-1">
               {unidades.length === 0
                 ? <>Crea unidades desde <Building2 className="inline w-3.5 h-3.5" /> Edificios.</>
@@ -145,13 +145,13 @@ function PropiedadesPage() {
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-[#F8FAFC] hover:bg-[#F8FAFC]">
-                      <TableHead className="text-[#2D3748] font-semibold">Unidad</TableHead>
-                      <TableHead className="text-[#2D3748] font-semibold">Edificio</TableHead>
-                      <TableHead className="text-[#2D3748] font-semibold">Tipo</TableHead>
-                      <TableHead className="text-[#2D3748] font-semibold">Características</TableHead>
-                      <TableHead className="text-[#2D3748] font-semibold">Estado</TableHead>
-                      <TableHead className="text-[#2D3748] font-semibold text-right">Venta</TableHead>
-                      <TableHead className="text-[#2D3748] font-semibold text-right">Renta/mes</TableHead>
+                      <TableHead className="text-[#4F46E5] font-semibold">Unidad</TableHead>
+                      <TableHead className="text-[#4F46E5] font-semibold">Edificio</TableHead>
+                      <TableHead className="text-[#4F46E5] font-semibold">Tipo</TableHead>
+                      <TableHead className="text-[#4F46E5] font-semibold">Características</TableHead>
+                      <TableHead className="text-[#4F46E5] font-semibold">Estado</TableHead>
+                      <TableHead className="text-[#4F46E5] font-semibold text-right">Venta</TableHead>
+                      <TableHead className="text-[#4F46E5] font-semibold text-right">Renta/mes</TableHead>
                       <TableHead className="text-right" />
                     </TableRow>
                   </TableHeader>
@@ -161,10 +161,10 @@ function PropiedadesPage() {
                       return (
                         <TableRow key={u.id}>
                           <TableCell>
-                            <div className="font-semibold text-[#2D3748]">#{u.numero}</div>
+                            <div className="font-semibold text-[#4F46E5]">#{u.numero}</div>
                             <div className="text-xs text-[#64748B]">{u.piso != null ? `Piso ${u.piso}` : "—"}</div>
                           </TableCell>
-                          <TableCell className="text-sm text-[#2D3748]">
+                          <TableCell className="text-sm text-[#4F46E5]">
                             {ed?.nombre ?? "—"}
                             <div className="text-xs text-[#64748B]">{ed?.ciudad ?? ""}</div>
                           </TableCell>
@@ -178,10 +178,10 @@ function PropiedadesPage() {
                             {u.area_m2_construccion && <div className="text-xs text-[#64748B] mt-0.5">{u.area_m2_construccion} m²</div>}
                           </TableCell>
                           <TableCell><EstadoComercialBadge value={u.estado_comercial} /></TableCell>
-                          <TableCell className="text-right text-sm font-semibold text-[#2D3748]">
+                          <TableCell className="text-right text-sm font-semibold text-[#4F46E5]">
                             {u.precio_venta ? fmtL(u.precio_venta) : <span className="text-[#64748B] font-normal">—</span>}
                           </TableCell>
-                          <TableCell className="text-right text-sm text-[#2D3748]">
+                          <TableCell className="text-right text-sm text-[#4F46E5]">
                             {u.precio_renta ? fmtL(u.precio_renta) : <span className="text-[#64748B]">—</span>}
                           </TableCell>
                           <TableCell className="text-right">
