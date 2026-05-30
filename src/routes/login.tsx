@@ -5,15 +5,20 @@ import { useAuth } from "@/lib/auth-context";
 import { Building } from "lucide-react";
 import toast from "react-hot-toast";
 
-export const Route = createFileRoute("/login")({ component: LoginPage });
+export const Route = createFileRoute("/login")({
+  validateSearch: (s: Record<string, unknown>) => ({ as: (s.as as string) === "residente" ? "residente" : undefined }),
+  component: LoginPage,
+});
 
 type SignupRole = "admin_condominio" | "residente" | "guardia";
 
 function LoginPage() {
   const { user, role, loading } = useAuth();
   const navigate = useNavigate();
+  const { as } = Route.useSearch();
+  const isResidenteFlow = as === "residente";
   const [mode, setMode] = useState<"login" | "signup">("login");
-  const [signupRole, setSignupRole] = useState<SignupRole>("admin_condominio");
+  const [signupRole, setSignupRole] = useState<SignupRole>(isResidenteFlow ? "residente" : "admin_condominio");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
