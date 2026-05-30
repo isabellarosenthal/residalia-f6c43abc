@@ -51,7 +51,7 @@ function NuevoPase() {
 
   return (
     <form onSubmit={submit} className="space-y-4 bg-white border border-[#E2E8F0] rounded-2xl p-5">
-      <h1 className="font-display font-extrabold text-xl text-[#2D3748]">Crear pase de acceso</h1>
+      <h1 className="font-display font-extrabold text-xl text-[#4F46E5]">Crear pase de acceso</h1>
       <div>
         <Label>Nombre del visitante *</Label>
         <Input value={visitante} onChange={(e) => setVisitante(e.target.value)} required maxLength={120} />
@@ -77,7 +77,7 @@ function NuevoPase() {
         <Label>Entradas permitidas</Label>
         <Input type="number" min={1} max={50} value={usos} onChange={(e) => setUsos(Math.max(1, Number(e.target.value) || 1))} />
       </div>
-      <Button type="submit" disabled={save.isPending || !visitante.trim()} className="w-full bg-[#2D3748] hover:bg-[#1F2937]">
+      <Button type="submit" disabled={save.isPending || !visitante.trim()} className="w-full bg-[#4F46E5] hover:bg-[#4338CA]">
         {save.isPending ? "Creando…" : "Crear pase"}
       </Button>
     </form>

@@ -53,7 +53,7 @@ export function GenerarCobrosDialog({
   return (
     <Dialog open={open} onOpenChange={(v) => { if (!v) { setStage("form"); setExcluded(new Set()); } onOpenChange(v); }}>
       <DialogContent className="sm:max-w-[640px] max-h-[85vh] overflow-y-auto">
-        <DialogHeader><DialogTitle className="font-display text-xl text-[#2D3748]">Generar cobros mensuales</DialogTitle></DialogHeader>
+        <DialogHeader><DialogTitle className="font-display text-xl text-[#4F46E5]">Generar cobros mensuales</DialogTitle></DialogHeader>
 
         {stage === "form" && (
           <div className="space-y-3">
@@ -71,7 +71,7 @@ export function GenerarCobrosDialog({
               <>
                 <div className="flex items-center justify-between text-sm">
                   <div className="text-[#64748B]">{selectedIds.length} de {selectable.length} unidades seleccionadas</div>
-                  <div className="font-display font-bold text-[#2D3748]">{fmtL(total)}</div>
+                  <div className="font-display font-bold text-[#4F46E5]">{fmtL(total)}</div>
                 </div>
                 <div className="border border-[#E2E8F0] rounded-xl divide-y divide-[#f0e7e1] max-h-[50vh] overflow-y-auto">
                   {rows.length === 0 && <div className="p-6 text-center text-[#64748B] text-sm">El edificio no tiene unidades.</div>}
@@ -83,11 +83,11 @@ export function GenerarCobrosDialog({
                         onCheckedChange={() => toggle(r.unidad_id)}
                       />
                       <div className="flex-1">
-                        <div className="text-sm font-medium text-[#2D3748]">Unidad #{r.unidad_numero}</div>
+                        <div className="text-sm font-medium text-[#4F46E5]">Unidad #{r.unidad_numero}</div>
                         {r.duplicado && <div className="text-xs text-[#be185d] mt-0.5">Ya tiene un cobro de este concepto para este periodo</div>}
                       </div>
                       {r.duplicado && <Badge variant="warning">Duplicado</Badge>}
-                      <div className="text-sm font-semibold text-[#2D3748] tabular-nums">{fmtL(r.monto)}</div>
+                      <div className="text-sm font-semibold text-[#4F46E5] tabular-nums">{fmtL(r.monto)}</div>
                     </label>
                   ))}
                 </div>
@@ -100,12 +100,12 @@ export function GenerarCobrosDialog({
           {stage === "form" ? (
             <>
               <Button variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-              <Button onClick={() => setStage("preview")} disabled={!edificioId || !concepto || !mes || !vencimiento} className="bg-[#2D3748] hover:bg-[#1F2937]">Previsualizar</Button>
+              <Button onClick={() => setStage("preview")} disabled={!edificioId || !concepto || !mes || !vencimiento} className="bg-[#4F46E5] hover:bg-[#4338CA]">Previsualizar</Button>
             </>
           ) : (
             <>
               <Button variant="ghost" onClick={() => setStage("form")}>Volver</Button>
-              <Button onClick={confirm} disabled={selectedIds.length === 0 || mut.isPending} className="bg-[#2D3748] hover:bg-[#1F2937]">
+              <Button onClick={confirm} disabled={selectedIds.length === 0 || mut.isPending} className="bg-[#4F46E5] hover:bg-[#4338CA]">
                 {mut.isPending ? "Generando…" : `Generar ${selectedIds.length} cobros`}
               </Button>
             </>

@@ -69,9 +69,9 @@ function ValidarPage() {
   return (
     <AppShell>
       <div className="max-w-[640px] mx-auto space-y-5">
-        <Link to="/accesos" className="inline-flex items-center text-sm text-[#64748B] hover:text-[#2D3748]"><ArrowLeft className="w-4 h-4 mr-1" />Volver a accesos</Link>
+        <Link to="/accesos" className="inline-flex items-center text-sm text-[#64748B] hover:text-[#4F46E5]"><ArrowLeft className="w-4 h-4 mr-1" />Volver a accesos</Link>
         <div>
-          <h1 className="font-display font-extrabold text-2xl text-[#2D3748] flex items-center gap-2"><ShieldCheck className="w-6 h-6 text-[#2D3748]" />Validar pase</h1>
+          <h1 className="font-display font-extrabold text-2xl text-[#4F46E5] flex items-center gap-2"><ShieldCheck className="w-6 h-6 text-[#4F46E5]" />Validar pase</h1>
           <p className="text-sm text-[#64748B]">Ingresa el código del visitante para autorizar entrada o salida.</p>
         </div>
 
@@ -86,7 +86,7 @@ function ValidarPage() {
             className="font-mono text-lg tracking-widest uppercase"
             autoFocus
           />
-          <Button type="submit" disabled={!codigo.trim() || validar.isPending} className="bg-[#2D3748] hover:bg-[#1F2937]">
+          <Button type="submit" disabled={!codigo.trim() || validar.isPending} className="bg-[#4F46E5] hover:bg-[#4338CA]">
             <Search className="w-4 h-4 mr-1" />Buscar
           </Button>
         </form>
@@ -102,7 +102,7 @@ function ValidarPage() {
             <div className="flex items-start justify-between gap-3">
               <div>
                 <div className="text-xs text-[#64748B]">Visitante</div>
-                <div className="font-display font-bold text-xl text-[#2D3748]">{acceso.visitante_nombre}</div>
+                <div className="font-display font-bold text-xl text-[#4F46E5]">{acceso.visitante_nombre}</div>
                 <div className="text-xs text-[#64748B] font-mono mt-1">{acceso.qr_code}</div>
               </div>
               <Badge variant={estado.tone}>{estado.label}</Badge>
@@ -143,7 +143,7 @@ function Info({ label, value }: { label: string; value: string }) {
   return (
     <div>
       <div className="text-xs text-[#64748B]">{label}</div>
-      <div className="text-[#2D3748] capitalize">{value}</div>
+      <div className="text-[#4F46E5] capitalize">{value}</div>
     </div>
   );
 }

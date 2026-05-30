@@ -37,10 +37,10 @@ function ResidentesPage() {
       <div className="space-y-5 max-w-[1400px] mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="font-display font-extrabold text-2xl text-[#2D3748]">Residentes</h1>
+            <h1 className="font-display font-extrabold text-2xl text-[#4F46E5]">Residentes</h1>
             <p className="text-sm text-[#64748B]">{residentes.length} registrados · gestiona propietarios e inquilinos</p>
           </div>
-          <Button onClick={() => { setEditing(null); setOpen(true); }} className="bg-[#2D3748] hover:bg-[#1F2937]">
+          <Button onClick={() => { setEditing(null); setOpen(true); }} className="bg-[#4F46E5] hover:bg-[#4338CA]">
             <Plus className="w-4 h-4 mr-1" /> Nuevo residente
           </Button>
         </div>
@@ -80,7 +80,7 @@ function ResidentesPage() {
             icon={<Users className="w-7 h-7" />}
             title="Aún no hay residentes"
             hint="Registra el primer propietario o inquilino de tus edificios."
-            action={<Button onClick={() => { setEditing(null); setOpen(true); }} className="bg-[#2D3748] hover:bg-[#1F2937]"><Plus className="w-4 h-4 mr-1" />Nuevo residente</Button>}
+            action={<Button onClick={() => { setEditing(null); setOpen(true); }} className="bg-[#4F46E5] hover:bg-[#4338CA]"><Plus className="w-4 h-4 mr-1" />Nuevo residente</Button>}
           />
         ) : (
           <ResidentesTable

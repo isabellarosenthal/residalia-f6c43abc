@@ -17,7 +17,7 @@ function startOfWeek(d: Date) {
 }
 
 const colorFor = (id: string) => {
-  const palette = ["#D97757", "#166534", "#7a3aa3", "#0d6f8a", "#a83a5a", "#8a5a00"];
+  const palette = ["#4F46E5", "#166534", "#7a3aa3", "#0d6f8a", "#a83a5a", "#8a5a00"];
   let h = 0;
   for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
   return palette[h % palette.length];
@@ -81,7 +81,7 @@ export function ReservasCalendar({ edificioId }: { edificioId: string }) {
           {days.map((d, i) => {
             const isToday = d.toDateString() === new Date().toDateString();
             return (
-              <div key={i} className={`text-center py-2 text-xs font-semibold ${isToday ? "text-[#2D3748]" : "text-[#2D3748]"}`}>
+              <div key={i} className={`text-center py-2 text-xs font-semibold ${isToday ? "text-[#4F46E5]" : "text-[#4F46E5]"}`}>
                 {DOW[i]}<br /><span className="text-base font-display">{d.getDate()}</span>
               </div>
             );

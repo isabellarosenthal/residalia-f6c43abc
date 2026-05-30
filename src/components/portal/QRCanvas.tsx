@@ -7,7 +7,7 @@ export function QRCanvas({ value, size = 240 }: { value: string; size?: number }
     if (!ref.current || !value) return;
     QRCode.toCanvas(ref.current, value, {
       width: size, margin: 1,
-      color: { dark: "#2D3748", light: "#ffffff" },
+      color: { dark: "#4F46E5", light: "#ffffff" },
       errorCorrectionLevel: "M",
     }).catch(() => {});
   }, [value, size]);
