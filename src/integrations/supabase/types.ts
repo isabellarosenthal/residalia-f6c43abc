@@ -1152,6 +1152,7 @@ export type Database = {
           fecha_inicio: string
           id: string
           plan_id: string
+          trial_ends_at: string | null
           updated_at: string
         }
         Insert: {
@@ -1162,6 +1163,7 @@ export type Database = {
           fecha_inicio?: string
           id?: string
           plan_id: string
+          trial_ends_at?: string | null
           updated_at?: string
         }
         Update: {
@@ -1172,6 +1174,7 @@ export type Database = {
           fecha_inicio?: string
           id?: string
           plan_id?: string
+          trial_ends_at?: string | null
           updated_at?: string
         }
         Relationships: [
