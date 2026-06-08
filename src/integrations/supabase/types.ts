@@ -811,6 +811,7 @@ export type Database = {
           full_name: string
           id: string
           phone: string | null
+          plan_seleccionado: string | null
           updated_at: string
           usd_rate: number
         }
@@ -821,6 +822,7 @@ export type Database = {
           full_name: string
           id: string
           phone?: string | null
+          plan_seleccionado?: string | null
           updated_at?: string
           usd_rate?: number
         }
@@ -831,6 +833,7 @@ export type Database = {
           full_name?: string
           id?: string
           phone?: string | null
+          plan_seleccionado?: string | null
           updated_at?: string
           usd_rate?: number
         }
@@ -1395,6 +1398,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_subscription_active: { Args: { _condo_id: string }; Returns: boolean }
       marcar_cobros_vencidos: { Args: { _condo_id?: string }; Returns: number }
       remove_user_from_condominio: {
         Args: { _condo_id: string; _user_id: string }
