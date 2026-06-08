@@ -15,20 +15,32 @@ export const getMyPlanUsage = createServerFn({ method: "GET" })
 
     if (condosError) throw new Error(condosError.message);
 
-    let planNombre = "Free";
+    let planNombre = "Lobby";
     let planPrecio = 0;
     let maxEdificios = 1;
     let maxUnidades = 60;
     let maxAdmins = 2;
+    let estado: string | null = null;
+    let trialEndsAt: string | null = null;
+    let diasRestantes: number | null = null;
+    let activa = true;
 
     if (condos && condos.length > 0) {
       const condoIds = condos.map((c: any) => c.id);
       const { data: subs } = await supabase
         .from("suscripciones")
-        .select("plan_id")
+        .select("plan_id, estado, trial_ends_at")
         .in("condominio_id", condoIds)
         .limit(1);
-      const planId = subs?.[0]?.plan_id;
+      const sub = subs?.[0];
+      const planId = sub?.plan_id;
+      estado = (sub?.estado as string) ?? null;
+      trialEndsAt = (sub?.trial_ends_at as string) ?? null;
+      if (trialEndsAt) {
+        const ms = new Date(trialEndsAt).getTime() - Date.now();
+        diasRestantes = Math.max(0, Math.ceil(ms / 86400000));
+      }
+      activa = estado === "activa" || (estado === "trial" && (!trialEndsAt || (diasRestantes ?? 0) > 0));
       if (planId) {
         const { data: plan } = await supabase
           .from("planes")
@@ -36,7 +48,29 @@ export const getMyPlanUsage = createServerFn({ method: "GET" })
           .eq("id", planId)
           .maybeSingle();
         if (plan) {
-          planNombre = plan.nombre ?? "Free";
+          planNombre = plan.nombre ?? "Lobby";
+          planPrecio = Number(plan.precio_mensual ?? 0);
+          maxEdificios = plan.max_edificios ?? UNLIMITED;
+          maxUnidades = plan.max_unidades ?? UNLIMITED;
+          maxAdmins = plan.max_admins ?? UNLIMITED;
+        }
+      }
+    } else {
+      // No condos yet: read plan from profile
+      const { data: prof } = await supabase
+        .from("profiles")
+        .select("plan_seleccionado")
+        .eq("id", userId)
+        .maybeSingle();
+      const planNom = prof?.plan_seleccionado;
+      if (planNom) {
+        const { data: plan } = await supabase
+          .from("planes")
+          .select("nombre, precio_mensual, max_edificios, max_unidades, max_admins")
+          .ilike("nombre", planNom)
+          .maybeSingle();
+        if (plan) {
+          planNombre = plan.nombre ?? planNom;
           planPrecio = Number(plan.precio_mensual ?? 0);
           maxEdificios = plan.max_edificios ?? UNLIMITED;
           maxUnidades = plan.max_unidades ?? UNLIMITED;
@@ -48,7 +82,6 @@ export const getMyPlanUsage = createServerFn({ method: "GET" })
     const edificiosUsed = condos?.length ?? 0;
     const condoIds = (condos ?? []).map((c: any) => c.id);
 
-    // Distinct admins across all condominios of this account (plan-level)
     let adminsUsed = 0;
     if (condoIds.length > 0) {
       const { data: members } = await supabase
@@ -77,5 +110,9 @@ export const getMyPlanUsage = createServerFn({ method: "GET" })
       admins: { used: adminsUsed, max: maxAdmins },
       porEdificio,
       unlimited: UNLIMITED,
+      estado,
+      trialEndsAt,
+      diasRestantes,
+      activa,
     };
   });
