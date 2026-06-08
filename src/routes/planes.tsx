@@ -47,8 +47,12 @@ function PlanesPage() {
     `mailto:ventas@altura.cloud?subject=${encodeURIComponent(`Quiero contratar el plan ${plan}`)}&body=${encodeURIComponent(`Hola, me interesa contratar el plan ${plan} de Altura Cloud.`)}`;
 
   return (
-    <AppShell title="Planes" subtitle="Elige el plan que mejor se ajusta a tu operación">
-      <div className="max-w-6xl mx-auto space-y-6">
+    <AppShell>
+      <div className="max-w-6xl mx-auto space-y-6 p-6">
+        <div>
+          <h1 className="text-2xl font-bold text-[#0a1e3e]">Planes</h1>
+          <p className="text-sm text-[#64748B]">Elige el plan que mejor se ajusta a tu operación.</p>
+        </div>
         <Link to="/dashboard" className="inline-flex items-center gap-1 text-sm text-[#4F46E5] hover:underline">
           <ArrowLeft className="w-4 h-4" /> Volver
         </Link>
