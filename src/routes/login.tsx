@@ -29,6 +29,7 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [invitationCode, setInvitationCode] = useState("");
+  const [planNombre, setPlanNombre] = useState<"Lobby" | "Torre" | "Penthouse">("Lobby");
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
@@ -67,6 +68,7 @@ function LoginPage() {
           return;
         }
         const meta: Record<string, any> = { full_name: name, role: signupRole };
+        if (signupRole === "admin_condominio") meta.plan_nombre = planNombre;
         const { error } = await supabase.auth.signUp({
           email, password,
           options: { emailRedirectTo: window.location.origin, data: meta },
@@ -127,6 +129,33 @@ function LoginPage() {
                 <input value={name} onChange={(e) => setName(e.target.value)} required
                   className="w-full border border-[#EBC988] rounded-xl px-4 py-2.5 text-[#4F46E5] outline-none focus:border-[#4F46E5] focus:ring-2 focus:ring-[#4F46E5]/20" />
               </div>
+              {signupRole === "admin_condominio" && (
+                <div>
+                  <label className="block text-sm font-medium text-[#4F46E5] mb-1.5">Elige tu plan</label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {([
+                      { n: "Lobby", p: "$990" },
+                      { n: "Torre", p: "$2,490" },
+                      { n: "Penthouse", p: "$4,990" },
+                    ] as const).map((opt) => (
+                      <button
+                        key={opt.n}
+                        type="button"
+                        onClick={() => setPlanNombre(opt.n)}
+                        className={`text-xs font-semibold px-2 py-2.5 rounded-xl border transition ${
+                          planNombre === opt.n
+                            ? "border-[#4F46E5] bg-[#4F46E5] text-white"
+                            : "border-[#E2E8F0] text-[#0a1e3e] hover:border-[#4F46E5]"
+                        }`}
+                      >
+                        <div>{opt.n}</div>
+                        <div className={`text-[10px] font-normal mt-0.5 ${planNombre === opt.n ? "text-white/80" : "text-[#64748B]"}`}>{opt.p}/mes</div>
+                      </button>
+                    ))}
+                  </div>
+                  <p className="text-[11px] text-[#64748B] mt-1.5">14 días de prueba gratis incluidos en todos los planes.</p>
+                </div>
+              )}
             </>
           )}
           <div>
