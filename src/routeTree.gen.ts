@@ -14,6 +14,7 @@ import { Route as ReportesRouteImport } from './routes/reportes'
 import { Route as ProspectosRouteImport } from './routes/prospectos'
 import { Route as PropiedadesRouteImport } from './routes/propiedades'
 import { Route as PortalRouteImport } from './routes/portal'
+import { Route as PlanesRouteImport } from './routes/planes'
 import { Route as PipelineRouteImport } from './routes/pipeline'
 import { Route as MantenimientoRouteImport } from './routes/mantenimiento'
 import { Route as LoginRouteImport } from './routes/login'
@@ -65,6 +66,11 @@ const PropiedadesRoute = PropiedadesRouteImport.update({
 const PortalRoute = PortalRouteImport.update({
   id: '/portal',
   path: '/portal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlanesRoute = PlanesRouteImport.update({
+  id: '/planes',
+  path: '/planes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PipelineRoute = PipelineRouteImport.update({
@@ -218,6 +224,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/mantenimiento': typeof MantenimientoRoute
   '/pipeline': typeof PipelineRoute
+  '/planes': typeof PlanesRoute
   '/portal': typeof PortalRouteWithChildren
   '/propiedades': typeof PropiedadesRoute
   '/prospectos': typeof ProspectosRoute
@@ -249,6 +256,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/mantenimiento': typeof MantenimientoRoute
   '/pipeline': typeof PipelineRoute
+  '/planes': typeof PlanesRoute
   '/propiedades': typeof PropiedadesRoute
   '/prospectos': typeof ProspectosRoute
   '/reportes': typeof ReportesRoute
@@ -283,6 +291,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/mantenimiento': typeof MantenimientoRoute
   '/pipeline': typeof PipelineRoute
+  '/planes': typeof PlanesRoute
   '/portal': typeof PortalRouteWithChildren
   '/propiedades': typeof PropiedadesRoute
   '/prospectos': typeof ProspectosRoute
@@ -319,6 +328,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/mantenimiento'
     | '/pipeline'
+    | '/planes'
     | '/portal'
     | '/propiedades'
     | '/prospectos'
@@ -350,6 +360,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/mantenimiento'
     | '/pipeline'
+    | '/planes'
     | '/propiedades'
     | '/prospectos'
     | '/reportes'
@@ -383,6 +394,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/mantenimiento'
     | '/pipeline'
+    | '/planes'
     | '/portal'
     | '/propiedades'
     | '/prospectos'
@@ -418,6 +430,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   MantenimientoRoute: typeof MantenimientoRoute
   PipelineRoute: typeof PipelineRoute
+  PlanesRoute: typeof PlanesRoute
   PortalRoute: typeof PortalRouteWithChildren
   PropiedadesRoute: typeof PropiedadesRoute
   ProspectosRoute: typeof ProspectosRoute
@@ -461,6 +474,13 @@ declare module '@tanstack/react-router' {
       path: '/portal'
       fullPath: '/portal'
       preLoaderRoute: typeof PortalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/planes': {
+      id: '/planes'
+      path: '/planes'
+      fullPath: '/planes'
+      preLoaderRoute: typeof PlanesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pipeline': {
@@ -731,6 +751,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   MantenimientoRoute: MantenimientoRoute,
   PipelineRoute: PipelineRoute,
+  PlanesRoute: PlanesRoute,
   PortalRoute: PortalRouteWithChildren,
   PropiedadesRoute: PropiedadesRoute,
   ProspectosRoute: ProspectosRoute,

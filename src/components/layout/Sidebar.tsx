@@ -5,7 +5,7 @@ import logoUrl from "@/assets/altura-cloud-logo.png";
 import {
   LayoutDashboard, Building2, Users, Wallet, KeyRound, CalendarRange,
   Megaphone, Wrench, Tag, UserPlus, Kanban, CalendarDays,
-  BarChart3, Settings, LogOut, Shield,
+  BarChart3, Settings, LogOut, Shield, Crown,
 } from "lucide-react";
 
 
@@ -36,6 +36,7 @@ const sections = [
     label: "General",
     items: [
       { to: "/reportes", icon: BarChart3, label: "Reportes" },
+      { to: "/planes", icon: Crown, label: "Planes y suscripción" },
       { to: "/configuracion", icon: Settings, label: "Configuración" },
     ],
   },
