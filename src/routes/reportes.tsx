@@ -17,7 +17,7 @@ import {
 
 export const Route = createFileRoute("/reportes")({ component: ReportesPage });
 
-const COLORS = ["#4F46E5", "#e8a87c", "#9b72cf", "#2d8a9e", "#166534", "#be185d", "#3b82f6", "#ec4899"];
+const COLORS = ["#4A154B", "#e8a87c", "#9b72cf", "#2d8a9e", "#166534", "#be185d", "#3b82f6", "#ec4899"];
 const fmtL = (n: number) => `L ${n.toLocaleString("es-HN", { maximumFractionDigits: 0 })}`;
 
 function toCSV(rows: Record<string, any>[]) {

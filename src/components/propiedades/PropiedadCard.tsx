@@ -17,7 +17,7 @@ export function PropiedadCard({
   const muestraRenta = unidad.estado_comercial === "en_renta" || unidad.estado_comercial === "en_venta_y_renta";
 
   return (
-    <div className="group bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden hover:shadow-lg hover:border-[#4F46E5]/40 transition-all">
+    <div className="group bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden hover:shadow-lg hover:border-[#4A154B]/40 transition-all">
       <div className="relative aspect-[4/3] bg-gradient-to-br from-[#F8FAFC] to-[#E2E8F0] overflow-hidden">
         {cover ? (
           <img src={cover} alt={`Unidad ${unidad.numero}`} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -28,13 +28,13 @@ export function PropiedadCard({
         )}
         <div className="absolute top-3 left-3"><EstadoComercialBadge value={unidad.estado_comercial} /></div>
         {unidad.precio_negociable && (
-          <div className="absolute top-3 right-3 bg-white/95 backdrop-blur text-[10px] font-semibold px-2 py-1 rounded-full text-[#4F46E5]">
+          <div className="absolute top-3 right-3 bg-white/95 backdrop-blur text-[10px] font-semibold px-2 py-1 rounded-full text-[#4A154B]">
             Negociable
           </div>
         )}
         <button
           onClick={() => onEdit(unidad)}
-          className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition bg-white/95 backdrop-blur p-2 rounded-full text-[#4F46E5] hover:bg-[#4F46E5] hover:text-white"
+          className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition bg-white/95 backdrop-blur p-2 rounded-full text-[#4A154B] hover:bg-[#4A154B] hover:text-white"
           aria-label="Editar"
         >
           <Edit className="w-4 h-4" />

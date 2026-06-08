@@ -55,57 +55,57 @@
 }
 
 :root {
-  /* Altura Cloud Brand Kit v1.0 — Indigo */
-  --primary: #4F46E5;
+  /* Altura Cloud Brand Kit v2.0 — Slack Aubergine */
+  --primary: #4A154B;
   --primary-foreground: #ffffff;
-  --primary-dark: #4338CA;
-  --primary-light: #7AA2FF;
-  --primary-glow: #8B5CF6;
+  --primary-dark: #350d36;
+  --primary-light: #7C3085;
+  --primary-glow: #611f69;
 
-  --text-dark: #0F172A;
-  --text-body: #0F172A;
-  --text-muted: #475569;
+  --text-dark: #1D1C1D;
+  --text-body: #1D1C1D;
+  --text-muted: #616061;
 
   --background: #FFFFFF;
-  --bg-subtle: #F1F5F9;
+  --bg-subtle: #F8F8F8;
 
   --card: #FFFFFF;
-  --card-foreground: #0F172A;
+  --card-foreground: #1D1C1D;
   --popover: #FFFFFF;
-  --popover-foreground: #0F172A;
-  --foreground: #0F172A;
+  --popover-foreground: #1D1C1D;
+  --foreground: #1D1C1D;
 
-  --secondary: #F1F5F9;
-  --secondary-foreground: #4338CA;
-  --muted: #F1F5F9;
-  --muted-foreground: #475569;
-  --accent: #E9E2FF;
-  --accent-foreground: #4338CA;
+  --secondary: #F4EDE4;
+  --secondary-foreground: #4A154B;
+  --muted: #F8F8F8;
+  --muted-foreground: #616061;
+  --accent: #F3E7F3;
+  --accent-foreground: #4A154B;
 
-  --success: #16A34A;
-  --success-light: #DCFCE7;
-  --danger: #EF4444;
-  --danger-light: #FEE2E2;
-  --warning: #F59E0B;
-  --warning-light: #FEF3C7;
-  --destructive: #EF4444;
+  --success: #2BAC76;
+  --success-light: #DCF5E7;
+  --danger: #E01E5A;
+  --danger-light: #FCE3EC;
+  --warning: #ECB22E;
+  --warning-light: #FFF4D4;
+  --destructive: #E01E5A;
   --destructive-foreground: #ffffff;
 
-  --border: #E2E8F0;
-  --border-strong: #CBD5E1;
-  --input: #E2E8F0;
-  --ring: #4F46E5;
+  --border: #E8E8E8;
+  --border-strong: #CFCFCF;
+  --input: #E8E8E8;
+  --ring: #4A154B;
 
-  --sidebar: #4338CA;
+  --sidebar: #350d36;
   --sidebar-foreground: #FFFFFF;
-  --sidebar-accent: #7AA2FF;
+  --sidebar-accent: #7C3085;
 
-  --gradient-sunny: linear-gradient(135deg, #7AA2FF 0%, #4F46E5 50%, #4338CA 100%);
-  --gradient-deep-sky: linear-gradient(135deg, #4338CA 0%, #4F46E5 50%, #8B5CF6 100%);
-  --gradient-aurora: linear-gradient(135deg, #E9E2FF 0%, #FFFFFF 50%, #F1F5F9 100%);
-  --shadow-warm: 0 20px 60px -20px color-mix(in oklab, #4F46E5 45%, transparent);
-  --shadow-deep: 0 20px 60px -20px color-mix(in oklab, #4338CA 30%, transparent);
-  --shadow-glow: 0 0 40px color-mix(in oklab, #4F46E5 40%, transparent);
+  --gradient-sunny: linear-gradient(135deg, #7C3085 0%, #4A154B 50%, #350d36 100%);
+  --gradient-deep-sky: linear-gradient(135deg, #350d36 0%, #4A154B 50%, #611f69 100%);
+  --gradient-aurora: linear-gradient(135deg, #F3E7F3 0%, #FFFFFF 50%, #F4EDE4 100%);
+  --shadow-warm: 0 20px 60px -20px color-mix(in oklab, #4A154B 45%, transparent);
+  --shadow-deep: 0 20px 60px -20px color-mix(in oklab, #350d36 35%, transparent);
+  --shadow-glow: 0 0 40px color-mix(in oklab, #611f69 40%, transparent);
 
   /* legacy aliases */
   --gradient-ethereal: var(--gradient-sunny);

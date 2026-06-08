@@ -50,7 +50,7 @@ function ProspectosPage() {
                 {edificios.map((e) => <SelectItem key={e.id} value={e.id}>{e.nombre}</SelectItem>)}
               </SelectContent>
             </Select>
-            <Button onClick={() => openForm(null)} disabled={loading} className="bg-[#4F46E5] hover:bg-[#4338CA]">
+            <Button onClick={() => openForm(null)} disabled={loading} className="bg-[#4A154B] hover:bg-[#350d36]">
               <Plus className="w-4 h-4 mr-1" />{loading ? "Cargando…" : "Nuevo prospecto"}
             </Button>
           </div>

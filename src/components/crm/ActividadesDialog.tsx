@@ -66,13 +66,13 @@ export function ActividadesDialog({ open, onOpenChange, prospecto }: { open: boo
             <Label className="text-xs">Próximo paso</Label>
             <Input value={proximoPaso} onChange={(e) => setProximoPaso(e.target.value)} placeholder="Enviar cotización el lunes…" />
           </div>
-          <Button onClick={handleAdd} disabled={!descripcion.trim() || save.isPending} className="bg-[#4F46E5] hover:bg-[#4338CA]">
+          <Button onClick={handleAdd} disabled={!descripcion.trim() || save.isPending} className="bg-[#4A154B] hover:bg-[#350d36]">
             {save.isPending ? "Guardando…" : "Registrar actividad"}
           </Button>
         </div>
 
         <div className="space-y-2 mt-2">
-          <h4 className="text-sm font-semibold text-[#4F46E5]">Historial</h4>
+          <h4 className="text-sm font-semibold text-[#4A154B]">Historial</h4>
           {isLoading ? <p className="text-sm text-[#64748B]">Cargando…</p> :
            actividades.length === 0 ? <p className="text-sm text-[#64748B]">Sin actividades aún.</p> :
            actividades.map((a) => {
@@ -81,17 +81,17 @@ export function ActividadesDialog({ open, onOpenChange, prospecto }: { open: boo
              return (
                <div key={a.id} className="border border-[#f0e5dc] rounded-lg p-3 flex gap-3">
                  <div className="w-8 h-8 rounded-full bg-[#fff1e7] flex items-center justify-center shrink-0">
-                   <Icon className="w-4 h-4 text-[#4F46E5]" />
+                   <Icon className="w-4 h-4 text-[#4A154B]" />
                  </div>
                  <div className="flex-1 min-w-0">
                    <div className="flex items-center gap-2 text-xs text-[#64748B]">
-                     <span className="font-medium text-[#4F46E5]">{T?.[1] ?? a.tipo}</span>
+                     <span className="font-medium text-[#4A154B]">{T?.[1] ?? a.tipo}</span>
                      <Clock className="w-3 h-3" />
                      <span>{new Date(a.fecha_actividad).toLocaleString()}</span>
-                     {a.resultado && <span className="px-1.5 py-0.5 rounded bg-[#fff1e7] text-[#4F46E5]">{a.resultado}</span>}
+                     {a.resultado && <span className="px-1.5 py-0.5 rounded bg-[#fff1e7] text-[#4A154B]">{a.resultado}</span>}
                    </div>
-                   <p className="text-sm text-[#4F46E5] mt-1 whitespace-pre-wrap">{a.descripcion}</p>
-                   {a.proximo_paso && <p className="text-xs text-[#4F46E5] mt-1">→ {a.proximo_paso}</p>}
+                   <p className="text-sm text-[#4A154B] mt-1 whitespace-pre-wrap">{a.descripcion}</p>
+                   {a.proximo_paso && <p className="text-xs text-[#4A154B] mt-1">→ {a.proximo_paso}</p>}
                  </div>
                  <button onClick={() => del.mutate({ id: a.id, prospectoId: prospecto!.id })} className="text-[#64748B] hover:text-red-600">
                    <Trash2 className="w-4 h-4" />

@@ -46,13 +46,13 @@ export function ReservasTable({ edificioId, onEdit }: { edificioId: string; onEd
         <Table>
           <TableHeader>
             <TableRow className="bg-[#F8FAFC] hover:bg-[#F8FAFC]">
-              <TableHead className="text-[#4F46E5] font-semibold">Área</TableHead>
-              <TableHead className="text-[#4F46E5] font-semibold">Unidad · Residente</TableHead>
-              <TableHead className="text-[#4F46E5] font-semibold">Inicio</TableHead>
-              <TableHead className="text-[#4F46E5] font-semibold">Fin</TableHead>
-              <TableHead className="text-[#4F46E5] font-semibold">Personas</TableHead>
-              <TableHead className="text-[#4F46E5] font-semibold">Estado</TableHead>
-              <TableHead className="text-[#4F46E5] font-semibold text-right">Acciones</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold">Área</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold">Unidad · Residente</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold">Inicio</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold">Fin</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold">Personas</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold">Estado</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold text-right">Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -60,9 +60,9 @@ export function ReservasTable({ edificioId, onEdit }: { edificioId: string; onEd
             {!isLoading && filtered.length === 0 && <TableRow><TableCell colSpan={7} className="py-10 text-center text-[#64748B]">Sin reservas.</TableCell></TableRow>}
             {filtered.map((r) => (
               <TableRow key={r.id}>
-                <TableCell className="font-medium text-[#4F46E5]">{areaMap.get(r.area_id) ?? "—"}</TableCell>
+                <TableCell className="font-medium text-[#4A154B]">{areaMap.get(r.area_id) ?? "—"}</TableCell>
                 <TableCell className="text-sm">
-                  <div className="text-[#4F46E5]">{r.unidad_id ? `#${uniMap.get(r.unidad_id) ?? "—"}` : "—"}</div>
+                  <div className="text-[#4A154B]">{r.unidad_id ? `#${uniMap.get(r.unidad_id) ?? "—"}` : "—"}</div>
                   <div className="text-xs text-[#64748B]">{r.residente_id ? resMap.get(r.residente_id) ?? "—" : "—"}</div>
                 </TableCell>
                 <TableCell className="text-sm">{fmtDT(r.fecha_inicio)}</TableCell>

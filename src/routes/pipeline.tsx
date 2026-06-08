@@ -93,10 +93,10 @@ function PipelinePage() {
                   >
                     <div className="p-3 flex items-center justify-between">
                       <div>
-                        <h3 className="font-semibold text-[#4F46E5] text-sm">{etapaLabel(etapa)}</h3>
+                        <h3 className="font-semibold text-[#4A154B] text-sm">{etapaLabel(etapa)}</h3>
                         <span className="text-xs text-[#64748B]">{items.length}</span>
                       </div>
-                      <button onClick={() => openNew(etapa)} className="p-1 rounded hover:bg-[#F8FAFC] text-[#4F46E5]">
+                      <button onClick={() => openNew(etapa)} className="p-1 rounded hover:bg-[#F8FAFC] text-[#4A154B]">
                         <Plus className="w-4 h-4" />
                       </button>
                     </div>
@@ -108,17 +108,17 @@ function PipelinePage() {
                           onDragStart={() => setDragId(p.id)}
                           onDragEnd={() => setDragId(null)}
                           onClick={() => openEdit(p)}
-                          className={`bg-white rounded-lg border border-[#f0e5dc] p-3 cursor-grab hover:border-[#4F46E5] hover:shadow-sm transition ${dragId === p.id ? "opacity-50" : ""}`}
+                          className={`bg-white rounded-lg border border-[#f0e5dc] p-3 cursor-grab hover:border-[#4A154B] hover:shadow-sm transition ${dragId === p.id ? "opacity-50" : ""}`}
                         >
                           <div className="flex items-start justify-between gap-2">
                             <div className="min-w-0 flex-1">
-                              <p className="font-medium text-sm text-[#4F46E5] truncate">{p.nombre} {p.apellido ?? ""}</p>
+                              <p className="font-medium text-sm text-[#4A154B] truncate">{p.nombre} {p.apellido ?? ""}</p>
                               <p className="text-xs text-[#64748B] capitalize">{p.tipo}{p.origen ? ` · ${p.origen}` : ""}</p>
                             </div>
                             <span className={`w-2.5 h-2.5 rounded-full shrink-0 mt-1 ${TEMP_DOT[p.temperatura]}`} title={p.temperatura} />
                           </div>
                           {(p.presupuesto_min || p.presupuesto_max) && (
-                            <p className="text-xs text-[#4F46E5] mt-1 font-medium">
+                            <p className="text-xs text-[#4A154B] mt-1 font-medium">
                               L {Number(p.presupuesto_min ?? 0).toLocaleString()} - {Number(p.presupuesto_max ?? 0).toLocaleString()}
                             </p>
                           )}

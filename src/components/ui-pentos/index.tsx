@@ -8,10 +8,10 @@ export function KpiCard({
   icon, label, value, sub, accent = "primary",
 }: { icon: ReactNode; label: string; value: ReactNode; sub?: ReactNode; accent?: "primary" | "danger" | "success" | "neutral" }) {
   const accentMap = {
-    primary: "text-[#4F46E5]",
+    primary: "text-[#4A154B]",
     danger: "text-[#be185d]",
     success: "text-[#166534]",
-    neutral: "text-[#4F46E5]",
+    neutral: "text-[#4A154B]",
   } as const;
   return (
     <Card className="p-5">
@@ -29,11 +29,11 @@ export function Badge({ children, variant = "neutral" }: { children: ReactNode; 
   const map = {
     success: "bg-[#dcfce7] text-[#166534]",
     danger: "bg-[#fce7f3] text-[#be185d]",
-    warning: "bg-[#F1F5F9] text-[#4F46E5]",
+    warning: "bg-[#F1F5F9] text-[#4A154B]",
     neutral: "bg-[#ede8e5] text-[#64748B]",
-    venta: "bg-[#4F46E5] text-white",
-    renta: "bg-[#4F46E5] text-[#F8FAFC]",
-    reservada: "bg-[#F8FAFC] text-[#1E293B] border border-[#EBC988]",
+    venta: "bg-[#4A154B] text-white",
+    renta: "bg-[#4A154B] text-[#F8FAFC]",
+    reservada: "bg-[#F8FAFC] text-[#1E293B] border border-[#E8E8E8]",
   } as const;
   return <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${map[variant]}`}>{children}</span>;
 }
@@ -41,7 +41,7 @@ export function Badge({ children, variant = "neutral" }: { children: ReactNode; 
 export function EmptyState({ icon, title, hint, action }: { icon: ReactNode; title: string; hint?: string; action?: ReactNode }) {
   return (
     <Card className="p-10 text-center">
-      <div className="w-14 h-14 rounded-2xl bg-[#F1F5F9] text-[#4F46E5] flex items-center justify-center mx-auto mb-4">{icon}</div>
+      <div className="w-14 h-14 rounded-2xl bg-[#F1F5F9] text-[#4A154B] flex items-center justify-center mx-auto mb-4">{icon}</div>
       <div className="font-display font-bold text-lg text-[#0F172A]">{title}</div>
       {hint && <div className="text-sm text-[#64748B] mt-1">{hint}</div>}
       {action && <div className="mt-5">{action}</div>}

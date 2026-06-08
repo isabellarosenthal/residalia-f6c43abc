@@ -84,7 +84,7 @@ export function CobrosTable({ edificioId, onEdit }: { edificioId: string; onEdit
         </Select>
         <Input type="date" value={desde} onChange={(e) => setDesde(e.target.value)} className="w-[150px]" title="Vence desde" />
         <Input type="date" value={hasta} onChange={(e) => setHasta(e.target.value)} className="w-[150px]" title="Vence hasta" />
-        <label className="flex items-center gap-2 text-sm text-[#4F46E5] cursor-pointer select-none px-2">
+        <label className="flex items-center gap-2 text-sm text-[#4A154B] cursor-pointer select-none px-2">
           <Switch checked={soloMorosos} onCheckedChange={setSoloMorosos} />
           Solo morosos
         </label>
@@ -97,14 +97,14 @@ export function CobrosTable({ edificioId, onEdit }: { edificioId: string; onEdit
         <Table>
           <TableHeader>
             <TableRow className="bg-[#F8FAFC] hover:bg-[#F8FAFC]">
-              <TableHead className="text-[#4F46E5] font-semibold">Concepto</TableHead>
-              <TableHead className="text-[#4F46E5] font-semibold">Unidad · Residente</TableHead>
-              <TableHead className="text-[#4F46E5] font-semibold text-right">Monto</TableHead>
-              <TableHead className="text-[#4F46E5] font-semibold text-right">Abonado</TableHead>
-              <TableHead className="text-[#4F46E5] font-semibold text-right">Saldo</TableHead>
-              <TableHead className="text-[#4F46E5] font-semibold">Vence</TableHead>
-              <TableHead className="text-[#4F46E5] font-semibold">Estado</TableHead>
-              <TableHead className="text-[#4F46E5] font-semibold text-right">Acciones</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold">Concepto</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold">Unidad · Residente</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold text-right">Monto</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold text-right">Abonado</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold text-right">Saldo</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold">Vence</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold">Estado</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold text-right">Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -115,20 +115,20 @@ export function CobrosTable({ edificioId, onEdit }: { edificioId: string; onEdit
               const saldo = Math.max(0, Number(c.monto) - abonado);
               return (
                 <TableRow key={c.id}>
-                  <TableCell><div className="font-medium text-[#4F46E5]">{c.concepto}</div>{c.recibo_numero && <div className="text-xs text-[#64748B]">{c.recibo_numero}</div>}</TableCell>
+                  <TableCell><div className="font-medium text-[#4A154B]">{c.concepto}</div>{c.recibo_numero && <div className="text-xs text-[#64748B]">{c.recibo_numero}</div>}</TableCell>
                   <TableCell className="text-sm">
-                    <div className="text-[#4F46E5]">{c.unidad_id ? `#${uniMap.get(c.unidad_id) ?? "—"}` : "—"}</div>
+                    <div className="text-[#4A154B]">{c.unidad_id ? `#${uniMap.get(c.unidad_id) ?? "—"}` : "—"}</div>
                     <div className="text-xs text-[#64748B]">{c.residente_id ? resMap.get(c.residente_id) ?? "—" : "—"}</div>
                   </TableCell>
-                  <TableCell className="text-right font-semibold text-[#4F46E5]">{fmtL(c.monto)}</TableCell>
+                  <TableCell className="text-right font-semibold text-[#4A154B]">{fmtL(c.monto)}</TableCell>
                   <TableCell className="text-right text-sm text-[#166534]">{abonado > 0 ? fmtL(abonado) : "—"}</TableCell>
-                  <TableCell className="text-right font-semibold text-[#4F46E5]">{saldo > 0 ? fmtL(saldo) : "—"}</TableCell>
+                  <TableCell className="text-right font-semibold text-[#4A154B]">{saldo > 0 ? fmtL(saldo) : "—"}</TableCell>
                   <TableCell className="text-sm">{fmtDate(c.fecha_vencimiento)}</TableCell>
                   <TableCell>{estadoBadge(c)}</TableCell>
                   <TableCell className="text-right">
                     {c.estado === "pagado" && (
                       <Link to="/recibo/$cobroId" params={{ cobroId: c.id }} target="_blank">
-                        <Button size="sm" variant="ghost" title="Imprimir recibo" className="h-8 w-8 p-0 text-[#4F46E5]"><Printer className="w-4 h-4" /></Button>
+                        <Button size="sm" variant="ghost" title="Imprimir recibo" className="h-8 w-8 p-0 text-[#4A154B]"><Printer className="w-4 h-4" /></Button>
                       </Link>
                     )}
                     <Button size="sm" variant="ghost" title={saldo > 0 ? "Registrar pago" : "Ver pagos"} onClick={() => setPagoCobro(c)} className="h-8 w-8 p-0 text-[#166534]"><DollarSign className="w-4 h-4" /></Button>

@@ -50,10 +50,10 @@ function PlanesPage() {
     <AppShell>
       <div className="max-w-6xl mx-auto space-y-6 p-6">
         <div>
-          <h1 className="text-2xl font-bold text-[#0a1e3e]">Planes</h1>
+          <h1 className="text-2xl font-bold text-[#1D1C1D]">Planes</h1>
           <p className="text-sm text-[#64748B]">Elige el plan que mejor se ajusta a tu operación.</p>
         </div>
-        <Link to="/dashboard" className="inline-flex items-center gap-1 text-sm text-[#4F46E5] hover:underline">
+        <Link to="/dashboard" className="inline-flex items-center gap-1 text-sm text-[#4A154B] hover:underline">
           <ArrowLeft className="w-4 h-4" /> Volver
         </Link>
 
@@ -77,9 +77,9 @@ function PlanesPage() {
           {PLANES.map((p) => {
             const esActual = actual?.toLowerCase() === p.nombre.toLowerCase();
             return (
-              <Card key={p.nombre} className={`p-6 relative ${p.popular ? "border-2 border-[#4F46E5]" : "border-[#E2E8F0]"} ${esActual ? "ring-2 ring-[#10B981]" : ""}`}>
+              <Card key={p.nombre} className={`p-6 relative ${p.popular ? "border-2 border-[#4A154B]" : "border-[#E2E8F0]"} ${esActual ? "ring-2 ring-[#10B981]" : ""}`}>
                 {p.popular && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#4F46E5] text-white text-[10px] uppercase tracking-wider font-bold px-3 py-1 rounded-full">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#4A154B] text-white text-[10px] uppercase tracking-wider font-bold px-3 py-1 rounded-full">
                     Más popular
                   </div>
                 )}
@@ -89,11 +89,11 @@ function PlanesPage() {
                   </div>
                 )}
                 <div className="flex items-center gap-2 mb-2">
-                  <Crown className="w-5 h-5 text-[#4F46E5]" />
-                  <h3 className="text-xl font-bold text-[#0a1e3e]">{p.nombre}</h3>
+                  <Crown className="w-5 h-5 text-[#4A154B]" />
+                  <h3 className="text-xl font-bold text-[#1D1C1D]">{p.nombre}</h3>
                 </div>
                 <div className="mb-4">
-                  <span className="text-3xl font-extrabold text-[#0a1e3e]">${p.precio.toLocaleString()}</span>
+                  <span className="text-3xl font-extrabold text-[#1D1C1D]">${p.precio.toLocaleString()}</span>
                   <span className="text-sm text-[#64748B]"> /mes</span>
                 </div>
                 <ul className="space-y-2 mb-6">
@@ -108,8 +108,8 @@ function PlanesPage() {
                   href={contactarHref(p.nombre)}
                   className={`block text-center font-semibold py-2.5 rounded-full transition ${
                     p.popular
-                      ? "bg-[#4F46E5] text-white hover:bg-[#4338CA]"
-                      : "border border-[#4F46E5] text-[#4F46E5] hover:bg-[#4F46E5] hover:text-white"
+                      ? "bg-[#4A154B] text-white hover:bg-[#350d36]"
+                      : "border border-[#4A154B] text-[#4A154B] hover:bg-[#4A154B] hover:text-white"
                   }`}
                 >
                   {esActual ? "Activar este plan" : "Contactar"}
@@ -121,7 +121,7 @@ function PlanesPage() {
 
         <p className="text-center text-xs text-[#64748B]">
           Todos los planes incluyen 14 días de prueba gratis. Para activar tu plan escríbenos a{" "}
-          <a href="mailto:ventas@altura.cloud" className="text-[#4F46E5] hover:underline">ventas@altura.cloud</a>.
+          <a href="mailto:ventas@altura.cloud" className="text-[#4A154B] hover:underline">ventas@altura.cloud</a>.
         </p>
       </div>
     </AppShell>

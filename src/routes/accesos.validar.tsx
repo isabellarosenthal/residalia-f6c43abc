@@ -69,7 +69,7 @@ function ValidarPage() {
   return (
     <AppShell>
       <div className="max-w-[640px] mx-auto space-y-5">
-        <Link to="/accesos" className="inline-flex items-center text-sm text-[#64748B] hover:text-[#4F46E5]"><ArrowLeft className="w-4 h-4 mr-1" />Volver a accesos</Link>
+        <Link to="/accesos" className="inline-flex items-center text-sm text-[#64748B] hover:text-[#4A154B]"><ArrowLeft className="w-4 h-4 mr-1" />Volver a accesos</Link>
         <div>
           <h1 className="font-display font-extrabold text-2xl text-[#0F172A] flex items-center gap-2"><ShieldCheck className="w-6 h-6 text-[#0F172A]" />Validar pase</h1>
           <p className="text-sm text-[#64748B]">Ingresa el código del visitante para autorizar entrada o salida.</p>
@@ -86,7 +86,7 @@ function ValidarPage() {
             className="font-mono text-lg tracking-widest uppercase"
             autoFocus
           />
-          <Button type="submit" disabled={!codigo.trim() || validar.isPending} className="bg-[#4F46E5] hover:bg-[#4338CA]">
+          <Button type="submit" disabled={!codigo.trim() || validar.isPending} className="bg-[#4A154B] hover:bg-[#350d36]">
             <Search className="w-4 h-4 mr-1" />Buscar
           </Button>
         </form>
@@ -143,7 +143,7 @@ function Info({ label, value }: { label: string; value: string }) {
   return (
     <div>
       <div className="text-xs text-[#64748B]">{label}</div>
-      <div className="text-[#4F46E5] capitalize">{value}</div>
+      <div className="text-[#4A154B] capitalize">{value}</div>
     </div>
   );
 }

@@ -105,7 +105,7 @@ function Reservar() {
             <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" />{conflicto}
           </div>
         )}
-        <Button type="submit" disabled={save.isPending || !!conflicto || !areaId} className="w-full bg-[#4F46E5] hover:bg-[#4338CA]">
+        <Button type="submit" disabled={save.isPending || !!conflicto || !areaId} className="w-full bg-[#4A154B] hover:bg-[#350d36]">
           {save.isPending ? "Reservando…" : "Solicitar reserva"}
         </Button>
         <p className="text-xs text-[#64748B] text-center">La administración confirmará tu reserva.</p>
@@ -119,12 +119,12 @@ function Reservar() {
               const a = areas.find((x) => x.id === r.area_id);
               return (
                 <div key={r.id} className="bg-white border border-[#E2E8F0] rounded-xl p-3 flex items-center gap-3">
-                  <CalendarCheck className="w-5 h-5 text-[#4F46E5]" />
+                  <CalendarCheck className="w-5 h-5 text-[#4A154B]" />
                   <div className="flex-1">
-                    <div className="font-semibold text-[#4F46E5]">{a?.nombre ?? "Área"}</div>
+                    <div className="font-semibold text-[#4A154B]">{a?.nombre ?? "Área"}</div>
                     <div className="text-xs text-[#64748B]">{fmtDT(r.fecha_inicio)} – {new Date(r.fecha_fin).toLocaleTimeString("es-HN", { timeStyle: "short" })}</div>
                   </div>
-                  <span className="text-[10px] uppercase tracking-wide bg-[#fde8e2] text-[#4F46E5] px-2 py-0.5 rounded-full">{r.estado}</span>
+                  <span className="text-[10px] uppercase tracking-wide bg-[#fde8e2] text-[#4A154B] px-2 py-0.5 rounded-full">{r.estado}</span>
                 </div>
               );
             })}

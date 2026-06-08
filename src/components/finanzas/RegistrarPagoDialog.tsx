@@ -53,7 +53,7 @@ export function RegistrarPagoDialog({
         <div className="grid grid-cols-3 gap-2 text-sm mb-3">
           <div className="p-2 rounded-lg bg-[#F8FAFC]"><div className="text-xs text-[#64748B]">Total</div><div className="font-bold">{fmtL(cobro.monto)}</div></div>
           <div className="p-2 rounded-lg bg-[#F8FAFC]"><div className="text-xs text-[#64748B]">Abonado</div><div className="font-bold text-[#166534]">{fmtL(abonado)}</div></div>
-          <div className="p-2 rounded-lg bg-[#F8FAFC]"><div className="text-xs text-[#64748B]">Saldo</div><div className="font-bold text-[#4F46E5]">{fmtL(saldo)}</div></div>
+          <div className="p-2 rounded-lg bg-[#F8FAFC]"><div className="text-xs text-[#64748B]">Saldo</div><div className="font-bold text-[#4A154B]">{fmtL(saldo)}</div></div>
         </div>
 
         {saldo > 0 && (
@@ -62,7 +62,7 @@ export function RegistrarPagoDialog({
               <div>
                 <Label>Monto *</Label>
                 <Input type="number" step="0.01" min="0.01" max={saldo} value={monto} onChange={(e) => setMonto(e.target.value)} required />
-                <button type="button" onClick={() => setMonto(String(saldo))} className="text-xs text-[#4F46E5] hover:underline mt-1">Usar saldo {fmtL(saldo)}</button>
+                <button type="button" onClick={() => setMonto(String(saldo))} className="text-xs text-[#4A154B] hover:underline mt-1">Usar saldo {fmtL(saldo)}</button>
               </div>
               <div>
                 <Label>Fecha</Label>
@@ -86,7 +86,7 @@ export function RegistrarPagoDialog({
             </div>
             <DialogFooter>
               <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>Cerrar</Button>
-              <Button type="submit" disabled={reg.isPending} className="bg-[#4F46E5] hover:bg-[#4338CA]">Registrar pago</Button>
+              <Button type="submit" disabled={reg.isPending} className="bg-[#4A154B] hover:bg-[#350d36]">Registrar pago</Button>
             </DialogFooter>
           </form>
         )}
@@ -98,7 +98,7 @@ export function RegistrarPagoDialog({
               {pagos.map((p) => (
                 <div key={p.id} className="flex items-center justify-between bg-[#faf6f3] rounded-lg px-3 py-2 text-sm">
                   <div>
-                    <div className="font-semibold text-[#4F46E5]">{fmtL(p.monto)} <span className="text-xs text-[#64748B] font-normal">· {p.metodo}</span></div>
+                    <div className="font-semibold text-[#4A154B]">{fmtL(p.monto)} <span className="text-xs text-[#64748B] font-normal">· {p.metodo}</span></div>
                     <div className="text-xs text-[#64748B]">{fmtDate(p.fecha)}{p.referencia ? ` · ${p.referencia}` : ""}</div>
                   </div>
                   <Button type="button" size="sm" variant="ghost" onClick={() => { if (confirm("¿Anular este pago?")) anular.mutate(p.id); }} className="h-8 w-8 p-0 text-[#be185d]">

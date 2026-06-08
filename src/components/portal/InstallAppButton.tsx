@@ -44,7 +44,7 @@ export function InstallAppButton() {
   return (
     <>
       <button onClick={handleClick}
-        className="text-xs bg-[#4F46E5] hover:bg-[#4338CA] text-white px-3 py-1.5 rounded-full inline-flex items-center gap-1">
+        className="text-xs bg-[#4A154B] hover:bg-[#350d36] text-white px-3 py-1.5 rounded-full inline-flex items-center gap-1">
         <Download className="w-3.5 h-3.5" />Instalar app
       </button>
       {iosHelp && (
@@ -52,18 +52,18 @@ export function InstallAppButton() {
           <div className="bg-white rounded-2xl p-5 max-w-sm w-full" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-start justify-between mb-3">
               <div className="font-display font-bold text-lg text-[#0F172A] flex items-center gap-2">
-                <Smartphone className="w-5 h-5 text-[#4F46E5]" />Instalar Altura Cloud
+                <Smartphone className="w-5 h-5 text-[#4A154B]" />Instalar Altura Cloud
               </div>
               <button onClick={() => setIosHelp(false)}><X className="w-5 h-5 text-[#64748B]" /></button>
             </div>
             {isIOS ? (
-              <ol className="text-sm text-[#4F46E5] space-y-2 list-decimal pl-5">
+              <ol className="text-sm text-[#4A154B] space-y-2 list-decimal pl-5">
                 <li>Toca el botón <strong>Compartir</strong> en la barra de Safari.</li>
                 <li>Selecciona <strong>“Agregar a la pantalla de inicio”</strong>.</li>
                 <li>Confirma con <strong>“Agregar”</strong>.</li>
               </ol>
             ) : (
-              <ol className="text-sm text-[#4F46E5] space-y-2 list-decimal pl-5">
+              <ol className="text-sm text-[#4A154B] space-y-2 list-decimal pl-5">
                 <li>Abre el menú del navegador (⋮ en Chrome).</li>
                 <li>Selecciona <strong>“Instalar app”</strong> o <strong>“Agregar a pantalla de inicio”</strong>.</li>
                 <li>Confirma. La app aparecerá como ícono en tu celular.</li>
