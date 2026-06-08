@@ -98,7 +98,7 @@ export function RecordatoriosMorosos({ edificioId }: { edificioId: string }) {
     <div className="space-y-5">
       <Card className="p-5">
         <div className="flex items-start gap-3 mb-3">
-          <BellRing className="w-5 h-5 text-[#4F46E5] mt-0.5" />
+          <BellRing className="w-5 h-5 text-[#4A154B] mt-0.5" />
           <div>
             <h3 className="font-display font-bold text-[#0F172A]">Recordatorios a morosos</h3>
             <p className="text-sm text-[#64748B]">Edita la plantilla y envía por WhatsApp o email. Variables: <code>{`{{nombre}}`}</code>, <code>{`{{total}}`}</code>, <code>{`{{unidad}}`}</code>, <code>{`{{edificio}}`}</code>, <code>{`{{detalle}}`}</code>.</p>
@@ -120,7 +120,7 @@ export function RecordatoriosMorosos({ edificioId }: { edificioId: string }) {
             return (
               <div key={m.residenteId} className="border border-[#E2E8F0] rounded-xl p-4 flex flex-wrap gap-4 items-start">
                 <div className="flex-1 min-w-[200px]">
-                  <div className="font-semibold text-[#4F46E5]">{m.nombre} <span className="text-xs text-[#64748B] font-normal">· Unidad {m.unidad}</span></div>
+                  <div className="font-semibold text-[#4A154B]">{m.nombre} <span className="text-xs text-[#64748B] font-normal">· Unidad {m.unidad}</span></div>
                   <div className="text-xs text-[#64748B] mt-0.5">{m.cobros.length} cobro{m.cobros.length === 1 ? "" : "s"} · máx {m.diasMax > 0 ? `${m.diasMax} días vencido` : "vigente"}</div>
                   <div className="text-xs text-[#64748B] mt-1">{m.email ?? "sin email"} · {m.whatsapp ?? "sin teléfono"}</div>
                 </div>
@@ -132,7 +132,7 @@ export function RecordatoriosMorosos({ edificioId }: { edificioId: string }) {
                   <Button size="sm" variant="outline" disabled={!wa} asChild={!!wa}>
                     {wa ? <a href={wa} target="_blank" rel="noreferrer"><MessageCircle className="w-4 h-4 mr-1" />WhatsApp</a> : <span><MessageCircle className="w-4 h-4 mr-1" />WhatsApp</span>}
                   </Button>
-                  <Button size="sm" className="bg-[#4F46E5] hover:bg-[#4338CA]" disabled={!ml} asChild={!!ml}>
+                  <Button size="sm" className="bg-[#4A154B] hover:bg-[#350d36]" disabled={!ml} asChild={!!ml}>
                     {ml ? <a href={ml}><Mail className="w-4 h-4 mr-1" />Email</a> : <span><Mail className="w-4 h-4 mr-1" />Email</span>}
                   </Button>
                 </div>

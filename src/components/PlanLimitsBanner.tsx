@@ -44,8 +44,8 @@ export function PlanLimitsBanner({ focus = "all" }: { focus?: Focus }) {
       <Card className="p-3 bg-[#ffffff] border-[#E2E8F0]">
         <div className="flex flex-wrap items-center gap-4">
           <div className="flex items-center gap-2 text-xs">
-            <Crown className="w-3.5 h-3.5 text-[#4F46E5]" />
-            <span className="font-medium text-[#4F46E5]">{data.plan.nombre}</span>
+            <Crown className="w-3.5 h-3.5 text-[#4A154B]" />
+            <span className="font-medium text-[#4A154B]">{data.plan.nombre}</span>
           </div>
           {enTrial && data.diasRestantes !== null && (
             <Link to="/planes" className="flex items-center gap-1.5 text-xs bg-[#FEF3C7] text-[#92400E] px-2.5 py-1 rounded-full font-medium hover:bg-[#FDE68A]">
@@ -58,7 +58,7 @@ export function PlanLimitsBanner({ focus = "all" }: { focus?: Focus }) {
               <span className="text-[#64748B]">{i.label}:</span> <b>{i.used}</b> / {fmt(i.max)}
             </div>
           ))}
-          <Link to="/planes" className="ml-auto text-xs text-[#4F46E5] hover:underline">Ver planes</Link>
+          <Link to="/planes" className="ml-auto text-xs text-[#4A154B] hover:underline">Ver planes</Link>
         </div>
       </Card>
     </div>

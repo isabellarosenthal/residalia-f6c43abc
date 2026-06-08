@@ -76,7 +76,7 @@ export function Sidebar() {
                 to="/admin-panel"
                 className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
                   path.startsWith("/admin-panel")
-                    ? "bg-[#4F46E5] text-white font-semibold"
+                    ? "bg-[#4A154B] text-white font-semibold"
                     : "text-[#F8FAFC] hover:bg-white/10"
                 }`}
               >
@@ -100,7 +100,7 @@ export function Sidebar() {
                     key={it.to}
                     to={it.to}
                     className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
-                      active ? "bg-[#4F46E5] text-white font-semibold" : "text-[#F8FAFC] hover:bg-white/10"
+                      active ? "bg-[#4A154B] text-white font-semibold" : "text-[#F8FAFC] hover:bg-white/10"
 
                     }`}
                   >
@@ -117,7 +117,7 @@ export function Sidebar() {
 
       <div className="border-t border-[#F8FAFC]/15 p-3">
         <div className="flex items-center gap-3 px-2 py-2">
-          <div className="w-9 h-9 rounded-full bg-[#4F46E5] text-white flex items-center justify-center font-semibold text-sm shrink-0">
+          <div className="w-9 h-9 rounded-full bg-[#4A154B] text-white flex items-center justify-center font-semibold text-sm shrink-0">
             {initials(profile?.full_name || "U")}
           </div>
           <div className="min-w-0 flex-1">

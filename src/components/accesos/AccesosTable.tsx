@@ -62,13 +62,13 @@ export function AccesosTable({ edificioId, onEdit }: { edificioId: string; onEdi
         <Table>
           <TableHeader>
             <TableRow className="bg-[#F8FAFC] hover:bg-[#F8FAFC]">
-              <TableHead className="text-[#4F46E5] font-semibold">Visitante</TableHead>
-              <TableHead className="text-[#4F46E5] font-semibold">Tipo · Método</TableHead>
-              <TableHead className="text-[#4F46E5] font-semibold">Unidad</TableHead>
-              <TableHead className="text-[#4F46E5] font-semibold">Entrada</TableHead>
-              <TableHead className="text-[#4F46E5] font-semibold">Salida</TableHead>
-              <TableHead className="text-[#4F46E5] font-semibold">Estado</TableHead>
-              <TableHead className="text-[#4F46E5] font-semibold text-right">Acciones</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold">Visitante</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold">Tipo · Método</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold">Unidad</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold">Entrada</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold">Salida</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold">Estado</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold text-right">Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -76,7 +76,7 @@ export function AccesosTable({ edificioId, onEdit }: { edificioId: string; onEdi
             {!isLoading && filtered.length === 0 && <TableRow><TableCell colSpan={7} className="py-10 text-center text-[#64748B]">Sin accesos registrados.</TableCell></TableRow>}
             {filtered.map((a) => (
               <TableRow key={a.id}>
-                <TableCell><div className="font-medium text-[#4F46E5]">{a.visitante_nombre}</div>{a.qr_code && <div className="text-xs text-[#64748B]">QR: {a.qr_code}</div>}</TableCell>
+                <TableCell><div className="font-medium text-[#4A154B]">{a.visitante_nombre}</div>{a.qr_code && <div className="text-xs text-[#64748B]">QR: {a.qr_code}</div>}</TableCell>
                 <TableCell className="text-sm capitalize">{a.tipo ?? "—"} · <span className="text-[#64748B]">{a.metodo ?? "—"}</span></TableCell>
                 <TableCell className="text-sm">{a.unidad_id ? `#${uniMap.get(a.unidad_id) ?? "—"}` : "—"}</TableCell>
                 <TableCell className="text-sm">{fmtDT(a.fecha_entrada)}</TableCell>
@@ -97,7 +97,7 @@ export function AccesosTable({ edificioId, onEdit }: { edificioId: string; onEdi
                   })()}
                 </TableCell>
                 <TableCell className="text-right">
-                  <Button size="sm" variant="ghost" title="Ver / compartir pase" onClick={() => setPase(a)} className="h-8 w-8 p-0 text-[#4F46E5]"><QrCode className="w-4 h-4" /></Button>
+                  <Button size="sm" variant="ghost" title="Ver / compartir pase" onClick={() => setPase(a)} className="h-8 w-8 p-0 text-[#4A154B]"><QrCode className="w-4 h-4" /></Button>
                   {!a.fecha_salida && <Button size="sm" variant="ghost" title="Registrar salida" onClick={() => salir.mutate(a.id)} className="h-8 w-8 p-0 text-[#166534]"><LogOut className="w-4 h-4" /></Button>}
                   <Button size="sm" variant="ghost" onClick={() => onEdit(a)} className="h-8 w-8 p-0"><Pencil className="w-4 h-4" /></Button>
                   <Button size="sm" variant="ghost" onClick={() => { if (confirm("¿Eliminar registro?")) del.mutate(a.id); }} className="h-8 w-8 p-0 text-[#be185d] hover:text-[#be185d]"><Trash2 className="w-4 h-4" /></Button>

@@ -74,7 +74,7 @@ export function ProspectosTable({
                rows.length === 0 ? <tr><td colSpan={9} className="text-center py-8 text-[#64748B]">Sin prospectos.</td></tr> :
                rows.map((p) => (
                  <tr key={p.id} className="border-t border-[#F8FAFC] hover:bg-[#fdfbf8]">
-                   <Td><div className="font-medium text-[#4F46E5]">{p.nombre} {p.apellido ?? ""}</div></Td>
+                   <Td><div className="font-medium text-[#4A154B]">{p.nombre} {p.apellido ?? ""}</div></Td>
                    <Td>
                      <div className="flex flex-col gap-0.5 text-xs">
                        {p.telefono && <span className="flex items-center gap-1"><Phone className="w-3 h-3" />{p.telefono}</span>}

@@ -39,11 +39,11 @@ function MiCuenta() {
             {pendientes.map((c) => (
               <div key={c.id} className="bg-white border border-[#E2E8F0] rounded-xl p-4 flex items-center justify-between">
                 <div>
-                  <div className="font-semibold text-[#4F46E5]">{c.concepto}</div>
+                  <div className="font-semibold text-[#4A154B]">{c.concepto}</div>
                   <div className="text-xs text-[#64748B]">Vence {fmtD(c.fecha_vencimiento)}</div>
                 </div>
                 <div className="text-right">
-                  <div className="font-bold text-[#4F46E5]">{fmt(Number(c.monto), moneda)}</div>
+                  <div className="font-bold text-[#4A154B]">{fmt(Number(c.monto), moneda)}</div>
                   <Badge variant={c.estado === "vencido" ? "danger" : c.estado === "parcial" ? "warning" : "neutral"}>{c.estado}</Badge>
                 </div>
               </div>
@@ -59,7 +59,7 @@ function MiCuenta() {
             {pagados.slice(0, 12).map((c) => (
               <div key={c.id} className="bg-white border border-[#E2E8F0] rounded-xl p-3 flex items-center justify-between text-sm">
                 <div>
-                  <div className="text-[#4F46E5]">{c.concepto}</div>
+                  <div className="text-[#4A154B]">{c.concepto}</div>
                   <div className="text-xs text-[#64748B]">Pagado {c.fecha_pago ? fmtD(c.fecha_pago) : "—"}</div>
                 </div>
                 <div className="font-semibold text-[#166534]">{fmt(Number(c.monto), moneda)}</div>

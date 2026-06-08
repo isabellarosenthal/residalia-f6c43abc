@@ -38,7 +38,7 @@ function PortalIndex() {
 
       <div className="flex items-center justify-between">
         <h2 className="font-display font-extrabold text-lg text-[#0F172A]">Mis pases</h2>
-        <Link to="/portal/nuevo" className="bg-[#4F46E5] hover:bg-[#4338CA] text-white text-sm px-4 py-2 rounded-full inline-flex items-center gap-1"><Plus className="w-4 h-4" />Crear pase</Link>
+        <Link to="/portal/nuevo" className="bg-[#4A154B] hover:bg-[#350d36] text-white text-sm px-4 py-2 rounded-full inline-flex items-center gap-1"><Plus className="w-4 h-4" />Crear pase</Link>
       </div>
 
       {pases.length === 0 ? (
@@ -55,10 +55,10 @@ function PortalIndex() {
             const label = p.fecha_salida ? "Ya salió" : usados >= max ? "Agotado" : `${usados}/${max} usos`;
             return (
               <Link key={p.id} to="/portal/pase/$paseId" params={{ paseId: p.id }}
-                className="block bg-white border border-[#E2E8F0] rounded-2xl p-4 hover:border-[#4F46E5] transition-colors">
+                className="block bg-white border border-[#E2E8F0] rounded-2xl p-4 hover:border-[#4A154B] transition-colors">
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <div className="font-semibold text-[#4F46E5]">{p.visitante_nombre}</div>
+                    <div className="font-semibold text-[#4A154B]">{p.visitante_nombre}</div>
                     <div className="text-xs text-[#64748B] font-mono">{p.qr_code}</div>
                     <div className="text-xs text-[#64748B] mt-1">Entrada: {fmtDT(p.fecha_entrada)}</div>
                   </div>

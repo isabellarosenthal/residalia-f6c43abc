@@ -8,7 +8,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { fmtL, fmtDate } from "@/lib/format";
 import { useCobros, useEgresos, useResidentesMap, useUnidades } from "@/lib/queries";
 
-const COLORS = ["#4F46E5", "#166534", "#1f6f8b", "#a55b00", "#7d3c98", "#be185d", "#1abc9c", "#f1c40f"];
+const COLORS = ["#4A154B", "#166534", "#1f6f8b", "#a55b00", "#7d3c98", "#be185d", "#1abc9c", "#f1c40f"];
 
 function toCSV(rows: (string | number)[][]) {
   return rows.map((r) => r.map((c) => `"${String(c ?? "").replace(/"/g, '""')}"`).join(",")).join("\n");

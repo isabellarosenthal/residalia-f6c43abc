@@ -83,9 +83,9 @@ function DashboardPage() {
   // Estado pagos
   const estadoPagos = [
     { name: "Al día", value: cobros.filter((c) => c.estado === "pagado").length, color: "#166534" },
-    { name: "Pendientes", value: cobros.filter((c) => c.estado === "pendiente").length, color: "#4F46E5" },
+    { name: "Pendientes", value: cobros.filter((c) => c.estado === "pendiente").length, color: "#4A154B" },
     { name: "Morosos", value: cobros.filter((c) => c.estado === "vencido").length, color: "#be185d" },
-    { name: "Parcial", value: cobros.filter((c) => c.estado === "parcial").length, color: "#4F46E5" },
+    { name: "Parcial", value: cobros.filter((c) => c.estado === "parcial").length, color: "#4A154B" },
   ].filter((e) => e.value > 0);
 
   // Tabla por edificio
@@ -116,7 +116,7 @@ function DashboardPage() {
             <div className="flex items-center gap-2 bg-white border border-[#E2E8F0] rounded-full p-1">
               <button
                 onClick={() => setEdificioId("all")}
-                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${edificioId === "all" ? "bg-[#4F46E5] text-white" : "text-[#1E293B] hover:bg-[#F8FAFC]"}`}
+                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${edificioId === "all" ? "bg-[#4A154B] text-white" : "text-[#1E293B] hover:bg-[#F8FAFC]"}`}
               >
                 Todos
               </button>
@@ -124,7 +124,7 @@ function DashboardPage() {
                 <button
                   key={e.id}
                   onClick={() => setEdificioId(e.id)}
-                  className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${edificioId === e.id ? "bg-[#4F46E5] text-white" : "text-[#1E293B] hover:bg-[#F8FAFC]"}`}
+                  className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${edificioId === e.id ? "bg-[#4A154B] text-white" : "text-[#1E293B] hover:bg-[#F8FAFC]"}`}
                 >
                   {e.nombre}
                 </button>
@@ -135,7 +135,7 @@ function DashboardPage() {
 
         {edificios.length === 0 ? (
           <Card className="p-10 text-center">
-            <Building2 className="w-12 h-12 text-[#4F46E5] mx-auto mb-3" />
+            <Building2 className="w-12 h-12 text-[#4A154B] mx-auto mb-3" />
             <h3 className="font-display font-bold text-[#0F172A] text-lg">Aún no tenés edificios</h3>
             <p className="text-sm text-[#64748B] mt-1">Creá tu primer edificio para ver el resumen aquí.</p>
           </Card>
@@ -171,8 +171,8 @@ function DashboardPage() {
                       <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
                       <XAxis dataKey="mes" stroke="#64748B" fontSize={12} />
                       <YAxis stroke="#64748B" fontSize={12} tickFormatter={(v) => `L${v / 1000}k`} />
-                      <Tooltip contentStyle={{ background: "#4F46E5", border: "none", borderRadius: 12, color: "#F1F5F9" }} formatter={(v: any) => fmtL(v as number)} />
-                      <Bar dataKey="monto" fill="#4F46E5" radius={[6, 6, 0, 0]} />
+                      <Tooltip contentStyle={{ background: "#4A154B", border: "none", borderRadius: 12, color: "#F1F5F9" }} formatter={(v: any) => fmtL(v as number)} />
+                      <Bar dataKey="monto" fill="#4A154B" radius={[6, 6, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -191,7 +191,7 @@ function DashboardPage() {
                           <Pie data={estadoPagos} dataKey="value" nameKey="name" innerRadius={55} outerRadius={90} paddingAngle={3}>
                             {estadoPagos.map((e) => <Cell key={e.name} fill={e.color} />)}
                           </Pie>
-                          <Tooltip contentStyle={{ background: "#4F46E5", border: "none", borderRadius: 12, color: "#F1F5F9" }} />
+                          <Tooltip contentStyle={{ background: "#4A154B", border: "none", borderRadius: 12, color: "#F1F5F9" }} />
                         </PieChart>
                       </ResponsiveContainer>
                     </div>
@@ -215,7 +215,7 @@ function DashboardPage() {
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
-                    <thead className="bg-[#F8FAFC] text-[#4F46E5]">
+                    <thead className="bg-[#F8FAFC] text-[#4A154B]">
                       <tr>
                         {["Edificio", "Total", "Ocupadas", "En venta", "En renta", "Prospectos", "Cierres"].map((h) => (
                           <th key={h} className="text-left px-5 py-3 font-semibold uppercase text-xs">{h}</th>
@@ -225,7 +225,7 @@ function DashboardPage() {
                     <tbody className="text-[#1E293B]">
                       {tabla.map((r) => (
                         <tr key={r.e} className="border-b border-[#E2E8F0] hover:bg-[#ffffff] transition-colors">
-                          <td className="px-5 py-3 font-medium text-[#4F46E5]">{r.e}</td>
+                          <td className="px-5 py-3 font-medium text-[#4A154B]">{r.e}</td>
                           <td className="px-5 py-3">{r.t}</td>
                           <td className="px-5 py-3">{r.o}</td>
                           <td className="px-5 py-3"><Badge variant="venta">{r.v}</Badge></td>

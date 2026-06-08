@@ -103,10 +103,10 @@ export function OnboardingWizard({ open, onClose }: Props) {
   return (
     <Dialog open={open} onOpenChange={(o) => !o && close()}>
       <DialogContent className="max-w-2xl bg-[#ffffff] border-[#E2E8F0]">
-        <button onClick={close} className="absolute right-4 top-4 text-[#64748B] hover:text-[#4F46E5]"><X className="w-4 h-4" /></button>
+        <button onClick={close} className="absolute right-4 top-4 text-[#64748B] hover:text-[#4A154B]"><X className="w-4 h-4" /></button>
 
         <div className="flex items-center gap-2 mb-1">
-          <Sparkles className="w-5 h-5 text-[#4F46E5]" />
+          <Sparkles className="w-5 h-5 text-[#4A154B]" />
           <span className="text-xs uppercase tracking-widest text-[#64748B] font-semibold">Bienvenido a Altura Cloud</span>
         </div>
         <h2 className="font-display font-extrabold text-2xl text-[#0F172A]">Configura tu primer edificio en 4 pasos</h2>
@@ -121,11 +121,11 @@ export function OnboardingWizard({ open, onClose }: Props) {
               <div key={s.label} className="flex items-center flex-1 last:flex-none">
                 <div className="flex flex-col items-center gap-1">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors font-display font-extrabold ${
-                    done ? "bg-[#166534] text-white" : active ? "bg-[#4F46E5] text-[#4F46E5]" : "bg-[#F8FAFC] text-[#64748B]"
+                    done ? "bg-[#166534] text-white" : active ? "bg-[#4A154B] text-[#4A154B]" : "bg-[#F8FAFC] text-[#64748B]"
                   }`}>
                     {done ? <Check className="w-5 h-5" /> : <Icon className="w-5 h-5" />}
                   </div>
-                  <span className={`text-xs ${active ? "text-[#4F46E5] font-semibold" : "text-[#64748B]"}`}>{s.label}</span>
+                  <span className={`text-xs ${active ? "text-[#4A154B] font-semibold" : "text-[#64748B]"}`}>{s.label}</span>
                 </div>
                 {i < STEPS.length - 1 && <div className={`h-0.5 flex-1 mx-2 ${done ? "bg-[#166534]" : "bg-[#F8FAFC]"}`} />}
               </div>
@@ -213,9 +213,9 @@ export function OnboardingWizard({ open, onClose }: Props) {
           <Button variant="ghost" onClick={close} className="text-[#64748B]">Omitir</Button>
           <div className="flex gap-2">
             {step > 0 && <Button variant="outline" onClick={() => setStep(step - 1)}>Atrás</Button>}
-            {step === 0 && <Button className="bg-[#4F46E5] hover:bg-[#4338CA]" onClick={handleStep1} disabled={saveEdif.isPending}>Continuar <ArrowRight className="w-4 h-4 ml-1" /></Button>}
-            {step === 1 && <Button className="bg-[#4F46E5] hover:bg-[#4338CA]" onClick={handleStep2} disabled={bulkUnidades.isPending}>Generar {pisos * porPiso} unidades <ArrowRight className="w-4 h-4 ml-1" /></Button>}
-            {step === 2 && <Button className="bg-[#4F46E5] hover:bg-[#4338CA]" onClick={handleStep3} disabled={saveRes.isPending}>Continuar <ArrowRight className="w-4 h-4 ml-1" /></Button>}
+            {step === 0 && <Button className="bg-[#4A154B] hover:bg-[#350d36]" onClick={handleStep1} disabled={saveEdif.isPending}>Continuar <ArrowRight className="w-4 h-4 ml-1" /></Button>}
+            {step === 1 && <Button className="bg-[#4A154B] hover:bg-[#350d36]" onClick={handleStep2} disabled={bulkUnidades.isPending}>Generar {pisos * porPiso} unidades <ArrowRight className="w-4 h-4 ml-1" /></Button>}
+            {step === 2 && <Button className="bg-[#4A154B] hover:bg-[#350d36]" onClick={handleStep3} disabled={saveRes.isPending}>Continuar <ArrowRight className="w-4 h-4 ml-1" /></Button>}
             {step === 3 && <Button className="bg-[#166534] hover:bg-[#1f4a1f]" onClick={handleStep4} disabled={generarCobros.isPending}>Finalizar <Check className="w-4 h-4 ml-1" /></Button>}
           </div>
         </div>

@@ -177,7 +177,7 @@ export function ResidenteFormDialog({
 
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-            <Button type="submit" disabled={!form.formState.isValid || save.isPending} className="bg-[#4F46E5] hover:bg-[#4338CA]">
+            <Button type="submit" disabled={!form.formState.isValid || save.isPending} className="bg-[#4A154B] hover:bg-[#350d36]">
               {save.isPending ? "Guardando…" : "Guardar residente"}
             </Button>
           </DialogFooter>

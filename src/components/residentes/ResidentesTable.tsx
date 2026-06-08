@@ -45,13 +45,13 @@ export function ResidentesTable({
       <Table>
         <TableHeader>
           <TableRow className="bg-[#F8FAFC] hover:bg-[#F8FAFC]">
-            <TableHead className="text-[#4F46E5] font-semibold">Residente</TableHead>
-            <TableHead className="text-[#4F46E5] font-semibold">Tipo</TableHead>
-            <TableHead className="text-[#4F46E5] font-semibold">Edificio · Unidad</TableHead>
-            <TableHead className="text-[#4F46E5] font-semibold">Contacto</TableHead>
-            <TableHead className="text-[#4F46E5] font-semibold">Ingreso</TableHead>
-            <TableHead className="text-[#4F46E5] font-semibold">Estado</TableHead>
-            <TableHead className="text-[#4F46E5] font-semibold text-right">Acciones</TableHead>
+            <TableHead className="text-[#4A154B] font-semibold">Residente</TableHead>
+            <TableHead className="text-[#4A154B] font-semibold">Tipo</TableHead>
+            <TableHead className="text-[#4A154B] font-semibold">Edificio · Unidad</TableHead>
+            <TableHead className="text-[#4A154B] font-semibold">Contacto</TableHead>
+            <TableHead className="text-[#4A154B] font-semibold">Ingreso</TableHead>
+            <TableHead className="text-[#4A154B] font-semibold">Estado</TableHead>
+            <TableHead className="text-[#4A154B] font-semibold text-right">Acciones</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -60,14 +60,14 @@ export function ResidentesTable({
           {filtered.map((r) => (
             <TableRow key={r.id}>
               <TableCell>
-                <div className="font-semibold text-[#4F46E5]">{r.nombre} {r.apellido}</div>
+                <div className="font-semibold text-[#4A154B]">{r.nombre} {r.apellido}</div>
                 {r.dni && <div className="text-xs text-[#64748B]">DNI {r.dni}</div>}
               </TableCell>
               <TableCell>
                 <Badge variant={r.tipo === "propietario" ? "venta" : "renta"}>{r.tipo}</Badge>
               </TableCell>
               <TableCell className="text-sm">
-                <div className="text-[#4F46E5]">{edifMap.get(r.condominio_id) ?? "—"}</div>
+                <div className="text-[#4A154B]">{edifMap.get(r.condominio_id) ?? "—"}</div>
                 <div className="text-xs text-[#64748B]">{r.unidad_id ? `Unidad #${uniMap.get(r.unidad_id) ?? "—"}` : "Sin unidad"}</div>
               </TableCell>
               <TableCell className="text-sm">

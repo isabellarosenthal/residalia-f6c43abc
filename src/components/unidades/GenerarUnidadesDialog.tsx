@@ -51,12 +51,12 @@ export function GenerarUnidadesDialog({
             <div><Label>Prefijo (opcional)</Label><Input value={prefijo} onChange={(e) => setPrefijo(e.target.value)} placeholder="A-" /></div>
           </div>
           <div className="bg-[#F8FAFC] rounded-lg p-3 text-sm text-[#1E293B]">
-            Se crearán <b className="text-[#4F46E5]">{total}</b> unidades. Ejemplo: <code className="text-xs bg-white px-1.5 py-0.5 rounded">{prefijo}{pisoInicial}01</code>
+            Se crearán <b className="text-[#4A154B]">{total}</b> unidades. Ejemplo: <code className="text-xs bg-white px-1.5 py-0.5 rounded">{prefijo}{pisoInicial}01</code>
           </div>
         </div>
         <DialogFooter>
           <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-          <Button onClick={generar} disabled={total === 0 || bulk.isPending} className="bg-[#4F46E5] hover:bg-[#4338CA]">
+          <Button onClick={generar} disabled={total === 0 || bulk.isPending} className="bg-[#4A154B] hover:bg-[#350d36]">
             {bulk.isPending ? "Generando…" : `Generar ${total}`}
           </Button>
         </DialogFooter>

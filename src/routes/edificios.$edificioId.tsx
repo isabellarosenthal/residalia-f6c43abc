@@ -58,7 +58,7 @@ function EdificioDetail() {
   return (
     <AppShell>
       <div className="space-y-5 max-w-[1400px] mx-auto">
-        <Link to="/edificios" className="inline-flex items-center text-sm text-[#64748B] hover:text-[#4F46E5]">
+        <Link to="/edificios" className="inline-flex items-center text-sm text-[#64748B] hover:text-[#4A154B]">
           <ChevronLeft className="w-4 h-4" /> Volver a edificios
         </Link>
 
@@ -122,7 +122,7 @@ function EdificioDetail() {
             <PlanLimitsBanner focus="unidades" />
             <div className="flex flex-wrap gap-2 justify-end">
               <Button variant="outline" onClick={() => setBulkOpen(true)}><Layers className="w-4 h-4 mr-1" />Generar en bloque</Button>
-              <Button onClick={() => { setUnidadEdit(null); setUnidadOpen(true); }} className="bg-[#4F46E5] hover:bg-[#4338CA]">
+              <Button onClick={() => { setUnidadEdit(null); setUnidadOpen(true); }} className="bg-[#4A154B] hover:bg-[#350d36]">
                 <Plus className="w-4 h-4 mr-1" />Nueva unidad
               </Button>
             </div>
@@ -131,7 +131,7 @@ function EdificioDetail() {
 
           <TabsContent value="residentes" className="space-y-4 pt-4">
             <div className="flex justify-end">
-              <Button onClick={() => { setResidenteEdit(null); setResidenteOpen(true); }} className="bg-[#4F46E5] hover:bg-[#4338CA]"><Plus className="w-4 h-4 mr-1" />Nuevo residente</Button>
+              <Button onClick={() => { setResidenteEdit(null); setResidenteOpen(true); }} className="bg-[#4A154B] hover:bg-[#350d36]"><Plus className="w-4 h-4 mr-1" />Nuevo residente</Button>
             </div>
             <ResidentesTable search="" edificioId={edificio.id} tipo="all" estado="all" onEdit={(r) => { setResidenteEdit(r); setResidenteOpen(true); }} />
           </TabsContent>
@@ -178,7 +178,7 @@ function Info({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div>
       <dt className="text-xs uppercase tracking-wider text-[#64748B]">{label}</dt>
-      <dd className="text-[#4F46E5] font-medium mt-0.5">{value}</dd>
+      <dd className="text-[#4A154B] font-medium mt-0.5">{value}</dd>
     </div>
   );
 }

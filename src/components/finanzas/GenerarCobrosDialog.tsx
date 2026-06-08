@@ -83,11 +83,11 @@ export function GenerarCobrosDialog({
                         onCheckedChange={() => toggle(r.unidad_id)}
                       />
                       <div className="flex-1">
-                        <div className="text-sm font-medium text-[#4F46E5]">Unidad #{r.unidad_numero}</div>
+                        <div className="text-sm font-medium text-[#4A154B]">Unidad #{r.unidad_numero}</div>
                         {r.duplicado && <div className="text-xs text-[#be185d] mt-0.5">Ya tiene un cobro de este concepto para este periodo</div>}
                       </div>
                       {r.duplicado && <Badge variant="warning">Duplicado</Badge>}
-                      <div className="text-sm font-semibold text-[#4F46E5] tabular-nums">{fmtL(r.monto)}</div>
+                      <div className="text-sm font-semibold text-[#4A154B] tabular-nums">{fmtL(r.monto)}</div>
                     </label>
                   ))}
                 </div>
@@ -100,12 +100,12 @@ export function GenerarCobrosDialog({
           {stage === "form" ? (
             <>
               <Button variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-              <Button onClick={() => setStage("preview")} disabled={!edificioId || !concepto || !mes || !vencimiento} className="bg-[#4F46E5] hover:bg-[#4338CA]">Previsualizar</Button>
+              <Button onClick={() => setStage("preview")} disabled={!edificioId || !concepto || !mes || !vencimiento} className="bg-[#4A154B] hover:bg-[#350d36]">Previsualizar</Button>
             </>
           ) : (
             <>
               <Button variant="ghost" onClick={() => setStage("form")}>Volver</Button>
-              <Button onClick={confirm} disabled={selectedIds.length === 0 || mut.isPending} className="bg-[#4F46E5] hover:bg-[#4338CA]">
+              <Button onClick={confirm} disabled={selectedIds.length === 0 || mut.isPending} className="bg-[#4A154B] hover:bg-[#350d36]">
                 {mut.isPending ? "Generando…" : `Generar ${selectedIds.length} cobros`}
               </Button>
             </>
