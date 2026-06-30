@@ -1,7 +1,13 @@
-import { useRouterState } from "@tanstack/react-router";
-import { Bell, Building2 } from "lucide-react";
+import { Link, useRouterState } from "@tanstack/react-router";
+import { Bell, Building2, Settings, Crown, ChevronRight } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 import { initials } from "@/lib/format";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const titles: Record<string, string> = {
   "/dashboard": "Dashboard",
@@ -39,6 +45,30 @@ export function Topbar() {
         <Bell className="w-5 h-5 text-[#1E293B]" />
         <span className="absolute top-1 right-1 w-2 h-2 bg-[#be185d] rounded-full" />
       </button>
+
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <button className="p-2 rounded-full hover:bg-[#F8FAFC]" title="Configuración rápida">
+            <Settings className="w-5 h-5 text-[#1E293B]" />
+          </button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-56">
+          <DropdownMenuItem asChild>
+            <Link to="/planes" className="flex items-center gap-2 cursor-pointer">
+              <Crown className="w-4 h-4 text-[#D9A441]" />
+              <span className="flex-1">Planes y suscripción</span>
+              <ChevronRight className="w-4 h-4 text-[#94A3B8]" />
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link to="/configuracion" className="flex items-center gap-2 cursor-pointer">
+              <Settings className="w-4 h-4 text-[#4A154B]" />
+              <span className="flex-1">Configuración</span>
+              <ChevronRight className="w-4 h-4 text-[#94A3B8]" />
+            </Link>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
       <div className="w-9 h-9 rounded-full bg-[#4A154B] text-white flex items-center justify-center font-semibold text-sm">
         {initials(profile?.full_name || "U")}
       </div>
