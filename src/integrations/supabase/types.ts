@@ -19,8 +19,12 @@ export type Database = {
           autorizado_por: string | null
           condominio_id: string
           created_at: string
+          dias_semana: number[]
+          es_permanente: boolean
           fecha_entrada: string | null
           fecha_salida: string | null
+          hora_fin: string | null
+          hora_inicio: string | null
           id: string
           metodo: string | null
           minutos_max_estadia: number | null
@@ -35,8 +39,12 @@ export type Database = {
           autorizado_por?: string | null
           condominio_id: string
           created_at?: string
+          dias_semana?: number[]
+          es_permanente?: boolean
           fecha_entrada?: string | null
           fecha_salida?: string | null
+          hora_fin?: string | null
+          hora_inicio?: string | null
           id?: string
           metodo?: string | null
           minutos_max_estadia?: number | null
@@ -51,8 +59,12 @@ export type Database = {
           autorizado_por?: string | null
           condominio_id?: string
           created_at?: string
+          dias_semana?: number[]
+          es_permanente?: boolean
           fecha_entrada?: string | null
           fecha_salida?: string | null
+          hora_fin?: string | null
+          hora_inicio?: string | null
           id?: string
           metodo?: string | null
           minutos_max_estadia?: number | null
