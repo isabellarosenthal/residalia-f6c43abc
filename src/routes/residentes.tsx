@@ -1,7 +1,7 @@
 import { lazy, Suspense, useState } from "react";
 import { useEdificioFilter } from "@/hooks/useEdificioFilter";
 import { createFileRoute } from "@tanstack/react-router";
-import { Plus, Search, Users } from "lucide-react";
+import { Plus, Search, Users, Upload } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import { EmptyState } from "@/components/ui-pentos";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,9 @@ const ResidenteFormDialog = lazy(() =>
 const ResidenteDetailDialog = lazy(() =>
   import("@/components/residentes/ResidenteDetailDialog").then((m) => ({ default: m.ResidenteDetailDialog }))
 );
+const BulkImportResidentesDialog = lazy(() =>
+  import("@/components/residentes/BulkImportResidentesDialog").then((m) => ({ default: m.BulkImportResidentesDialog }))
+);
 
 export const Route = createFileRoute("/residentes")({ component: ResidentesPage });
 
@@ -26,6 +29,7 @@ function ResidentesPage() {
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Residente | null>(null);
   const [detail, setDetail] = useState<Residente | null>(null);
+  const [importOpen, setImportOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [edificioId, setEdificioId] = useEdificioFilter();
   const [tipo, setTipo] = useState("all");
@@ -40,9 +44,14 @@ function ResidentesPage() {
             <h1 className="font-display font-extrabold text-2xl text-[#0F172A]">Residentes</h1>
             <p className="text-sm text-[#64748B]">{residentes.length} registrados · gestiona propietarios e inquilinos</p>
           </div>
-          <Button onClick={() => { setEditing(null); setOpen(true); }} className="bg-[#4A154B] hover:bg-[#350d36]">
-            <Plus className="w-4 h-4 mr-1" /> Nuevo residente
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={() => setImportOpen(true)} className="border-[#4A154B] text-[#4A154B]">
+              <Upload className="w-4 h-4 mr-1" /> Importar CSV
+            </Button>
+            <Button onClick={() => { setEditing(null); setOpen(true); }} className="bg-[#4A154B] hover:bg-[#350d36]">
+              <Plus className="w-4 h-4 mr-1" /> Nuevo residente
+            </Button>
+          </div>
         </div>
 
         <div className="flex flex-wrap gap-2">
@@ -94,6 +103,7 @@ function ResidentesPage() {
       <Suspense fallback={null}>
         {open && <ResidenteFormDialog open={open} onOpenChange={setOpen} residente={editing} />}
         {detail && <ResidenteDetailDialog open={!!detail} onOpenChange={(v) => !v && setDetail(null)} residente={detail} />}
+        {importOpen && <BulkImportResidentesDialog open={importOpen} onOpenChange={setImportOpen} defaultEdificioId={edificioId} />}
       </Suspense>
     </AppShell>
   );
