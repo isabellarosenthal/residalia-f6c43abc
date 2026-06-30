@@ -16,7 +16,7 @@ import { Progress } from "@/components/ui/progress";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAuth, type AppRole } from "@/lib/auth-context";
 import { supabase } from "@/integrations/supabase/client";
-import { useEdificios, useSaveEdificio } from "@/lib/queries";
+import { useEdificios, useSaveEdificio, useAplicarMoraMasiva } from "@/lib/queries";
 import { getMyPlanUsage } from "@/lib/plan-usage.functions";
 import { PlanLimitsBanner } from "@/components/PlanLimitsBanner";
 
