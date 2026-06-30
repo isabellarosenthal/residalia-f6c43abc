@@ -60,6 +60,8 @@ export function UnidadFormDialog({
       estado_comercial: "disponible", precio_venta: null, precio_renta: null, deposito: null, moneda: "L",
       precio_negociable: false, descripcion_comercial: "",
       propietario_id: null, inquilino_id: null,
+      referido_renta_nombre: "", referido_renta_agencia: "", referido_renta_url: "",
+      referido_venta_nombre: "", referido_venta_agencia: "", referido_venta_url: "",
     },
   });
 
