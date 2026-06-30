@@ -17,7 +17,35 @@ export function ReservasTable({ edificioId, onEdit }: { edificioId: string; onEd
   const { data: unidades = [] } = useUnidades();
   const { data: residentes = [] } = useResidentes();
   const del = useDeleteReserva();
+  const save = useSaveReserva();
   const [estado, setEstado] = useState("all");
+
+  const aprobar = async (r: Reserva) => {
+    const { data: u } = await supabase.auth.getUser();
+    await save.mutateAsync({
+      id: r.id,
+      condominio_id: r.condominio_id,
+      area_id: r.area_id,
+      fecha_inicio: r.fecha_inicio,
+      fecha_fin: r.fecha_fin,
+      estado: "confirmada",
+      aprobada_por: u.user?.id ?? null,
+      aprobada_en: new Date().toISOString(),
+    } as any);
+    toast.success("Reserva autorizada");
+  };
+  const marcarPagado = async (r: Reserva) => {
+    await save.mutateAsync({
+      id: r.id,
+      condominio_id: r.condominio_id,
+      area_id: r.area_id,
+      fecha_inicio: r.fecha_inicio,
+      fecha_fin: r.fecha_fin,
+      pagado_extra: true,
+    } as any);
+    toast.success("Pago extra registrado");
+  };
+
 
   const areaMap = useMemo(() => new Map(areas.map((a) => [a.id, a.nombre])), [areas]);
   const uniMap = useMemo(() => new Map(unidades.map((u) => [u.id, u.numero])), [unidades]);
