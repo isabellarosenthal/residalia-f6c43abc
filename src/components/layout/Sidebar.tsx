@@ -23,15 +23,8 @@ const sections = [
       { to: "/mantenimiento", icon: Wrench, label: "Mantenimiento" },
     ],
   },
-  {
-    label: "Comercial",
-    items: [
-      { to: "/propiedades", icon: Tag, label: "Propiedades en Venta/Renta" },
-      { to: "/prospectos", icon: UserPlus, label: "Prospectos" },
-      { to: "/pipeline", icon: Kanban, label: "Pipeline" },
-      { to: "/agenda", icon: CalendarDays, label: "Agenda" },
-    ],
-  },
+  // Sección Comercial oculta temporalmente — se retomará en próxima fase
+
   {
     label: "General",
     items: [
