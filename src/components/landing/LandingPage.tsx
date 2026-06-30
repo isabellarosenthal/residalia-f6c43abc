@@ -83,9 +83,7 @@ const FEATURE_ICONS = [
   { i: Wrench, t: "Mantenimiento e incidencias", d: "Levanta tickets, asigna proveedores, controla costos estimados vs reales y cierra órdenes con evidencia.", link: "Ver tickets", iconBg: C.warning },
   { i: MessageSquare, t: "Comunicados al condominio", d: "Envía avisos por grupo de residentes — emergencias, asambleas, cortes de servicio — con historial completo.", link: "Ver comunicados", iconBg: C.info },
   { i: Calendar, t: "Reserva de áreas comunes", d: "Salón social, gimnasio, piscina o cancha: los residentes ven disponibilidad y reservan en minutos.", link: "Ver áreas", iconBg: C.primarySoft },
-  { i: Building2, t: "CRM inmobiliario", d: "Pública las unidades en venta o renta, captura prospectos por origen, asígnales agente y precio.", link: "Ver CRM", iconBg: C.primaryDark },
-  { i: TrendingUp, t: "Pipeline y agenda", d: "Arrastra prospectos entre etapas (nuevo → visita → oferta → cierre) y agenda visitas con recordatorios.", link: "Ver pipeline", iconBg: C.error },
-  { i: BarChart3, t: "Reportes y KPIs", d: "Flujo de caja, ocupación, cartera vencida, conversión del pipeline. Exporta a PDF o CSV.", link: "Ver reportes", iconBg: C.primary },
+  { i: BarChart3, t: "Reportes y KPIs", d: "Flujo de caja, ocupación, cartera vencida y morosidad. Exporta a PDF o CSV.", link: "Ver reportes", iconBg: C.primary },
 ];
 
 export function LandingPage() {
@@ -172,8 +170,8 @@ export function LandingPage() {
               Administra tu condominio sin hojas de cálculo.
             </h1>
             <p className="mt-6 text-lg text-[#475569] max-w-xl mx-auto md:mx-0">
-              Cobros, accesos, residentes, mantenimiento y propiedades en venta o renta —
-              todo desde un solo panel con CRM inmobiliario integrado.
+              Cobros, accesos, residentes, mantenimiento y reservas de áreas comunes —
+              todo desde un solo panel.
             </p>
             <div className="mt-8 flex flex-wrap justify-center md:justify-start gap-3">
               <Link to="/login" search={{ mode: "signup" }} className="inline-flex items-center gap-2 bg-[#4A154B] text-white px-7 py-3.5 rounded-full font-semibold hover:bg-[#350d36] shadow-md transition-colors">
@@ -394,10 +392,10 @@ export function LandingPage() {
       <section className="max-w-7xl mx-auto px-6 py-20">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <h2 className="font-display font-extrabold text-3xl md:text-4xl text-[#0F172A]">Un vistazo a lo que vas a usar</h2>
-          <p className="mt-3 text-[#475569]">Tres módulos centrales del panel, exactamente como los vas a ver.</p>
+          <p className="mt-3 text-[#475569]">Dos módulos centrales del panel, exactamente como los vas a ver.</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Card 1: Cobros */}
           <div className="bg-white/60 backdrop-blur-xl border border-white/70 rounded-3xl p-8 flex flex-col shadow-[0_8px_30px_-12px_rgba(67,56,202,0.15)]">
             <h3 className="font-display font-extrabold text-2xl text-[#0F172A]">Cobros en un clic</h3>
@@ -457,31 +455,6 @@ export function LandingPage() {
             </div>
           </div>
 
-          {/* Card 3: Pipeline */}
-          <div className="bg-white/60 backdrop-blur-xl border border-white/70 rounded-3xl p-8 flex flex-col shadow-[0_8px_30px_-12px_rgba(67,56,202,0.15)]">
-            <h3 className="font-display font-extrabold text-2xl text-[#0F172A]">Pipeline inmobiliario</h3>
-            <p className="mt-2 text-sm text-[#475569]">Arrastra prospectos entre etapas, agenda visitas y nunca pierdas una venta o renta.</p>
-            <Link to="/login" className="mt-3 text-sm font-semibold text-[#4A154B] inline-flex items-center gap-1 hover:gap-2 transition-all">Ver pipeline <ArrowRight className="w-4 h-4" /></Link>
-            <div className="mt-6 bg-white rounded-2xl shadow-lg p-3 border border-[#E2E8F0]">
-              <div className="grid grid-cols-3 gap-2">
-                {[
-                  { t: "Nuevo", c: "#F3E7F3", items: [{ n: "A. Pérez", m: "L 1.2M" }, { n: "L. Gómez", m: "L 850K" }] },
-                  { t: "Visita", c: "#DBEAFE", items: [{ n: "M. Soto", m: "L 2.1M" }] },
-                  { t: "Cierre", c: "#DCFCE7", items: [{ n: "J. Ríos", m: "L 1.6M" }] },
-                ].map((col) => (
-                  <div key={col.t} className="space-y-2">
-                    <div className="text-[10px] font-bold uppercase tracking-wider text-[#475569] px-1">{col.t}</div>
-                    {col.items.map((it) => (
-                      <div key={it.n} className="rounded-lg p-2 text-[10px]" style={{ background: col.c }}>
-                        <div className="font-semibold text-[#0F172A]">{it.n}</div>
-                        <div className="text-[#475569] mt-0.5">{it.m}</div>
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* CTA final */}
