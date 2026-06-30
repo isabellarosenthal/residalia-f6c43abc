@@ -186,10 +186,16 @@ export function UnidadesTable({ edificioId, onEdit }: { edificioId: string; onEd
                   <div className="text-xs text-[#64748B]">{u.inquilino_id ? `Inq: ${residentesMap?.get(u.inquilino_id) ?? "—"}` : ""}</div>
                 </TableCell>
                 <TableCell className="text-right">
+                  {(u as any).mantenimiento_mensual
+                    ? <span className="text-sm font-semibold text-[#0F172A]">{fmtMoney((u as any).mantenimiento_mensual, (u as any).moneda)}</span>
+                    : <span className="text-[#64748B] text-sm">—</span>}
+                </TableCell>
+                <TableCell className="text-right">
                   {u.precio_venta && <div className="text-sm font-semibold text-[#4A154B]">{fmtMoney(u.precio_venta, (u as any).moneda)}</div>}
                   {u.precio_renta && <div className="text-xs text-[#1E293B]">Renta: {fmtMoney(u.precio_renta, (u as any).moneda)}</div>}
                   {!u.precio_venta && !u.precio_renta && <span className="text-[#64748B] text-sm">—</span>}
                 </TableCell>
+
                 <TableCell className="text-right">
                   <Button size="sm" variant="ghost" onClick={() => onEdit(u)} className="h-8 w-8 p-0"><Pencil className="w-4 h-4" /></Button>
                   <Button size="sm" variant="ghost" onClick={() => { if (confirm(`¿Eliminar unidad #${u.numero}?`)) del.mutate(u.id); }} className="h-8 w-8 p-0 text-[#be185d] hover:text-[#be185d]"><Trash2 className="w-4 h-4" /></Button>
