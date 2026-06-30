@@ -36,7 +36,7 @@ export function EdificioFormDialog({
     mode: "onChange",
     defaultValues: {
       nombre: "", tipo: "edificio", direccion: "", ciudad: "", departamento: "",
-      maps_url: "", moneda: "L", cuota_base: 0,
+      maps_url: "", moneda: "L", cuota_base: 0, cuota_modo: "fijo", cuota_por_m2: 0,
     },
   });
 
