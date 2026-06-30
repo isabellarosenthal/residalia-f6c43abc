@@ -121,11 +121,19 @@ export function ReservaFormDialog({
       num_personas: reserva?.num_personas ?? 0,
       estado: (reserva?.estado as any) ?? "confirmada",
       descripcion: reserva?.descripcion ?? "",
+      monto_extra: Number((reserva as any)?.monto_extra ?? 0),
+      pagado_extra: (reserva as any)?.pagado_extra ?? false,
     });
   }, [open, reserva, defaultCondominioId, defaultAreaId, initialStart, initialEnd, form]);
 
+  const personas = form.watch("num_personas") ?? 0;
+  const excedeCap = !!(areaSel?.capacidad && personas > areaSel.capacidad);
+  const personasExtra = excedeCap ? personas - (areaSel!.capacidad as number) : 0;
+
   const onSubmit = async (v: FormOut) => {
-    if (conflicto) return;
+    // admin puede ignorar conflictos de capacidad/horario; los de overlap igual los bloqueamos
+    if (conflicto && conflicto.tipo === "overlap") return;
+    if (conflicto && conflicto.tipo === "rango") return;
     await save.mutateAsync({
       id: reserva?.id,
       condominio_id: v.condominio_id,
@@ -137,9 +145,14 @@ export function ReservaFormDialog({
       num_personas: v.num_personas ?? null,
       estado: v.estado,
       descripcion: v.descripcion || null,
-    });
+      excede_capacidad: excedeCap,
+      personas_extra: personasExtra,
+      monto_extra: v.monto_extra ?? 0,
+      pagado_extra: v.pagado_extra ?? false,
+    } as any);
     onOpenChange(false);
   };
+
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
