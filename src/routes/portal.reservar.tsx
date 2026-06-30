@@ -36,8 +36,15 @@ function Reservar() {
   const area = areas.find((a) => a.id === areaId);
   const excedeCap = !!(area?.capacidad && personas > area.capacidad);
   const personasExtra = excedeCap ? personas - (area!.capacidad as number) : 0;
-  const costoExtra = personasExtra * Number((area as any)?.costo_por_persona_extra ?? 0);
+  const costoPersonas = personasExtra * Number((area as any)?.costo_por_persona_extra ?? 0);
+  const horasReserva = ini && fin ? Math.max(0, (new Date(fin).getTime() - new Date(ini).getTime()) / 3600000) : 0;
+  const horasIncluidas = Number((area as any)?.horas_incluidas ?? 0);
+  const costoHora = Number((area as any)?.costo_por_hora_extra ?? 0);
+  const horasExtra = horasIncluidas > 0 && costoHora > 0 ? Math.max(0, horasReserva - horasIncluidas) : 0;
+  const costoHoras = horasExtra * costoHora;
+  const costoExtra = costoPersonas + costoHoras;
   const permiteExceso = (area as any)?.permite_exceso !== false;
+  const requiereAutorizacion = excedeCap; // horas extra solo cobran, no requieren autorización
 
   const conflicto = (() => {
     if (!areaId || !ini || !fin) return null;
