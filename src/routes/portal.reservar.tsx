@@ -138,6 +138,13 @@ function Reservar() {
           </div>
         )}
 
+        {horasExtra > 0 && (
+          <div className="bg-[#EFF6FF] border border-[#BFDBFE] text-[#1E3A8A] rounded-lg p-3 text-sm">
+            <div className="font-semibold">Horas extra: {horasExtra.toFixed(1)}h</div>
+            <div className="text-xs">Incluye {horasIncluidas}h. Cargo adicional: L {costoHoras.toFixed(2)} ({horasExtra.toFixed(1)}h × L {costoHora.toFixed(2)}).</div>
+          </div>
+        )}
+
         {conflicto && (
           <div className="flex items-start gap-2 bg-[#fde8e2] border border-[#f5b8a8] text-[#7a2a10] rounded-lg p-3 text-sm">
             <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" />{conflicto}
