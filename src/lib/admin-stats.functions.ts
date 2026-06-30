@@ -209,3 +209,41 @@ export const updatePlan = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+
+export const listUsuarios = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertSuperAdmin(context.userId);
+    const [profiles, roles, condos, members] = await Promise.all([
+      supabaseAdmin.from("profiles").select("id, email, full_name, created_at, plan_seleccionado").order("created_at", { ascending: false }),
+      supabaseAdmin.from("user_roles").select("user_id, role"),
+      supabaseAdmin.from("condominios").select("id, nombre, admin_id"),
+      supabaseAdmin.from("condominio_members").select("user_id, condominio_id"),
+    ]);
+    const roleMap = new Map((roles.data ?? []).map((r) => [r.user_id, r.role]));
+    const condoByAdmin = new Map<string, string[]>();
+    (condos.data ?? []).forEach((c) => {
+      if (!c.admin_id) return;
+      const list = condoByAdmin.get(c.admin_id) ?? [];
+      list.push(c.nombre);
+      condoByAdmin.set(c.admin_id, list);
+    });
+    const condoNameMap = new Map((condos.data ?? []).map((c) => [c.id, c.nombre]));
+    const condoByMember = new Map<string, string[]>();
+    (members.data ?? []).forEach((m) => {
+      const name = condoNameMap.get(m.condominio_id);
+      if (!name) return;
+      const list = condoByMember.get(m.user_id) ?? [];
+      if (!list.includes(name)) list.push(name);
+      condoByMember.set(m.user_id, list);
+    });
+    return (profiles.data ?? []).map((p) => ({
+      id: p.id,
+      email: p.email,
+      full_name: p.full_name,
+      created_at: p.created_at,
+      plan_seleccionado: p.plan_seleccionado,
+      role: roleMap.get(p.id) ?? null,
+      edificios: condoByAdmin.get(p.id) ?? condoByMember.get(p.id) ?? [],
+    }));
+  });
