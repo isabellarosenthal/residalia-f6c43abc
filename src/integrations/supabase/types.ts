@@ -515,6 +515,62 @@ export type Database = {
           },
         ]
       }
+      guardia_turnos: {
+        Row: {
+          condominio_id: string
+          created_at: string
+          created_by: string | null
+          estado: string
+          fecha: string
+          fin_real: string | null
+          guardia_id: string
+          hora_fin: string
+          hora_inicio: string
+          id: string
+          inicio_real: string | null
+          notas: string | null
+          updated_at: string
+        }
+        Insert: {
+          condominio_id: string
+          created_at?: string
+          created_by?: string | null
+          estado?: string
+          fecha: string
+          fin_real?: string | null
+          guardia_id: string
+          hora_fin: string
+          hora_inicio: string
+          id?: string
+          inicio_real?: string | null
+          notas?: string | null
+          updated_at?: string
+        }
+        Update: {
+          condominio_id?: string
+          created_at?: string
+          created_by?: string | null
+          estado?: string
+          fecha?: string
+          fin_real?: string | null
+          guardia_id?: string
+          hora_fin?: string
+          hora_inicio?: string
+          id?: string
+          inicio_real?: string | null
+          notas?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "guardia_turnos_condominio_id_fkey"
+            columns: ["condominio_id"]
+            isOneToOne: false
+            referencedRelation: "condominios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       incidencias: {
         Row: {
           asignado_a: string | null
@@ -1018,6 +1074,50 @@ export type Database = {
           },
         ]
       }
+      puntos_rondin: {
+        Row: {
+          activo: boolean
+          condominio_id: string
+          created_at: string
+          id: string
+          nombre: string
+          orden: number
+          qr_code: string
+          ubicacion: string | null
+          updated_at: string
+        }
+        Insert: {
+          activo?: boolean
+          condominio_id: string
+          created_at?: string
+          id?: string
+          nombre: string
+          orden?: number
+          qr_code: string
+          ubicacion?: string | null
+          updated_at?: string
+        }
+        Update: {
+          activo?: boolean
+          condominio_id?: string
+          created_at?: string
+          id?: string
+          nombre?: string
+          orden?: number
+          qr_code?: string
+          ubicacion?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "puntos_rondin_condominio_id_fkey"
+            columns: ["condominio_id"]
+            isOneToOne: false
+            referencedRelation: "condominios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reservas: {
         Row: {
           area_id: string
@@ -1154,6 +1254,64 @@ export type Database = {
             columns: ["unidad_id"]
             isOneToOne: false
             referencedRelation: "unidades"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rondines_log: {
+        Row: {
+          condominio_id: string
+          created_at: string
+          foto_url: string | null
+          guardia_id: string
+          id: string
+          notas: string | null
+          punto_id: string
+          scanned_at: string
+          turno_id: string
+        }
+        Insert: {
+          condominio_id: string
+          created_at?: string
+          foto_url?: string | null
+          guardia_id: string
+          id?: string
+          notas?: string | null
+          punto_id: string
+          scanned_at?: string
+          turno_id: string
+        }
+        Update: {
+          condominio_id?: string
+          created_at?: string
+          foto_url?: string | null
+          guardia_id?: string
+          id?: string
+          notas?: string | null
+          punto_id?: string
+          scanned_at?: string
+          turno_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rondines_log_condominio_id_fkey"
+            columns: ["condominio_id"]
+            isOneToOne: false
+            referencedRelation: "condominios"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rondines_log_punto_id_fkey"
+            columns: ["punto_id"]
+            isOneToOne: false
+            referencedRelation: "puntos_rondin"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rondines_log_turno_id_fkey"
+            columns: ["turno_id"]
+            isOneToOne: false
+            referencedRelation: "guardia_turnos"
             referencedColumns: ["id"]
           },
         ]
