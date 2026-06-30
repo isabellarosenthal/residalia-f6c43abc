@@ -392,10 +392,10 @@ export function LandingPage() {
       <section className="max-w-7xl mx-auto px-6 py-20">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <h2 className="font-display font-extrabold text-3xl md:text-4xl text-[#0F172A]">Un vistazo a lo que vas a usar</h2>
-          <p className="mt-3 text-[#475569]">Tres módulos centrales del panel, exactamente como los vas a ver.</p>
+          <p className="mt-3 text-[#475569]">Dos módulos centrales del panel, exactamente como los vas a ver.</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Card 1: Cobros */}
           <div className="bg-white/60 backdrop-blur-xl border border-white/70 rounded-3xl p-8 flex flex-col shadow-[0_8px_30px_-12px_rgba(67,56,202,0.15)]">
             <h3 className="font-display font-extrabold text-2xl text-[#0F172A]">Cobros en un clic</h3>
