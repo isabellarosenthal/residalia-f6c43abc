@@ -1549,6 +1549,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      aplicar_mora_masiva: {
+        Args: { _condo_id: string; _pct: number; _solo_vacios?: boolean }
+        Returns: number
+      }
       assign_user_to_condominio: {
         Args: {
           _condo_id: string

@@ -1,25 +1,19 @@
-## Objetivo
-Permitir que al crear/editar un residente tipo "inquilino", se le vincule a un propietario existente de la misma unidad/edificio como su "relacionado" (hijo/adicional del propietario).
+## Mora masiva desde Configuración
 
-## Cambios
+Agregar en `src/routes/configuracion.tsx` una sección "Mora por atraso (masivo)" con:
+- Input de % de mora.
+- Botón **Aplicar a todos los residentes** del edificio actual (sobrescribe `recargo_mora_pct` en todos).
+- Botón **Aplicar solo a los que no tienen** (actualiza solo donde `recargo_mora_pct` es 0 o NULL).
+- Confirmación antes de ejecutar + toast con cantidad actualizada.
 
-### 1. Base de datos (migración)
-- Agregar columna `relacionado_id uuid` a `public.residentes` con FK a `public.residentes(id) ON DELETE SET NULL`.
-- Índice en `relacionado_id`.
+### Backend
+Nueva función RPC `aplicar_mora_masiva(_condo_id uuid, _pct numeric, _solo_vacios boolean)`:
+- `SECURITY DEFINER`, valida `can_manage_condominio`.
+- `UPDATE public.residentes SET recargo_mora_pct = _pct WHERE condominio_id = _condo_id [AND (recargo_mora_pct IS NULL OR recargo_mora_pct = 0)]`.
+- Devuelve `integer` con filas afectadas.
 
-### 2. Formulario `ResidenteFormDialog.tsx`
-- Agregar campo opcional **"Propietario asociado"** (Select) que solo aparece cuando `tipo = inquilino`.
-- Cargar lista de propietarios del edificio seleccionado (filtrado opcional por la unidad seleccionada si hay una).
-- Guardar `relacionado_id` junto con el resto del residente.
-- En edición precargar el valor.
+### Frontend
+- Hook `useAplicarMoraMasiva` en `src/lib/queries.ts` que llama el RPC e invalida `residentes`.
+- UI en Configuración bajo la tarjeta del edificio, usando el `condominio_id` activo.
 
-### 3. `src/lib/queries.ts`
-- Extender tipo `Residente` y el payload de `useSaveResidente` con `relacionado_id`.
-- Helper `usePropietarios(condominioId, unidadId?)` para alimentar el select.
-
-### 4. Tabla `ResidentesTable` (visual ligero)
-- En la fila de un inquilino, mostrar bajo el nombre un badge "↳ asociado a {Nombre Propietario}" cuando exista `relacionado_id`. Sin cambios de columnas.
-
-## Notas
-- Solo inquilinos pueden tener propietario asociado; si el usuario cambia el tipo a propietario, el campo se limpia.
-- No se modifican RLS (la columna hereda las policies de la tabla).
+No cambia el flujo individual existente en el form del residente ni el botón "Aplicar mora" en cobros.
