@@ -73,6 +73,7 @@ export function ResidenteFormDialog({
       tipo: (residente?.tipo as any) ?? "propietario",
       condominio_id: residente?.condominio_id ?? defaultCondominioId ?? "",
       unidad_id: residente?.unidad_id ?? null,
+      relacionado_id: (residente as any)?.relacionado_id ?? null,
       fecha_ingreso: residente?.fecha_ingreso ?? new Date().toISOString().slice(0, 10),
       foto_url: residente?.foto_url ?? "",
       activo: residente?.activo ?? true,
