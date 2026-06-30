@@ -18,11 +18,21 @@ export function useEdificios() {
         .from("condominios")
         .select("*")
         .order("created_at", { ascending: false });
-      if (error) throw error;
+      if (error) {
+        // Durante onboarding (sin edificios aún) RLS puede devolver 403/permission denied.
+        // Lo tratamos como lista vacía para que la UI muestre el empty-state limpio.
+        const code = (error as { code?: string }).code;
+        const status = (error as { status?: number }).status;
+        if (status === 401 || status === 403 || code === "PGRST301" || code === "42501") {
+          return [];
+        }
+        throw error;
+      }
       return data ?? [];
     },
   });
 }
+
 
 export function useEdificio(id: string | undefined) {
   return useQuery({
