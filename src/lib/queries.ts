@@ -422,6 +422,47 @@ export function useMarcarVencidos() {
   });
 }
 
+export function useAplicarMora() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (cobroId: string) => {
+      const { data: cobro, error: e1 } = await supabase
+        .from("cobros").select("*").eq("id", cobroId).single();
+      if (e1) throw e1;
+      let pct = 0;
+      if (cobro.residente_id) {
+        const { data: r } = await supabase.from("residentes").select("recargo_mora_pct").eq("id", cobro.residente_id).maybeSingle();
+        pct = Number((r as any)?.recargo_mora_pct ?? 0);
+      }
+      if (!pct) {
+        const { data: c } = await supabase.from("condominios").select("recargo_mora_pct").eq("id", cobro.condominio_id).maybeSingle();
+        pct = Number(c?.recargo_mora_pct ?? 0);
+      }
+      if (!pct || pct <= 0) throw new Error("Configura el % de mora en el residente o el edificio");
+      const { data: pagos } = await supabase.from("pagos").select("monto").eq("cobro_id", cobroId);
+      const abonado = (pagos ?? []).reduce((a, p: any) => a + Number(p.monto), 0);
+      const saldo = Math.max(0, Number(cobro.monto) - abonado);
+      if (saldo <= 0) throw new Error("El cobro no tiene saldo pendiente");
+      const mora = Math.round(saldo * pct) / 100;
+      const nuevoMonto = Number(cobro.monto) + mora;
+      const moraTotal = Number((cobro as any).mora_aplicada ?? 0) + mora;
+      const nuevoConcepto = /\+ mora/i.test(cobro.concepto) ? cobro.concepto : `${cobro.concepto} + mora ${pct}%`;
+      const { error: e2 } = await supabase.from("cobros").update({
+        monto: nuevoMonto,
+        mora_aplicada: moraTotal,
+        concepto: nuevoConcepto,
+      } as any).eq("id", cobroId);
+      if (e2) throw e2;
+      return mora;
+    },
+    onSuccess: (mora) => {
+      qc.invalidateQueries({ queryKey: ["cobros"] });
+      toast.success(`Mora aplicada: L ${mora.toFixed(2)}`);
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error aplicando mora"),
+  });
+}
+
 // Compat: usado en CobrosTable existente — abre un pago por el saldo completo
 export function useMarcarPagado() {
   const reg = useRegistrarPago();

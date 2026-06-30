@@ -29,6 +29,7 @@ const schema = z.object({
   fecha_ingreso: z.string().min(1, "Requerido"),
   foto_url: z.string().max(500).optional().or(z.literal("")),
   activo: z.boolean().default(true),
+  recargo_mora_pct: z.coerce.number().min(0).max(100).default(0),
 });
 type FormVals = z.input<typeof schema>;
 type FormOut = z.output<typeof schema>;
@@ -46,7 +47,7 @@ export function ResidenteFormDialog({
     defaultValues: {
       nombre: "", apellido: "", dni: "", telefono: "", telefono_alt: "", email: "",
       tipo: "propietario", condominio_id: defaultCondominioId ?? "", unidad_id: null, relacionado_id: null,
-      fecha_ingreso: new Date().toISOString().slice(0, 10), foto_url: "", activo: true,
+      fecha_ingreso: new Date().toISOString().slice(0, 10), foto_url: "", activo: true, recargo_mora_pct: 0,
     },
   });
 
@@ -77,6 +78,7 @@ export function ResidenteFormDialog({
       fecha_ingreso: residente?.fecha_ingreso ?? new Date().toISOString().slice(0, 10),
       foto_url: residente?.foto_url ?? "",
       activo: residente?.activo ?? true,
+      recargo_mora_pct: Number((residente as any)?.recargo_mora_pct ?? 0),
     });
   }, [open, residente, defaultCondominioId, form]);
 
@@ -96,6 +98,7 @@ export function ResidenteFormDialog({
       fecha_ingreso: v.fecha_ingreso,
       foto_url: v.foto_url || null,
       activo: v.activo,
+      recargo_mora_pct: v.recargo_mora_pct ?? 0,
       ...(userIdOverride !== undefined ? { user_id: userIdOverride } : {}),
     } as any);
     onOpenChange(false);
@@ -197,8 +200,13 @@ export function ResidenteFormDialog({
               <p className="text-xs text-muted-foreground mt-1">Vincula este inquilino al propietario de la unidad.</p>
             </div>
           )}
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-3 gap-3">
             <div><Label>Fecha de ingreso *</Label><Input type="date" {...form.register("fecha_ingreso")} /></div>
+            <div>
+              <Label>% Mora por atraso</Label>
+              <Input type="number" step="0.01" min="0" max="100" {...form.register("recargo_mora_pct")} />
+              <p className="text-xs text-muted-foreground mt-1">Se aplica al saldo vencido.</p>
+            </div>
             <div><Label>Foto URL</Label><Input {...form.register("foto_url")} placeholder="https://…" /></div>
           </div>
           <div className="flex items-center justify-between border border-[#E2E8F0] rounded-lg p-3">

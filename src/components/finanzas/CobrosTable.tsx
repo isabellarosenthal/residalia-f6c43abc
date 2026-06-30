@@ -6,9 +6,9 @@ import { Badge } from "@/components/ui-pentos";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { Pencil, Trash2, DollarSign, Search, Printer, AlertTriangle } from "lucide-react";
+import { Pencil, Trash2, DollarSign, Search, Printer, AlertTriangle, Percent } from "lucide-react";
 import { fmtL, fmtDate } from "@/lib/format";
-import { useCobros, useDeleteCobro, useUnidades, useResidentes, usePagosDeEdificio, useMarcarVencidos, diasMora, type Cobro } from "@/lib/queries";
+import { useCobros, useDeleteCobro, useUnidades, useResidentes, usePagosDeEdificio, useMarcarVencidos, useAplicarMora, diasMora, type Cobro } from "@/lib/queries";
 
 const RegistrarPagoDialog = lazy(() => import("./RegistrarPagoDialog").then((m) => ({ default: m.RegistrarPagoDialog })));
 
@@ -20,6 +20,7 @@ export function CobrosTable({ edificioId, onEdit }: { edificioId: string; onEdit
   const { data: pagos = [] } = usePagosDeEdificio(filter);
   const del = useDeleteCobro();
   const vencer = useMarcarVencidos();
+  const aplicarMora = useAplicarMora();
 
   const [estado, setEstado] = useState("all");
   const [search, setSearch] = useState("");
@@ -120,7 +121,12 @@ export function CobrosTable({ edificioId, onEdit }: { edificioId: string; onEdit
                     <div className="text-[#4A154B]">{c.unidad_id ? `#${uniMap.get(c.unidad_id) ?? "—"}` : "—"}</div>
                     <div className="text-xs text-[#64748B]">{c.residente_id ? resMap.get(c.residente_id) ?? "—" : "—"}</div>
                   </TableCell>
-                  <TableCell className="text-right font-semibold text-[#4A154B]">{fmtL(c.monto)}</TableCell>
+                  <TableCell className="text-right font-semibold text-[#4A154B]">
+                    {fmtL(c.monto)}
+                    {Number((c as any).mora_aplicada ?? 0) > 0 && (
+                      <div className="text-xs font-normal text-[#be185d]">incl. mora {fmtL((c as any).mora_aplicada)}</div>
+                    )}
+                  </TableCell>
                   <TableCell className="text-right text-sm text-[#166534]">{abonado > 0 ? fmtL(abonado) : "—"}</TableCell>
                   <TableCell className="text-right font-semibold text-[#4A154B]">{saldo > 0 ? fmtL(saldo) : "—"}</TableCell>
                   <TableCell className="text-sm">{fmtDate(c.fecha_vencimiento)}</TableCell>
@@ -130,6 +136,9 @@ export function CobrosTable({ edificioId, onEdit }: { edificioId: string; onEdit
                       <Link to="/recibo/$cobroId" params={{ cobroId: c.id }} target="_blank">
                         <Button size="sm" variant="ghost" title="Imprimir recibo" className="h-8 w-8 p-0 text-[#4A154B]"><Printer className="w-4 h-4" /></Button>
                       </Link>
+                    )}
+                    {saldo > 0 && diasMora(c.fecha_vencimiento, c.estado) > 0 && (
+                      <Button size="sm" variant="ghost" title="Aplicar mora al saldo" onClick={() => { if (confirm("¿Aplicar mora al saldo vencido?")) aplicarMora.mutate(c.id); }} className="h-8 w-8 p-0 text-[#be185d]"><Percent className="w-4 h-4" /></Button>
                     )}
                     <Button size="sm" variant="ghost" title={saldo > 0 ? "Registrar pago" : "Ver pagos"} onClick={() => setPagoCobro(c)} className="h-8 w-8 p-0 text-[#166534]"><DollarSign className="w-4 h-4" /></Button>
                     <Button size="sm" variant="ghost" onClick={() => onEdit(c)} className="h-8 w-8 p-0"><Pencil className="w-4 h-4" /></Button>

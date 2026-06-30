@@ -202,6 +202,7 @@ export type Database = {
           id: string
           metodo_pago: string | null
           monto: number
+          mora_aplicada: number
           notas: string | null
           recibo_numero: string | null
           residente_id: string | null
@@ -218,6 +219,7 @@ export type Database = {
           id?: string
           metodo_pago?: string | null
           monto: number
+          mora_aplicada?: number
           notas?: string | null
           recibo_numero?: string | null
           residente_id?: string | null
@@ -234,6 +236,7 @@ export type Database = {
           id?: string
           metodo_pago?: string | null
           monto?: number
+          mora_aplicada?: number
           notas?: string | null
           recibo_numero?: string | null
           residente_id?: string | null
@@ -1209,6 +1212,7 @@ export type Database = {
           foto_url: string | null
           id: string
           nombre: string
+          recargo_mora_pct: number
           relacionado_id: string | null
           telefono: string | null
           telefono_alt: string | null
@@ -1227,6 +1231,7 @@ export type Database = {
           foto_url?: string | null
           id?: string
           nombre: string
+          recargo_mora_pct?: number
           relacionado_id?: string | null
           telefono?: string | null
           telefono_alt?: string | null
@@ -1245,6 +1250,7 @@ export type Database = {
           foto_url?: string | null
           id?: string
           nombre?: string
+          recargo_mora_pct?: number
           relacionado_id?: string | null
           telefono?: string | null
           telefono_alt?: string | null
