@@ -89,6 +89,12 @@ export function UnidadFormDialog({
       descripcion_comercial: unidad?.descripcion_comercial ?? "",
       propietario_id: unidad?.propietario_id ?? null,
       inquilino_id: unidad?.inquilino_id ?? null,
+      referido_renta_nombre: (unidad as any)?.referido_renta_nombre ?? "",
+      referido_renta_agencia: (unidad as any)?.referido_renta_agencia ?? "",
+      referido_renta_url: (unidad as any)?.referido_renta_url ?? "",
+      referido_venta_nombre: (unidad as any)?.referido_venta_nombre ?? "",
+      referido_venta_agencia: (unidad as any)?.referido_venta_agencia ?? "",
+      referido_venta_url: (unidad as any)?.referido_venta_url ?? "",
     });
   }, [open, unidad, form]);
 
