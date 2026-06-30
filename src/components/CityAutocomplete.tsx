@@ -78,15 +78,10 @@ export function CityAutocomplete({ value, onChange, placeholder = "Buscar ciudad
     setOpen(false);
   };
 
-  const handleBlur = () => {
-    if (!isKnown && inputValue.trim()) {
-      // allow custom city text
-      onChange(inputValue.trim());
-    }
-  };
+  const showCustom = inputValue.trim() && !isKnown;
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={(o) => { if (!o && inputValue.trim()) onChange(inputValue.trim()); setOpen(o); }}>
       <PopoverTrigger asChild>
         <button
           type="button"
