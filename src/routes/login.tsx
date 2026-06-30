@@ -65,7 +65,7 @@ function LoginPage() {
           await createResident({ data: { email, password, fullName: name, invitationCode } });
           const { error } = await supabase.auth.signInWithPassword({ email, password });
           if (error) throw error;
-          toast.success("Cuenta creada");
+          toast.success("¡Cuenta creada! Redirigiendo a tu portal…", { duration: 5000 });
           return;
         }
         const meta: Record<string, any> = { full_name: name, role: signupRole };
@@ -75,7 +75,7 @@ function LoginPage() {
           options: { emailRedirectTo: window.location.origin, data: meta },
         });
         if (error) throw error;
-        toast.success("Cuenta creada");
+        toast.success("¡Cuenta creada! Te llevamos al onboarding…", { duration: 5000 });
       }
     } catch (err: any) {
       toast.error(err?.message ?? "Error de autenticación");
