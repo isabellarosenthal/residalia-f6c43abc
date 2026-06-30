@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import toast from "react-hot-toast";
-import { User as UserIcon, Building2, Users, Shield, Save, Home, Crown, Check } from "lucide-react";
+import { User as UserIcon, Building2, Users, Shield, Save, Trash2, Plus, Home, Crown, Check } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import logoUrl from "@/assets/residalia-logo.png";
 import { Card } from "@/components/ui-pentos";
