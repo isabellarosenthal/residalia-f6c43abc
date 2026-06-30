@@ -1,19 +1,22 @@
-## Mora masiva desde Configuración
+## Referidos por agencias en unidades en renta/venta
 
-Agregar en `src/routes/configuracion.tsx` una sección "Mora por atraso (masivo)" con:
-- Input de % de mora.
-- Botón **Aplicar a todos los residentes** del edificio actual (sobrescribe `recargo_mora_pct` en todos).
-- Botón **Aplicar solo a los que no tienen** (actualiza solo donde `recargo_mora_pct` es 0 o NULL).
-- Confirmación antes de ejecutar + toast con cantidad actualizada.
+### Schema (`unidades`)
+Agregar columnas:
+- `referido_renta_nombre text` — persona o agencia que refirió la unidad para renta.
+- `referido_renta_agencia text` — nombre de la agencia.
+- `referido_renta_url text` — link (sitio web, listing).
+- `referido_venta_nombre text`
+- `referido_venta_agencia text`
+- `referido_venta_url text`
 
-### Backend
-Nueva función RPC `aplicar_mora_masiva(_condo_id uuid, _pct numeric, _solo_vacios boolean)`:
-- `SECURITY DEFINER`, valida `can_manage_condominio`.
-- `UPDATE public.residentes SET recargo_mora_pct = _pct WHERE condominio_id = _condo_id [AND (recargo_mora_pct IS NULL OR recargo_mora_pct = 0)]`.
-- Devuelve `integer` con filas afectadas.
+### UI — `UnidadFormDialog.tsx`
+Nueva sección colapsable **"Referido por (agencia de bienes raíces)"** con dos bloques:
+- **Renta** (visible cuando `precio_renta > 0` o `estado_comercial` incluye renta): nombre, agencia, link.
+- **Venta** (visible cuando `precio_venta > 0` o estado incluye venta): nombre, agencia, link.
+Validar URL básica (debe iniciar con http(s)://).
 
-### Frontend
-- Hook `useAplicarMoraMasiva` en `src/lib/queries.ts` que llama el RPC e invalida `residentes`.
-- UI en Configuración bajo la tarjeta del edificio, usando el `condominio_id` activo.
+### UI — `UnidadesTable.tsx` / detalle
+Mostrar badge "Ref: {agencia}" con `<a target="_blank">` cuando la unidad tiene referido en renta o venta, junto al precio correspondiente.
 
-No cambia el flujo individual existente en el form del residente ni el botón "Aplicar mora" en cobros.
+### Queries
+Actualizar tipo `Unidad` y `useSaveUnidad` para incluir los 6 campos nuevos.

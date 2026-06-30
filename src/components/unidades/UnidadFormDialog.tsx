@@ -34,6 +34,12 @@ const schema = z.object({
   descripcion_comercial: z.string().max(2000).optional().or(z.literal("")),
   propietario_id: z.string().nullable().optional(),
   inquilino_id: z.string().nullable().optional(),
+  referido_renta_nombre: z.string().max(120).optional().or(z.literal("")),
+  referido_renta_agencia: z.string().max(120).optional().or(z.literal("")),
+  referido_renta_url: z.string().url("URL inválida").optional().or(z.literal("")),
+  referido_venta_nombre: z.string().max(120).optional().or(z.literal("")),
+  referido_venta_agencia: z.string().max(120).optional().or(z.literal("")),
+  referido_venta_url: z.string().url("URL inválida").optional().or(z.literal("")),
 });
 type FormVals = z.input<typeof schema>;
 type FormOut = z.output<typeof schema>;
@@ -54,6 +60,8 @@ export function UnidadFormDialog({
       estado_comercial: "disponible", precio_venta: null, precio_renta: null, deposito: null, moneda: "L",
       precio_negociable: false, descripcion_comercial: "",
       propietario_id: null, inquilino_id: null,
+      referido_renta_nombre: "", referido_renta_agencia: "", referido_renta_url: "",
+      referido_venta_nombre: "", referido_venta_agencia: "", referido_venta_url: "",
     },
   });
 
@@ -81,6 +89,12 @@ export function UnidadFormDialog({
       descripcion_comercial: unidad?.descripcion_comercial ?? "",
       propietario_id: unidad?.propietario_id ?? null,
       inquilino_id: unidad?.inquilino_id ?? null,
+      referido_renta_nombre: (unidad as any)?.referido_renta_nombre ?? "",
+      referido_renta_agencia: (unidad as any)?.referido_renta_agencia ?? "",
+      referido_renta_url: (unidad as any)?.referido_renta_url ?? "",
+      referido_venta_nombre: (unidad as any)?.referido_venta_nombre ?? "",
+      referido_venta_agencia: (unidad as any)?.referido_venta_agencia ?? "",
+      referido_venta_url: (unidad as any)?.referido_venta_url ?? "",
     });
   }, [open, unidad, form]);
 
@@ -109,7 +123,13 @@ export function UnidadFormDialog({
       descripcion_comercial: v.descripcion_comercial || null,
       propietario_id: v.propietario_id || null,
       inquilino_id: v.inquilino_id || null,
-    });
+      referido_renta_nombre: v.referido_renta_nombre || null,
+      referido_renta_agencia: v.referido_renta_agencia || null,
+      referido_renta_url: v.referido_renta_url || null,
+      referido_venta_nombre: v.referido_venta_nombre || null,
+      referido_venta_agencia: v.referido_venta_agencia || null,
+      referido_venta_url: v.referido_venta_url || null,
+    } as any);
     onOpenChange(false);
   };
 
@@ -253,6 +273,36 @@ export function UnidadFormDialog({
               <div>
                 <Label>Descripción comercial</Label>
                 <Textarea rows={3} {...form.register("descripcion_comercial")} placeholder="Hermoso apartamento con vista panorámica…" />
+              </div>
+
+              <div className="border border-[#E2E8F0] rounded-lg p-3 space-y-3">
+                <div className="text-sm font-semibold text-[#0F172A]">Referido por (agencia de bienes raíces)</div>
+
+                <div className="space-y-2">
+                  <div className="text-xs font-medium text-[#64748B] uppercase">Renta</div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div><Label>Nombre / referente</Label><Input {...form.register("referido_renta_nombre")} placeholder="Juan Pérez" /></div>
+                    <div><Label>Agencia</Label><Input {...form.register("referido_renta_agencia")} placeholder="Century 21" /></div>
+                  </div>
+                  <div>
+                    <Label>Link del listado</Label>
+                    <Input {...form.register("referido_renta_url")} placeholder="https://..." />
+                    {form.formState.errors.referido_renta_url && <p className="text-xs text-red-600 mt-1">{form.formState.errors.referido_renta_url.message}</p>}
+                  </div>
+                </div>
+
+                <div className="space-y-2 pt-2 border-t border-[#F1F5F9]">
+                  <div className="text-xs font-medium text-[#64748B] uppercase">Venta</div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div><Label>Nombre / referente</Label><Input {...form.register("referido_venta_nombre")} placeholder="María López" /></div>
+                    <div><Label>Agencia</Label><Input {...form.register("referido_venta_agencia")} placeholder="RE/MAX" /></div>
+                  </div>
+                  <div>
+                    <Label>Link del listado</Label>
+                    <Input {...form.register("referido_venta_url")} placeholder="https://..." />
+                    {form.formState.errors.referido_venta_url && <p className="text-xs text-red-600 mt-1">{form.formState.errors.referido_venta_url.message}</p>}
+                  </div>
+                </div>
               </div>
             </TabsContent>
           </Tabs>

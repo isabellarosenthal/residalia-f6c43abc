@@ -1413,6 +1413,12 @@ export type Database = {
           precio_renta: number | null
           precio_venta: number | null
           propietario_id: string | null
+          referido_renta_agencia: string | null
+          referido_renta_nombre: string | null
+          referido_renta_url: string | null
+          referido_venta_agencia: string | null
+          referido_venta_nombre: string | null
+          referido_venta_url: string | null
           tipo: string | null
         }
         Insert: {
@@ -1443,6 +1449,12 @@ export type Database = {
           precio_renta?: number | null
           precio_venta?: number | null
           propietario_id?: string | null
+          referido_renta_agencia?: string | null
+          referido_renta_nombre?: string | null
+          referido_renta_url?: string | null
+          referido_venta_agencia?: string | null
+          referido_venta_nombre?: string | null
+          referido_venta_url?: string | null
           tipo?: string | null
         }
         Update: {
@@ -1473,6 +1485,12 @@ export type Database = {
           precio_renta?: number | null
           precio_venta?: number | null
           propietario_id?: string | null
+          referido_renta_agencia?: string | null
+          referido_renta_nombre?: string | null
+          referido_renta_url?: string | null
+          referido_venta_agencia?: string | null
+          referido_venta_nombre?: string | null
+          referido_venta_url?: string | null
           tipo?: string | null
         }
         Relationships: [
