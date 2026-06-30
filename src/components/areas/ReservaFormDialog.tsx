@@ -221,16 +221,47 @@ export function ReservaFormDialog({
             </div>
           </div>
           <div><Label>Descripción</Label><Textarea rows={2} {...form.register("descripcion")} /></div>
-          {conflicto && (
+
+          {excedeCap && (
+            <div className="bg-[#FEF3C7] border border-[#FCD34D] text-[#78350F] rounded-lg p-3 text-sm">
+              <div className="flex items-start gap-2 mb-2">
+                <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" />
+                <div>
+                  <div className="font-semibold">Excede capacidad ({areaSel?.capacidad})</div>
+                  <div className="text-xs">+{personasExtra} extra. Como administrador puedes autorizar cobrando el monto extra.</div>
+                  {(reserva as any)?.solicitud_nota && <div className="text-xs italic mt-1">Nota del residente: "{(reserva as any).solicitud_nota}"</div>}
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <Label className="text-[#78350F]">Monto extra (L)</Label>
+                  <Input type="number" step="0.01" {...form.register("monto_extra")} />
+                </div>
+                <div className="flex items-end gap-2">
+                  <input type="checkbox" id="pagado_extra" {...form.register("pagado_extra")} className="w-4 h-4" />
+                  <Label htmlFor="pagado_extra" className="cursor-pointer">Marcar como pagado</Label>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {conflicto && conflicto.tipo !== "horario" && (
             <div className="flex items-start gap-2 bg-[#fde8e2] border border-[#f5b8a8] text-[#7a2a10] rounded-lg p-3 text-sm">
               <AlertTriangle className="w-4 h-4 mt-0.5 flex-shrink-0" />
               <span>{conflicto.mensaje}</span>
             </div>
           )}
+          {conflicto?.tipo === "horario" && (
+            <div className="flex items-start gap-2 bg-[#FEF3C7] border border-[#FCD34D] text-[#78350F] rounded-lg p-3 text-sm">
+              <AlertTriangle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+              <span>{conflicto.mensaje} (Admin: se permitirá guardar igual)</span>
+            </div>
+          )}
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-            <Button type="submit" disabled={save.isPending || !!conflicto} className="bg-[#4A154B] hover:bg-[#350d36]">{save.isPending ? "Guardando…" : "Guardar"}</Button>
+            <Button type="submit" disabled={save.isPending || conflicto?.tipo === "overlap" || conflicto?.tipo === "rango"} className="bg-[#4A154B] hover:bg-[#350d36]">{save.isPending ? "Guardando…" : "Guardar"}</Button>
           </DialogFooter>
+
         </form>
       </DialogContent>
     </Dialog>
