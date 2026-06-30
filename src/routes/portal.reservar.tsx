@@ -84,10 +84,11 @@ function Reservar() {
       fecha_inicio: new Date(ini).toISOString(),
       fecha_fin: new Date(fin).toISOString(),
       num_personas: personas,
-      estado: "pendiente",
+      estado: requiereAutorizacion ? "pendiente" : "pendiente",
       descripcion: descripcion || null,
       excede_capacidad: excedeCap,
       personas_extra: personasExtra,
+      horas_extra: horasExtra,
       monto_extra: costoExtra,
       solicitud_nota: excedeCap ? nota : null,
     } as any);
