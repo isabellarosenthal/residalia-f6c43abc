@@ -50,10 +50,10 @@ export function useEdificio(id: string | undefined) {
 export function useSaveEdificio() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (input: CondominioInsert & { id?: string }) => {
+    mutationFn: async (input: CondominioInsert & { id?: string; cuota_modo?: string; cuota_por_m2?: number }) => {
       if (input.id) {
         const { id, ...rest } = input;
-        const { data, error } = await supabase.from("condominios").update(rest).eq("id", id).select().single();
+        const { data, error } = await supabase.from("condominios").update(rest as any).eq("id", id).select().single();
         if (error) throw error;
         return data;
       }
@@ -78,7 +78,14 @@ export function useSaveEdificio() {
         _dias_gracia: input.dias_gracia ?? 5,
       });
       if (error) throw error;
-      return data;
+      const created: any = Array.isArray(data) ? data[0] : data;
+      if (created?.id && (input.cuota_modo || input.cuota_por_m2)) {
+        await supabase.from("condominios").update({
+          cuota_modo: input.cuota_modo ?? "fijo",
+          cuota_por_m2: input.cuota_por_m2 ?? 0,
+        } as any).eq("id", created.id);
+      }
+      return created;
     },
     onSuccess: (_d, vars) => {
       qc.invalidateQueries({ queryKey: ["edificios"] });
