@@ -13,6 +13,8 @@ import {
   useResidentesMap,
   useResidentes,
   useBulkUpdateUnidades,
+  useEdificio,
+  calcMontoUnidad,
   type Unidad,
 } from "@/lib/queries";
 
