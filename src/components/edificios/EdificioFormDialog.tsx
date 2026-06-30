@@ -53,9 +53,6 @@ export function EdificioFormDialog({
     }
   }, [open, edificio, form]);
 
-  const departamento = form.watch("departamento") ?? "";
-  const ciudades = useMemo(() => ciudadesDe(departamento), [departamento]);
-
   const onSubmit = async (vals: FormOut) => {
     await save.mutateAsync({
       id: edificio?.id,
