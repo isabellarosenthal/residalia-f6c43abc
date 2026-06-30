@@ -142,10 +142,9 @@ export function UnidadFormDialog({
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <Tabs defaultValue="datos">
-            <TabsList className="grid grid-cols-3 w-full bg-[#F8FAFC]">
+            <TabsList className="grid grid-cols-2 w-full bg-[#F8FAFC]">
               <TabsTrigger value="datos">Datos generales</TabsTrigger>
               <TabsTrigger value="admin">Administración</TabsTrigger>
-              <TabsTrigger value="crm">Comercial / CRM</TabsTrigger>
             </TabsList>
 
             <TabsContent value="datos" className="space-y-3 pt-4">
