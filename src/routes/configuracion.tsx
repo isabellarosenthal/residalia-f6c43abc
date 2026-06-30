@@ -423,6 +423,8 @@ function ResidentesTab() {
   return (
     <>
     <PlanLimitsBanner focus="unidades" />
+    <MoraMasivaCard />
+
     <Card className="p-6 space-y-4">
       <div className="flex items-center justify-between gap-3">
         <div>
