@@ -18,7 +18,10 @@ const schema = z.object({
   horario_fin: z.string().optional().or(z.literal("")),
   icono: z.string().max(40).optional().or(z.literal("")),
   activa: z.boolean(),
+  permite_exceso: z.boolean(),
+  costo_por_persona_extra: z.coerce.number().min(0).default(0),
 });
+
 type FormVals = z.input<typeof schema>;
 type FormOut = z.output<typeof schema>;
 
@@ -32,7 +35,7 @@ export function AreaFormDialog({
     defaultValues: {
       condominio_id: defaultCondominioId ?? "",
       nombre: "", capacidad: 0, horario_inicio: "08:00", horario_fin: "22:00",
-      icono: "sparkles", activa: true,
+      icono: "sparkles", activa: true, permite_exceso: true, costo_por_persona_extra: 0,
     },
   });
 
@@ -46,6 +49,8 @@ export function AreaFormDialog({
       horario_fin: area?.horario_fin ?? "22:00",
       icono: area?.icono ?? "sparkles",
       activa: area?.activa ?? true,
+      permite_exceso: (area as any)?.permite_exceso ?? true,
+      costo_por_persona_extra: Number((area as any)?.costo_por_persona_extra ?? 0),
     });
   }, [open, area, defaultCondominioId, form]);
 
@@ -59,9 +64,12 @@ export function AreaFormDialog({
       horario_fin: v.horario_fin || null,
       icono: v.icono || null,
       activa: v.activa,
-    });
+      permite_exceso: v.permite_exceso,
+      costo_por_persona_extra: v.costo_por_persona_extra ?? 0,
+    } as any);
     onOpenChange(false);
   };
+
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -85,6 +93,16 @@ export function AreaFormDialog({
             <Label className="cursor-pointer">Área activa para reservas</Label>
             <Switch checked={form.watch("activa")} onCheckedChange={(v) => form.setValue("activa", v)} />
           </div>
+          <div className="flex items-center justify-between">
+            <Label className="cursor-pointer">Permitir exceder capacidad (con autorización)</Label>
+            <Switch checked={form.watch("permite_exceso")} onCheckedChange={(v) => form.setValue("permite_exceso", v)} />
+          </div>
+          <div>
+            <Label>Costo por persona extra (L)</Label>
+            <Input type="number" step="0.01" {...form.register("costo_por_persona_extra")} />
+            <p className="text-[11px] text-[#64748B] mt-1">Se cobra cuando el residente supera la capacidad y el admin lo autoriza.</p>
+          </div>
+
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
             <Button type="submit" disabled={save.isPending} className="bg-[#4A154B] hover:bg-[#350d36]">{save.isPending ? "Guardando…" : "Guardar"}</Button>

@@ -3,8 +3,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui-pentos";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Pencil, Trash2 } from "lucide-react";
-import { useReservas, useAreas, useUnidades, useResidentes, useDeleteReserva, type Reserva } from "@/lib/queries";
+import { Pencil, Trash2, Check, DollarSign, AlertTriangle } from "lucide-react";
+import { useReservas, useAreas, useUnidades, useResidentes, useDeleteReserva, useSaveReserva, type Reserva } from "@/lib/queries";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+
 
 const fmtDT = (s: string) => new Date(s).toLocaleString("es-HN", { dateStyle: "short", timeStyle: "short" });
 
@@ -14,7 +17,35 @@ export function ReservasTable({ edificioId, onEdit }: { edificioId: string; onEd
   const { data: unidades = [] } = useUnidades();
   const { data: residentes = [] } = useResidentes();
   const del = useDeleteReserva();
+  const save = useSaveReserva();
   const [estado, setEstado] = useState("all");
+
+  const aprobar = async (r: Reserva) => {
+    const { data: u } = await supabase.auth.getUser();
+    await save.mutateAsync({
+      id: r.id,
+      condominio_id: r.condominio_id,
+      area_id: r.area_id,
+      fecha_inicio: r.fecha_inicio,
+      fecha_fin: r.fecha_fin,
+      estado: "confirmada",
+      aprobada_por: u.user?.id ?? null,
+      aprobada_en: new Date().toISOString(),
+    } as any);
+    toast.success("Reserva autorizada");
+  };
+  const marcarPagado = async (r: Reserva) => {
+    await save.mutateAsync({
+      id: r.id,
+      condominio_id: r.condominio_id,
+      area_id: r.area_id,
+      fecha_inicio: r.fecha_inicio,
+      fecha_fin: r.fecha_fin,
+      pagado_extra: true,
+    } as any);
+    toast.success("Pago extra registrado");
+  };
+
 
   const areaMap = useMemo(() => new Map(areas.map((a) => [a.id, a.nombre])), [areas]);
   const uniMap = useMemo(() => new Map(unidades.map((u) => [u.id, u.numero])), [unidades]);
@@ -67,14 +98,35 @@ export function ReservasTable({ edificioId, onEdit }: { edificioId: string; onEd
                 </TableCell>
                 <TableCell className="text-sm">{fmtDT(r.fecha_inicio)}</TableCell>
                 <TableCell className="text-sm">{fmtDT(r.fecha_fin)}</TableCell>
-                <TableCell>{r.num_personas ?? "—"}</TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-1">
+                    <span>{r.num_personas ?? "—"}</span>
+                    {(r as any).excede_capacidad && (
+                      <span title={`+${(r as any).personas_extra} extra · ${(r as any).solicitud_nota ?? ""}`} className="inline-flex items-center gap-1 text-[10px] bg-[#FEF3C7] text-[#78350F] border border-[#FCD34D] rounded-full px-1.5 py-0.5">
+                        <AlertTriangle className="w-3 h-3" />+{(r as any).personas_extra}
+                      </span>
+                    )}
+                  </div>
+                  {Number((r as any).monto_extra) > 0 && (
+                    <div className={`text-[10px] mt-0.5 ${(r as any).pagado_extra ? "text-[#15803d]" : "text-[#be185d]"}`}>
+                      Extra: L {Number((r as any).monto_extra).toFixed(2)} {(r as any).pagado_extra ? "✓ pagado" : "pendiente"}
+                    </div>
+                  )}
+                </TableCell>
                 <TableCell>{badge(r.estado)}</TableCell>
                 <TableCell className="text-right">
+                  {r.estado === "pendiente" && (
+                    <Button size="sm" variant="ghost" onClick={() => aprobar(r)} title="Autorizar" className="h-8 w-8 p-0 text-[#15803d]"><Check className="w-4 h-4" /></Button>
+                  )}
+                  {Number((r as any).monto_extra) > 0 && !(r as any).pagado_extra && (
+                    <Button size="sm" variant="ghost" onClick={() => marcarPagado(r)} title="Marcar pago extra" className="h-8 w-8 p-0 text-[#15803d]"><DollarSign className="w-4 h-4" /></Button>
+                  )}
                   <Button size="sm" variant="ghost" onClick={() => onEdit(r)} className="h-8 w-8 p-0"><Pencil className="w-4 h-4" /></Button>
                   <Button size="sm" variant="ghost" onClick={() => { if (confirm("¿Eliminar reserva?")) del.mutate(r.id); }} className="h-8 w-8 p-0 text-[#be185d]"><Trash2 className="w-4 h-4" /></Button>
                 </TableCell>
               </TableRow>
             ))}
+
           </TableBody>
         </Table>
       </div>

@@ -21,7 +21,10 @@ const schema = z.object({
   num_personas: z.coerce.number().int().min(0).optional(),
   estado: z.enum(["confirmada", "pendiente", "cancelada"]),
   descripcion: z.string().max(500).optional().or(z.literal("")),
+  monto_extra: z.coerce.number().min(0).default(0),
+  pagado_extra: z.boolean().default(false),
 });
+
 type FormVals = z.input<typeof schema>;
 type FormOut = z.output<typeof schema>;
 
@@ -46,7 +49,7 @@ export function ReservaFormDialog({
       condominio_id: defaultCondominioId ?? "", area_id: "",
       unidad_id: null, residente_id: null,
       fecha_inicio: nowLocal(1), fecha_fin: nowLocal(3),
-      num_personas: 0, estado: "confirmada", descripcion: "",
+      num_personas: 0, estado: "confirmada", descripcion: "", monto_extra: 0, pagado_extra: false,
     },
   });
   const condominioId = form.watch("condominio_id");
@@ -118,11 +121,19 @@ export function ReservaFormDialog({
       num_personas: reserva?.num_personas ?? 0,
       estado: (reserva?.estado as any) ?? "confirmada",
       descripcion: reserva?.descripcion ?? "",
+      monto_extra: Number((reserva as any)?.monto_extra ?? 0),
+      pagado_extra: (reserva as any)?.pagado_extra ?? false,
     });
   }, [open, reserva, defaultCondominioId, defaultAreaId, initialStart, initialEnd, form]);
 
+  const personas = form.watch("num_personas") ?? 0;
+  const excedeCap = !!(areaSel?.capacidad && personas > areaSel.capacidad);
+  const personasExtra = excedeCap ? personas - (areaSel!.capacidad as number) : 0;
+
   const onSubmit = async (v: FormOut) => {
-    if (conflicto) return;
+    // admin puede ignorar conflictos de capacidad/horario; los de overlap igual los bloqueamos
+    if (conflicto && conflicto.tipo === "overlap") return;
+    if (conflicto && conflicto.tipo === "rango") return;
     await save.mutateAsync({
       id: reserva?.id,
       condominio_id: v.condominio_id,
@@ -134,9 +145,14 @@ export function ReservaFormDialog({
       num_personas: v.num_personas ?? null,
       estado: v.estado,
       descripcion: v.descripcion || null,
-    });
+      excede_capacidad: excedeCap,
+      personas_extra: personasExtra,
+      monto_extra: v.monto_extra ?? 0,
+      pagado_extra: v.pagado_extra ?? false,
+    } as any);
     onOpenChange(false);
   };
+
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -205,16 +221,47 @@ export function ReservaFormDialog({
             </div>
           </div>
           <div><Label>Descripción</Label><Textarea rows={2} {...form.register("descripcion")} /></div>
-          {conflicto && (
+
+          {excedeCap && (
+            <div className="bg-[#FEF3C7] border border-[#FCD34D] text-[#78350F] rounded-lg p-3 text-sm">
+              <div className="flex items-start gap-2 mb-2">
+                <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" />
+                <div>
+                  <div className="font-semibold">Excede capacidad ({areaSel?.capacidad})</div>
+                  <div className="text-xs">+{personasExtra} extra. Como administrador puedes autorizar cobrando el monto extra.</div>
+                  {(reserva as any)?.solicitud_nota && <div className="text-xs italic mt-1">Nota del residente: "{(reserva as any).solicitud_nota}"</div>}
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <Label className="text-[#78350F]">Monto extra (L)</Label>
+                  <Input type="number" step="0.01" {...form.register("monto_extra")} />
+                </div>
+                <div className="flex items-end gap-2">
+                  <input type="checkbox" id="pagado_extra" {...form.register("pagado_extra")} className="w-4 h-4" />
+                  <Label htmlFor="pagado_extra" className="cursor-pointer">Marcar como pagado</Label>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {conflicto && conflicto.tipo !== "horario" && (
             <div className="flex items-start gap-2 bg-[#fde8e2] border border-[#f5b8a8] text-[#7a2a10] rounded-lg p-3 text-sm">
               <AlertTriangle className="w-4 h-4 mt-0.5 flex-shrink-0" />
               <span>{conflicto.mensaje}</span>
             </div>
           )}
+          {conflicto?.tipo === "horario" && (
+            <div className="flex items-start gap-2 bg-[#FEF3C7] border border-[#FCD34D] text-[#78350F] rounded-lg p-3 text-sm">
+              <AlertTriangle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+              <span>{conflicto.mensaje} (Admin: se permitirá guardar igual)</span>
+            </div>
+          )}
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-            <Button type="submit" disabled={save.isPending || !!conflicto} className="bg-[#4A154B] hover:bg-[#350d36]">{save.isPending ? "Guardando…" : "Guardar"}</Button>
+            <Button type="submit" disabled={save.isPending || conflicto?.tipo === "overlap" || conflicto?.tipo === "rango"} className="bg-[#4A154B] hover:bg-[#350d36]">{save.isPending ? "Guardando…" : "Guardar"}</Button>
           </DialogFooter>
+
         </form>
       </DialogContent>
     </Dialog>
