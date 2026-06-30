@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { User as UserIcon, Building2, Users, Shield, Save, Trash2, Plus, Home, Crown, Check } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import logoUrl from "@/assets/residalia-logo.png";
+import { CityAutocomplete } from "@/components/CityAutocomplete";
 import { Card } from "@/components/ui-pentos";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
