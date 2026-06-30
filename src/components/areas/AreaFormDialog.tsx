@@ -37,7 +37,7 @@ export function AreaFormDialog({
     defaultValues: {
       condominio_id: defaultCondominioId ?? "",
       nombre: "", capacidad: 0, horario_inicio: "08:00", horario_fin: "22:00",
-      icono: "sparkles", activa: true, permite_exceso: true, costo_por_persona_extra: 0,
+      icono: "sparkles", activa: true, permite_exceso: true, costo_por_persona_extra: 0, horas_incluidas: undefined, costo_por_hora_extra: 0,
     },
   });
 
