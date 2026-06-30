@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { PortalLoading, PortalSinResidente } from "@/components/portal/PortalStates";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/portal/nuevo")({ component: NuevoPase });
 
@@ -27,34 +29,42 @@ function NuevoPase() {
   const [fechaSalida, setFechaSalida] = useState("");
   const [usos, setUsos] = useState(1);
 
-  if (isLoading) return <div className="text-sm text-[#64748B]">Cargando…</div>;
-  if (!residente) return <div className="text-sm text-[#7a2a10]">Tu cuenta no está vinculada a un residente.</div>;
+  if (isLoading) return <PortalLoading />;
+  if (!residente) return <PortalSinResidente />;
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { data: u } = await supabase.auth.getUser();
-    const r = await save.mutateAsync({
-      condominio_id: residente.condominio_id,
-      unidad_id: residente.unidad_id,
-      visitante_nombre: visitante,
-      tipo,
-      metodo: "qr",
-      qr_code: `PASE-${Math.random().toString(36).slice(2, 8).toUpperCase()}`,
-      fecha_entrada: new Date(fechaEntrada).toISOString(),
-      fecha_salida: fechaSalida ? new Date(fechaSalida).toISOString() : null,
-      usos_maximos: usos,
-      minutos_max_estadia: MIN_DEF[tipo],
-      autorizado_por: u.user?.id ?? null,
-    });
-    navigate({ to: "/portal/pase/$paseId", params: { paseId: r.id } });
+    try {
+      const { data: u } = await supabase.auth.getUser();
+      const r = await save.mutateAsync({
+        condominio_id: residente.condominio_id,
+        unidad_id: residente.unidad_id,
+        visitante_nombre: visitante.trim(),
+        tipo,
+        metodo: "qr",
+        qr_code: `PASE-${Math.random().toString(36).slice(2, 8).toUpperCase()}`,
+        fecha_entrada: new Date(fechaEntrada).toISOString(),
+        fecha_salida: fechaSalida ? new Date(fechaSalida).toISOString() : null,
+        usos_maximos: usos,
+        minutos_max_estadia: MIN_DEF[tipo],
+        autorizado_por: u.user?.id ?? null,
+      });
+      toast.success("Pase creado correctamente");
+      navigate({ to: "/portal/pase/$paseId", params: { paseId: r.id } });
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "No se pudo crear el pase");
+    }
   };
 
   return (
     <form onSubmit={submit} className="space-y-4 bg-white border border-[#E2E8F0] rounded-2xl p-5">
-      <h1 className="font-display font-extrabold text-xl text-[#0F172A]">Crear pase de acceso</h1>
+      <div>
+        <h1 className="font-display font-extrabold text-xl text-[#0F172A]">Crear pase de acceso</h1>
+        <p className="text-sm text-[#64748B] mt-1">El visitante mostrará el código QR en la entrada del edificio.</p>
+      </div>
       <div>
         <Label>Nombre del visitante *</Label>
-        <Input value={visitante} onChange={(e) => setVisitante(e.target.value)} required maxLength={120} />
+        <Input value={visitante} onChange={(e) => setVisitante(e.target.value)} required maxLength={120} placeholder="Ej: Juan Pérez" />
       </div>
       <div>
         <Label>Tipo</Label>
@@ -69,9 +79,9 @@ function NuevoPase() {
           </SelectContent>
         </Select>
       </div>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div><Label>Entrada *</Label><Input type="datetime-local" value={fechaEntrada} onChange={(e) => setFechaEntrada(e.target.value)} required /></div>
-        <div><Label>Salida</Label><Input type="datetime-local" value={fechaSalida} onChange={(e) => setFechaSalida(e.target.value)} /></div>
+        <div><Label>Salida estimada</Label><Input type="datetime-local" value={fechaSalida} onChange={(e) => setFechaSalida(e.target.value)} /></div>
       </div>
       <div>
         <Label>Entradas permitidas</Label>

@@ -1,6 +1,6 @@
 import { lazy, Suspense, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { MapPin, Home, Tag, Building2, Pencil, ChevronRight } from "lucide-react";
+import { MapPin, Home, Building2, Pencil, ChevronRight } from "lucide-react";
 import { Card, Badge } from "@/components/ui-pentos";
 import { EdificioPlaceholder } from "./EdificioPlaceholder";
 import { type Condominio } from "@/lib/queries";
@@ -9,15 +9,14 @@ const EdificioFormDialog = lazy(() =>
   import("./EdificioFormDialog").then((m) => ({ default: m.EdificioFormDialog }))
 );
 
-export type EdificioStats = { total: number; ocupadas: number; enVenta: number; enRenta: number };
+export type EdificioStats = { total: number; ocupadas: number; disponibles: number };
 
 export function EdificioCard({ edificio, stats }: { edificio: Condominio; stats?: EdificioStats }) {
   const navigate = useNavigate();
   const [editOpen, setEditOpen] = useState(false);
   const total = stats?.total ?? 0;
   const ocupadas = stats?.ocupadas ?? 0;
-  const enVenta = stats?.enVenta ?? 0;
-  const enRenta = stats?.enRenta ?? 0;
+  const disponibles = stats?.disponibles ?? 0;
   const ocupacion = total > 0 ? Math.round((ocupadas / total) * 100) : 0;
   const openUnidades = () => navigate({ to: "/edificios/$edificioId", params: { edificioId: edificio.id } });
 
@@ -61,11 +60,10 @@ export function EdificioCard({ edificio, stats }: { edificio: Condominio; stats?
               </div>
             </div>
 
-            <div className="mt-4 grid grid-cols-4 gap-2 text-center">
+            <div className="mt-4 grid grid-cols-3 gap-2 text-center">
               <Stat icon={<Building2 className="w-3.5 h-3.5" />} label="Unidades" value={total} />
               <Stat icon={<Home className="w-3.5 h-3.5" />} label="Ocup." value={`${ocupacion}%`} />
-              <Stat icon={<Tag className="w-3.5 h-3.5" />} label="Venta" value={enVenta} accent="venta" />
-              <Stat icon={<Tag className="w-3.5 h-3.5" />} label="Renta" value={enRenta} accent="renta" />
+              <Stat icon={<Home className="w-3.5 h-3.5" />} label="Disp." value={disponibles} />
             </div>
             <div className="mt-4 flex items-center justify-between rounded-lg border border-[#f0e6df] bg-[#fff7f2] px-3 py-2 text-sm font-semibold text-[#4A154B]">
               <span>Ver / crear unidades</span>
@@ -84,12 +82,11 @@ export function EdificioCard({ edificio, stats }: { edificio: Condominio; stats?
   );
 }
 
-function Stat({ icon, label, value, accent }: { icon: React.ReactNode; label: string; value: React.ReactNode; accent?: "venta" | "renta" }) {
-  const color = accent === "venta" ? "text-[#4A154B]" : accent === "renta" ? "text-[#4A154B]" : "text-[#1E293B]";
+function Stat({ icon, label, value }: { icon: React.ReactNode; label: string; value: React.ReactNode }) {
   return (
     <div className="bg-[#ffffff] rounded-lg py-2">
       <div className="flex items-center justify-center gap-1 text-[#64748B]">{icon}<span className="text-[10px] uppercase tracking-wider">{label}</span></div>
-      <div className={`font-display font-bold text-lg ${color}`}>{value}</div>
+      <div className="font-display font-bold text-lg text-[#1E293B]">{value}</div>
     </div>
   );
 }

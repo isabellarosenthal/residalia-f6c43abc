@@ -1,6 +1,6 @@
 import { lazy, Suspense, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ChevronLeft, Plus, Pencil, Trash2, MapPin, Building2, Layers, Home, Tag, FileText } from "lucide-react";
+import { ChevronLeft, Plus, Pencil, Trash2, MapPin, Building2, Layers, Home, FileText, Users } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import { Card, KpiCard } from "@/components/ui-pentos";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import { EdificioPlaceholder } from "@/components/edificios/EdificioPlaceholder";
 import { UnidadesTable } from "@/components/unidades/UnidadesTable";
 import { ResidentesTable } from "@/components/residentes/ResidentesTable";
-import { useEdificio, useUnidades, useDeleteEdificio, type Unidad, type Residente } from "@/lib/queries";
+import { useEdificio, useUnidades, useDeleteEdificio, useResidentes, type Unidad, type Residente } from "@/lib/queries";
+import { useWriteGuard } from "@/hooks/useWriteGuard";
 import { fmtL } from "@/lib/format";
 import { PlanLimitsBanner } from "@/components/PlanLimitsBanner";
 
@@ -32,6 +33,8 @@ function EdificioDetail() {
   const { data: edificio, isLoading } = useEdificio(edificioId);
   const { data: unidades = [] } = useUnidades(edificioId);
   const delMut = useDeleteEdificio();
+  const { canWrite, guard } = useWriteGuard();
+  const { data: residentesEdificio = [] } = useResidentes();
   const [editOpen, setEditOpen] = useState(false);
   const [unidadOpen, setUnidadOpen] = useState(false);
   const [unidadEdit, setUnidadEdit] = useState<Unidad | null>(null);
@@ -49,11 +52,9 @@ function EdificioDetail() {
   const total = unidades.length;
   const ocupadas = unidades.filter((u) => u.estado_administrativo === "ocupada").length;
   const disponibles = unidades.filter((u) => u.estado_administrativo === "disponible").length;
-  const enVenta = unidades.filter((u) => u.estado_comercial === "en_venta" || u.estado_comercial === "en_venta_y_renta").length;
-  const enRenta = unidades.filter((u) => u.estado_comercial === "en_renta" || u.estado_comercial === "en_venta_y_renta").length;
-  const valorPortafolio = unidades.reduce((acc, u) => acc + (u.precio_venta ?? 0), 0);
   const ingresoMantenimiento = unidades.reduce((acc, u) => acc + (u.mantenimiento_mensual ?? 0), 0);
   const ocupacion = total > 0 ? Math.round((ocupadas / total) * 100) : 0;
+  const numResidentes = residentesEdificio.filter((r) => r.condominio_id === edificioId && r.activo).length;
 
   return (
     <AppShell>
@@ -75,11 +76,13 @@ function EdificioDetail() {
                 <div className="text-xs text-[#64748B] mt-1 capitalize">{edificio.tipo} · Moneda: {edificio.moneda}</div>
               </div>
               <div className="flex gap-2">
-                <Button variant="outline" onClick={() => setEditOpen(true)}><Pencil className="w-4 h-4 mr-1" />Editar</Button>
-                <Button variant="outline" className="text-[#be185d] hover:text-[#be185d]" onClick={() => {
-                  if (confirm(`¿Eliminar ${edificio.nombre}? Esta acción es permanente.`)) {
-                    delMut.mutate(edificio.id, { onSuccess: () => navigate({ to: "/edificios" }) });
-                  }
+                <Button variant="outline" disabled={!canWrite} onClick={() => guard(() => setEditOpen(true))}><Pencil className="w-4 h-4 mr-1" />Editar</Button>
+                <Button variant="outline" disabled={!canWrite} className="text-[#be185d] hover:text-[#be185d]" onClick={() => {
+                  guard(() => {
+                    if (confirm(`¿Eliminar ${edificio.nombre}? Esta acción es permanente.`)) {
+                      delMut.mutate(edificio.id, { onSuccess: () => navigate({ to: "/edificios" }) });
+                    }
+                  });
                 }}><Trash2 className="w-4 h-4 mr-1" />Eliminar</Button>
               </div>
             </div>
@@ -98,8 +101,8 @@ function EdificioDetail() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <KpiCard icon={<Building2 className="w-5 h-5" />} label="Total unidades" value={total} accent="neutral" />
               <KpiCard icon={<Home className="w-5 h-5" />} label="Ocupación" value={`${ocupacion}%`} sub={`${ocupadas} ocupadas · ${disponibles} disponibles`} accent="success" />
-              <KpiCard icon={<Tag className="w-5 h-5" />} label="En venta / renta" value={`${enVenta} / ${enRenta}`} accent="primary" />
-              <KpiCard icon={<Layers className="w-5 h-5" />} label="Mantenim. mensual" value={fmtL(ingresoMantenimiento)} sub={`Portafolio: ${fmtL(valorPortafolio)}`} accent="primary" />
+              <KpiCard icon={<Users className="w-5 h-5" />} label="Residentes activos" value={numResidentes} accent="primary" />
+              <KpiCard icon={<Layers className="w-5 h-5" />} label="Mantenim. mensual" value={fmtL(ingresoMantenimiento)} sub="Cuotas configuradas" accent="primary" />
             </div>
 
             <Card className="p-5">
@@ -121,8 +124,8 @@ function EdificioDetail() {
           <TabsContent value="unidades" className="space-y-4 pt-4">
             <PlanLimitsBanner focus="unidades" />
             <div className="flex flex-wrap gap-2 justify-end">
-              <Button variant="outline" onClick={() => setBulkOpen(true)}><Layers className="w-4 h-4 mr-1" />Generar en bloque</Button>
-              <Button onClick={() => { setUnidadEdit(null); setUnidadOpen(true); }} className="bg-[#4A154B] hover:bg-[#350d36]">
+              <Button variant="outline" disabled={!canWrite} onClick={() => guard(() => setBulkOpen(true))}><Layers className="w-4 h-4 mr-1" />Generar en bloque</Button>
+              <Button disabled={!canWrite} onClick={() => guard(() => { setUnidadEdit(null); setUnidadOpen(true); })} className="bg-[#4A154B] hover:bg-[#350d36]">
                 <Plus className="w-4 h-4 mr-1" />Nueva unidad
               </Button>
             </div>
@@ -131,7 +134,7 @@ function EdificioDetail() {
 
           <TabsContent value="residentes" className="space-y-4 pt-4">
             <div className="flex justify-end">
-              <Button onClick={() => { setResidenteEdit(null); setResidenteOpen(true); }} className="bg-[#4A154B] hover:bg-[#350d36]"><Plus className="w-4 h-4 mr-1" />Nuevo residente</Button>
+              <Button disabled={!canWrite} onClick={() => guard(() => { setResidenteEdit(null); setResidenteOpen(true); })} className="bg-[#4A154B] hover:bg-[#350d36]"><Plus className="w-4 h-4 mr-1" />Nuevo residente</Button>
             </div>
             <ResidentesTable search="" edificioId={edificio.id} tipo="all" estado="all" onEdit={(r) => { setResidenteEdit(r); setResidenteOpen(true); }} />
           </TabsContent>

@@ -4,12 +4,12 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Plus, CalendarRange } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { AreasGrid } from "@/components/areas/AreasGrid";
 import { ReservasTable } from "@/components/areas/ReservasTable";
 import { ReservasCalendar } from "@/components/areas/ReservasCalendar";
 import { useEdificios, type AreaComun, type Reserva } from "@/lib/queries";
+import { useWriteGuard } from "@/hooks/useWriteGuard";
 
 const loadAreaDialog = () => import("@/components/areas/AreaFormDialog");
 const loadResDialog = () => import("@/components/areas/ReservaFormDialog");
@@ -20,13 +20,14 @@ export const Route = createFileRoute("/areas")({ component: AreasPage });
 
 function AreasPage() {
   const { data: edificios = [] } = useEdificios();
-  const [edificioId, setEdificioId] = useEdificioFilter();
+  const [edificioId] = useEdificioFilter();
   const [areaOpen, setAreaOpen] = useState(false);
   const [areaEdit, setAreaEdit] = useState<AreaComun | null>(null);
   const [resOpen, setResOpen] = useState(false);
   const [resEdit, setResEdit] = useState<Reserva | null>(null);
   const [areaLoading, setAreaLoading] = useState(false);
   const [resLoading, setResLoading] = useState(false);
+  const { canWrite, guard } = useWriteGuard();
 
   useEffect(() => { loadAreaDialog(); loadResDialog(); }, []);
 
@@ -53,13 +54,6 @@ function AreasPage() {
             <h1 className="font-display font-extrabold text-2xl text-[#0F172A]">Áreas Comunes</h1>
             <p className="text-sm text-[#64748B]">Gestión de áreas y reservas</p>
           </div>
-          <Select value={edificioId} onValueChange={setEdificioId}>
-            <SelectTrigger className="w-[260px]"><SelectValue /></SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Todos los edificios</SelectItem>
-              {edificios.map((e) => <SelectItem key={e.id} value={e.id}>{e.nombre}</SelectItem>)}
-            </SelectContent>
-          </Select>
         </div>
 
         {edificios.length === 0 ? (
@@ -73,7 +67,7 @@ function AreasPage() {
             </TabsList>
             <TabsContent value="areas" className="space-y-4 pt-4">
               <div className="flex justify-end">
-                <Button onClick={() => openArea(null)} disabled={areaLoading} className="bg-[#4A154B] hover:bg-[#350d36]">
+                <Button disabled={!canWrite || areaLoading} onClick={() => guard(() => openArea(null))} className="bg-[#4A154B] hover:bg-[#350d36]">
                   <Plus className="w-4 h-4 mr-1" />{areaLoading ? "Cargando..." : "Nueva área"}
                 </Button>
               </div>
@@ -81,7 +75,7 @@ function AreasPage() {
             </TabsContent>
             <TabsContent value="reservas" className="space-y-4 pt-4">
               <div className="flex justify-end">
-                <Button onClick={() => openRes(null)} disabled={resLoading} className="bg-[#4A154B] hover:bg-[#350d36]">
+                <Button disabled={!canWrite || resLoading} onClick={() => guard(() => openRes(null))} className="bg-[#4A154B] hover:bg-[#350d36]">
                   <Plus className="w-4 h-4 mr-1" />{resLoading ? "Cargando..." : "Nueva reserva"}
                 </Button>
               </div>

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useEdificioFilter } from "@/hooks/useEdificioFilter";
 import { createFileRoute } from "@tanstack/react-router";
 import { Download, TrendingUp, Users, Home, DollarSign, AlertCircle, Wallet } from "lucide-react";
@@ -8,11 +8,10 @@ import {
 } from "recharts";
 import { AppShell } from "@/components/layout/AppShell";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, KpiCard } from "@/components/ui-pentos";
 import {
-  useEdificios, useUnidades, useCobros, useEgresos, useProspectos, useResidentes,
+  useEdificios, useUnidades, useCobros, useEgresos, useResidentes,
 } from "@/lib/queries";
 
 export const Route = createFileRoute("/reportes")({ component: ReportesPage });
@@ -39,13 +38,12 @@ function downloadCSV(filename: string, rows: Record<string, any>[]) {
 
 function ReportesPage() {
   const { data: edificios = [] } = useEdificios();
-  const [edificioId, setEdificioId] = useEdificioFilter();
+  const [edificioId] = useEdificioFilter();
   const filterId = edificioId === "all" ? undefined : edificioId;
 
   const { data: unidades = [] } = useUnidades(filterId);
   const { data: cobros = [] } = useCobros(filterId);
   const { data: egresos = [] } = useEgresos(filterId);
-  const { data: prospectos = [] } = useProspectos(filterId);
   const { data: residentes = [] } = useResidentes();
 
   const kpis = useMemo(() => {
@@ -58,9 +56,8 @@ function ReportesPage() {
       ocupacion: unidades.length ? Math.round((ocupadas / unidades.length) * 100) : 0,
       totalUnidades: unidades.length,
       residentes: residentes.length,
-      prospectosActivos: prospectos.filter(p => !["ganado", "perdido"].includes(p.etapa_pipeline)).length,
     };
-  }, [cobros, egresos, unidades, residentes, prospectos]);
+  }, [cobros, egresos, unidades, residentes]);
 
   // Ingresos vs egresos por mes (últimos 6)
   const flujoMensual = useMemo(() => {
@@ -98,11 +95,6 @@ function ReportesPage() {
     return Array.from(map.entries()).map(([name, value]) => ({ name, value }));
   }, [egresos]);
 
-  const pipeline = useMemo(() => {
-    const etapas = ["nuevo", "contactado", "calificado", "visita", "propuesta", "negociacion", "ganado", "perdido"];
-    return etapas.map(e => ({ etapa: e, total: prospectos.filter(p => p.etapa_pipeline === e).length }));
-  }, [prospectos]);
-
   return (
     <AppShell>
       <div className="space-y-5 max-w-[1400px] mx-auto">
@@ -111,13 +103,6 @@ function ReportesPage() {
             <h1 className="font-display font-extrabold text-2xl text-[#0F172A]">Reportes</h1>
             <p className="text-sm text-[#64748B]">Análisis financiero y de ocupación</p>
           </div>
-          <Select value={edificioId} onValueChange={setEdificioId}>
-            <SelectTrigger className="w-[260px]"><SelectValue /></SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Todos los edificios</SelectItem>
-              {edificios.map((e) => <SelectItem key={e.id} value={e.id}>{e.nombre}</SelectItem>)}
-            </SelectContent>
-          </Select>
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">

@@ -967,6 +967,15 @@ export const ETAPAS_PIPELINE: EtapaPipeline[] = [
   "nuevo", "contactado", "interesado", "visita_agendada", "negociacion", "cierre", "ganado", "perdido",
 ];
 
+export function etapaLabel(e: string) {
+  const map: Record<string, string> = {
+    nuevo: "Nuevo", contactado: "Contactado", interesado: "Interesado",
+    visita_agendada: "Visita agendada", negociacion: "Negociación",
+    cierre: "Cierre", ganado: "Ganado", perdido: "Perdido",
+  };
+  return map[e] ?? e;
+}
+
 export function useProspectos(edificioId?: string) {
   return useQuery({
     queryKey: ["prospectos", edificioId ?? "all"],

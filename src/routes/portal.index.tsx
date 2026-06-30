@@ -1,14 +1,14 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { Plus, KeyRound, AlertCircle, Zap } from "lucide-react";
+import { Plus, KeyRound, Zap } from "lucide-react";
 import { useMiResidente, useMisPases, useSaveAcceso } from "@/lib/queries";
 import { Badge } from "@/components/ui-pentos";
 import { MiQRRotativo } from "@/components/portal/MiQRRotativo";
+import { PortalLoading, PortalSinResidente } from "@/components/portal/PortalStates";
 import { QuickAccessGrid, type QuickService } from "@/components/accesos/QuickAccessButtons";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/portal/")({ component: PortalIndex });
-
 
 const fmtDT = (s: string | null) => s ? new Date(s).toLocaleString("es-HN", { dateStyle: "short", timeStyle: "short" }) : "—";
 
@@ -18,22 +18,12 @@ function PortalIndex() {
   const save = useSaveAcceso();
   const navigate = useNavigate();
 
-  if (isLoading) return <div className="text-sm text-[#64748B]">Cargando…</div>;
+  if (isLoading) return <PortalLoading />;
 
-  if (!residente) {
-    return (
-      <div className="bg-[#fde8e2] border border-[#f5b8a8] text-[#7a2a10] rounded-2xl p-5 flex gap-3">
-        <AlertCircle className="w-5 h-5 mt-0.5 shrink-0" />
-        <div>
-          <div className="font-semibold mb-1">Tu cuenta aún no está vinculada a un residente</div>
-          <p className="text-sm">Pide al administrador del edificio que te agregue como residente con tu correo electrónico. Luego cierra sesión y vuelve a entrar.</p>
-        </div>
-      </div>
-    );
-  }
+  if (!residente) return <PortalSinResidente />;
 
-  const condo = (residente as any).condominio;
-  const uni = (residente as any).unidad;
+  const condo = residente.condominio;
+  const uni = residente.unidad;
 
   const handleQuick = async (s: QuickService) => {
     try {
@@ -52,13 +42,15 @@ function PortalIndex() {
         usos_maximos: 1,
         minutos_max_estadia: s.minutos,
         autorizado_por: u.user?.id ?? null,
-      } as any);
+      } as Parameters<typeof save.mutateAsync>[0]);
       toast.success(`Pase para ${s.label} creado`);
       navigate({ to: "/portal/pase/$paseId", params: { paseId: r.id } });
-    } catch (e: any) {
-      toast.error(e?.message ?? "No se pudo crear el pase");
+    } catch (e: unknown) {
+      toast.error(e instanceof Error ? e.message : "No se pudo crear el pase");
     }
   };
+
+  const pasesActivos = pases.filter((p) => !p.fecha_salida && (p.usos_actuales ?? 0) < (p.usos_maximos ?? 1));
 
   return (
     <div className="space-y-5">
@@ -71,7 +63,7 @@ function PortalIndex() {
       <div className="bg-white border border-[#E2E8F0] rounded-2xl p-4">
         <div className="flex items-center gap-2 mb-1">
           <Zap className="w-4 h-4 text-[#f59e0b]" />
-          <div className="font-display font-bold text-[#0F172A]">Acceso Rápido</div>
+          <div className="font-display font-bold text-[#0F172A]">Acceso rápido</div>
         </div>
         <p className="text-xs text-[#64748B] mb-3">Genera un pase al instante para delivery o transporte</p>
         <QuickAccessGrid onPick={handleQuick} disabled={save.isPending} columns={6} />
@@ -83,16 +75,23 @@ function PortalIndex() {
         <div className="text-sm text-[#64748B]">Unidad #{uni?.numero ?? "—"}</div>
       </div>
 
-
       <div className="flex items-center justify-between">
-        <h2 className="font-display font-extrabold text-lg text-[#0F172A]">Mis pases</h2>
-        <Link to="/portal/nuevo" className="bg-[#4A154B] hover:bg-[#350d36] text-white text-sm px-4 py-2 rounded-full inline-flex items-center gap-1"><Plus className="w-4 h-4" />Crear pase</Link>
+        <div>
+          <h2 className="font-display font-extrabold text-lg text-[#0F172A]">Mis pases</h2>
+          {pasesActivos.length > 0 && (
+            <p className="text-xs text-[#64748B]">{pasesActivos.length} activo{pasesActivos.length === 1 ? "" : "s"}</p>
+          )}
+        </div>
+        <Link to="/portal/nuevo" className="bg-[#4A154B] hover:bg-[#350d36] text-white text-sm px-4 py-2 rounded-full inline-flex items-center gap-1">
+          <Plus className="w-4 h-4" />Crear pase
+        </Link>
       </div>
 
       {pases.length === 0 ? (
         <div className="bg-white border border-[#E2E8F0] rounded-2xl p-8 text-center text-[#64748B]">
           <KeyRound className="w-8 h-8 mx-auto mb-2 opacity-50" />
-          Aún no has creado ningún pase.
+          <p className="font-medium text-[#4A154B]">Aún no has creado ningún pase</p>
+          <p className="text-sm mt-1">Crea uno para visitas, delivery o proveedores.</p>
         </div>
       ) : (
         <div className="space-y-2">
@@ -108,9 +107,9 @@ function PortalIndex() {
                   <div>
                     <div className="font-semibold text-[#4A154B]">{p.visitante_nombre}</div>
                     <div className="text-xs text-[#64748B] font-mono">{p.qr_code}</div>
-                    <div className="text-xs text-[#64748B] mt-1">Entrada: {fmtDT(p.fecha_entrada)}</div>
+                    <div className="text-xs text-[#64748B] mt-1 capitalize">{p.tipo ?? "visita"} · Entrada: {fmtDT(p.fecha_entrada)}</div>
                   </div>
-                  <Badge variant={tone as any}>{label}</Badge>
+                  <Badge variant={tone as "neutral" | "danger" | "success"}>{label}</Badge>
                 </div>
               </Link>
             );

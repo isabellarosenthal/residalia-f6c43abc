@@ -1,17 +1,9 @@
-import { useEffect, useState } from "react";
-import { useEdificios } from "@/lib/queries";
+import { useEdificioFilterContext } from "@/lib/edificio-filter-context";
 
 /**
- * Filtro de edificio con auto-selección: si el tenant solo tiene un edificio,
- * lo selecciona por defecto en vez de "all".
+ * Filtro global de edificio (persistido en sesión, sincronizado en Topbar y módulos).
  */
-export function useEdificioFilter(initial: string = "all") {
-  const { data: edificios = [] } = useEdificios();
-  const [edificioId, setEdificioId] = useState(initial);
-  useEffect(() => {
-    if (edificios.length === 1 && edificioId === "all") {
-      setEdificioId(edificios[0].id);
-    }
-  }, [edificios, edificioId]);
+export function useEdificioFilter() {
+  const { edificioId, setEdificioId } = useEdificioFilterContext();
   return [edificioId, setEdificioId] as const;
 }
