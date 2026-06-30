@@ -2,36 +2,8 @@ import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/lib/auth-context";
 import { initials } from "@/lib/format";
 import logoUrl from "@/assets/residalia-logo.png";
-import {
-  LayoutDashboard, Building2, Users, Wallet, KeyRound, CalendarRange,
-  Megaphone, Wrench, Tag, UserPlus, Kanban, CalendarDays,
-  BarChart3, LogOut, Shield,
-} from "lucide-react";
-
-
-const sections = [
-  {
-    label: "Administración",
-    items: [
-      { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
-      { to: "/edificios", icon: Building2, label: "Edificios y Condominios" },
-      { to: "/residentes", icon: Users, label: "Residentes" },
-      { to: "/finanzas", icon: Wallet, label: "Finanzas" },
-      { to: "/accesos", icon: KeyRound, label: "Control de Accesos" },
-      { to: "/areas", icon: CalendarRange, label: "Áreas Comunes" },
-      { to: "/comunicaciones", icon: Megaphone, label: "Comunicaciones" },
-      { to: "/mantenimiento", icon: Wrench, label: "Mantenimiento" },
-    ],
-  },
-  // Sección Comercial oculta temporalmente — se retomará en próxima fase
-
-  {
-    label: "General",
-    items: [
-      { to: "/reportes", icon: BarChart3, label: "Reportes" },
-    ],
-  },
-];
+import { LogOut } from "lucide-react";
+import { SidebarNav } from "./SidebarNav";
 
 export function Sidebar() {
   const path = useRouterState({ select: (s) => s.location.pathname });
@@ -45,6 +17,7 @@ export function Sidebar() {
     residente: "Residente",
     agente_inmobiliario: "Agente",
     gerente_crm: "Gerente CRM",
+    guardia: "Guardia",
   };
 
   return (
@@ -57,54 +30,8 @@ export function Sidebar() {
       </div>
 
       <nav className="flex-1 overflow-y-auto px-3 pb-4 space-y-5">
-        {role === "super_admin" && (
-          <div>
-            <div className="px-3 mb-2 text-[10px] uppercase tracking-widest text-[#F8FAFC]/50 font-semibold">
-              Plataforma
-            </div>
-            <div className="space-y-0.5">
-              <Link
-                to="/admin-panel"
-                className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
-                  path.startsWith("/admin-panel")
-                    ? "bg-[#611f69] text-white font-semibold"
-                    : "text-[#F8FAFC] hover:bg-white/10"
-                }`}
-              >
-                <Shield className="w-4 h-4 shrink-0" />
-                <span className="truncate">Admin Panel</span>
-              </Link>
-            </div>
-          </div>
-        )}
-        {sections.map((sec) => (
-          <div key={sec.label}>
-            <div className="px-3 mb-2 text-[10px] uppercase tracking-widest text-[#F8FAFC]/50 font-semibold">
-              {sec.label}
-            </div>
-            <div className="space-y-0.5">
-              {sec.items.map((it) => {
-                const active = path.startsWith(it.to);
-                const Icon = it.icon;
-                return (
-                  <Link
-                    key={it.to}
-                    to={it.to}
-                    className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
-                      active ? "bg-[#611f69] text-white font-semibold" : "text-[#F8FAFC] hover:bg-white/10"
-
-                    }`}
-                  >
-                    <Icon className="w-4 h-4 shrink-0" />
-                    <span className="truncate">{it.label}</span>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        ))}
+        <SidebarNav path={path} role={role} />
       </nav>
-
 
       <div className="border-t border-[#F8FAFC]/15 p-3">
         <div className="flex items-center gap-3 px-2 py-2">
@@ -118,7 +45,6 @@ export function Sidebar() {
           <button
             onClick={async () => { await signOut(); navigate({ to: "/login" }); }}
             className="p-2 rounded-lg hover:bg-white/10 text-[#F8FAFC]/80 hover:text-white transition-colors"
-
             title="Cerrar sesión"
           >
             <LogOut className="w-4 h-4" />

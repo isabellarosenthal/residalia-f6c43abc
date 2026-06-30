@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ResidentesTable } from "@/components/residentes/ResidentesTable";
+import { useWriteGuard } from "@/hooks/useWriteGuard";
 import { useEdificios, useResidentes, type Residente } from "@/lib/queries";
 
 const ResidenteFormDialog = lazy(() =>
@@ -34,6 +35,7 @@ function ResidentesPage() {
   const [edificioId, setEdificioId] = useEdificioFilter();
   const [tipo, setTipo] = useState("all");
   const [estado, setEstado] = useState("activos");
+  const { canWrite, guard } = useWriteGuard();
 
 
   return (
@@ -45,10 +47,10 @@ function ResidentesPage() {
             <p className="text-sm text-[#64748B]">{residentes.length} registrados · gestiona propietarios e inquilinos</p>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => setImportOpen(true)} className="border-[#4A154B] text-[#4A154B]">
+            <Button variant="outline" disabled={!canWrite} onClick={() => guard(() => setImportOpen(true))} className="border-[#4A154B] text-[#4A154B]">
               <Upload className="w-4 h-4 mr-1" /> Importar CSV
             </Button>
-            <Button onClick={() => { setEditing(null); setOpen(true); }} className="bg-[#4A154B] hover:bg-[#350d36]">
+            <Button disabled={!canWrite} onClick={() => guard(() => { setEditing(null); setOpen(true); })} className="bg-[#4A154B] hover:bg-[#350d36]">
               <Plus className="w-4 h-4 mr-1" /> Nuevo residente
             </Button>
           </div>

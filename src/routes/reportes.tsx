@@ -8,12 +8,13 @@ import {
 } from "recharts";
 import { AppShell } from "@/components/layout/AppShell";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, KpiCard } from "@/components/ui-pentos";
 import {
   useEdificios, useUnidades, useCobros, useEgresos, useProspectos, useResidentes,
+  ETAPAS_PIPELINE, etapaLabel,
 } from "@/lib/queries";
+import { EdificioFilterSelect } from "@/components/layout/EdificioFilterSelect";
 
 export const Route = createFileRoute("/reportes")({ component: ReportesPage });
 
@@ -99,8 +100,10 @@ function ReportesPage() {
   }, [egresos]);
 
   const pipeline = useMemo(() => {
-    const etapas = ["nuevo", "contactado", "calificado", "visita", "propuesta", "negociacion", "ganado", "perdido"];
-    return etapas.map(e => ({ etapa: e, total: prospectos.filter(p => p.etapa_pipeline === e).length }));
+    return ETAPAS_PIPELINE.map((e) => ({
+      etapa: etapaLabel(e),
+      total: prospectos.filter((p) => p.etapa_pipeline === e).length,
+    }));
   }, [prospectos]);
 
   return (
@@ -111,13 +114,7 @@ function ReportesPage() {
             <h1 className="font-display font-extrabold text-2xl text-[#0F172A]">Reportes</h1>
             <p className="text-sm text-[#64748B]">Análisis financiero y de ocupación</p>
           </div>
-          <Select value={edificioId} onValueChange={setEdificioId}>
-            <SelectTrigger className="w-[260px]"><SelectValue /></SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Todos los edificios</SelectItem>
-              {edificios.map((e) => <SelectItem key={e.id} value={e.id}>{e.nombre}</SelectItem>)}
-            </SelectContent>
-          </Select>
+          <EdificioFilterSelect />
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
@@ -135,6 +132,7 @@ function ReportesPage() {
           <TabsList className="bg-[#F8FAFC]">
             <TabsTrigger value="financiero">Financiero</TabsTrigger>
             <TabsTrigger value="ocupacion">Ocupación</TabsTrigger>
+            <TabsTrigger value="comercial">Comercial</TabsTrigger>
             <TabsTrigger value="exportar">Exportar</TabsTrigger>
           </TabsList>
 
@@ -185,6 +183,26 @@ function ReportesPage() {
                     <Legend />
                     <Bar dataKey="ocupadas" stackId="a" fill="#166534" name="Ocupadas" />
                     <Bar dataKey="disponibles" stackId="a" fill="#e8a87c" name="Disponibles" />
+                  </BarChart>
+                </ResponsiveContainer>
+              )}
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="comercial" className="pt-4 space-y-4">
+            <Card className="p-5">
+              <h3 className="font-display font-bold text-lg text-[#0F172A] mb-1">Pipeline de prospectos</h3>
+              <p className="text-sm text-[#64748B] mb-4">{kpis.prospectosActivos} activos en el funnel</p>
+              {prospectos.length === 0 ? (
+                <p className="text-sm text-[#64748B]">Sin prospectos registrados</p>
+              ) : (
+                <ResponsiveContainer width="100%" height={320}>
+                  <BarChart data={pipeline}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f0e6e0" />
+                    <XAxis dataKey="etapa" stroke="#64748B" tick={{ fontSize: 11 }} />
+                    <YAxis stroke="#64748B" allowDecimals={false} />
+                    <Tooltip />
+                    <Bar dataKey="total" fill="#4A154B" name="Prospectos" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               )}
