@@ -200,8 +200,13 @@ export function ResidenteFormDialog({
               <p className="text-xs text-muted-foreground mt-1">Vincula este inquilino al propietario de la unidad.</p>
             </div>
           )}
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-3 gap-3">
             <div><Label>Fecha de ingreso *</Label><Input type="date" {...form.register("fecha_ingreso")} /></div>
+            <div>
+              <Label>% Mora por atraso</Label>
+              <Input type="number" step="0.01" min="0" max="100" {...form.register("recargo_mora_pct")} />
+              <p className="text-xs text-muted-foreground mt-1">Se aplica al saldo vencido.</p>
+            </div>
             <div><Label>Foto URL</Label><Input {...form.register("foto_url")} placeholder="https://…" /></div>
           </div>
           <div className="flex items-center justify-between border border-[#E2E8F0] rounded-lg p-3">
