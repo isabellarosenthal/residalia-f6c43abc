@@ -523,7 +523,7 @@ export type PreviewCobroRow = {
   duplicado: boolean;
 };
 
-function calcMontoUnidad(
+export function calcMontoUnidad(
   u: { mantenimiento_mensual?: number | null; area_m2_construccion?: number | null },
   edif: { cuota_base?: number | null; cuota_modo?: string | null; cuota_por_m2?: number | null } | null | undefined,
 ): number {
