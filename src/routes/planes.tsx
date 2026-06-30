@@ -93,7 +93,7 @@ function PlanesPage() {
                   <h3 className="text-xl font-bold text-[#1D1C1D]">{p.nombre}</h3>
                 </div>
                 <div className="mb-4">
-                  <span className="text-3xl font-extrabold text-[#1D1C1D]">${p.precio.toLocaleString()}</span>
+                  <span className="text-3xl font-extrabold text-[#1D1C1D]">L {p.precio.toLocaleString()}</span>
                   <span className="text-sm text-[#64748B]"> /mes</span>
                 </div>
                 <ul className="space-y-2 mb-6">
