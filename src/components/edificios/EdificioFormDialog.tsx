@@ -68,6 +68,8 @@ export function EdificioFormDialog({
       maps_url: vals.maps_url || null,
       moneda: vals.moneda,
       cuota_base: vals.cuota_base,
+      cuota_modo: vals.cuota_modo,
+      cuota_por_m2: vals.cuota_por_m2,
     } as any);
     onOpenChange(false);
   };
