@@ -129,6 +129,19 @@ export function ReservaFormDialog({
   const personas = form.watch("num_personas") ?? 0;
   const excedeCap = !!(areaSel?.capacidad && personas > areaSel.capacidad);
   const personasExtra = excedeCap ? personas - (areaSel!.capacidad as number) : 0;
+  const horasReserva = fIni && fFin ? Math.max(0, (new Date(fFin).getTime() - new Date(fIni).getTime()) / 3600000) : 0;
+  const horasIncluidas = Number((areaSel as any)?.horas_incluidas ?? 0);
+  const costoHora = Number((areaSel as any)?.costo_por_hora_extra ?? 0);
+  const horasExtra = horasIncluidas > 0 && costoHora > 0 ? Math.max(0, horasReserva - horasIncluidas) : 0;
+  const costoHoras = horasExtra * costoHora;
+  const costoPersonas = personasExtra * Number((areaSel as any)?.costo_por_persona_extra ?? 0);
+  const montoExtraSugerido = costoPersonas + costoHoras;
+
+  // Auto-actualizar monto_extra cuando cambia área/personas/horas (si no fue editado manualmente y es nueva)
+  useEffect(() => {
+    if (reserva?.id) return; // no sobreescribir al editar
+    form.setValue("monto_extra", montoExtraSugerido);
+  }, [montoExtraSugerido, reserva?.id, form]);
 
   const onSubmit = async (v: FormOut) => {
     // admin puede ignorar conflictos de capacidad/horario; los de overlap igual los bloqueamos
