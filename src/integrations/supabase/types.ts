@@ -795,7 +795,15 @@ export type Database = {
           referencia?: string | null
           registrado_por?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "pagos_cobro_id_fkey"
+            columns: ["cobro_id"]
+            isOneToOne: false
+            referencedRelation: "cobros"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       personas_autorizadas: {
         Row: {

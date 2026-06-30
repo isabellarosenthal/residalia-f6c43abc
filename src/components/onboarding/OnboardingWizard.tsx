@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import toast from "react-hot-toast";
 import { Building2, Home, Users, Wallet, Check, X, ArrowRight, Sparkles } from "lucide-react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -103,6 +104,10 @@ export function OnboardingWizard({ open, onClose }: Props) {
   return (
     <Dialog open={open} onOpenChange={(o) => !o && close()}>
       <DialogContent className="max-w-2xl bg-[#ffffff] border-[#E2E8F0]">
+        <VisuallyHidden>
+          <DialogTitle>Configura tu primer edificio</DialogTitle>
+          <DialogDescription>Asistente de bienvenida en 4 pasos</DialogDescription>
+        </VisuallyHidden>
         <button onClick={close} className="absolute right-4 top-4 text-[#64748B] hover:text-[#4A154B]"><X className="w-4 h-4" /></button>
 
         <div className="flex items-center gap-2 mb-1">
