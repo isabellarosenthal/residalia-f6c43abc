@@ -140,7 +140,6 @@ export function EdificioFormDialog({
                 value={form.watch("departamento") || ""}
                 onValueChange={(v) => {
                   form.setValue("departamento", v, { shouldValidate: true });
-                  form.setValue("ciudad", "", { shouldValidate: true });
                 }}
               >
                 <SelectTrigger><SelectValue placeholder="Selecciona…" /></SelectTrigger>
