@@ -17,9 +17,6 @@ function DashboardPage() {
   const hour = new Date().getHours();
   const saludo = hour < 12 ? "Buenos días" : hour < 19 ? "Buenas tardes" : "Buenas noches";
   const firstName = (profile?.full_name ?? "").split(" ")[0] || "Bienvenido";
-  const shouldShow = useShouldShowOnboarding();
-  const [wizardOpen, setWizardOpen] = useState(false);
-  useEffect(() => { if (shouldShow) setWizardOpen(true); }, [shouldShow]);
 
   const [edificioId, setEdificioId] = useEdificioFilter("all");
   const edificioFilter = edificioId === "all" ? undefined : edificioId;
