@@ -463,6 +463,26 @@ export function useAplicarMora() {
   });
 }
 
+export function useAplicarMoraMasiva() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: { condominio_id: string; pct: number; solo_vacios: boolean }) => {
+      const { data, error } = await (supabase as any).rpc("aplicar_mora_masiva", {
+        _condo_id: input.condominio_id,
+        _pct: input.pct,
+        _solo_vacios: input.solo_vacios,
+      });
+      if (error) throw error;
+      return Number(data ?? 0);
+    },
+    onSuccess: (n) => {
+      qc.invalidateQueries({ queryKey: ["residentes"] });
+      toast.success(`Mora aplicada a ${n} residente(s)`);
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error aplicando mora masiva"),
+  });
+}
+
 // Compat: usado en CobrosTable existente — abre un pago por el saldo completo
 export function useMarcarPagado() {
   const reg = useRegistrarPago();
