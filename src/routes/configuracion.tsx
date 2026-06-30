@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import toast from "react-hot-toast";
-import { User as UserIcon, Building2, Users, Shield, Save, Trash2, Plus, Home, Crown } from "lucide-react";
+import { User as UserIcon, Building2, Users, Shield, Save, Home, Crown, Check } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import logoUrl from "@/assets/residalia-logo.png";
 import { Card } from "@/components/ui-pentos";
@@ -478,6 +478,12 @@ function usePlanUsage() {
   return useQuery({ queryKey: ["plan-usage"], queryFn: () => fetchUsage() });
 }
 
+const PLANES = [
+  { nombre: "Lobby", precio: 990, features: ["1 edificio", "Hasta 60 unidades", "2 administradores", "Control de accesos", "Finanzas básicas"] },
+  { nombre: "Torre", precio: 2490, popular: true, features: ["3 edificios", "Hasta 150 unidades por edificio", "5 administradores", "Reportes avanzados", "Soporte prioritario"] },
+  { nombre: "Penthouse", precio: 4990, features: ["Edificios ilimitados", "Unidades ilimitadas", "Admins ilimitados", "Integraciones a medida", "Soporte dedicado"] },
+];
+
 function MiPlanTab() {
   const { data, isLoading } = usePlanUsage();
 
@@ -487,6 +493,9 @@ function MiPlanTab() {
   const fmtMax = (max: number) => (max >= data.unlimited ? "∞" : max.toString());
   const remaining = (used: number, max: number) => (max >= data.unlimited ? "Ilimitado" : Math.max(0, max - used).toString());
   const pct = (used: number, max: number) => (max >= data.unlimited ? 5 : Math.min(100, (used / Math.max(1, max)) * 100));
+  const actual = data.plan.nombre;
+  const contactarHref = (plan: string) =>
+    `mailto:ventas@residalia.com?subject=${encodeURIComponent(`Quiero contratar el plan ${plan}`)}&body=${encodeURIComponent(`Hola, me interesa contratar el plan ${plan} de Residalia.`)}`;
 
   return (
     <div className="space-y-4">
@@ -496,10 +505,10 @@ function MiPlanTab() {
             <div className="text-xs uppercase tracking-wide text-[#64748B]">Plan actual</div>
             <div className="font-display font-extrabold text-2xl text-[#0F172A]">{data.plan.nombre}</div>
             <div className="text-sm text-[#64748B]">L {data.plan.precio.toLocaleString()} / mes</div>
+            {data.estado === "trial" && data.diasRestantes !== null && (
+              <div className="text-xs text-[#92400E] mt-1">Prueba gratis: te quedan <b>{data.diasRestantes} {data.diasRestantes === 1 ? "día" : "días"}</b></div>
+            )}
           </div>
-          <Link to="/" hash="planes">
-            <Button className="bg-[#4A154B] hover:bg-[#7C3085] font-semibold rounded-full px-5 text-white">Actualizar plan</Button>
-          </Link>
         </div>
       </Card>
 
@@ -531,7 +540,6 @@ function MiPlanTab() {
             <div className="font-semibold text-[#4A154B] flex items-center gap-2">
               <Building2 className="w-4 h-4" /> {e.nombre}
             </div>
-
             <div className="space-y-1">
               <div className="flex items-center justify-between text-sm">
                 <span className="text-[#5a4030]">Unidades</span>
@@ -544,9 +552,55 @@ function MiPlanTab() {
         </Card>
       ))}
 
-      {data.porEdificio.length === 0 && (
-        <Card><div className="p-4 text-sm text-[#64748B]">Crea tu primer edificio para ver los límites por unidad/admin.</div></Card>
-      )}
+      <div className="pt-2">
+        <h3 className="font-display font-extrabold text-xl text-[#0F172A] mb-1">Cambiar de plan</h3>
+        <p className="text-sm text-[#64748B] mb-4">Elige el plan que mejor se ajusta a tu operación.</p>
+        <div className="grid md:grid-cols-3 gap-5">
+          {PLANES.map((p) => {
+            const esActual = actual?.toLowerCase() === p.nombre.toLowerCase();
+            return (
+              <Card key={p.nombre} className={`p-6 relative ${p.popular ? "border-2 border-[#4A154B]" : "border-[#E2E8F0]"} ${esActual ? "ring-2 ring-[#10B981]" : ""}`}>
+                {p.popular && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#4A154B] text-white text-[10px] uppercase tracking-wider font-bold px-3 py-1 rounded-full">Más popular</div>
+                )}
+                {esActual && (
+                  <div className="absolute -top-3 right-4 bg-[#10B981] text-white text-[10px] uppercase tracking-wider font-bold px-3 py-1 rounded-full">Tu plan</div>
+                )}
+                <div className="flex items-center gap-2 mb-2">
+                  <Crown className="w-5 h-5 text-[#4A154B]" />
+                  <h4 className="text-xl font-bold text-[#1D1C1D]">{p.nombre}</h4>
+                </div>
+                <div className="mb-4">
+                  <span className="text-3xl font-extrabold text-[#1D1C1D]">L {p.precio.toLocaleString()}</span>
+                  <span className="text-sm text-[#64748B]"> /mes</span>
+                </div>
+                <ul className="space-y-2 mb-6">
+                  {p.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2 text-sm text-[#334155]">
+                      <Check className="w-4 h-4 text-[#10B981] mt-0.5 shrink-0" />
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href={contactarHref(p.nombre)}
+                  className={`block text-center font-semibold py-2.5 rounded-full transition ${
+                    p.popular
+                      ? "bg-[#4A154B] text-white hover:bg-[#350d36]"
+                      : "border border-[#4A154B] text-[#4A154B] hover:bg-[#4A154B] hover:text-white"
+                  }`}
+                >
+                  {esActual ? "Activar este plan" : "Contactar"}
+                </a>
+              </Card>
+            );
+          })}
+        </div>
+        <p className="text-center text-xs text-[#64748B] mt-4">
+          Todos los planes incluyen 14 días de prueba gratis. Para activar tu plan escríbenos a{" "}
+          <a href="mailto:ventas@residalia.com" className="text-[#4A154B] hover:underline">ventas@residalia.com</a>.
+        </p>
+      </div>
     </div>
   );
 }
