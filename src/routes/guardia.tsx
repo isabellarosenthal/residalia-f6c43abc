@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { ShieldCheck, LogOut, ListChecks, ScanLine } from "lucide-react";
+import { ShieldCheck, LogOut, ListChecks, ScanLine, Calendar } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 
 export const Route = createFileRoute("/guardia")({ component: GuardiaLayout });
@@ -44,8 +44,9 @@ function GuardiaLayout() {
             <button onClick={() => signOut()} className="text-sm text-[#E8E8E8] hover:text-white inline-flex items-center gap-1"><LogOut className="w-4 h-4" />Salir</button>
           </div>
         </div>
-        <nav className="max-w-3xl mx-auto px-4 pb-2 flex gap-4 text-sm">
+        <nav className="max-w-3xl mx-auto px-4 pb-2 flex flex-wrap gap-4 text-sm">
           <Link to="/guardia" activeOptions={{ exact: true }} activeProps={{ className: "text-white font-semibold" }} className="text-[#E8E8E8] hover:text-white inline-flex items-center gap-1"><ScanLine className="w-4 h-4" />Validar</Link>
+          <Link to="/guardia/turno" activeProps={{ className: "text-white font-semibold" }} className="text-[#E8E8E8] hover:text-white inline-flex items-center gap-1"><Calendar className="w-4 h-4" />Mi turno</Link>
           <Link to="/guardia/pases" activeProps={{ className: "text-white font-semibold" }} className="text-[#E8E8E8] hover:text-white inline-flex items-center gap-1"><ListChecks className="w-4 h-4" />Pases del día</Link>
         </nav>
       </header>

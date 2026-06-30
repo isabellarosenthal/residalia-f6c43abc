@@ -38,9 +38,12 @@ import { Route as PortalReservarRouteImport } from './routes/portal.reservar'
 import { Route as PortalNuevoRouteImport } from './routes/portal.nuevo'
 import { Route as PortalCuentaRouteImport } from './routes/portal.cuenta'
 import { Route as PortalAnunciosRouteImport } from './routes/portal.anuncios'
+import { Route as GuardiaTurnoRouteImport } from './routes/guardia.turno'
 import { Route as GuardiaPasesRouteImport } from './routes/guardia.pases'
 import { Route as EdificiosEdificioIdRouteImport } from './routes/edificios.$edificioId'
 import { Route as AccesosValidarRouteImport } from './routes/accesos.validar'
+import { Route as AccesosTurnosRouteImport } from './routes/accesos.turnos'
+import { Route as AccesosPuntosRouteImport } from './routes/accesos.puntos'
 import { Route as PortalPasePaseIdRouteImport } from './routes/portal.pase.$paseId'
 
 const ResidentesRoute = ResidentesRouteImport.update({
@@ -188,6 +191,11 @@ const PortalAnunciosRoute = PortalAnunciosRouteImport.update({
   path: '/anuncios',
   getParentRoute: () => PortalRoute,
 } as any)
+const GuardiaTurnoRoute = GuardiaTurnoRouteImport.update({
+  id: '/turno',
+  path: '/turno',
+  getParentRoute: () => GuardiaRoute,
+} as any)
 const GuardiaPasesRoute = GuardiaPasesRouteImport.update({
   id: '/pases',
   path: '/pases',
@@ -201,6 +209,16 @@ const EdificiosEdificioIdRoute = EdificiosEdificioIdRouteImport.update({
 const AccesosValidarRoute = AccesosValidarRouteImport.update({
   id: '/validar',
   path: '/validar',
+  getParentRoute: () => AccesosRoute,
+} as any)
+const AccesosTurnosRoute = AccesosTurnosRouteImport.update({
+  id: '/turnos',
+  path: '/turnos',
+  getParentRoute: () => AccesosRoute,
+} as any)
+const AccesosPuntosRoute = AccesosPuntosRouteImport.update({
+  id: '/puntos',
+  path: '/puntos',
   getParentRoute: () => AccesosRoute,
 } as any)
 const PortalPasePaseIdRoute = PortalPasePaseIdRouteImport.update({
@@ -230,9 +248,12 @@ export interface FileRoutesByFullPath {
   '/prospectos': typeof ProspectosRoute
   '/reportes': typeof ReportesRoute
   '/residentes': typeof ResidentesRoute
+  '/accesos/puntos': typeof AccesosPuntosRoute
+  '/accesos/turnos': typeof AccesosTurnosRoute
   '/accesos/validar': typeof AccesosValidarRoute
   '/edificios/$edificioId': typeof EdificiosEdificioIdRoute
   '/guardia/pases': typeof GuardiaPasesRoute
+  '/guardia/turno': typeof GuardiaTurnoRoute
   '/portal/anuncios': typeof PortalAnunciosRoute
   '/portal/cuenta': typeof PortalCuentaRoute
   '/portal/nuevo': typeof PortalNuevoRoute
@@ -261,9 +282,12 @@ export interface FileRoutesByTo {
   '/prospectos': typeof ProspectosRoute
   '/reportes': typeof ReportesRoute
   '/residentes': typeof ResidentesRoute
+  '/accesos/puntos': typeof AccesosPuntosRoute
+  '/accesos/turnos': typeof AccesosTurnosRoute
   '/accesos/validar': typeof AccesosValidarRoute
   '/edificios/$edificioId': typeof EdificiosEdificioIdRoute
   '/guardia/pases': typeof GuardiaPasesRoute
+  '/guardia/turno': typeof GuardiaTurnoRoute
   '/portal/anuncios': typeof PortalAnunciosRoute
   '/portal/cuenta': typeof PortalCuentaRoute
   '/portal/nuevo': typeof PortalNuevoRoute
@@ -297,9 +321,12 @@ export interface FileRoutesById {
   '/prospectos': typeof ProspectosRoute
   '/reportes': typeof ReportesRoute
   '/residentes': typeof ResidentesRoute
+  '/accesos/puntos': typeof AccesosPuntosRoute
+  '/accesos/turnos': typeof AccesosTurnosRoute
   '/accesos/validar': typeof AccesosValidarRoute
   '/edificios/$edificioId': typeof EdificiosEdificioIdRoute
   '/guardia/pases': typeof GuardiaPasesRoute
+  '/guardia/turno': typeof GuardiaTurnoRoute
   '/portal/anuncios': typeof PortalAnunciosRoute
   '/portal/cuenta': typeof PortalCuentaRoute
   '/portal/nuevo': typeof PortalNuevoRoute
@@ -334,9 +361,12 @@ export interface FileRouteTypes {
     | '/prospectos'
     | '/reportes'
     | '/residentes'
+    | '/accesos/puntos'
+    | '/accesos/turnos'
     | '/accesos/validar'
     | '/edificios/$edificioId'
     | '/guardia/pases'
+    | '/guardia/turno'
     | '/portal/anuncios'
     | '/portal/cuenta'
     | '/portal/nuevo'
@@ -365,9 +395,12 @@ export interface FileRouteTypes {
     | '/prospectos'
     | '/reportes'
     | '/residentes'
+    | '/accesos/puntos'
+    | '/accesos/turnos'
     | '/accesos/validar'
     | '/edificios/$edificioId'
     | '/guardia/pases'
+    | '/guardia/turno'
     | '/portal/anuncios'
     | '/portal/cuenta'
     | '/portal/nuevo'
@@ -400,9 +433,12 @@ export interface FileRouteTypes {
     | '/prospectos'
     | '/reportes'
     | '/residentes'
+    | '/accesos/puntos'
+    | '/accesos/turnos'
     | '/accesos/validar'
     | '/edificios/$edificioId'
     | '/guardia/pases'
+    | '/guardia/turno'
     | '/portal/anuncios'
     | '/portal/cuenta'
     | '/portal/nuevo'
@@ -644,6 +680,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalAnunciosRouteImport
       parentRoute: typeof PortalRoute
     }
+    '/guardia/turno': {
+      id: '/guardia/turno'
+      path: '/turno'
+      fullPath: '/guardia/turno'
+      preLoaderRoute: typeof GuardiaTurnoRouteImport
+      parentRoute: typeof GuardiaRoute
+    }
     '/guardia/pases': {
       id: '/guardia/pases'
       path: '/pases'
@@ -665,6 +708,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccesosValidarRouteImport
       parentRoute: typeof AccesosRoute
     }
+    '/accesos/turnos': {
+      id: '/accesos/turnos'
+      path: '/turnos'
+      fullPath: '/accesos/turnos'
+      preLoaderRoute: typeof AccesosTurnosRouteImport
+      parentRoute: typeof AccesosRoute
+    }
+    '/accesos/puntos': {
+      id: '/accesos/puntos'
+      path: '/puntos'
+      fullPath: '/accesos/puntos'
+      preLoaderRoute: typeof AccesosPuntosRouteImport
+      parentRoute: typeof AccesosRoute
+    }
     '/portal/pase/$paseId': {
       id: '/portal/pase/$paseId'
       path: '/pase/$paseId'
@@ -676,11 +733,15 @@ declare module '@tanstack/react-router' {
 }
 
 interface AccesosRouteChildren {
+  AccesosPuntosRoute: typeof AccesosPuntosRoute
+  AccesosTurnosRoute: typeof AccesosTurnosRoute
   AccesosValidarRoute: typeof AccesosValidarRoute
   AccesosIndexRoute: typeof AccesosIndexRoute
 }
 
 const AccesosRouteChildren: AccesosRouteChildren = {
+  AccesosPuntosRoute: AccesosPuntosRoute,
+  AccesosTurnosRoute: AccesosTurnosRoute,
   AccesosValidarRoute: AccesosValidarRoute,
   AccesosIndexRoute: AccesosIndexRoute,
 }
@@ -704,11 +765,13 @@ const EdificiosRouteWithChildren = EdificiosRoute._addFileChildren(
 
 interface GuardiaRouteChildren {
   GuardiaPasesRoute: typeof GuardiaPasesRoute
+  GuardiaTurnoRoute: typeof GuardiaTurnoRoute
   GuardiaIndexRoute: typeof GuardiaIndexRoute
 }
 
 const GuardiaRouteChildren: GuardiaRouteChildren = {
   GuardiaPasesRoute: GuardiaPasesRoute,
+  GuardiaTurnoRoute: GuardiaTurnoRoute,
   GuardiaIndexRoute: GuardiaIndexRoute,
 }
 
