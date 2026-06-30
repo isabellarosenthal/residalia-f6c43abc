@@ -6,7 +6,7 @@ import { useAuth } from "@/lib/auth-context";
 import { Wallet, AlertTriangle, KeyRound, Wrench, Tag, UserPlus, TrendingUp, CheckCircle2, Building2 } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { fmtL } from "@/lib/format";
-import { OnboardingWizard, useShouldShowOnboarding } from "@/components/onboarding/OnboardingWizard";
+// onboarding wizard now mounts globally in AppShell
 import { useEdificios, useUnidades, useCobros, usePagosDeEdificio, useAccesos, useIncidencias, useProspectos } from "@/lib/queries";
 import { useEdificioFilter } from "@/hooks/useEdificioFilter";
 
