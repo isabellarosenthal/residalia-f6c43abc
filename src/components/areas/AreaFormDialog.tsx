@@ -35,7 +35,7 @@ export function AreaFormDialog({
     defaultValues: {
       condominio_id: defaultCondominioId ?? "",
       nombre: "", capacidad: 0, horario_inicio: "08:00", horario_fin: "22:00",
-      icono: "sparkles", activa: true,
+      icono: "sparkles", activa: true, permite_exceso: true, costo_por_persona_extra: 0,
     },
   });
 
@@ -49,6 +49,8 @@ export function AreaFormDialog({
       horario_fin: area?.horario_fin ?? "22:00",
       icono: area?.icono ?? "sparkles",
       activa: area?.activa ?? true,
+      permite_exceso: (area as any)?.permite_exceso ?? true,
+      costo_por_persona_extra: Number((area as any)?.costo_por_persona_extra ?? 0),
     });
   }, [open, area, defaultCondominioId, form]);
 
@@ -62,9 +64,12 @@ export function AreaFormDialog({
       horario_fin: v.horario_fin || null,
       icono: v.icono || null,
       activa: v.activa,
-    });
+      permite_exceso: v.permite_exceso,
+      costo_por_persona_extra: v.costo_por_persona_extra ?? 0,
+    } as any);
     onOpenChange(false);
   };
+
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
