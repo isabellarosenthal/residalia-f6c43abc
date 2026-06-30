@@ -208,9 +208,6 @@ function ReportesPage() {
                 <Button variant="outline" onClick={() => downloadCSV("residentes.csv", residentes)}>
                   <Download className="w-4 h-4 mr-2" />Residentes ({residentes.length})
                 </Button>
-                <Button variant="outline" onClick={() => downloadCSV("prospectos.csv", prospectos)}>
-                  <Download className="w-4 h-4 mr-2" />Prospectos ({prospectos.length})
-                </Button>
               </div>
             </Card>
           </TabsContent>
