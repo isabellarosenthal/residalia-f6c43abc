@@ -24,6 +24,7 @@ export function ResidentesTable({
 
   const edifMap = useMemo(() => new Map(edificios.map((e) => [e.id, e.nombre])), [edificios]);
   const uniMap = useMemo(() => new Map(unidades.map((u) => [u.id, u.numero])), [unidades]);
+  const resMap = useMemo(() => new Map(residentes.map((r) => [r.id, `${r.nombre} ${r.apellido ?? ""}`.trim()])), [residentes]);
 
   const filtered = useMemo(() => {
     const s = search.toLowerCase();
