@@ -113,18 +113,33 @@ function Reservar() {
         </div>
         <div>
           <Label>N° personas</Label>
-          <Input type="number" min={1} max={area?.capacidad ?? 200} value={personas} onChange={(e) => setPersonas(Math.max(1, Number(e.target.value) || 1))} />
+          <Input type="number" min={1} value={personas} onChange={(e) => setPersonas(Math.max(1, Number(e.target.value) || 1))} />
         </div>
         <div><Label>Motivo / notas</Label><Textarea rows={2} value={descripcion} onChange={(e) => setDescripcion(e.target.value)} placeholder="Ej: Cumpleaños familiar" /></div>
+
+        {excedeCap && permiteExceso && (
+          <div className="bg-[#FEF3C7] border border-[#FCD34D] text-[#78350F] rounded-lg p-3 text-sm space-y-2">
+            <div className="flex items-start gap-2">
+              <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" />
+              <div>
+                <div className="font-semibold">Excedes la capacidad ({area?.capacidad})</div>
+                <div className="text-xs">+{personasExtra} {personasExtra === 1 ? "persona" : "personas"} extra. Necesita autorización del administrador{costoExtra > 0 ? ` y pago adicional de L ${costoExtra.toFixed(2)}` : ""}.</div>
+              </div>
+            </div>
+            <Textarea rows={2} value={nota} onChange={(e) => setNota(e.target.value)} placeholder="Explica al administrador por qué necesitas exceder la capacidad…" required />
+          </div>
+        )}
+
         {conflicto && (
           <div className="flex items-start gap-2 bg-[#fde8e2] border border-[#f5b8a8] text-[#7a2a10] rounded-lg p-3 text-sm">
             <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" />{conflicto}
           </div>
         )}
-        <Button type="submit" disabled={save.isPending || !!conflicto || !areaId} className="w-full bg-[#4A154B] hover:bg-[#350d36]">
-          {save.isPending ? "Reservando…" : "Solicitar reserva"}
+        <Button type="submit" disabled={save.isPending || !!conflicto || !areaId || (excedeCap && !nota.trim())} className="w-full bg-[#4A154B] hover:bg-[#350d36]">
+          {save.isPending ? "Reservando…" : excedeCap ? "Solicitar autorización" : "Solicitar reserva"}
         </Button>
         <p className="text-xs text-[#64748B] text-center">La administración confirmará tu reserva.</p>
+
       </form>
 
       {proximas.length > 0 && (
