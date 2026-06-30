@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -8,8 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CityAutocomplete } from "@/components/CityAutocomplete";
 import { useSaveEdificio, type Condominio } from "@/lib/queries";
-import { DEPARTAMENTOS, ciudadesDe } from "@/lib/honduras-geo";
+import { DEPARTAMENTOS } from "@/lib/honduras-geo";
 
 const schema = z.object({
   nombre: z.string().min(2, "Nombre muy corto").max(120),
