@@ -153,18 +153,11 @@ export function EdificioFormDialog({
             </div>
             <div>
               <Label>Ciudad / Municipio</Label>
-              <Select
+              <CityAutocomplete
                 value={form.watch("ciudad") || ""}
-                onValueChange={(v) => form.setValue("ciudad", v, { shouldValidate: true })}
-                disabled={!departamento}
-              >
-                <SelectTrigger><SelectValue placeholder={departamento ? "Selecciona…" : "Elige depto. primero"} /></SelectTrigger>
-                <SelectContent className="max-h-72">
-                  {ciudades.map((c) => (
-                    <SelectItem key={c} value={c}>{c}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                onChange={(v) => form.setValue("ciudad", v, { shouldValidate: true })}
+                placeholder="Buscar ciudad…"
+              />
             </div>
           </div>
 
