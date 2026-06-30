@@ -455,31 +455,6 @@ export function LandingPage() {
             </div>
           </div>
 
-          {/* Card 3: Pipeline */}
-          <div className="bg-white/60 backdrop-blur-xl border border-white/70 rounded-3xl p-8 flex flex-col shadow-[0_8px_30px_-12px_rgba(67,56,202,0.15)]">
-            <h3 className="font-display font-extrabold text-2xl text-[#0F172A]">Pipeline inmobiliario</h3>
-            <p className="mt-2 text-sm text-[#475569]">Arrastra prospectos entre etapas, agenda visitas y nunca pierdas una venta o renta.</p>
-            <Link to="/login" className="mt-3 text-sm font-semibold text-[#4A154B] inline-flex items-center gap-1 hover:gap-2 transition-all">Ver pipeline <ArrowRight className="w-4 h-4" /></Link>
-            <div className="mt-6 bg-white rounded-2xl shadow-lg p-3 border border-[#E2E8F0]">
-              <div className="grid grid-cols-3 gap-2">
-                {[
-                  { t: "Nuevo", c: "#F3E7F3", items: [{ n: "A. Pérez", m: "L 1.2M" }, { n: "L. Gómez", m: "L 850K" }] },
-                  { t: "Visita", c: "#DBEAFE", items: [{ n: "M. Soto", m: "L 2.1M" }] },
-                  { t: "Cierre", c: "#DCFCE7", items: [{ n: "J. Ríos", m: "L 1.6M" }] },
-                ].map((col) => (
-                  <div key={col.t} className="space-y-2">
-                    <div className="text-[10px] font-bold uppercase tracking-wider text-[#475569] px-1">{col.t}</div>
-                    {col.items.map((it) => (
-                      <div key={it.n} className="rounded-lg p-2 text-[10px]" style={{ background: col.c }}>
-                        <div className="font-semibold text-[#0F172A]">{it.n}</div>
-                        <div className="text-[#475569] mt-0.5">{it.m}</div>
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* CTA final */}
