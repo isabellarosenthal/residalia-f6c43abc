@@ -259,6 +259,25 @@ export function ReservaFormDialog({
             </div>
           )}
 
+          {horasExtra > 0 && (
+            <div className="bg-[#EFF6FF] border border-[#BFDBFE] text-[#1E3A8A] rounded-lg p-3 text-sm space-y-2">
+              <div className="font-semibold">Horas extra: {horasExtra.toFixed(1)}h ({horasReserva.toFixed(1)}h reservadas − {horasIncluidas}h incluidas)</div>
+              <div className="text-xs">Cargo automático: L {costoHoras.toFixed(2)} ({horasExtra.toFixed(1)}h × L {costoHora.toFixed(2)}).</div>
+              {!excedeCap && (
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label className="text-[#1E3A8A]">Monto extra (L)</Label>
+                    <Input type="number" step="0.01" {...form.register("monto_extra")} />
+                  </div>
+                  <div className="flex items-end gap-2">
+                    <input type="checkbox" id="pagado_extra_h" {...form.register("pagado_extra")} className="w-4 h-4" />
+                    <Label htmlFor="pagado_extra_h" className="cursor-pointer">Marcar como pagado</Label>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
           {conflicto && conflicto.tipo !== "horario" && (
             <div className="flex items-start gap-2 bg-[#fde8e2] border border-[#f5b8a8] text-[#7a2a10] rounded-lg p-3 text-sm">
               <AlertTriangle className="w-4 h-4 mt-0.5 flex-shrink-0" />
