@@ -16,6 +16,9 @@ const ResidenteFormDialog = lazy(() =>
 const ResidenteDetailDialog = lazy(() =>
   import("@/components/residentes/ResidenteDetailDialog").then((m) => ({ default: m.ResidenteDetailDialog }))
 );
+const BulkImportResidentesDialog = lazy(() =>
+  import("@/components/residentes/BulkImportResidentesDialog").then((m) => ({ default: m.BulkImportResidentesDialog }))
+);
 
 export const Route = createFileRoute("/residentes")({ component: ResidentesPage });
 
