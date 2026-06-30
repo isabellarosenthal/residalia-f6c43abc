@@ -3,8 +3,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui-pentos";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Pencil, Trash2 } from "lucide-react";
-import { useReservas, useAreas, useUnidades, useResidentes, useDeleteReserva, type Reserva } from "@/lib/queries";
+import { Pencil, Trash2, Check, DollarSign, AlertTriangle } from "lucide-react";
+import { useReservas, useAreas, useUnidades, useResidentes, useDeleteReserva, useSaveReserva, type Reserva } from "@/lib/queries";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+
 
 const fmtDT = (s: string) => new Date(s).toLocaleString("es-HN", { dateStyle: "short", timeStyle: "short" });
 
