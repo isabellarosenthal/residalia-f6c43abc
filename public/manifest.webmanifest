@@ -1,6 +1,6 @@
 {
-  "name": "Altura Cloud — Portal residente",
-  "short_name": "Altura Cloud",
+  "name": "Residalia — Portal residente",
+  "short_name": "Residalia",
   "description": "Crea pases de acceso, consulta tu saldo y reserva áreas comunes desde tu celular.",
   "start_url": "/portal",
   "scope": "/",

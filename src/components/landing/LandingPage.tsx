@@ -7,9 +7,9 @@ import {
 import { useAuth } from "@/lib/auth-context";
 import heroAstronaut from "@/assets/hero-astronaut.png";
 import astronautChecklist from "@/assets/astronaut-checklist.png";
-import logoUrl from "@/assets/altura-cloud-logo.png";
+import logoUrl from "@/assets/residalia-logo.png";
 
-// Brand kit Altura Cloud v1.0
+// Brand kit Residalia v1.0
 const C = {
   primary: "#4A154B",      // Royal Blue
   primaryDark: "#350d36",  // Deep Indigo
@@ -102,8 +102,8 @@ export function LandingPage() {
       <header className="border-b border-white/40 bg-white/60 backdrop-blur-xl sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <img src={logoUrl} alt="Altura Cloud" width={32} height={32} className="w-8 h-8" />
-            <div className="font-display font-extrabold text-xl text-[#0F172A]">Altura Cloud</div>
+            <img src={logoUrl} alt="Residalia" width={32} height={32} className="w-8 h-8" />
+            <div className="font-display font-extrabold text-xl text-[#0F172A]">Residalia</div>
           </div>
 
           <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-[#475569]">
@@ -192,7 +192,7 @@ export function LandingPage() {
           <div className="relative">
             <img
               src={heroAstronaut}
-              alt="Astronauta mascota de Altura Cloud saludando"
+              alt="Astronauta mascota de Residalia saludando"
               width={1280}
               height={1024}
               className="relative w-full h-auto"
@@ -220,7 +220,7 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* What is Altura Cloud */}
+      {/* What is Residalia */}
       <section id="funciones" className="max-w-7xl mx-auto px-6 py-20">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <h2 className="font-display font-extrabold text-3xl md:text-4xl text-[#0F172A]">Todo lo que necesita un edificio, en un solo lugar</h2>
@@ -278,14 +278,14 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* Why Altura Cloud */}
+      {/* Why Residalia */}
       <section className="max-w-7xl mx-auto px-6 py-20">
         <div className="relative rounded-[2.5rem] p-10 md:p-16 overflow-hidden" style={{ background: "linear-gradient(135deg, #350d36 0%, #4A154B 55%, #7C3085 100%)" }}>
           <div className="absolute -top-32 -right-24 w-80 h-80 rounded-full opacity-50 blur-3xl pointer-events-none float-slow" style={{ background: "radial-gradient(circle, #ffea5c 0%, transparent 70%)" }} />
           <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-[#611f69] rounded-full opacity-25 blur-3xl pointer-events-none" />
           <div className="absolute top-1/2 right-1/3 w-40 h-40 rounded-full opacity-30 blur-3xl pointer-events-none float-med" style={{ background: "radial-gradient(circle, #ffea5c 0%, transparent 70%)" }} />
           <div className="text-center mb-14 relative">
-            <h2 className="font-display font-extrabold text-4xl md:text-5xl text-white tracking-tight">¿Por qué Altura Cloud?</h2>
+            <h2 className="font-display font-extrabold text-4xl md:text-5xl text-white tracking-tight">¿Por qué Residalia?</h2>
             <p className="mt-3 text-lg text-[#F3E7F3]">La plataforma diseñada para la realidad de Honduras.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
@@ -501,7 +501,7 @@ export function LandingPage() {
         <div className="max-w-7xl mx-auto px-6 py-16">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
             <div className="space-y-4">
-              <div className="font-display font-extrabold text-2xl text-[#0F172A]">Altura Cloud</div>
+              <div className="font-display font-extrabold text-2xl text-[#0F172A]">Residalia</div>
               <p className="text-sm text-[#475569] leading-relaxed">
                 Plataforma de administración de condominios y propiedades para Centroamérica.
               </p>
@@ -514,7 +514,7 @@ export function LandingPage() {
                   { name: "Zafra Cloud", desc: "ERP, facturación electrónica y contabilidad", url: "https://home.zafra.cloud", icon: Building2 },
                   { name: "Firmax Cloud", desc: "Firma digital de documentos", url: "https://firmax.cloud", icon: FileText },
                   { name: "TecniCloud", desc: "Software de Mantenimiento", url: "https://tecnicloud.com", icon: Server },
-                  { name: "Altura Cloud", desc: "Administración de condominios", url: "https://alturacloud.app", icon: KeyRound },
+                  { name: "Residalia", desc: "Administración de condominios", url: "https://residalia.app", icon: KeyRound },
                   { name: "Trabajos Honduras", desc: "Reclutamiento y vacantes", url: "https://trabajoshonduras.com", icon: Users },
                 ].map((l) => {
                   const Icon = l.icon;
@@ -534,7 +534,7 @@ export function LandingPage() {
             </div>
 
             <div className="space-y-4">
-              <h4 className="text-sm font-semibold text-[#0F172A] uppercase tracking-wider">Altura Cloud</h4>
+              <h4 className="text-sm font-semibold text-[#0F172A] uppercase tracking-wider">Residalia</h4>
               <ul className="space-y-2.5 text-sm">
                 <li><a href="#planes" className="text-[#475569] hover:text-[#4A154B] transition">Planes</a></li>
                 <li><a href="#funciones" className="text-[#475569] hover:text-[#4A154B] transition">Cómo funciona</a></li>

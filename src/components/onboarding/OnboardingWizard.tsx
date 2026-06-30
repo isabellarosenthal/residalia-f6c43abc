@@ -112,7 +112,7 @@ export function OnboardingWizard({ open, onClose }: Props) {
 
         <div className="flex items-center gap-2 mb-1">
           <Sparkles className="w-5 h-5 text-[#4A154B]" />
-          <span className="text-xs uppercase tracking-widest text-[#64748B] font-semibold">Bienvenido a Altura Cloud</span>
+          <span className="text-xs uppercase tracking-widest text-[#64748B] font-semibold">Bienvenido a Residalia</span>
         </div>
         <h2 className="font-display font-extrabold text-2xl text-[#0F172A]">Configura tu primer edificio en 4 pasos</h2>
 
