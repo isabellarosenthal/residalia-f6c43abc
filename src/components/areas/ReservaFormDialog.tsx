@@ -49,7 +49,7 @@ export function ReservaFormDialog({
       condominio_id: defaultCondominioId ?? "", area_id: "",
       unidad_id: null, residente_id: null,
       fecha_inicio: nowLocal(1), fecha_fin: nowLocal(3),
-      num_personas: 0, estado: "confirmada", descripcion: "",
+      num_personas: 0, estado: "confirmada", descripcion: "", monto_extra: 0, pagado_extra: false,
     },
   });
   const condominioId = form.watch("condominio_id");
