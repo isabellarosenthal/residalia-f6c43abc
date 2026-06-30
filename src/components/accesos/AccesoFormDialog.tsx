@@ -16,22 +16,26 @@ const schema = z.object({
   tipo: z.string().min(1),
   metodo: z.string().min(1),
   qr_code: z.string().max(120).optional().or(z.literal("")),
+  vigencia: z.enum(["temporal", "permanente"]),
   fecha_entrada: z.string().min(1, "Requerido"),
   fecha_salida: z.string().optional().or(z.literal("")),
   usos_maximos: z.coerce.number().int().min(1).max(999),
   minutos_max_estadia: z.coerce.number().int().min(0).max(10080).optional().or(z.literal("")),
+  dias_semana: z.array(z.number().int().min(0).max(6)).default([]),
+  hora_inicio: z.string().optional().or(z.literal("")),
+  hora_fin: z.string().optional().or(z.literal("")),
 });
 type FormVals = z.input<typeof schema>;
 type FormOut = z.output<typeof schema>;
 
-// Tiempos máximos sugeridos por tipo (en minutos). null = sin límite
 const MINUTOS_DEFAULT: Record<string, number | null> = {
-  delivery: 15,
-  proveedor: 120,
-  servicio: 240,
-  visita: null,
-  otro: null,
+  delivery: 15, proveedor: 120, servicio: 240, visita: null, otro: null, permanente: null,
 };
+
+const DIAS = [
+  { v: 1, label: "Lun" }, { v: 2, label: "Mar" }, { v: 3, label: "Mié" },
+  { v: 4, label: "Jue" }, { v: 5, label: "Vie" }, { v: 6, label: "Sáb" }, { v: 0, label: "Dom" },
+];
 
 const nowLocal = () => {
   const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
@@ -48,16 +52,21 @@ export function AccesoFormDialog({
     defaultValues: {
       condominio_id: defaultCondominioId ?? "", unidad_id: null,
       visitante_nombre: "", tipo: "visita", metodo: "manual", qr_code: "",
+      vigencia: "temporal",
       fecha_entrada: nowLocal(), fecha_salida: "",
       usos_maximos: 1, minutos_max_estadia: "",
+      dias_semana: [1, 2, 3, 4, 5], hora_inicio: "", hora_fin: "",
     },
   });
   const condominioId = form.watch("condominio_id");
   const tipo = form.watch("tipo");
+  const vigencia = form.watch("vigencia");
+  const diasSel = form.watch("dias_semana") ?? [];
   const { data: unidades = [] } = useUnidades(condominioId || undefined);
 
   useEffect(() => {
     if (!open) return;
+    const a = acceso as any;
     form.reset({
       condominio_id: acceso?.condominio_id ?? defaultCondominioId ?? "",
       unidad_id: acceso?.unidad_id ?? null,
@@ -65,26 +74,33 @@ export function AccesoFormDialog({
       tipo: acceso?.tipo ?? "visita",
       metodo: acceso?.metodo ?? "manual",
       qr_code: acceso?.qr_code ?? "",
+      vigencia: a?.es_permanente ? "permanente" : "temporal",
       fecha_entrada: acceso?.fecha_entrada ? new Date(acceso.fecha_entrada).toISOString().slice(0, 16) : nowLocal(),
       fecha_salida: acceso?.fecha_salida ? new Date(acceso.fecha_salida).toISOString().slice(0, 16) : "",
       usos_maximos: acceso?.usos_maximos ?? 1,
       minutos_max_estadia: acceso?.minutos_max_estadia ?? "",
+      dias_semana: a?.dias_semana ?? [1, 2, 3, 4, 5],
+      hora_inicio: a?.hora_inicio ?? "",
+      hora_fin: a?.hora_fin ?? "",
     });
   }, [open, acceso, defaultCondominioId, form]);
 
-  // Al cambiar tipo, autoajusta el tiempo máximo si el usuario no editó el valor
   useEffect(() => {
-    if (acceso) return; // no pisar en edición
+    if (acceso) return;
     const def = MINUTOS_DEFAULT[tipo];
     form.setValue("minutos_max_estadia", def == null ? "" : String(def) as any);
   }, [tipo, acceso, form]);
 
-  const genCodigo = () => {
-    const r = Math.random().toString(36).slice(2, 8).toUpperCase();
-    return `PASE-${r}`;
+  const toggleDia = (d: number) => {
+    const curr = new Set(form.getValues("dias_semana") ?? []);
+    if (curr.has(d)) curr.delete(d); else curr.add(d);
+    form.setValue("dias_semana", Array.from(curr).sort());
   };
 
+  const genCodigo = () => `PASE-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
+
   const onSubmit = async (v: FormOut) => {
+    const esPerm = v.vigencia === "permanente";
     await save.mutateAsync({
       id: acceso?.id,
       condominio_id: v.condominio_id,
@@ -93,10 +109,14 @@ export function AccesoFormDialog({
       tipo: v.tipo, metodo: v.metodo,
       qr_code: v.qr_code?.trim() || acceso?.qr_code || genCodigo(),
       fecha_entrada: new Date(v.fecha_entrada).toISOString(),
-      fecha_salida: v.fecha_salida ? new Date(v.fecha_salida).toISOString() : null,
-      usos_maximos: v.usos_maximos,
+      fecha_salida: esPerm ? null : (v.fecha_salida ? new Date(v.fecha_salida).toISOString() : null),
+      usos_maximos: esPerm ? 999 : v.usos_maximos,
       minutos_max_estadia: v.minutos_max_estadia === "" || v.minutos_max_estadia == null ? null : Number(v.minutos_max_estadia),
-    });
+      es_permanente: esPerm,
+      dias_semana: esPerm ? (v.dias_semana ?? []) : [],
+      hora_inicio: esPerm && v.hora_inicio ? v.hora_inicio : null,
+      hora_fin: esPerm && v.hora_fin ? v.hora_fin : null,
+    } as any);
     onOpenChange(false);
   };
 
@@ -113,6 +133,28 @@ export function AccesoFormDialog({
             </Select>
           </div>
           <div><Label>Nombre del visitante *</Label><Input {...form.register("visitante_nombre")} /></div>
+
+          <div>
+            <Label>Vigencia</Label>
+            <div className="grid grid-cols-2 gap-2 mt-1">
+              {(["temporal", "permanente"] as const).map((v) => (
+                <button
+                  key={v}
+                  type="button"
+                  onClick={() => form.setValue("vigencia", v)}
+                  className={`px-3 py-2 rounded-lg border text-sm font-medium transition ${vigencia === v ? "bg-[#4A154B] text-white border-[#4A154B]" : "bg-white text-[#1E293B] border-[#E2E8F0] hover:bg-[#F8FAFC]"}`}
+                >
+                  {v === "temporal" ? "Temporal (visita)" : "Permanente (recurrente)"}
+                </button>
+              ))}
+            </div>
+            <p className="text-xs text-[#64748B] mt-1">
+              {vigencia === "permanente"
+                ? "Acceso recurrente (ej. empleada, niñera, entrenador). Define días y horario permitidos."
+                : "Visita por una sola ocasión con fecha de entrada y salida."}
+            </p>
+          </div>
+
           <div className="grid grid-cols-2 gap-3">
             <div>
               <Label>Tipo</Label>
@@ -123,6 +165,7 @@ export function AccesoFormDialog({
                   <SelectItem value="delivery">Delivery</SelectItem>
                   <SelectItem value="proveedor">Proveedor</SelectItem>
                   <SelectItem value="servicio">Servicio</SelectItem>
+                  <SelectItem value="empleado">Empleado/a</SelectItem>
                   <SelectItem value="otro">Otro</SelectItem>
                 </SelectContent>
               </Select>
@@ -140,6 +183,7 @@ export function AccesoFormDialog({
               </Select>
             </div>
           </div>
+
           <div>
             <Label>Unidad destino</Label>
             <Select value={form.watch("unidad_id") ?? "__none__"} onValueChange={(v) => form.setValue("unidad_id", v === "__none__" ? null : v)} disabled={!condominioId}>
@@ -150,22 +194,64 @@ export function AccesoFormDialog({
               </SelectContent>
             </Select>
           </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div><Label>Entrada *</Label><Input type="datetime-local" {...form.register("fecha_entrada")} /></div>
-            <div><Label>Salida</Label><Input type="datetime-local" {...form.register("fecha_salida")} /></div>
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <Label>Entradas permitidas *</Label>
-              <Input type="number" min={1} {...form.register("usos_maximos")} />
-              <p className="text-xs text-[#64748B] mt-1">Por defecto 1 (un solo ingreso)</p>
-            </div>
-            <div>
-              <Label>Tiempo máx. adentro (min)</Label>
-              <Input type="number" min={0} placeholder="Sin límite" {...form.register("minutos_max_estadia")} />
-              <p className="text-xs text-[#64748B] mt-1">Delivery: 15 min sugerido</p>
-            </div>
-          </div>
+
+          {vigencia === "temporal" ? (
+            <>
+              <div className="grid grid-cols-2 gap-3">
+                <div><Label>Entrada *</Label><Input type="datetime-local" {...form.register("fecha_entrada")} /></div>
+                <div><Label>Salida</Label><Input type="datetime-local" {...form.register("fecha_salida")} /></div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <Label>Entradas permitidas *</Label>
+                  <Input type="number" min={1} {...form.register("usos_maximos")} />
+                  <p className="text-xs text-[#64748B] mt-1">Por defecto 1 (un solo ingreso)</p>
+                </div>
+                <div>
+                  <Label>Tiempo máx. adentro (min)</Label>
+                  <Input type="number" min={0} placeholder="Sin límite" {...form.register("minutos_max_estadia")} />
+                  <p className="text-xs text-[#64748B] mt-1">Delivery: 15 min sugerido</p>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div>
+                <Label>Días permitidos *</Label>
+                <div className="flex flex-wrap gap-2 mt-1">
+                  {DIAS.map((d) => {
+                    const sel = diasSel.includes(d.v);
+                    return (
+                      <button
+                        key={d.v}
+                        type="button"
+                        onClick={() => toggleDia(d.v)}
+                        className={`w-12 h-10 rounded-lg border text-sm font-semibold transition ${sel ? "bg-[#4A154B] text-white border-[#4A154B]" : "bg-white text-[#1E293B] border-[#E2E8F0] hover:bg-[#F8FAFC]"}`}
+                      >
+                        {d.label}
+                      </button>
+                    );
+                  })}
+                </div>
+                {diasSel.length === 0 && <p className="text-xs text-[#be185d] mt-1">Selecciona al menos un día</p>}
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div><Label>Hora desde</Label><Input type="time" {...form.register("hora_inicio")} /></div>
+                <div><Label>Hora hasta</Label><Input type="time" {...form.register("hora_fin")} /></div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <Label>Vigente desde *</Label>
+                  <Input type="datetime-local" {...form.register("fecha_entrada")} />
+                </div>
+                <div>
+                  <Label>Tiempo máx. adentro (min)</Label>
+                  <Input type="number" min={0} placeholder="Sin límite" {...form.register("minutos_max_estadia")} />
+                </div>
+              </div>
+            </>
+          )}
+
           <div><Label>Código del pase</Label><Input {...form.register("qr_code")} placeholder="Se genera automáticamente si lo dejas vacío" /></div>
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
