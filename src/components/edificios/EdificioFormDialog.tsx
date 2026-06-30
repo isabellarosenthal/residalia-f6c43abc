@@ -21,6 +21,8 @@ const schema = z.object({
   maps_url: z.string().max(500).optional().or(z.literal("")),
   moneda: z.string().min(1).max(5),
   cuota_base: z.coerce.number().min(0).default(0),
+  cuota_modo: z.enum(["fijo", "por_m2"]).default("fijo"),
+  cuota_por_m2: z.coerce.number().min(0).default(0),
 });
 type FormVals = z.input<typeof schema>;
 type FormOut = z.output<typeof schema>;
