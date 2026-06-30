@@ -70,6 +70,8 @@ export function AreaFormDialog({
       activa: v.activa,
       permite_exceso: v.permite_exceso,
       costo_por_persona_extra: v.costo_por_persona_extra ?? 0,
+      horas_incluidas: v.horas_incluidas ?? null,
+      costo_por_hora_extra: v.costo_por_hora_extra ?? 0,
     } as any);
     onOpenChange(false);
   };
