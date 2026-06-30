@@ -34,6 +34,7 @@ export function OnboardingWizard({ open, onClose }: Props) {
 
   // Edificio
   const [edif, setEdif] = useState({ nombre: "", ciudad: "Tegucigalpa", cuota_base: 2500, moneda: "L" });
+  const [usdRate, setUsdRate] = useState<string>("24.5");
   const [edificioId, setEdificioId] = useState<string | null>(null);
   const saveEdif = useSaveEdificio();
 
@@ -60,8 +61,12 @@ export function OnboardingWizard({ open, onClose }: Props) {
 
   const handleEdificio = async () => {
     if (!edif.nombre) return toast.error("Falta nombre");
+    const rate = Number(usdRate);
+    if (!Number.isFinite(rate) || rate <= 0) return toast.error("Tasa USD inválida");
     const created = await saveEdif.mutateAsync(edif as any);
     setEdificioId(created.id);
+    const { data: u } = await supabase.auth.getUser();
+    if (u?.user) await supabase.from("profiles").update({ usd_rate: rate } as any).eq("id", u.user.id);
     setStep(2);
   };
 
@@ -184,7 +189,21 @@ export function OnboardingWizard({ open, onClose }: Props) {
                 <div><Label>Nombre</Label><Input value={edif.nombre} onChange={(e) => setEdif({ ...edif, nombre: e.target.value })} placeholder="Torres del Valle" /></div>
                 <div><Label>Ciudad</Label><Input value={edif.ciudad} onChange={(e) => setEdif({ ...edif, ciudad: e.target.value })} /></div>
                 <div><Label>Cuota mensual base</Label><Input type="number" value={edif.cuota_base} onChange={(e) => setEdif({ ...edif, cuota_base: Number(e.target.value) })} /></div>
-                <div><Label>Moneda</Label><Input value={edif.moneda} onChange={(e) => setEdif({ ...edif, moneda: e.target.value })} /></div>
+                <div>
+                  <Label>Moneda</Label>
+                  <Select value={edif.moneda} onValueChange={(v) => setEdif({ ...edif, moneda: v })}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="L">L (Lempiras)</SelectItem>
+                      <SelectItem value="$">$ (USD)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="sm:col-span-2">
+                  <Label>Tasa de conversión USD → L</Label>
+                  <Input type="number" step="0.0001" value={usdRate} onChange={(e) => setUsdRate(e.target.value)} />
+                  <p className="text-xs text-[#64748B] mt-1">Cuántos Lempiras equivalen a 1 USD. Lo usamos para convertir precios entre monedas.</p>
+                </div>
               </div>
             </>
           )}
@@ -299,11 +318,11 @@ export function OnboardingWizard({ open, onClose }: Props) {
 export function useShouldShowOnboarding() {
   const { data: edificios, isLoading, isFetching, isError, isSuccess } = useEdificios();
   if (typeof window === "undefined") return false;
-  if (localStorage.getItem("onboarding:done") === "1") return false;
   if (isLoading || isFetching || isError || !isSuccess || !edificios) return false;
   if (edificios.length > 0) {
     localStorage.setItem("onboarding:done", "1");
     return false;
   }
+  // Sin edificios → siempre mostrar (ignoramos done para que reaparezca hasta crear el primero)
   return true;
 }
