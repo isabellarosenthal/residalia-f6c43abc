@@ -103,6 +103,7 @@ function ResidentesPage() {
       <Suspense fallback={null}>
         {open && <ResidenteFormDialog open={open} onOpenChange={setOpen} residente={editing} />}
         {detail && <ResidenteDetailDialog open={!!detail} onOpenChange={(v) => !v && setDetail(null)} residente={detail} />}
+        {importOpen && <BulkImportResidentesDialog open={importOpen} onOpenChange={setImportOpen} defaultEdificioId={edificioId} />}
       </Suspense>
     </AppShell>
   );
