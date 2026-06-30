@@ -121,6 +121,8 @@ function AdminPanel() {
           <SuscripcionesSection rows={subsData.rows} planes={subsData.planes} />
         )}
 
+        {usuariosData && <UsuariosSection usuarios={usuariosData} />}
+
         {planesData && <PlanesSection planes={planesData} />}
       </div>
     </AppShell>
