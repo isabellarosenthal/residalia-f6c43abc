@@ -109,7 +109,7 @@ function ReportesPage() {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 className="font-display font-extrabold text-2xl text-[#0F172A]">Reportes</h1>
-            <p className="text-sm text-[#64748B]">Análisis financiero, ocupación y CRM</p>
+            <p className="text-sm text-[#64748B]">Análisis financiero y de ocupación</p>
           </div>
           <Select value={edificioId} onValueChange={setEdificioId}>
             <SelectTrigger className="w-[260px]"><SelectValue /></SelectTrigger>
