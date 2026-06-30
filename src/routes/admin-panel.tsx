@@ -121,6 +121,41 @@ function AdminPanel() {
           <SuscripcionesSection rows={subsData.rows} planes={subsData.planes} />
         )}
 
+        {usuariosData && (() => {
+          const pendientes = usuariosData.filter((u) => u.role === "admin_condominio" && u.edificios.length === 0);
+          if (!pendientes.length) return null;
+          const fmtFecha = (s: string) => new Date(s).toLocaleDateString("es-HN", { day: "2-digit", month: "short", year: "numeric" });
+          return (
+            <section>
+              <h2 className="text-base font-semibold mb-3 text-foreground">Pendientes de onboarding ({pendientes.length})</h2>
+              <p className="text-xs text-muted-foreground mb-3">Administradores que se registraron y eligieron plan pero aún no crearon su primer edificio.</p>
+              <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-sm">
+                <table className="w-full text-sm">
+                  <thead className="bg-muted/50 text-muted-foreground text-xs uppercase tracking-wider">
+                    <tr>
+                      <th className="text-left px-4 py-3">Usuario</th>
+                      <th className="text-left px-4 py-3">Plan elegido</th>
+                      <th className="text-left px-4 py-3">Registrado</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {pendientes.map((u) => (
+                      <tr key={u.id} className="border-t border-border">
+                        <td className="px-4 py-3">
+                          <div className="font-medium text-foreground">{u.full_name || "—"}</div>
+                          <div className="text-xs text-muted-foreground">{u.email}</div>
+                        </td>
+                        <td className="px-4 py-3 text-foreground">{u.plan_seleccionado ?? "—"}</td>
+                        <td className="px-4 py-3 text-muted-foreground">{fmtFecha(u.created_at)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          );
+        })()}
+
         {usuariosData && <UsuariosSection usuarios={usuariosData} />}
 
         {planesData && <PlanesSection planes={planesData} />}
