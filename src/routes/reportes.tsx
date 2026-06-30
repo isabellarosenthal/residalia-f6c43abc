@@ -109,7 +109,7 @@ function ReportesPage() {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 className="font-display font-extrabold text-2xl text-[#0F172A]">Reportes</h1>
-            <p className="text-sm text-[#64748B]">Análisis financiero, ocupación y CRM</p>
+            <p className="text-sm text-[#64748B]">Análisis financiero y de ocupación</p>
           </div>
           <Select value={edificioId} onValueChange={setEdificioId}>
             <SelectTrigger className="w-[260px]"><SelectValue /></SelectTrigger>
@@ -127,7 +127,7 @@ function ReportesPage() {
           <KpiCard icon={<TrendingUp className="w-4 h-4" />} label="Balance" value={fmtL(kpis.balance)} accent={kpis.balance >= 0 ? "success" : "danger"} />
           <KpiCard icon={<Home className="w-4 h-4" />} label="Ocupación" value={`${kpis.ocupacion}%`} sub={`${kpis.totalUnidades} unidades`} accent="primary" />
           <KpiCard icon={<Users className="w-4 h-4" />} label="Residentes" value={kpis.residentes} accent="neutral" />
-          <KpiCard icon={<Users className="w-4 h-4" />} label="Prospectos activos" value={kpis.prospectosActivos} accent="primary" />
+          
           <KpiCard icon={<Home className="w-4 h-4" />} label="Edificios" value={edificios.length} accent="neutral" />
         </div>
 
@@ -135,7 +135,6 @@ function ReportesPage() {
           <TabsList className="bg-[#F8FAFC]">
             <TabsTrigger value="financiero">Financiero</TabsTrigger>
             <TabsTrigger value="ocupacion">Ocupación</TabsTrigger>
-            <TabsTrigger value="crm">CRM</TabsTrigger>
             <TabsTrigger value="exportar">Exportar</TabsTrigger>
           </TabsList>
 
@@ -192,21 +191,6 @@ function ReportesPage() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="crm" className="pt-4 space-y-4">
-            <Card className="p-5">
-              <h3 className="font-display font-bold text-lg text-[#0F172A] mb-4">Prospectos por etapa</h3>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={pipeline}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f0e6e0" />
-                  <XAxis dataKey="etapa" stroke="#64748B" />
-                  <YAxis stroke="#64748B" allowDecimals={false} />
-                  <Tooltip />
-                  <Bar dataKey="total" fill="#9b72cf" />
-                </BarChart>
-              </ResponsiveContainer>
-            </Card>
-          </TabsContent>
-
           <TabsContent value="exportar" className="pt-4">
             <Card className="p-5 space-y-3">
               <h3 className="font-display font-bold text-lg text-[#0F172A]">Exportar a CSV</h3>
@@ -223,9 +207,6 @@ function ReportesPage() {
                 </Button>
                 <Button variant="outline" onClick={() => downloadCSV("residentes.csv", residentes)}>
                   <Download className="w-4 h-4 mr-2" />Residentes ({residentes.length})
-                </Button>
-                <Button variant="outline" onClick={() => downloadCSV("prospectos.csv", prospectos)}>
-                  <Download className="w-4 h-4 mr-2" />Prospectos ({prospectos.length})
                 </Button>
               </div>
             </Card>
