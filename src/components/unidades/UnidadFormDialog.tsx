@@ -151,10 +151,20 @@ export function UnidadFormDialog({
         </DialogHeader>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          {(() => {
+            const propId = form.watch("propietario_id");
+            const inqId = form.watch("inquilino_id");
+            const propietario = propId ? residentesById.get(propId) ?? null : null;
+            const inquilino = inqId ? residentesById.get(inqId) ?? null : null;
+            const tabsCount = 2 + (propietario ? 1 : 0) + (inquilino ? 1 : 0) + (personasEnUnidad.length > 0 ? 1 : 0);
+            return (
           <Tabs defaultValue="datos">
-            <TabsList className="grid grid-cols-2 w-full bg-[#F8FAFC]">
+            <TabsList className="w-full bg-[#F8FAFC]" style={{ display: "grid", gridTemplateColumns: `repeat(${tabsCount}, minmax(0, 1fr))` }}>
               <TabsTrigger value="datos">Datos generales</TabsTrigger>
               <TabsTrigger value="admin">Administración</TabsTrigger>
+              {propietario && <TabsTrigger value="propietario">Propietario</TabsTrigger>}
+              {inquilino && <TabsTrigger value="inquilino">Inquilino</TabsTrigger>}
+              {personasEnUnidad.length > 0 && <TabsTrigger value="personas">Personas ({personasEnUnidad.length})</TabsTrigger>}
             </TabsList>
 
             <TabsContent value="datos" className="space-y-3 pt-4">
@@ -244,7 +254,25 @@ export function UnidadFormDialog({
               </div>
               <p className="text-xs text-[#64748B]">Si la persona aún no existe, créala primero desde el módulo de Residentes.</p>
             </TabsContent>
+
+            {propietario && (
+              <TabsContent value="propietario" className="pt-4">
+                <ResidenteCard r={propietario} titular={propietario.relacionado_id ? residentesById.get(propietario.relacionado_id) ?? null : null} onClose={() => onOpenChange(false)} />
+              </TabsContent>
+            )}
+            {inquilino && (
+              <TabsContent value="inquilino" className="pt-4">
+                <ResidenteCard r={inquilino} titular={inquilino.relacionado_id ? residentesById.get(inquilino.relacionado_id) ?? null : null} onClose={() => onOpenChange(false)} />
+              </TabsContent>
+            )}
+            {personasEnUnidad.length > 0 && (
+              <TabsContent value="personas" className="pt-4">
+                <PersonasEnUnidad personas={personasEnUnidad} residentesById={residentesById} />
+              </TabsContent>
+            )}
           </Tabs>
+            );
+          })()}
 
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
