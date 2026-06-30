@@ -1,8 +1,11 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { Plus, KeyRound, AlertCircle } from "lucide-react";
-import { useMiResidente, useMisPases } from "@/lib/queries";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Plus, KeyRound, AlertCircle, Zap } from "lucide-react";
+import { useMiResidente, useMisPases, useSaveAcceso } from "@/lib/queries";
 import { Badge } from "@/components/ui-pentos";
 import { MiQRRotativo } from "@/components/portal/MiQRRotativo";
+import { QuickAccessGrid, type QuickService } from "@/components/accesos/QuickAccessButtons";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/portal/")({ component: PortalIndex });
 
