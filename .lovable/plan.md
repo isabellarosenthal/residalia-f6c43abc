@@ -1,65 +1,32 @@
+## Acceso Rápido para delivery y transporte
 
-## Objetivo
-1. Importación masiva de residentes desde CSV con plantilla descargable.
-2. Mostrar relaciones (afiliados) dentro de la unidad.
-3. Cuando se asigna propietario o inquilino en la unidad, agregar tabs con la info completa del residente.
+Agregar botones de un solo toque para generar pases QR temporales pre-llenados para servicios comunes: **Rappi, Uber Eats, PedidosYa, Uber, DiDi, InDriver**.
 
----
+### 1. Portal de residente (`src/routes/portal.index.tsx`)
 
-## 1. Importación masiva de residentes (CSV)
+Nueva tarjeta "Acceso Rápido" debajo del QR rotativo:
+- Grid de 4 íconos a color (bolsa naranja, comida verde, cubiertos rojo, carro azul) — estilo de la referencia.
+- Tap = genera pase inmediato con:
+  - `visitante_nombre`: "Rappi" / "Uber Eats" / etc.
+  - `tipo`: `delivery` (Rappi/UberEats/PedidosYa) o `transporte` (Uber/DiDi/InDriver)
+  - `fecha_entrada`: ahora
+  - `fecha_salida_esperada`: +2 horas
+  - `usos_maximos`: 1
+- Tras crear, abrir directamente el modal/pase con QR para enseñar al guardia.
+- Toast de confirmación.
 
-**Ubicación**: botón "Importar CSV" en `src/routes/residentes.tsx`, junto a "Nuevo residente".
+### 2. Admin → Registrar acceso (`src/components/accesos/AccesoFormDialog.tsx`)
 
-**Plantilla descargable** (`plantilla-residentes.csv`) con columnas:
-- `nombre` *(requerido)*
-- `apellido` *(requerido)*
-- `tipo` → `propietario` | `inquilino` | `familiar` *(default: propietario)*
-- `unidad_numero` → número de apartamento, o `bloque-lote` (ej. `B2-15`). Se busca/empareja contra `unidades.numero` del edificio.
-- `piso` *(opcional, informativo si la unidad no existe aún)*
-- `email`
-- `telefono`
-- `telefono_alt`
-- `dni`
-- `recargo_mora_pct` *(opcional)*
-- `relacionado_con` *(opcional)* → `email` o `nombre apellido` del titular al que se afilia (para inquilinos/familiares).
+Fila de chips "Acceso Rápido" arriba del formulario:
+- Mismos 6 servicios.
+- Tap rellena `visitante_nombre`, `tipo`, y duración esperada — el admin solo confirma y guarda.
 
-**Diálogo de importación** (`BulkImportResidentesDialog.tsx`):
-- Paso 1: descargar plantilla + seleccionar archivo `.csv`.
-- Paso 2: vista previa en tabla, validación fila por fila (badges OK / Error / Aviso, errores en rojo).
-- Paso 3: confirmar importación.
-- Procesamiento en 2 pasadas: primero crea/upsert de titulares, luego afiliados con `relacionado_id` resuelto.
-- Vincula `unidad_id` por `numero` dentro del `condominio_id` actual; si no existe la unidad, queda nulo y se reporta.
-- Resultado final: toast con `creados / actualizados / errores`.
+### 3. Componente compartido
 
-**Parser**: `papaparse` (ya tiende a estar en proyectos similares; se instala si no está). Sin cambios de esquema en DB.
+Crear `src/components/accesos/QuickAccessButtons.tsx` con la lista de servicios + íconos (lucide: `ShoppingBag`, `UtensilsCrossed`, `Bike`, `Car`) y colores. Reutilizado en ambos lados.
 
----
+### Notas
 
-## 2. Relaciones / afiliados dentro de la unidad
-
-En `UnidadFormDialog.tsx`, dentro del tab **Administración** debajo de propietario/inquilino, agregar bloque **"Personas en esta unidad"**:
-- Lista de residentes cuyo `unidad_id = unidad.id`, separados por tipo (Propietario, Inquilino, Familiares/Afiliados).
-- Cada fila muestra nombre + email + teléfono + tipo + badge "Afiliado a …" si tiene `relacionado_id`.
-- Solo lectura desde el diálogo de unidad (edición se hace en módulo Residentes).
-
----
-
-## 3. Tabs dinámicos con info del residente asignado
-
-En `UnidadFormDialog.tsx`, los tabs se vuelven dinámicos:
-- Siempre: **Datos generales**, **Administración**.
-- Si hay `propietario_id` seleccionado → agrega tab **Propietario** con: nombre, apellido, DNI, email, teléfono, teléfono alt, fecha de ingreso, recargo mora %, foto si existe, link a "Ver/editar en Residentes".
-- Si hay `inquilino_id` → agrega tab **Inquilino** con la misma estructura.
-- Si el residente tiene `relacionado_id`, mostrar al titular vinculado.
-- Los tabs se actualizan al cambiar el select (sin guardar todavía); datos se obtienen del array `residentes` ya cargado por `useResidentes()`.
-
----
-
-## Archivos a tocar
-- `src/routes/residentes.tsx` — botón "Importar CSV".
-- `src/components/residentes/BulkImportResidentesDialog.tsx` *(nuevo)*.
-- `src/lib/residentes-import.ts` *(nuevo)* — parser + validación + lógica de upsert en 2 pasadas.
-- `src/components/unidades/UnidadFormDialog.tsx` — tabs dinámicos + bloque "Personas en esta unidad".
-- `package.json` — agregar `papaparse` si falta.
-
-Sin migraciones de base de datos.
+- Sin cambios de schema — usa la tabla `pases`/`accesos` existente.
+- Sin logos de marca (evita problemas de trademark) — íconos genéricos coloreados.
+- Lista de servicios hardcodeada por ahora; configurable después si se pide.
