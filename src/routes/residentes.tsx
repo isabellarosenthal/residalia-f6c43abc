@@ -29,6 +29,7 @@ function ResidentesPage() {
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Residente | null>(null);
   const [detail, setDetail] = useState<Residente | null>(null);
+  const [importOpen, setImportOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [edificioId, setEdificioId] = useEdificioFilter();
   const [tipo, setTipo] = useState("all");
@@ -43,9 +44,14 @@ function ResidentesPage() {
             <h1 className="font-display font-extrabold text-2xl text-[#0F172A]">Residentes</h1>
             <p className="text-sm text-[#64748B]">{residentes.length} registrados · gestiona propietarios e inquilinos</p>
           </div>
-          <Button onClick={() => { setEditing(null); setOpen(true); }} className="bg-[#4A154B] hover:bg-[#350d36]">
-            <Plus className="w-4 h-4 mr-1" /> Nuevo residente
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={() => setImportOpen(true)} className="border-[#4A154B] text-[#4A154B]">
+              <Upload className="w-4 h-4 mr-1" /> Importar CSV
+            </Button>
+            <Button onClick={() => { setEditing(null); setOpen(true); }} className="bg-[#4A154B] hover:bg-[#350d36]">
+              <Plus className="w-4 h-4 mr-1" /> Nuevo residente
+            </Button>
+          </div>
         </div>
 
         <div className="flex flex-wrap gap-2">
