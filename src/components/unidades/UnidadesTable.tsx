@@ -23,6 +23,7 @@ const COMERCIAL_OPTS = ["disponible", "en_venta", "en_renta", "en_venta_y_renta"
 
 export function UnidadesTable({ edificioId, onEdit }: { edificioId: string; onEdit: (u: Unidad) => void }) {
   const { data: unidades = [], isLoading } = useUnidades(edificioId);
+  const { data: edificio } = useEdificio(edificioId);
   const { data: residentesMap } = useResidentesMap();
   const { data: residentes = [] } = useResidentes();
   const del = useDeleteUnidad();
