@@ -385,6 +385,64 @@ function SeguridadTab() {
   );
 }
 
+function MoraMasivaCard() {
+  const { data: edificios = [] } = useEdificios();
+  const aplicar = useAplicarMoraMasiva();
+  const [condoId, setCondoId] = useState<string>("");
+  const [pct, setPct] = useState<string>("5");
+  const [soloVacios, setSoloVacios] = useState(false);
+
+  useEffect(() => {
+    if (!condoId && edificios[0]) setCondoId(edificios[0].id);
+  }, [edificios, condoId]);
+
+  const run = async () => {
+    const p = Number(pct);
+    if (!condoId) return toast.error("Selecciona un edificio");
+    if (!Number.isFinite(p) || p < 0) return toast.error("% inválido");
+    const target = soloVacios ? "residentes sin % de mora" : "TODOS los residentes";
+    if (!confirm(`¿Aplicar ${p}% de mora a ${target} del edificio seleccionado? Esto sobrescribirá el valor actual.`)) return;
+    await aplicar.mutateAsync({ condominio_id: condoId, pct: p, solo_vacios: soloVacios });
+  };
+
+  if (edificios.length === 0) return null;
+
+  return (
+    <Card className="p-6 space-y-4 mb-4">
+      <div>
+        <h3 className="font-display font-bold text-lg text-[#0F172A]">Mora masiva</h3>
+        <p className="text-sm text-[#64748B]">Asigna el % de recargo por atraso a todos los residentes de un edificio de una sola vez.</p>
+      </div>
+      <div className="grid sm:grid-cols-3 gap-3">
+        <div>
+          <Label>Edificio</Label>
+          <Select value={condoId} onValueChange={setCondoId}>
+            <SelectTrigger><SelectValue /></SelectTrigger>
+            <SelectContent>
+              {edificios.map(e => <SelectItem key={e.id} value={e.id}>{e.nombre}</SelectItem>)}
+            </SelectContent>
+          </Select>
+        </div>
+        <div>
+          <Label>% Mora por atraso</Label>
+          <Input type="number" step="0.01" min="0" value={pct} onChange={(e) => setPct(e.target.value)} />
+        </div>
+        <div className="flex items-end">
+          <label className="flex items-center gap-2 text-sm text-[#0F172A]">
+            <input type="checkbox" checked={soloVacios} onChange={(e) => setSoloVacios(e.target.checked)} />
+            Solo a los que no tienen %
+          </label>
+        </div>
+      </div>
+      <div className="flex justify-end">
+        <Button onClick={run} disabled={aplicar.isPending} className="bg-[#4A154B] hover:bg-[#350d36]">
+          <Check className="w-4 h-4 mr-1" />Aplicar a residentes
+        </Button>
+      </div>
+    </Card>
+  );
+}
+
 function ResidentesTab() {
   const { role } = useAuth();
   const isSuper = role === "super_admin";
