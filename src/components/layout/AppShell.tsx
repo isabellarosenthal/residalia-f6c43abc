@@ -23,6 +23,12 @@ export function AppShell({ children }: { children: ReactNode }) {
     if (isAdmin && shouldShow) setWizardOpen(true);
   }, [isAdmin, shouldShow]);
 
+  useEffect(() => {
+    const open = () => setWizardOpen(true);
+    window.addEventListener("residalia:open-onboarding", open);
+    return () => window.removeEventListener("residalia:open-onboarding", open);
+  }, []);
+
   if (loading || !user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#ffffff]">
