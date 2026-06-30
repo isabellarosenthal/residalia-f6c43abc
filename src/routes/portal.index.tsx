@@ -2,8 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Plus, KeyRound, AlertCircle } from "lucide-react";
 import { useMiResidente, useMisPases } from "@/lib/queries";
 import { Badge } from "@/components/ui-pentos";
+import { MiQRRotativo } from "@/components/portal/MiQRRotativo";
 
 export const Route = createFileRoute("/portal/")({ component: PortalIndex });
+
 
 const fmtDT = (s: string | null) => s ? new Date(s).toLocaleString("es-HN", { dateStyle: "short", timeStyle: "short" }) : "—";
 
@@ -30,11 +32,18 @@ function PortalIndex() {
 
   return (
     <div className="space-y-5">
+      <MiQRRotativo
+        residenteId={residente.id}
+        nombre={`${residente.nombre} ${residente.apellido ?? ""}`.trim()}
+        subtitulo={`${condo?.nombre ?? ""}${uni ? ` · #${uni.numero}` : ""}`}
+      />
+
       <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5">
         <div className="text-xs text-[#64748B]">Residente en</div>
         <div className="font-display font-bold text-xl text-[#0F172A]">{condo?.nombre ?? "—"}</div>
         <div className="text-sm text-[#64748B]">Unidad #{uni?.numero ?? "—"}</div>
       </div>
+
 
       <div className="flex items-center justify-between">
         <h2 className="font-display font-extrabold text-lg text-[#0F172A]">Mis pases</h2>
