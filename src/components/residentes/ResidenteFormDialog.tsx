@@ -25,6 +25,7 @@ const schema = z.object({
   tipo: z.enum(["propietario", "inquilino"]),
   condominio_id: z.string().uuid("Selecciona un edificio"),
   unidad_id: z.string().nullable().optional(),
+  relacionado_id: z.string().nullable().optional(),
   fecha_ingreso: z.string().min(1, "Requerido"),
   foto_url: z.string().max(500).optional().or(z.literal("")),
   activo: z.boolean().default(true),
