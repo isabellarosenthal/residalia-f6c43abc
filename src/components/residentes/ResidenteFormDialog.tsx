@@ -98,6 +98,7 @@ export function ResidenteFormDialog({
       fecha_ingreso: v.fecha_ingreso,
       foto_url: v.foto_url || null,
       activo: v.activo,
+      recargo_mora_pct: v.recargo_mora_pct ?? 0,
       ...(userIdOverride !== undefined ? { user_id: userIdOverride } : {}),
     } as any);
     onOpenChange(false);
