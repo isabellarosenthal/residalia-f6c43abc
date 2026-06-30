@@ -105,8 +105,6 @@ export function AreaFormDialog({
           </div>
           <div>
             <Label>Costo por persona extra (L)</Label>
-          <div>
-            <Label>Costo por persona extra (L)</Label>
             <Input type="number" step="0.01" {...form.register("costo_por_persona_extra")} />
             <p className="text-[11px] text-[#64748B] mt-1">Se cobra cuando el residente supera la capacidad y el admin lo autoriza.</p>
           </div>
