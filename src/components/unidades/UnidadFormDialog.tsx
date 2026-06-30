@@ -388,7 +388,7 @@ function PersonasEnUnidad({ personas, residentesById }: { personas: Residente[];
                 <div className="mt-2 ml-10 space-y-1">
                   {hijos.map((h) => (
                     <div key={h.id} className="flex items-center justify-between text-xs text-[#475569]">
-                      <span>↳ {h.nombre} {h.apellido ?? ""} <span className="text-[#94A3B8] capitalize">· {h.tipo_residente}</span></span>
+                      <span>↳ {h.nombre} {h.apellido ?? ""} <span className="text-[#94A3B8] capitalize">· {(h as any).tipo_residente ?? ""}</span></span>
                       <span className="text-[#94A3B8]">{h.email || h.telefono || ""}</span>
                     </div>
                   ))}
