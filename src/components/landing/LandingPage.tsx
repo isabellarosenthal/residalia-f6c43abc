@@ -170,8 +170,8 @@ export function LandingPage() {
               Administra tu condominio sin hojas de cálculo.
             </h1>
             <p className="mt-6 text-lg text-[#475569] max-w-xl mx-auto md:mx-0">
-              Cobros, accesos, residentes, mantenimiento y propiedades en venta o renta —
-              todo desde un solo panel con CRM inmobiliario integrado.
+              Cobros, accesos, residentes, mantenimiento y reservas de áreas comunes —
+              todo desde un solo panel.
             </p>
             <div className="mt-8 flex flex-wrap justify-center md:justify-start gap-3">
               <Link to="/login" search={{ mode: "signup" }} className="inline-flex items-center gap-2 bg-[#4A154B] text-white px-7 py-3.5 rounded-full font-semibold hover:bg-[#350d36] shadow-md transition-colors">
