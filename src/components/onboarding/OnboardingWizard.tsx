@@ -3,7 +3,7 @@ import { useNavigate } from "@tanstack/react-router";
 import toast from "react-hot-toast";
 import {
   Building2, Home, Users, Wallet, Check, X, ArrowRight, Sparkles,
-  Rocket, ShieldCheck, KeyRound, Settings, Mail, PartyPopper,
+  Rocket, ShieldCheck, KeyRound, Settings, Mail, PartyPopper, AlertCircle, SkipForward,
 } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CityAutocomplete } from "@/components/CityAutocomplete";
 import { supabase } from "@/integrations/supabase/client";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   useEdificios, useSaveEdificio, useBulkCreateUnidades, useUnidades,
   useSaveResidente, useGenerarCobrosMensuales,
@@ -31,7 +32,10 @@ const STEPS = [
 
 export function OnboardingWizard({ open, onClose }: Props) {
   const navigate = useNavigate();
+  const qc = useQueryClient();
   const [step, setStep] = useState(0);
+  const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
 
   // Edificio
   const [edif, setEdif] = useState({ nombre: "", ciudad: "Tegucigalpa", cuota_base: 2500, moneda: "L" });
@@ -57,26 +61,37 @@ export function OnboardingWizard({ open, onClose }: Props) {
 
   const close = () => {
     localStorage.setItem("onboarding:done", "1");
+    setError(null);
     onClose();
   };
 
+  const advance = (n: number) => { setError(null); setStep(n); };
+  const skip = () => advance(Math.min(step + 1, 5));
+
   const handleEdificio = async () => {
-    if (!edif.nombre) return toast.error("Falta nombre");
+    setError(null);
+    if (!edif.nombre.trim()) return setError("Escribí el nombre del edificio para continuar.");
     const rate = Number(usdRate);
-    if (!Number.isFinite(rate) || rate <= 0) return toast.error("Tasa USD inválida");
+    if (!Number.isFinite(rate) || rate <= 0) return setError("La tasa USD debe ser un número mayor a 0.");
+    setBusy(true);
     try {
-      const created = await saveEdif.mutateAsync(edif as any);
+      const created: any = await saveEdif.mutateAsync(edif as any);
+      if (!created?.id) throw new Error("No se recibió el edificio creado.");
       setEdificioId(created.id);
-      const { data: u } = await supabase.auth.getUser();
-      if (u?.user) await supabase.from("profiles").update({ usd_rate: rate } as any).eq("id", u.user.id);
-      setStep(2);
+      try {
+        const { data: u } = await supabase.auth.getUser();
+        if (u?.user) await supabase.from("profiles").update({ usd_rate: rate } as any).eq("id", u.user.id);
+      } catch { /* tasa USD es opcional */ }
+      advance(2);
     } catch (e: any) {
-      toast.error(e?.message ?? "No se pudo crear el edificio. Intenta de nuevo.");
-    }
+      setError(e?.message ?? "No se pudo crear el edificio.");
+    } finally { setBusy(false); }
   };
 
   const handleUnidades = async () => {
-    if (!edificioId) return;
+    setError(null);
+    if (!edificioId) return setError("Primero creá el edificio.");
+    if (pisos < 1 || porPiso < 1) return setError("Pisos y unidades por piso deben ser al menos 1.");
     const rows = [];
     for (let p = 1; p <= pisos; p++) {
       for (let u = 1; u <= porPiso; u++) {
@@ -87,43 +102,57 @@ export function OnboardingWizard({ open, onClose }: Props) {
         } as any);
       }
     }
+    setBusy(true);
     try {
       await bulkUnidades.mutateAsync(rows);
-      setStep(3);
+      await qc.invalidateQueries({ queryKey: ["unidades"] });
+      advance(3);
     } catch (e: any) {
-      toast.error(e?.message ?? "No se pudieron crear las unidades.");
-    }
+      setError(e?.message ?? "No se pudieron crear las unidades. Puede que excedan el límite de tu plan.");
+    } finally { setBusy(false); }
   };
 
   const handleResidente = async () => {
-    if (!edificioId || !res.nombre || !res.apellido || !res.unidad_id) return toast.error("Completa los campos");
+    setError(null);
+    if (!edificioId) return setError("Primero creá el edificio.");
+    if (!res.nombre.trim() || !res.apellido.trim()) return setError("Completá nombre y apellido.");
+    if (!res.unidad_id) return setError("Seleccioná la unidad.");
+    setBusy(true);
     try {
       await saveRes.mutateAsync({
         condominio_id: edificioId,
-        nombre: res.nombre, apellido: res.apellido, telefono: res.telefono || null,
-        unidad_id: res.unidad_id, tipo: tipoRes,
+        nombre: res.nombre.trim(),
+        apellido: res.apellido.trim(),
+        telefono: res.telefono || null,
+        unidad_id: res.unidad_id,
+        tipo: tipoRes,
       } as any);
-      const patch: any = tipoRes === "propietario" ? { propietario_id: null } : { inquilino_id: null };
-      await supabase.from("unidades").update({ estado_administrativo: "ocupada", ...patch }).eq("id", res.unidad_id);
-      setStep(4);
+      advance(4);
     } catch (e: any) {
-      toast.error(e?.message ?? "No se pudo registrar el residente.");
-    }
+      setError(e?.message ?? "No se pudo registrar el residente.");
+    } finally { setBusy(false); }
   };
 
   const handleCobros = async () => {
-    if (!edificioId) return;
+    setError(null);
+    if (!edificioId) return setError("Primero creá el edificio.");
+    if (!/^\d{4}-\d{2}$/.test(mes)) return setError("Mes inválido. Formato: YYYY-MM.");
+    setBusy(true);
     try {
       const [y, m] = mes.split("-");
       const venc = `${y}-${m}-05`;
       const { data: us } = await supabase.from("unidades").select("id").eq("condominio_id", edificioId);
       const unidadIds = (us ?? []).map((u) => u.id);
+      if (unidadIds.length === 0) {
+        setError("No hay unidades para cobrar. Volvé al paso anterior.");
+        return;
+      }
       await generarCobros.mutateAsync({ edificioId, mes, concepto: "Mantenimiento", vencimiento: venc, unidadIds });
       toast.success("¡Cobros generados!");
-      setStep(5);
+      advance(5);
     } catch (e: any) {
-      toast.error(e?.message ?? "No se pudieron generar los cobros.");
-    }
+      setError(e?.message ?? "No se pudieron generar los cobros.");
+    } finally { setBusy(false); }
   };
 
 
@@ -171,6 +200,14 @@ export function OnboardingWizard({ open, onClose }: Props) {
           })}
         </div>
 
+        {error && (
+          <div className="flex items-start gap-2 rounded-xl border border-[#FCA5A5] bg-[#FEF2F2] text-[#991B1B] text-sm px-3 py-2 mb-3">
+            <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+            <div className="flex-1">{error}</div>
+            <button onClick={() => setError(null)} className="text-[#991B1B] opacity-70 hover:opacity-100"><X className="w-3 h-3" /></button>
+          </div>
+        )}
+
         <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5 space-y-3">
           {step === 0 && (
             <>
@@ -195,7 +232,7 @@ export function OnboardingWizard({ open, onClose }: Props) {
                 ))}
               </div>
               <p className="text-xs text-[#64748B] pt-2">
-                Tienes <b className="text-[#4A154B]">14 días de prueba gratis</b>. Puedes omitir cualquier paso y volver luego.
+                Tienes <b className="text-[#4A154B]">14 días de prueba gratis</b>. Podés saltarte cualquier paso o cerrar el asistente y volver luego.
               </p>
             </>
           )}
@@ -204,7 +241,7 @@ export function OnboardingWizard({ open, onClose }: Props) {
             <>
               <h3 className="font-display font-bold text-[#0F172A]">Datos del edificio</h3>
               <div className="grid sm:grid-cols-2 gap-3">
-                <div><Label>Nombre</Label><Input value={edif.nombre} onChange={(e) => setEdif({ ...edif, nombre: e.target.value })} placeholder="Torres del Valle" /></div>
+                <div><Label>Nombre *</Label><Input value={edif.nombre} onChange={(e) => setEdif({ ...edif, nombre: e.target.value })} placeholder="Torres del Valle" /></div>
                 <div><Label>Ciudad</Label><CityAutocomplete value={edif.ciudad} onChange={(v) => setEdif({ ...edif, ciudad: v })} /></div>
                 <div><Label>Cuota mensual base</Label><Input type="number" value={edif.cuota_base} onChange={(e) => setEdif({ ...edif, cuota_base: Number(e.target.value) })} /></div>
                 <div>
@@ -220,7 +257,7 @@ export function OnboardingWizard({ open, onClose }: Props) {
                 <div className="sm:col-span-2">
                   <Label>Tasa de conversión USD → L</Label>
                   <Input type="number" step="0.0001" value={usdRate} onChange={(e) => setUsdRate(e.target.value)} />
-                  <p className="text-xs text-[#64748B] mt-1">Cuántos Lempiras equivalen a 1 USD. Lo usamos para convertir precios entre monedas.</p>
+                  <p className="text-xs text-[#64748B] mt-1">Cuántos Lempiras equivalen a 1 USD. La usamos para convertir precios entre monedas.</p>
                 </div>
               </div>
             </>
@@ -228,8 +265,8 @@ export function OnboardingWizard({ open, onClose }: Props) {
 
           {step === 2 && (
             <>
-              <h3 className="font-display font-bold text-[#0F172A]">Genera tus unidades</h3>
-              <p className="text-sm text-[#64748B]">Se crearán <b>{pisos * porPiso}</b> unidades numeradas (101, 102, …)</p>
+              <h3 className="font-display font-bold text-[#0F172A]">Generá tus unidades</h3>
+              <p className="text-sm text-[#64748B]">Se crearán <b>{pisos * porPiso}</b> unidades numeradas (101, 102, …). Después podés agregar más o importarlas.</p>
               <div className="grid sm:grid-cols-3 gap-3">
                 <div><Label>Pisos</Label><Input type="number" min={1} value={pisos} onChange={(e) => setPisos(Math.max(1, Number(e.target.value)))} /></div>
                 <div><Label>Unidades por piso</Label><Input type="number" min={1} value={porPiso} onChange={(e) => setPorPiso(Math.max(1, Number(e.target.value)))} /></div>
@@ -251,11 +288,11 @@ export function OnboardingWizard({ open, onClose }: Props) {
 
           {step === 3 && (
             <>
-              <h3 className="font-display font-bold text-[#0F172A]">Registra tu primer residente</h3>
-              <p className="text-sm text-[#64748B]">Puedes agregar más desde el módulo Residentes</p>
+              <h3 className="font-display font-bold text-[#0F172A]">Registrá tu primer residente</h3>
+              <p className="text-sm text-[#64748B]">{unidades.length > 0 ? `${unidades.length} unidades disponibles. ` : ""}Podés agregar más desde el módulo Residentes.</p>
               <div className="grid sm:grid-cols-2 gap-3">
-                <div><Label>Nombre</Label><Input value={res.nombre} onChange={(e) => setRes({ ...res, nombre: e.target.value })} /></div>
-                <div><Label>Apellido</Label><Input value={res.apellido} onChange={(e) => setRes({ ...res, apellido: e.target.value })} /></div>
+                <div><Label>Nombre *</Label><Input value={res.nombre} onChange={(e) => setRes({ ...res, nombre: e.target.value })} /></div>
+                <div><Label>Apellido *</Label><Input value={res.apellido} onChange={(e) => setRes({ ...res, apellido: e.target.value })} /></div>
                 <div><Label>Teléfono</Label><Input value={res.telefono} onChange={(e) => setRes({ ...res, telefono: e.target.value })} /></div>
                 <div>
                   <Label>Tipo</Label>
@@ -268,9 +305,9 @@ export function OnboardingWizard({ open, onClose }: Props) {
                   </Select>
                 </div>
                 <div className="sm:col-span-2">
-                  <Label>Unidad asignada</Label>
+                  <Label>Unidad asignada *</Label>
                   <Select value={res.unidad_id} onValueChange={(v) => setRes({ ...res, unidad_id: v })}>
-                    <SelectTrigger><SelectValue placeholder="Selecciona unidad" /></SelectTrigger>
+                    <SelectTrigger><SelectValue placeholder={unidades.length === 0 ? "Cargando unidades…" : "Selecciona unidad"} /></SelectTrigger>
                     <SelectContent>
                       {unidades.map(u => <SelectItem key={u.id} value={u.id}>Unidad {u.numero}</SelectItem>)}
                     </SelectContent>
@@ -282,16 +319,16 @@ export function OnboardingWizard({ open, onClose }: Props) {
 
           {step === 4 && (
             <>
-              <h3 className="font-display font-bold text-[#0F172A]">Genera los cobros del mes</h3>
-              <p className="text-sm text-[#64748B]">Se crearán cobros de mantenimiento para todas las unidades ocupadas</p>
-              <div><Label>Mes (YYYY-MM)</Label><Input value={mes} onChange={(e) => setMes(e.target.value)} /></div>
+              <h3 className="font-display font-bold text-[#0F172A]">Generá los cobros del mes</h3>
+              <p className="text-sm text-[#64748B]">Se crearán cobros de mantenimiento para todas las unidades del edificio.</p>
+              <div><Label>Mes (YYYY-MM)</Label><Input value={mes} onChange={(e) => setMes(e.target.value)} placeholder="2026-06" /></div>
             </>
           )}
 
           {step === 5 && (
             <>
-              <h3 className="font-display font-bold text-[#0F172A]">Ya tienes lo básico configurado</h3>
-              <p className="text-sm text-[#64748B]">Ahora explora el resto del sistema. Puedes saltar a cualquier módulo:</p>
+              <h3 className="font-display font-bold text-[#0F172A]">Ya tenés lo básico configurado</h3>
+              <p className="text-sm text-[#64748B]">Ahora explorá el resto del sistema. Podés saltar a cualquier módulo:</p>
               <div className="grid sm:grid-cols-2 gap-2 pt-2">
                 {[
                   { i: Mail, t: "Invitar residentes", d: "Envía códigos al portal de residentes", to: "/residentes" },
@@ -317,14 +354,19 @@ export function OnboardingWizard({ open, onClose }: Props) {
         </div>
 
         <div className="flex items-center justify-between gap-2 pt-4">
-          <Button variant="ghost" onClick={close} className="text-[#64748B]">Omitir</Button>
+          <Button variant="ghost" onClick={close} className="text-[#64748B]">Cerrar</Button>
           <div className="flex gap-2">
-            {step > 0 && step < 5 && <Button variant="outline" onClick={() => setStep(step - 1)}>Atrás</Button>}
-            {step === 0 && <Button className="bg-[#4A154B] hover:bg-[#350d36] text-white" onClick={() => setStep(1)}>Empezar <ArrowRight className="w-4 h-4 ml-1" /></Button>}
-            {step === 1 && <Button className="bg-[#4A154B] hover:bg-[#350d36] text-white" onClick={handleEdificio} disabled={saveEdif.isPending}>Continuar <ArrowRight className="w-4 h-4 ml-1" /></Button>}
-            {step === 2 && <Button className="bg-[#4A154B] hover:bg-[#350d36] text-white" onClick={handleUnidades} disabled={bulkUnidades.isPending}>Generar {pisos * porPiso} unidades <ArrowRight className="w-4 h-4 ml-1" /></Button>}
-            {step === 3 && <Button className="bg-[#4A154B] hover:bg-[#350d36] text-white" onClick={handleResidente} disabled={saveRes.isPending}>Continuar <ArrowRight className="w-4 h-4 ml-1" /></Button>}
-            {step === 4 && <Button className="bg-[#4A154B] hover:bg-[#350d36] text-white" onClick={handleCobros} disabled={generarCobros.isPending}>Generar cobros <ArrowRight className="w-4 h-4 ml-1" /></Button>}
+            {step > 0 && step < 5 && <Button variant="outline" onClick={() => advance(step - 1)} disabled={busy}>Atrás</Button>}
+            {step > 0 && step < 5 && (
+              <Button variant="ghost" onClick={skip} disabled={busy} className="text-[#64748B]">
+                <SkipForward className="w-4 h-4 mr-1" /> Saltar
+              </Button>
+            )}
+            {step === 0 && <Button className="bg-[#4A154B] hover:bg-[#350d36] text-white" onClick={() => advance(1)}>Empezar <ArrowRight className="w-4 h-4 ml-1" /></Button>}
+            {step === 1 && <Button className="bg-[#4A154B] hover:bg-[#350d36] text-white" onClick={handleEdificio} disabled={busy || saveEdif.isPending}>{busy ? "Creando…" : "Continuar"} <ArrowRight className="w-4 h-4 ml-1" /></Button>}
+            {step === 2 && <Button className="bg-[#4A154B] hover:bg-[#350d36] text-white" onClick={handleUnidades} disabled={busy || bulkUnidades.isPending}>{busy ? "Generando…" : `Generar ${pisos * porPiso} unidades`} <ArrowRight className="w-4 h-4 ml-1" /></Button>}
+            {step === 3 && <Button className="bg-[#4A154B] hover:bg-[#350d36] text-white" onClick={handleResidente} disabled={busy || saveRes.isPending}>{busy ? "Guardando…" : "Continuar"} <ArrowRight className="w-4 h-4 ml-1" /></Button>}
+            {step === 4 && <Button className="bg-[#4A154B] hover:bg-[#350d36] text-white" onClick={handleCobros} disabled={busy || generarCobros.isPending}>{busy ? "Generando…" : "Generar cobros"} <ArrowRight className="w-4 h-4 ml-1" /></Button>}
             {step === 5 && <Button className="bg-[#166534] hover:bg-[#1f4a1f] text-white" onClick={() => { close(); navigate({ to: "/dashboard" }); }}>Ir al dashboard <Check className="w-4 h-4 ml-1" /></Button>}
           </div>
         </div>
@@ -341,6 +383,6 @@ export function useShouldShowOnboarding() {
     localStorage.setItem("onboarding:done", "1");
     return false;
   }
-  // Sin edificios → siempre mostrar (ignoramos done para que reaparezca hasta crear el primero)
+  if (localStorage.getItem("onboarding:done") === "1") return false;
   return true;
 }
