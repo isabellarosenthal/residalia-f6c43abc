@@ -9,6 +9,7 @@ import {
   getPlatformStats,
   listSuscripciones,
   listPlanes,
+  listUsuarios,
   updateSuscripcionPlan,
   updateSuscripcionEstado,
   toggleCondominioActivo,
@@ -26,6 +27,7 @@ function AdminPanel() {
   const fetchStats = useServerFn(getPlatformStats);
   const fetchSubs = useServerFn(listSuscripciones);
   const fetchPlanes = useServerFn(listPlanes);
+  const fetchUsuarios = useServerFn(listUsuarios);
 
   useEffect(() => {
     if (loading) return;
@@ -48,6 +50,12 @@ function AdminPanel() {
   const { data: planesData } = useQuery({
     queryKey: ["admin-planes"],
     queryFn: () => fetchPlanes(),
+    enabled: role === "super_admin",
+  });
+
+  const { data: usuariosData } = useQuery({
+    queryKey: ["admin-usuarios"],
+    queryFn: () => fetchUsuarios(),
     enabled: role === "super_admin",
   });
 
@@ -112,6 +120,8 @@ function AdminPanel() {
         {subsData && (
           <SuscripcionesSection rows={subsData.rows} planes={subsData.planes} />
         )}
+
+        {usuariosData && <UsuariosSection usuarios={usuariosData} />}
 
         {planesData && <PlanesSection planes={planesData} />}
       </div>
@@ -323,6 +333,60 @@ function PlanesSection({ planes }: { planes: FullPlan[] }) {
             </div>
           </div>
         ))}
+      </div>
+    </section>
+  );
+}
+
+type Usuario = { id: string; email: string; full_name: string | null; created_at: string; plan_seleccionado: string | null; role: string | null; edificios: string[] };
+function UsuariosSection({ usuarios }: { usuarios: Usuario[] }) {
+  const fmtFecha = (s: string) => new Date(s).toLocaleDateString("es-HN", { day: "2-digit", month: "short", year: "numeric" });
+  const roleLabel: Record<string, string> = {
+    super_admin: "Super Admin",
+    admin_condominio: "Admin",
+    residente: "Residente",
+    guardia: "Guardia",
+  };
+  return (
+    <section>
+      <h2 className="text-base font-semibold mb-3 text-foreground">Usuarios registrados ({usuarios.length})</h2>
+      <div className="bg-card border border-border rounded-2xl overflow-hidden shadow-sm">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="bg-muted/50 text-muted-foreground text-xs uppercase tracking-wider">
+              <tr>
+                <th className="text-left px-4 py-3">Usuario</th>
+                <th className="text-left px-4 py-3">Rol</th>
+                <th className="text-left px-4 py-3">Edificio(s)</th>
+                <th className="text-left px-4 py-3">Plan</th>
+                <th className="text-left px-4 py-3">Registrado</th>
+              </tr>
+            </thead>
+            <tbody>
+              {usuarios.map((u) => (
+                <tr key={u.id} className="border-t border-border">
+                  <td className="px-4 py-3">
+                    <div className="font-medium text-foreground">{u.full_name || "—"}</div>
+                    <div className="text-xs text-muted-foreground">{u.email}</div>
+                  </td>
+                  <td className="px-4 py-3">
+                    <span className="text-xs px-2 py-0.5 rounded-full border bg-muted text-foreground border-border">
+                      {u.role ? (roleLabel[u.role] ?? u.role) : "—"}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 text-foreground">
+                    {u.edificios.length ? u.edificios.join(", ") : <span className="text-muted-foreground">—</span>}
+                  </td>
+                  <td className="px-4 py-3 text-foreground">{u.plan_seleccionado ?? "—"}</td>
+                  <td className="px-4 py-3 text-muted-foreground">{fmtFecha(u.created_at)}</td>
+                </tr>
+              ))}
+              {usuarios.length === 0 && (
+                <tr><td colSpan={5} className="px-4 py-8 text-center text-muted-foreground">Sin usuarios</td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
   );
