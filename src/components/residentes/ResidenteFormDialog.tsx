@@ -78,6 +78,7 @@ export function ResidenteFormDialog({
       fecha_ingreso: residente?.fecha_ingreso ?? new Date().toISOString().slice(0, 10),
       foto_url: residente?.foto_url ?? "",
       activo: residente?.activo ?? true,
+      recargo_mora_pct: Number((residente as any)?.recargo_mora_pct ?? 0),
     });
   }, [open, residente, defaultCondominioId, form]);
 
