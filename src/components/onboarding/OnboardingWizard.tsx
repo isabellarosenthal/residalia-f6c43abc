@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CityAutocomplete } from "@/components/CityAutocomplete";
 import { supabase } from "@/integrations/supabase/client";
 import {
   useEdificios, useSaveEdificio, useBulkCreateUnidades, useUnidades,
@@ -187,7 +188,7 @@ export function OnboardingWizard({ open, onClose }: Props) {
               <h3 className="font-display font-bold text-[#0F172A]">Datos del edificio</h3>
               <div className="grid sm:grid-cols-2 gap-3">
                 <div><Label>Nombre</Label><Input value={edif.nombre} onChange={(e) => setEdif({ ...edif, nombre: e.target.value })} placeholder="Torres del Valle" /></div>
-                <div><Label>Ciudad</Label><Input value={edif.ciudad} onChange={(e) => setEdif({ ...edif, ciudad: e.target.value })} /></div>
+                <div><Label>Ciudad</Label><CityAutocomplete value={edif.ciudad} onChange={(v) => setEdif({ ...edif, ciudad: v })} /></div>
                 <div><Label>Cuota mensual base</Label><Input type="number" value={edif.cuota_base} onChange={(e) => setEdif({ ...edif, cuota_base: Number(e.target.value) })} /></div>
                 <div>
                   <Label>Moneda</Label>
