@@ -92,6 +92,7 @@ export function ResidenteFormDialog({
       tipo: v.tipo,
       condominio_id: v.condominio_id,
       unidad_id: v.unidad_id || null,
+      relacionado_id: v.tipo === "inquilino" ? (v.relacionado_id || null) : null,
       fecha_ingreso: v.fecha_ingreso,
       foto_url: v.foto_url || null,
       activo: v.activo,
