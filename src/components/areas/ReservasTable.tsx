@@ -98,14 +98,35 @@ export function ReservasTable({ edificioId, onEdit }: { edificioId: string; onEd
                 </TableCell>
                 <TableCell className="text-sm">{fmtDT(r.fecha_inicio)}</TableCell>
                 <TableCell className="text-sm">{fmtDT(r.fecha_fin)}</TableCell>
-                <TableCell>{r.num_personas ?? "—"}</TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-1">
+                    <span>{r.num_personas ?? "—"}</span>
+                    {(r as any).excede_capacidad && (
+                      <span title={`+${(r as any).personas_extra} extra · ${(r as any).solicitud_nota ?? ""}`} className="inline-flex items-center gap-1 text-[10px] bg-[#FEF3C7] text-[#78350F] border border-[#FCD34D] rounded-full px-1.5 py-0.5">
+                        <AlertTriangle className="w-3 h-3" />+{(r as any).personas_extra}
+                      </span>
+                    )}
+                  </div>
+                  {Number((r as any).monto_extra) > 0 && (
+                    <div className={`text-[10px] mt-0.5 ${(r as any).pagado_extra ? "text-[#15803d]" : "text-[#be185d]"}`}>
+                      Extra: L {Number((r as any).monto_extra).toFixed(2)} {(r as any).pagado_extra ? "✓ pagado" : "pendiente"}
+                    </div>
+                  )}
+                </TableCell>
                 <TableCell>{badge(r.estado)}</TableCell>
                 <TableCell className="text-right">
+                  {r.estado === "pendiente" && (
+                    <Button size="sm" variant="ghost" onClick={() => aprobar(r)} title="Autorizar" className="h-8 w-8 p-0 text-[#15803d]"><Check className="w-4 h-4" /></Button>
+                  )}
+                  {Number((r as any).monto_extra) > 0 && !(r as any).pagado_extra && (
+                    <Button size="sm" variant="ghost" onClick={() => marcarPagado(r)} title="Marcar pago extra" className="h-8 w-8 p-0 text-[#15803d]"><DollarSign className="w-4 h-4" /></Button>
+                  )}
                   <Button size="sm" variant="ghost" onClick={() => onEdit(r)} className="h-8 w-8 p-0"><Pencil className="w-4 h-4" /></Button>
                   <Button size="sm" variant="ghost" onClick={() => { if (confirm("¿Eliminar reserva?")) del.mutate(r.id); }} className="h-8 w-8 p-0 text-[#be185d]"><Trash2 className="w-4 h-4" /></Button>
                 </TableCell>
               </TableRow>
             ))}
+
           </TableBody>
         </Table>
       </div>
