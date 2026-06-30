@@ -159,10 +159,10 @@ export function UnidadesTable({ edificioId, onEdit }: { edificioId: string; onEd
           </TableHeader>
           <TableBody>
             {isLoading && (
-              <TableRow><TableCell colSpan={10} className="py-10 text-center text-[#64748B]">Cargando unidades…</TableCell></TableRow>
+              <TableRow><TableCell colSpan={11} className="py-10 text-center text-[#64748B]">Cargando unidades…</TableCell></TableRow>
             )}
             {!isLoading && filtered.length === 0 && (
-              <TableRow><TableCell colSpan={10} className="py-10 text-center text-[#64748B]">Sin unidades para los filtros aplicados.</TableCell></TableRow>
+              <TableRow><TableCell colSpan={11} className="py-10 text-center text-[#64748B]">Sin unidades para los filtros aplicados.</TableCell></TableRow>
             )}
 
             {filtered.map((u) => (
