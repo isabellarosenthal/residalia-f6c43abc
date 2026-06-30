@@ -151,34 +151,40 @@ export type Database = {
           activa: boolean
           capacidad: number | null
           condominio_id: string
+          costo_por_persona_extra: number
           created_at: string
           horario_fin: string | null
           horario_inicio: string | null
           icono: string | null
           id: string
           nombre: string
+          permite_exceso: boolean
         }
         Insert: {
           activa?: boolean
           capacidad?: number | null
           condominio_id: string
+          costo_por_persona_extra?: number
           created_at?: string
           horario_fin?: string | null
           horario_inicio?: string | null
           icono?: string | null
           id?: string
           nombre: string
+          permite_exceso?: boolean
         }
         Update: {
           activa?: boolean
           capacidad?: number | null
           condominio_id?: string
+          costo_por_persona_extra?: number
           created_at?: string
           horario_fin?: string | null
           horario_inicio?: string | null
           icono?: string | null
           id?: string
           nombre?: string
+          permite_exceso?: boolean
         }
         Relationships: [
           {
@@ -1131,42 +1137,63 @@ export type Database = {
       }
       reservas: {
         Row: {
+          aprobada_en: string | null
+          aprobada_por: string | null
           area_id: string
           condominio_id: string
           created_at: string
           descripcion: string | null
           estado: string
+          excede_capacidad: boolean
           fecha_fin: string
           fecha_inicio: string
           id: string
+          monto_extra: number
           num_personas: number | null
+          pagado_extra: boolean
+          personas_extra: number
           residente_id: string | null
+          solicitud_nota: string | null
           unidad_id: string | null
         }
         Insert: {
+          aprobada_en?: string | null
+          aprobada_por?: string | null
           area_id: string
           condominio_id: string
           created_at?: string
           descripcion?: string | null
           estado?: string
+          excede_capacidad?: boolean
           fecha_fin: string
           fecha_inicio: string
           id?: string
+          monto_extra?: number
           num_personas?: number | null
+          pagado_extra?: boolean
+          personas_extra?: number
           residente_id?: string | null
+          solicitud_nota?: string | null
           unidad_id?: string | null
         }
         Update: {
+          aprobada_en?: string | null
+          aprobada_por?: string | null
           area_id?: string
           condominio_id?: string
           created_at?: string
           descripcion?: string | null
           estado?: string
+          excede_capacidad?: boolean
           fecha_fin?: string
           fecha_inicio?: string
           id?: string
+          monto_extra?: number
           num_personas?: number | null
+          pagado_extra?: boolean
+          personas_extra?: number
           residente_id?: string | null
+          solicitud_nota?: string | null
           unidad_id?: string | null
         }
         Relationships: [
