@@ -45,7 +45,7 @@ export function ResidenteFormDialog({
     mode: "onChange",
     defaultValues: {
       nombre: "", apellido: "", dni: "", telefono: "", telefono_alt: "", email: "",
-      tipo: "propietario", condominio_id: defaultCondominioId ?? "", unidad_id: null,
+      tipo: "propietario", condominio_id: defaultCondominioId ?? "", unidad_id: null, relacionado_id: null,
       fecha_ingreso: new Date().toISOString().slice(0, 10), foto_url: "", activo: true,
     },
   });
