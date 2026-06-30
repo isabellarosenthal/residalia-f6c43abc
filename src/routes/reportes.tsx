@@ -135,7 +135,6 @@ function ReportesPage() {
           <TabsList className="bg-[#F8FAFC]">
             <TabsTrigger value="financiero">Financiero</TabsTrigger>
             <TabsTrigger value="ocupacion">Ocupación</TabsTrigger>
-            <TabsTrigger value="crm">CRM</TabsTrigger>
             <TabsTrigger value="exportar">Exportar</TabsTrigger>
           </TabsList>
 
