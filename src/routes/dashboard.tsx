@@ -205,37 +205,6 @@ function DashboardPage() {
               </Card>
             </div>
 
-            {tabla.length > 0 && (
-              <Card className="overflow-hidden">
-                <div className="p-5 border-b border-[#E2E8F0]">
-                  <h3 className="font-display font-bold text-[#0F172A]">Disponibilidad comercial de tus edificios</h3>
-                </div>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead className="bg-[#F8FAFC] text-[#4A154B]">
-                      <tr>
-                        {["Edificio", "Total", "Ocupadas", "En venta", "En renta", "Prospectos", "Cierres"].map((h) => (
-                          <th key={h} className="text-left px-5 py-3 font-semibold uppercase text-xs">{h}</th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody className="text-[#1E293B]">
-                      {tabla.map((r) => (
-                        <tr key={r.e} className="border-b border-[#E2E8F0] hover:bg-[#ffffff] transition-colors">
-                          <td className="px-5 py-3 font-medium text-[#4A154B]">{r.e}</td>
-                          <td className="px-5 py-3">{r.t}</td>
-                          <td className="px-5 py-3">{r.o}</td>
-                          <td className="px-5 py-3"><Badge variant="venta">{r.v}</Badge></td>
-                          <td className="px-5 py-3"><Badge variant="renta">{r.r}</Badge></td>
-                          <td className="px-5 py-3">{r.p}</td>
-                          <td className="px-5 py-3 text-[#166534] font-semibold">{r.c}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </Card>
-            )}
           </>
         )}
       </div>
