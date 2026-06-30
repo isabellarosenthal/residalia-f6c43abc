@@ -15,6 +15,8 @@ const fmtDT = (s: string | null) => s ? new Date(s).toLocaleString("es-HN", { da
 function PortalIndex() {
   const { data: residente, isLoading } = useMiResidente();
   const { data: pases = [] } = useMisPases();
+  const save = useSaveAcceso();
+  const navigate = useNavigate();
 
   if (isLoading) return <div className="text-sm text-[#64748B]">Cargando…</div>;
 
@@ -33,6 +35,31 @@ function PortalIndex() {
   const condo = (residente as any).condominio;
   const uni = (residente as any).unidad;
 
+  const handleQuick = async (s: QuickService) => {
+    try {
+      const { data: u } = await supabase.auth.getUser();
+      const now = new Date();
+      const exp = new Date(now.getTime() + 2 * 60 * 60 * 1000);
+      const r = await save.mutateAsync({
+        condominio_id: residente.condominio_id,
+        unidad_id: residente.unidad_id,
+        visitante_nombre: s.label,
+        tipo: s.tipo,
+        metodo: "qr",
+        qr_code: `${s.key.toUpperCase()}-${Math.random().toString(36).slice(2, 7).toUpperCase()}`,
+        fecha_entrada: now.toISOString(),
+        fecha_salida: exp.toISOString(),
+        usos_maximos: 1,
+        minutos_max_estadia: s.minutos,
+        autorizado_por: u.user?.id ?? null,
+      } as any);
+      toast.success(`Pase para ${s.label} creado`);
+      navigate({ to: "/portal/pase/$paseId", params: { paseId: r.id } });
+    } catch (e: any) {
+      toast.error(e?.message ?? "No se pudo crear el pase");
+    }
+  };
+
   return (
     <div className="space-y-5">
       <MiQRRotativo
@@ -40,6 +67,15 @@ function PortalIndex() {
         nombre={`${residente.nombre} ${residente.apellido ?? ""}`.trim()}
         subtitulo={`${condo?.nombre ?? ""}${uni ? ` · #${uni.numero}` : ""}`}
       />
+
+      <div className="bg-white border border-[#E2E8F0] rounded-2xl p-4">
+        <div className="flex items-center gap-2 mb-1">
+          <Zap className="w-4 h-4 text-[#f59e0b]" />
+          <div className="font-display font-bold text-[#0F172A]">Acceso Rápido</div>
+        </div>
+        <p className="text-xs text-[#64748B] mb-3">Genera un pase al instante para delivery o transporte</p>
+        <QuickAccessGrid onPick={handleQuick} disabled={save.isPending} columns={6} />
+      </div>
 
       <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5">
         <div className="text-xs text-[#64748B]">Residente en</div>
