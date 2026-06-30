@@ -34,6 +34,11 @@ function Reservar() {
   if (!residente) return <div className="text-sm text-[#7a2a10]">Tu cuenta no está vinculada a un residente.</div>;
 
   const area = areas.find((a) => a.id === areaId);
+  const excedeCap = !!(area?.capacidad && personas > area.capacidad);
+  const personasExtra = excedeCap ? personas - (area!.capacidad as number) : 0;
+  const costoExtra = personasExtra * Number((area as any)?.costo_por_persona_extra ?? 0);
+  const permiteExceso = (area as any)?.permite_exceso !== false;
+
   const conflicto = (() => {
     if (!areaId || !ini || !fin) return null;
     const i = new Date(ini).getTime(), f = new Date(fin).getTime();
@@ -52,12 +57,18 @@ function Reservar() {
       new Date(r.fecha_inicio).getTime() < f && new Date(r.fecha_fin).getTime() > i
     );
     if (choque) return `Conflicto con otra reserva: ${fmtDT(choque.fecha_inicio)} – ${new Date(choque.fecha_fin).toLocaleTimeString("es-HN", { timeStyle: "short" })}`;
+    if (excedeCap && !permiteExceso) return `Esta área no permite exceder la capacidad (${area?.capacidad}).`;
     return null;
   })();
+
+  const [nota, setNota] = useState("");
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (conflicto || !areaId || !condoId) return;
+    if (excedeCap && !nota.trim()) {
+      return; // forzar nota cuando excede
+    }
     await save.mutateAsync({
       condominio_id: condoId,
       area_id: areaId,
@@ -68,9 +79,14 @@ function Reservar() {
       num_personas: personas,
       estado: "pendiente",
       descripcion: descripcion || null,
-    });
+      excede_capacidad: excedeCap,
+      personas_extra: personasExtra,
+      monto_extra: costoExtra,
+      solicitud_nota: excedeCap ? nota : null,
+    } as any);
     navigate({ to: "/portal" });
   };
+
 
   const proximas = reservas
     .filter((r) => r.residente_id === residente.id && new Date(r.fecha_fin) >= new Date())
