@@ -157,15 +157,6 @@ function DashboardPage() {
               </div>
             </section>
 
-            <section>
-              <h2 className="text-xs uppercase tracking-widest text-[#64748B] font-semibold mb-3">Comercial</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <KpiCard icon={<Tag className="w-5 h-5" />} label="Unidades en venta/renta" value={String(enVenta + enRenta)} sub={`${enVenta} venta · ${enRenta} renta`} accent="primary" />
-                <KpiCard icon={<UserPlus className="w-5 h-5" />} label="Prospectos activos" value={String(prospectosActivos.length)} sub={`${calientes} calientes`} accent="neutral" />
-                <KpiCard icon={<TrendingUp className="w-5 h-5" />} label="Valor del pipeline" value={fmtL(valorPipeline)} accent="success" />
-                <KpiCard icon={<CheckCircle2 className="w-5 h-5" />} label="Cierres ganados" value={String(ganadosMes.length)} accent="success" />
-              </div>
-            </section>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <Card className="p-5">
