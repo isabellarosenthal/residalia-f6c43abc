@@ -53,6 +53,8 @@ export function AreaFormDialog({
       activa: area?.activa ?? true,
       permite_exceso: (area as any)?.permite_exceso ?? true,
       costo_por_persona_extra: Number((area as any)?.costo_por_persona_extra ?? 0),
+      horas_incluidas: (area as any)?.horas_incluidas == null ? undefined : Number((area as any).horas_incluidas),
+      costo_por_hora_extra: Number((area as any)?.costo_por_hora_extra ?? 0),
     });
   }, [open, area, defaultCondominioId, form]);
 
