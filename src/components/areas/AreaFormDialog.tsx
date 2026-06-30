@@ -18,7 +18,10 @@ const schema = z.object({
   horario_fin: z.string().optional().or(z.literal("")),
   icono: z.string().max(40).optional().or(z.literal("")),
   activa: z.boolean(),
+  permite_exceso: z.boolean(),
+  costo_por_persona_extra: z.coerce.number().min(0).default(0),
 });
+
 type FormVals = z.input<typeof schema>;
 type FormOut = z.output<typeof schema>;
 
