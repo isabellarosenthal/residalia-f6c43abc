@@ -12,7 +12,7 @@ import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useSaveResidente, useEdificios, useUnidades, type Residente } from "@/lib/queries";
+import { useSaveResidente, useEdificios, useUnidades, usePropietarios, type Residente } from "@/lib/queries";
 import { supabase } from "@/integrations/supabase/client";
 
 const schema = z.object({
@@ -25,6 +25,7 @@ const schema = z.object({
   tipo: z.enum(["propietario", "inquilino"]),
   condominio_id: z.string().uuid("Selecciona un edificio"),
   unidad_id: z.string().nullable().optional(),
+  relacionado_id: z.string().nullable().optional(),
   fecha_ingreso: z.string().min(1, "Requerido"),
   foto_url: z.string().max(500).optional().or(z.literal("")),
   activo: z.boolean().default(true),
@@ -44,14 +45,21 @@ export function ResidenteFormDialog({
     mode: "onChange",
     defaultValues: {
       nombre: "", apellido: "", dni: "", telefono: "", telefono_alt: "", email: "",
-      tipo: "propietario", condominio_id: defaultCondominioId ?? "", unidad_id: null,
+      tipo: "propietario", condominio_id: defaultCondominioId ?? "", unidad_id: null, relacionado_id: null,
       fecha_ingreso: new Date().toISOString().slice(0, 10), foto_url: "", activo: true,
     },
   });
 
   const condominioId = form.watch("condominio_id");
+  const tipo = form.watch("tipo");
+  const unidadId = form.watch("unidad_id");
   const { data: unidades = [] } = useUnidades(condominioId || undefined);
+  const { data: propietarios = [] } = usePropietarios(condominioId || undefined, unidadId);
   const unidadesOptions = useMemo(() => unidades, [unidades]);
+  const propietariosOptions = useMemo(
+    () => propietarios.filter((p) => p.id !== residente?.id),
+    [propietarios, residente?.id],
+  );
 
   useEffect(() => {
     if (!open) return;
@@ -65,6 +73,7 @@ export function ResidenteFormDialog({
       tipo: (residente?.tipo as any) ?? "propietario",
       condominio_id: residente?.condominio_id ?? defaultCondominioId ?? "",
       unidad_id: residente?.unidad_id ?? null,
+      relacionado_id: (residente as any)?.relacionado_id ?? null,
       fecha_ingreso: residente?.fecha_ingreso ?? new Date().toISOString().slice(0, 10),
       foto_url: residente?.foto_url ?? "",
       activo: residente?.activo ?? true,
@@ -83,6 +92,7 @@ export function ResidenteFormDialog({
       tipo: v.tipo,
       condominio_id: v.condominio_id,
       unidad_id: v.unidad_id || null,
+      relacionado_id: v.tipo === "inquilino" ? (v.relacionado_id || null) : null,
       fecha_ingreso: v.fecha_ingreso,
       foto_url: v.foto_url || null,
       activo: v.activo,
@@ -166,6 +176,27 @@ export function ResidenteFormDialog({
               </Select>
             </div>
           </div>
+          {tipo === "inquilino" && (
+            <div>
+              <Label>Propietario asociado</Label>
+              <Select
+                value={form.watch("relacionado_id") ?? "__none__"}
+                onValueChange={(v) => form.setValue("relacionado_id", v === "__none__" ? null : v)}
+                disabled={!condominioId}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder={condominioId ? "Sin propietario" : "Selecciona edificio primero"} />
+                </SelectTrigger>
+                <SelectContent className="max-h-72">
+                  <SelectItem value="__none__">Sin propietario asociado</SelectItem>
+                  {propietariosOptions.map((p) => (
+                    <SelectItem key={p.id} value={p.id}>{p.nombre} {p.apellido}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground mt-1">Vincula este inquilino al propietario de la unidad.</p>
+            </div>
+          )}
           <div className="grid grid-cols-2 gap-3">
             <div><Label>Fecha de ingreso *</Label><Input type="date" {...form.register("fecha_ingreso")} /></div>
             <div><Label>Foto URL</Label><Input {...form.register("foto_url")} placeholder="https://…" /></div>

@@ -129,6 +129,25 @@ export function useResidentes() {
   });
 }
 
+export function usePropietarios(condominioId?: string, unidadId?: string | null) {
+  return useQuery({
+    enabled: !!condominioId,
+    queryKey: ["propietarios", condominioId, unidadId ?? null],
+    queryFn: async () => {
+      let q = supabase
+        .from("residentes")
+        .select("id,nombre,apellido,unidad_id")
+        .eq("tipo", "propietario")
+        .eq("condominio_id", condominioId!)
+        .order("nombre");
+      if (unidadId) q = q.eq("unidad_id", unidadId);
+      const { data, error } = await q;
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
+
 export function useResidentesMap() {
   return useQuery({
     queryKey: ["residentes-map"],

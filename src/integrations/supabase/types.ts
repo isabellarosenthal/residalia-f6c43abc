@@ -1209,6 +1209,7 @@ export type Database = {
           foto_url: string | null
           id: string
           nombre: string
+          relacionado_id: string | null
           telefono: string | null
           telefono_alt: string | null
           tipo: Database["public"]["Enums"]["tipo_residente"]
@@ -1226,6 +1227,7 @@ export type Database = {
           foto_url?: string | null
           id?: string
           nombre: string
+          relacionado_id?: string | null
           telefono?: string | null
           telefono_alt?: string | null
           tipo?: Database["public"]["Enums"]["tipo_residente"]
@@ -1243,6 +1245,7 @@ export type Database = {
           foto_url?: string | null
           id?: string
           nombre?: string
+          relacionado_id?: string | null
           telefono?: string | null
           telefono_alt?: string | null
           tipo?: Database["public"]["Enums"]["tipo_residente"]
@@ -1255,6 +1258,13 @@ export type Database = {
             columns: ["condominio_id"]
             isOneToOne: false
             referencedRelation: "condominios"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "residentes_relacionado_id_fkey"
+            columns: ["relacionado_id"]
+            isOneToOne: false
+            referencedRelation: "residentes"
             referencedColumns: ["id"]
           },
           {

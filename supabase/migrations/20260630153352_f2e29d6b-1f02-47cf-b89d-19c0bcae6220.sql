@@ -1,0 +1,2 @@
+ALTER TABLE public.residentes ADD COLUMN IF NOT EXISTS relacionado_id uuid REFERENCES public.residentes(id) ON DELETE SET NULL;
+CREATE INDEX IF NOT EXISTS idx_residentes_relacionado ON public.residentes(relacionado_id);
