@@ -123,7 +123,13 @@ export function UnidadFormDialog({
       descripcion_comercial: v.descripcion_comercial || null,
       propietario_id: v.propietario_id || null,
       inquilino_id: v.inquilino_id || null,
-    });
+      referido_renta_nombre: v.referido_renta_nombre || null,
+      referido_renta_agencia: v.referido_renta_agencia || null,
+      referido_renta_url: v.referido_renta_url || null,
+      referido_venta_nombre: v.referido_venta_nombre || null,
+      referido_venta_agencia: v.referido_venta_agencia || null,
+      referido_venta_url: v.referido_venta_url || null,
+    } as any);
     onOpenChange(false);
   };
 
