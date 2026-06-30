@@ -50,10 +50,10 @@ export function useEdificio(id: string | undefined) {
 export function useSaveEdificio() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (input: CondominioInsert & { id?: string }) => {
+    mutationFn: async (input: CondominioInsert & { id?: string; cuota_modo?: string; cuota_por_m2?: number }) => {
       if (input.id) {
         const { id, ...rest } = input;
-        const { data, error } = await supabase.from("condominios").update(rest).eq("id", id).select().single();
+        const { data, error } = await supabase.from("condominios").update(rest as any).eq("id", id).select().single();
         if (error) throw error;
         return data;
       }
@@ -78,7 +78,14 @@ export function useSaveEdificio() {
         _dias_gracia: input.dias_gracia ?? 5,
       });
       if (error) throw error;
-      return data;
+      const created: any = Array.isArray(data) ? data[0] : data;
+      if (created?.id && (input.cuota_modo || input.cuota_por_m2)) {
+        await supabase.from("condominios").update({
+          cuota_modo: input.cuota_modo ?? "fijo",
+          cuota_por_m2: input.cuota_por_m2 ?? 0,
+        } as any).eq("id", created.id);
+      }
+      return created;
     },
     onSuccess: (_d, vars) => {
       qc.invalidateQueries({ queryKey: ["edificios"] });
@@ -516,6 +523,20 @@ export type PreviewCobroRow = {
   duplicado: boolean;
 };
 
+function calcMontoUnidad(
+  u: { mantenimiento_mensual?: number | null; area_m2_construccion?: number | null },
+  edif: { cuota_base?: number | null; cuota_modo?: string | null; cuota_por_m2?: number | null } | null | undefined,
+): number {
+  const override = Number(u.mantenimiento_mensual ?? 0);
+  if (override > 0) return override;
+  if (edif?.cuota_modo === "por_m2") {
+    const area = Number(u.area_m2_construccion ?? 0);
+    const pm2 = Number(edif?.cuota_por_m2 ?? 0);
+    return area * pm2;
+  }
+  return Number(edif?.cuota_base ?? 0);
+}
+
 export function usePreviewCobrosMensuales(args: { edificioId: string; mes: string; concepto: string } | null) {
   return useQuery({
     queryKey: ["cobros-preview", args?.edificioId, args?.mes, args?.concepto],
@@ -524,18 +545,17 @@ export function usePreviewCobrosMensuales(args: { edificioId: string; mes: strin
       if (!args) return [];
       const { edificioId, mes, concepto } = args;
       const [{ data: unidades, error: e1 }, { data: edif }, { data: existentes }] = await Promise.all([
-        supabase.from("unidades").select("id, numero, mantenimiento_mensual, propietario_id, inquilino_id").eq("condominio_id", edificioId).order("numero"),
-        supabase.from("condominios").select("cuota_base").eq("id", edificioId).maybeSingle(),
+        supabase.from("unidades").select("id, numero, mantenimiento_mensual, area_m2_construccion, propietario_id, inquilino_id").eq("condominio_id", edificioId).order("numero"),
+        supabase.from("condominios").select("cuota_base, cuota_modo, cuota_por_m2").eq("id", edificioId).maybeSingle(),
         supabase.from("cobros").select("unidad_id, concepto").eq("condominio_id", edificioId).ilike("concepto", `%${mes}%`),
       ]);
       if (e1) throw e1;
-      const baseCuota = Number(edif?.cuota_base ?? 0);
       const dupSet = new Set((existentes ?? []).filter((c) => c.concepto?.toLowerCase().includes(concepto.toLowerCase())).map((c) => c.unidad_id ?? ""));
       return (unidades ?? []).map((u) => ({
         unidad_id: u.id,
         unidad_numero: u.numero,
         residente_id: u.inquilino_id ?? u.propietario_id ?? null,
-        monto: Number(u.mantenimiento_mensual ?? baseCuota ?? 0),
+        monto: calcMontoUnidad(u as any, edif as any),
         duplicado: dupSet.has(u.id),
       }));
     },
@@ -549,18 +569,17 @@ export function useGenerarCobrosMensuales() {
       if (unidadIds.length === 0) return [];
       const { data: unidades, error: e1 } = await supabase
         .from("unidades")
-        .select("id, numero, mantenimiento_mensual, propietario_id, inquilino_id, condominio_id")
+        .select("id, numero, mantenimiento_mensual, area_m2_construccion, propietario_id, inquilino_id, condominio_id")
         .eq("condominio_id", edificioId)
         .in("id", unidadIds);
       if (e1) throw e1;
-      const { data: edif } = await supabase.from("condominios").select("cuota_base").eq("id", edificioId).single();
-      const baseCuota = edif?.cuota_base ?? 0;
+      const { data: edif } = await supabase.from("condominios").select("cuota_base, cuota_modo, cuota_por_m2").eq("id", edificioId).single();
       const rows: CobroInsert[] = (unidades ?? []).map((u) => ({
         condominio_id: u.condominio_id,
         unidad_id: u.id,
         residente_id: u.inquilino_id ?? u.propietario_id ?? null,
         concepto: `${concepto} ${mes} · Unidad ${u.numero}`,
-        monto: Number(u.mantenimiento_mensual ?? baseCuota ?? 0),
+        monto: calcMontoUnidad(u as any, edif as any),
         fecha_vencimiento: vencimiento,
         estado: "pendiente" as const,
       }));
@@ -577,6 +596,7 @@ export function useGenerarCobrosMensuales() {
     onError: (e: any) => toast.error(e?.message ?? "Error generando cobros"),
   });
 }
+
 
 // Días de mora (>0 = vencido)
 export function diasMora(fechaVencimiento: string, estado: string): number {

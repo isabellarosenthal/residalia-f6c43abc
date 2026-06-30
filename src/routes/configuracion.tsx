@@ -140,13 +140,20 @@ function EdificiosTab() {
   const { data: edificios = [] } = useEdificios();
   const save = useSaveEdificio();
   const [editing, setEditing] = useState<string | null>(null);
-  const [form, setForm] = useState({ nombre: "", ciudad: "", cuota_base: 0, moneda: "L" });
+  const [form, setForm] = useState({ nombre: "", ciudad: "", cuota_base: 0, moneda: "L", cuota_modo: "fijo", cuota_por_m2: 0 });
 
   const startEdit = (id: string) => {
-    const e = edificios.find(x => x.id === id);
+    const e = edificios.find(x => x.id === id) as any;
     if (!e) return;
     setEditing(id);
-    setForm({ nombre: e.nombre, ciudad: e.ciudad ?? "", cuota_base: Number(e.cuota_base ?? 0), moneda: e.moneda });
+    setForm({
+      nombre: e.nombre,
+      ciudad: e.ciudad ?? "",
+      cuota_base: Number(e.cuota_base ?? 0),
+      moneda: e.moneda,
+      cuota_modo: e.cuota_modo ?? "fijo",
+      cuota_por_m2: Number(e.cuota_por_m2 ?? 0),
+    });
   };
 
   return (
@@ -159,8 +166,19 @@ function EdificiosTab() {
               <div className="grid sm:grid-cols-2 gap-3">
                 <div><Label>Nombre</Label><Input value={form.nombre} onChange={(ev) => setForm({ ...form, nombre: ev.target.value })} /></div>
                 <div><Label>Ciudad</Label><CityAutocomplete value={form.ciudad} onChange={(v) => setForm({ ...form, ciudad: v })} /></div>
-                <div><Label>Cuota base</Label><Input type="number" value={form.cuota_base} onChange={(ev) => setForm({ ...form, cuota_base: Number(ev.target.value) })} /></div>
                 <div><Label>Moneda</Label><Input value={form.moneda} onChange={(ev) => setForm({ ...form, moneda: ev.target.value })} /></div>
+                <div>
+                  <Label>Modo de cobro</Label>
+                  <select className="w-full h-10 rounded-md border border-[#E2E8F0] px-3 bg-white text-sm" value={form.cuota_modo} onChange={(ev) => setForm({ ...form, cuota_modo: ev.target.value })}>
+                    <option value="fijo">Cuota fija mensual</option>
+                    <option value="por_m2">Por m² de construcción</option>
+                  </select>
+                </div>
+                {form.cuota_modo === "por_m2" ? (
+                  <div className="sm:col-span-2"><Label>Precio por m² ({form.moneda})</Label><Input type="number" step="0.01" value={form.cuota_por_m2} onChange={(ev) => setForm({ ...form, cuota_por_m2: Number(ev.target.value) })} /><p className="text-xs text-[#64748B] mt-1">Se multiplica por los m² de construcción de cada unidad.</p></div>
+                ) : (
+                  <div><Label>Cuota base mensual</Label><Input type="number" value={form.cuota_base} onChange={(ev) => setForm({ ...form, cuota_base: Number(ev.target.value) })} /></div>
+                )}
               </div>
               <div className="flex justify-end gap-2">
                 <Button variant="outline" onClick={() => setEditing(null)}>Cancelar</Button>
@@ -174,7 +192,13 @@ function EdificiosTab() {
             <div className="flex items-center justify-between">
               <div>
                 <div className="font-display font-bold text-[#0F172A]">{e.nombre}</div>
-                <div className="text-sm text-[#64748B]">{e.ciudad} · Cuota base: {e.moneda} {Number(e.cuota_base ?? 0).toLocaleString()} · {e.total_unidades ?? 0} unidades</div>
+                <div className="text-sm text-[#64748B]">
+                  {e.ciudad} ·{" "}
+                  {(e as any).cuota_modo === "por_m2"
+                    ? <>Cuota: {e.moneda} {Number((e as any).cuota_por_m2 ?? 0).toLocaleString()} / m²</>
+                    : <>Cuota base: {e.moneda} {Number(e.cuota_base ?? 0).toLocaleString()}</>}
+                  {" "}· {e.total_unidades ?? 0} unidades
+                </div>
               </div>
               <Button variant="outline" size="sm" onClick={() => startEdit(e.id)}>Editar</Button>
             </div>
