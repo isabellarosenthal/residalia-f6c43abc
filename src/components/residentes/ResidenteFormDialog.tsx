@@ -51,8 +51,15 @@ export function ResidenteFormDialog({
   });
 
   const condominioId = form.watch("condominio_id");
+  const tipo = form.watch("tipo");
+  const unidadId = form.watch("unidad_id");
   const { data: unidades = [] } = useUnidades(condominioId || undefined);
+  const { data: propietarios = [] } = usePropietarios(condominioId || undefined, unidadId);
   const unidadesOptions = useMemo(() => unidades, [unidades]);
+  const propietariosOptions = useMemo(
+    () => propietarios.filter((p) => p.id !== residente?.id),
+    [propietarios, residente?.id],
+  );
 
   useEffect(() => {
     if (!open) return;
