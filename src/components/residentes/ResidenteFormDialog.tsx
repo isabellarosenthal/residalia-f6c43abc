@@ -29,6 +29,7 @@ const schema = z.object({
   fecha_ingreso: z.string().min(1, "Requerido"),
   foto_url: z.string().max(500).optional().or(z.literal("")),
   activo: z.boolean().default(true),
+  recargo_mora_pct: z.coerce.number().min(0).max(100).default(0),
 });
 type FormVals = z.input<typeof schema>;
 type FormOut = z.output<typeof schema>;
