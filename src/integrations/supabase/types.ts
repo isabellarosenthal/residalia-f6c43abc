@@ -367,6 +367,8 @@ export type Database = {
           ciudad: string | null
           created_at: string
           cuota_base: number | null
+          cuota_modo: string
+          cuota_por_m2: number
           departamento: string | null
           dias_gracia: number
           direccion: string | null
@@ -388,6 +390,8 @@ export type Database = {
           ciudad?: string | null
           created_at?: string
           cuota_base?: number | null
+          cuota_modo?: string
+          cuota_por_m2?: number
           departamento?: string | null
           dias_gracia?: number
           direccion?: string | null
@@ -409,6 +413,8 @@ export type Database = {
           ciudad?: string | null
           created_at?: string
           cuota_base?: number | null
+          cuota_modo?: string
+          cuota_por_m2?: number
           departamento?: string | null
           dias_gracia?: number
           direccion?: string | null
@@ -1641,6 +1647,8 @@ export type Database = {
           ciudad: string | null
           created_at: string
           cuota_base: number | null
+          cuota_modo: string
+          cuota_por_m2: number
           departamento: string | null
           dias_gracia: number
           direccion: string | null
