@@ -127,6 +127,30 @@ export function AccesoFormDialog({
       <DialogContent className="sm:max-w-[560px] max-h-[90vh] overflow-y-auto">
         <DialogHeader><DialogTitle className="font-display text-xl text-[#0F172A]">{acceso ? "Editar acceso" : "Registrar acceso"}</DialogTitle></DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          {!acceso && (
+            <div className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-3">
+              <div className="flex items-center gap-2 mb-2">
+                <Zap className="w-4 h-4 text-[#f59e0b]" />
+                <span className="text-sm font-semibold text-[#0F172A]">Acceso Rápido</span>
+                <span className="text-xs text-[#64748B]">— prellena el formulario</span>
+              </div>
+              <QuickAccessGrid
+                columns={6}
+                onPick={(s: QuickService) => {
+                  form.setValue("visitante_nombre", s.label);
+                  form.setValue("tipo", s.tipo === "delivery" ? "delivery" : "otro");
+                  form.setValue("vigencia", "temporal");
+                  form.setValue("usos_maximos", 1);
+                  form.setValue("minutos_max_estadia", String(s.minutos) as any);
+                  const now = new Date(); now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+                  form.setValue("fecha_entrada", now.toISOString().slice(0, 16));
+                  const exp = new Date(Date.now() + 2 * 60 * 60 * 1000);
+                  exp.setMinutes(exp.getMinutes() - exp.getTimezoneOffset());
+                  form.setValue("fecha_salida", exp.toISOString().slice(0, 16));
+                }}
+              />
+            </div>
+          )}
           <div>
             <Label>Edificio *</Label>
             <Select value={condominioId} onValueChange={(v) => { form.setValue("condominio_id", v); form.setValue("unidad_id", null); }}>
