@@ -27,6 +27,7 @@ function AdminPanel() {
   const fetchStats = useServerFn(getPlatformStats);
   const fetchSubs = useServerFn(listSuscripciones);
   const fetchPlanes = useServerFn(listPlanes);
+  const fetchUsuarios = useServerFn(listUsuarios);
 
   useEffect(() => {
     if (loading) return;
