@@ -1,7 +1,7 @@
 import { lazy, Suspense, useState, useEffect } from "react";
 import { useEdificioFilter } from "@/hooks/useEdificioFilter";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Plus, KeyRound, ShieldCheck } from "lucide-react";
+import { Plus, KeyRound, ShieldCheck, Calendar, MapPin } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -37,9 +37,9 @@ function AccesosPage() {
                 {edificios.map((e) => <SelectItem key={e.id} value={e.id}>{e.nombre}</SelectItem>)}
               </SelectContent>
             </Select>
-            <Button asChild variant="outline">
-              <Link to="/accesos/validar"><ShieldCheck className="w-4 h-4 mr-1" />Validar pase</Link>
-            </Button>
+            <Button asChild variant="outline"><Link to="/accesos/turnos"><Calendar className="w-4 h-4 mr-1" />Turnos</Link></Button>
+            <Button asChild variant="outline"><Link to="/accesos/puntos"><MapPin className="w-4 h-4 mr-1" />Puntos rondín</Link></Button>
+            <Button asChild variant="outline"><Link to="/accesos/validar"><ShieldCheck className="w-4 h-4 mr-1" />Validar pase</Link></Button>
             <Button onClick={() => { setEdit(null); setOpen(true); }} className="bg-[#4A154B] hover:bg-[#350d36]">
               <Plus className="w-4 h-4 mr-1" />Registrar acceso
             </Button>
