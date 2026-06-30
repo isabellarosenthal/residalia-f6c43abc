@@ -64,11 +64,15 @@ export function OnboardingWizard({ open, onClose }: Props) {
     if (!edif.nombre) return toast.error("Falta nombre");
     const rate = Number(usdRate);
     if (!Number.isFinite(rate) || rate <= 0) return toast.error("Tasa USD inválida");
-    const created = await saveEdif.mutateAsync(edif as any);
-    setEdificioId(created.id);
-    const { data: u } = await supabase.auth.getUser();
-    if (u?.user) await supabase.from("profiles").update({ usd_rate: rate } as any).eq("id", u.user.id);
-    setStep(2);
+    try {
+      const created = await saveEdif.mutateAsync(edif as any);
+      setEdificioId(created.id);
+      const { data: u } = await supabase.auth.getUser();
+      if (u?.user) await supabase.from("profiles").update({ usd_rate: rate } as any).eq("id", u.user.id);
+      setStep(2);
+    } catch (e: any) {
+      toast.error(e?.message ?? "No se pudo crear el edificio. Intenta de nuevo.");
+    }
   };
 
   const handleUnidades = async () => {
@@ -83,32 +87,45 @@ export function OnboardingWizard({ open, onClose }: Props) {
         } as any);
       }
     }
-    await bulkUnidades.mutateAsync(rows);
-    setStep(3);
+    try {
+      await bulkUnidades.mutateAsync(rows);
+      setStep(3);
+    } catch (e: any) {
+      toast.error(e?.message ?? "No se pudieron crear las unidades.");
+    }
   };
 
   const handleResidente = async () => {
     if (!edificioId || !res.nombre || !res.apellido || !res.unidad_id) return toast.error("Completa los campos");
-    await saveRes.mutateAsync({
-      condominio_id: edificioId,
-      nombre: res.nombre, apellido: res.apellido, telefono: res.telefono || null,
-      unidad_id: res.unidad_id, tipo: tipoRes,
-    } as any);
-    const patch: any = tipoRes === "propietario" ? { propietario_id: null } : { inquilino_id: null };
-    await supabase.from("unidades").update({ estado_administrativo: "ocupada", ...patch }).eq("id", res.unidad_id);
-    setStep(4);
+    try {
+      await saveRes.mutateAsync({
+        condominio_id: edificioId,
+        nombre: res.nombre, apellido: res.apellido, telefono: res.telefono || null,
+        unidad_id: res.unidad_id, tipo: tipoRes,
+      } as any);
+      const patch: any = tipoRes === "propietario" ? { propietario_id: null } : { inquilino_id: null };
+      await supabase.from("unidades").update({ estado_administrativo: "ocupada", ...patch }).eq("id", res.unidad_id);
+      setStep(4);
+    } catch (e: any) {
+      toast.error(e?.message ?? "No se pudo registrar el residente.");
+    }
   };
 
   const handleCobros = async () => {
     if (!edificioId) return;
-    const [y, m] = mes.split("-");
-    const venc = `${y}-${m}-05`;
-    const { data: us } = await supabase.from("unidades").select("id").eq("condominio_id", edificioId);
-    const unidadIds = (us ?? []).map((u) => u.id);
-    await generarCobros.mutateAsync({ edificioId, mes, concepto: "Mantenimiento", vencimiento: venc, unidadIds });
-    toast.success("¡Cobros generados!");
-    setStep(5);
+    try {
+      const [y, m] = mes.split("-");
+      const venc = `${y}-${m}-05`;
+      const { data: us } = await supabase.from("unidades").select("id").eq("condominio_id", edificioId);
+      const unidadIds = (us ?? []).map((u) => u.id);
+      await generarCobros.mutateAsync({ edificioId, mes, concepto: "Mantenimiento", vencimiento: venc, unidadIds });
+      toast.success("¡Cobros generados!");
+      setStep(5);
+    } catch (e: any) {
+      toast.error(e?.message ?? "No se pudieron generar los cobros.");
+    }
   };
+
 
   const goTo = (to: string) => {
     close();
