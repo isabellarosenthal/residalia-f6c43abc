@@ -1,16 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { Link } from "@tanstack/react-router";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useSaveUnidad, useResidentes, type Unidad } from "@/lib/queries";
+import { Mail, Phone, IdCard, Calendar, Percent, User, ExternalLink, Users as UsersIcon } from "lucide-react";
+import { useSaveUnidad, useResidentes, type Unidad, type Residente } from "@/lib/queries";
 
 const schema = z.object({
   numero: z.string().min(1, "Requerido").max(20),
