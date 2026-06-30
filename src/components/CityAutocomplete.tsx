@@ -105,10 +105,21 @@ export function CityAutocomplete({ value, onChange, placeholder = "Buscar ciudad
             className="h-9"
           />
           <CommandList className="max-h-[260px]">
+            {showCustom && (
+              <CommandGroup heading="Otra">
+                <CommandItem
+                  value={inputValue.trim()}
+                  onSelect={() => handleSelect(inputValue.trim())}
+                  className="cursor-pointer"
+                >
+                  <span className="flex-1">Usar "{inputValue.trim()}"</span>
+                </CommandItem>
+              </CommandGroup>
+            )}
             <CommandEmpty>
               {inputValue.trim() ? (
                 <div className="px-2 py-2 text-xs text-[#64748B]">
-                  No encontrada. Se usará "<b>{inputValue.trim()}</b>".
+                  No encontrada. Seleccioná "Usar \"{inputValue.trim()}\"" arriba.
                 </div>
               ) : (
                 "Escribe para buscar"
