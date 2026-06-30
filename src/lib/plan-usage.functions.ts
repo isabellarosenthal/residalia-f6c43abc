@@ -26,21 +26,44 @@ export const getMyPlanUsage = createServerFn({ method: "GET" })
     let activa = true;
 
     if (condos && condos.length > 0) {
-      const condoIds = condos.map((c: any) => c.id);
+      const condoIds = condos.map((c: { id: string }) => c.id);
+      const today = new Date().toISOString().slice(0, 10);
+
+      const { data: prof } = await supabase
+        .from("profiles")
+        .select("created_at")
+        .eq("id", userId)
+        .maybeSingle();
+      const signupAt = prof?.created_at ? new Date(prof.created_at).getTime() : null;
+      if (signupAt && signupAt + 14 * 86_400_000 >= Date.now()) {
+        activa = true;
+      }
+
       const { data: subs } = await supabase
         .from("suscripciones")
-        .select("plan_id, estado, trial_ends_at")
-        .in("condominio_id", condoIds)
-        .limit(1);
-      const sub = subs?.[0];
+        .select("plan_id, estado, trial_ends_at, condominio_id")
+        .in("condominio_id", condoIds);
+
+      const subList = subs ?? [];
+
+      const subActive = (s: { estado: string; trial_ends_at: string | null }) =>
+        s.estado === "activa"
+        || (s.estado === "trial" && (!s.trial_ends_at || s.trial_ends_at.slice(0, 10) >= today));
+
+      // Alineado con is_subscription_active(): sin fila = grace activo; basta un edificio vigente
+      if (!activa) {
+        activa = subList.length === 0 || subList.some(subActive);
+      }
+
+      const sub = subList[0];
       const planId = sub?.plan_id;
       estado = (sub?.estado as string) ?? null;
       trialEndsAt = (sub?.trial_ends_at as string) ?? null;
       if (trialEndsAt) {
-        const ms = new Date(trialEndsAt).getTime() - Date.now();
-        diasRestantes = Math.max(0, Math.ceil(ms / 86400000));
+        const end = new Date(trialEndsAt.slice(0, 10) + "T23:59:59");
+        const ms = end.getTime() - Date.now();
+        diasRestantes = Math.max(0, Math.ceil(ms / 86_400_000));
       }
-      activa = estado === "activa" || (estado === "trial" && (!trialEndsAt || (diasRestantes ?? 0) > 0));
       if (planId) {
         const { data: plan } = await supabase
           .from("planes")

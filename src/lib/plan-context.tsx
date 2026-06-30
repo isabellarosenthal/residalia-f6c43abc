@@ -23,7 +23,7 @@ export function PlanProvider({ children }: { children: ReactNode }) {
   const fetchUsage = useServerFn(getMyPlanUsage);
   const { data, isLoading } = useQuery({ queryKey: ["plan-usage"], queryFn: () => fetchUsage() });
 
-  const activa = data?.activa ?? true;
+  const activa = data?.activa !== false;
 
   return (
     <PlanCtx.Provider
