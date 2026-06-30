@@ -63,6 +63,9 @@ export function ResidentesTable({
               <TableCell>
                 <div className="font-semibold text-[#4A154B]">{r.nombre} {r.apellido}</div>
                 {r.dni && <div className="text-xs text-[#64748B]">DNI {r.dni}</div>}
+                {(r as any).relacionado_id && resMap.get((r as any).relacionado_id) && (
+                  <div className="text-xs text-[#4A154B]/70 mt-0.5">↳ asociado a {resMap.get((r as any).relacionado_id)}</div>
+                )}
               </TableCell>
               <TableCell>
                 <Badge variant={r.tipo === "propietario" ? "venta" : "renta"}>{r.tipo}</Badge>
