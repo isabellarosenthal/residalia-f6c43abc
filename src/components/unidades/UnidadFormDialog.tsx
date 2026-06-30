@@ -286,10 +286,13 @@ export function UnidadFormDialog({
   );
 }
 
-function ResidenteCard({ r, titular, onClose }: { r: Residente; titular: Residente | null; onClose: () => void }) {
+function ResidenteCard({ r: rIn, titular: titularIn, onClose }: { r: Residente; titular: Residente | null; onClose: () => void }) {
+  const r = rIn as any;
+  const titular = titularIn as any;
   const tipoBadge = r.tipo_residente === "propietario"
     ? "bg-[#E9E2FF] text-[#4F46E5]"
     : "bg-[#FEF3C7] text-[#92400E]";
+  const doc = r.documento_identidad ?? r.dni;
   return (
     <div className="space-y-3">
       <div className="flex items-start justify-between gap-3 rounded-xl border border-[#E5E7EB] bg-white p-4">
@@ -300,9 +303,11 @@ function ResidenteCard({ r, titular, onClose }: { r: Residente; titular: Residen
           <div>
             <div className="font-semibold text-[#0F172A]">{r.nombre} {r.apellido ?? ""}</div>
             <div className="flex items-center gap-2 mt-1">
-              <span className={`text-xs px-2 py-0.5 rounded-full font-medium capitalize ${tipoBadge}`}>
-                {r.tipo_residente}
-              </span>
+              {r.tipo_residente && (
+                <span className={`text-xs px-2 py-0.5 rounded-full font-medium capitalize ${tipoBadge}`}>
+                  {r.tipo_residente}
+                </span>
+              )}
               {r.estado && <span className="text-xs px-2 py-0.5 rounded-full bg-[#F1F5F9] text-[#475569] capitalize">{r.estado}</span>}
             </div>
           </div>
@@ -323,9 +328,9 @@ function ResidenteCard({ r, titular, onClose }: { r: Residente; titular: Residen
             <Phone className="w-4 h-4 text-[#64748B]" /> {r.telefono}
           </div>
         )}
-        {r.documento_identidad && (
+        {doc && (
           <div className="flex items-center gap-2 text-sm text-[#334155] rounded-lg border border-[#E5E7EB] bg-white px-3 py-2">
-            <IdCard className="w-4 h-4 text-[#64748B]" /> {r.documento_identidad}
+            <IdCard className="w-4 h-4 text-[#64748B]" /> {doc}
           </div>
         )}
         {r.fecha_ingreso && (
@@ -346,7 +351,7 @@ function ResidenteCard({ r, titular, onClose }: { r: Residente; titular: Residen
           <div className="flex items-center gap-2 text-[#0F172A]">
             <User className="w-4 h-4 text-[#4A154B]" />
             <span className="font-medium">{titular.nombre} {titular.apellido ?? ""}</span>
-            <span className="text-xs text-[#64748B] capitalize">· {titular.tipo_residente}</span>
+            {titular.tipo_residente && <span className="text-xs text-[#64748B] capitalize">· {titular.tipo_residente}</span>}
           </div>
         </div>
       )}
