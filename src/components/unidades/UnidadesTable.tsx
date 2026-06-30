@@ -192,7 +192,21 @@ export function UnidadesTable({ edificioId, onEdit }: { edificioId: string; onEd
                 </TableCell>
                 <TableCell className="text-right">
                   {u.precio_venta && <div className="text-sm font-semibold text-[#4A154B]">{fmtMoney(u.precio_venta, (u as any).moneda)}</div>}
+                  {(u as any).referido_venta_agencia && (
+                    <div className="text-[10px] text-[#64748B]">
+                      Ref: {(u as any).referido_venta_url
+                        ? <a href={(u as any).referido_venta_url} target="_blank" rel="noopener noreferrer" className="text-[#4A154B] hover:underline" onClick={(e) => e.stopPropagation()}>{(u as any).referido_venta_agencia}</a>
+                        : (u as any).referido_venta_agencia}
+                    </div>
+                  )}
                   {u.precio_renta && <div className="text-xs text-[#1E293B]">Renta: {fmtMoney(u.precio_renta, (u as any).moneda)}</div>}
+                  {(u as any).referido_renta_agencia && (
+                    <div className="text-[10px] text-[#64748B]">
+                      Ref: {(u as any).referido_renta_url
+                        ? <a href={(u as any).referido_renta_url} target="_blank" rel="noopener noreferrer" className="text-[#4A154B] hover:underline" onClick={(e) => e.stopPropagation()}>{(u as any).referido_renta_agencia}</a>
+                        : (u as any).referido_renta_agencia}
+                    </div>
+                  )}
                   {!u.precio_venta && !u.precio_renta && <span className="text-[#64748B] text-sm">—</span>}
                 </TableCell>
 
