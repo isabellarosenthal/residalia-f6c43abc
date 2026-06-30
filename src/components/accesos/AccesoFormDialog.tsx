@@ -8,6 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useSaveAcceso, useEdificios, useUnidades, type Acceso } from "@/lib/queries";
+import { QuickAccessGrid, type QuickService } from "@/components/accesos/QuickAccessButtons";
+import { Zap } from "lucide-react";
 
 const schema = z.object({
   condominio_id: z.string().uuid("Selecciona edificio"),
