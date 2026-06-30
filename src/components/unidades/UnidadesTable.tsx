@@ -151,7 +151,8 @@ export function UnidadesTable({ edificioId, onEdit }: { edificioId: string; onEd
               <TableHead className="text-[#4A154B] font-semibold">Estado comercial</TableHead>
               <TableHead className="text-[#4A154B] font-semibold">Propietario / Inquilino</TableHead>
               <TableHead className="text-[#4A154B] font-semibold text-right">Mantenimiento</TableHead>
-              <TableHead className="text-[#4A154B] font-semibold text-right">Precios</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold text-right">Precio renta</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold text-right">Precio venta</TableHead>
               <TableHead className="text-[#4A154B] font-semibold text-right">Acciones</TableHead>
 
             </TableRow>
