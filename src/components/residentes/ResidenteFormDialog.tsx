@@ -176,6 +176,27 @@ export function ResidenteFormDialog({
               </Select>
             </div>
           </div>
+          {tipo === "inquilino" && (
+            <div>
+              <Label>Propietario asociado</Label>
+              <Select
+                value={form.watch("relacionado_id") ?? "__none__"}
+                onValueChange={(v) => form.setValue("relacionado_id", v === "__none__" ? null : v)}
+                disabled={!condominioId}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder={condominioId ? "Sin propietario" : "Selecciona edificio primero"} />
+                </SelectTrigger>
+                <SelectContent className="max-h-72">
+                  <SelectItem value="__none__">Sin propietario asociado</SelectItem>
+                  {propietariosOptions.map((p) => (
+                    <SelectItem key={p.id} value={p.id}>{p.nombre} {p.apellido}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground mt-1">Vincula este inquilino al propietario de la unidad.</p>
+            </div>
+          )}
           <div className="grid grid-cols-2 gap-3">
             <div><Label>Fecha de ingreso *</Label><Input type="date" {...form.register("fecha_ingreso")} /></div>
             <div><Label>Foto URL</Label><Input {...form.register("foto_url")} placeholder="https://…" /></div>
