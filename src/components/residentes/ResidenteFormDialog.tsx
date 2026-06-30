@@ -12,7 +12,7 @@ import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useSaveResidente, useEdificios, useUnidades, type Residente } from "@/lib/queries";
+import { useSaveResidente, useEdificios, useUnidades, usePropietarios, type Residente } from "@/lib/queries";
 import { supabase } from "@/integrations/supabase/client";
 
 const schema = z.object({
