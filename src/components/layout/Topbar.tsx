@@ -1,7 +1,13 @@
-import { useRouterState } from "@tanstack/react-router";
-import { Bell, Building2 } from "lucide-react";
+import { Link, useRouterState } from "@tanstack/react-router";
+import { Bell, Building2, Settings, Crown, ChevronRight } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 import { initials } from "@/lib/format";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const titles: Record<string, string> = {
   "/dashboard": "Dashboard",
