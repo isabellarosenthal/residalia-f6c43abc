@@ -160,6 +160,7 @@ export function ReservaFormDialog({
       descripcion: v.descripcion || null,
       excede_capacidad: excedeCap,
       personas_extra: personasExtra,
+      horas_extra: horasExtra,
       monto_extra: v.monto_extra ?? 0,
       pagado_extra: v.pagado_extra ?? false,
     } as any);
