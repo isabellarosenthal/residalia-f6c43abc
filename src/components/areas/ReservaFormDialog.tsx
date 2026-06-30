@@ -21,7 +21,10 @@ const schema = z.object({
   num_personas: z.coerce.number().int().min(0).optional(),
   estado: z.enum(["confirmada", "pendiente", "cancelada"]),
   descripcion: z.string().max(500).optional().or(z.literal("")),
+  monto_extra: z.coerce.number().min(0).default(0),
+  pagado_extra: z.boolean().default(false),
 });
+
 type FormVals = z.input<typeof schema>;
 type FormOut = z.output<typeof schema>;
 
