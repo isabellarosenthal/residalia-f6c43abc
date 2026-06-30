@@ -136,7 +136,7 @@ function DashboardPage() {
             <h3 className="font-display font-bold text-[#0F172A] text-lg">Aún no tenés edificios</h3>
             <p className="text-sm text-[#64748B] mt-1 mb-4">Creá tu primer edificio para ver el resumen aquí.</p>
             <button
-              onClick={() => setWizardOpen(true)}
+              onClick={() => window.dispatchEvent(new CustomEvent("residalia:open-onboarding"))}
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#4A154B] text-white text-sm font-semibold hover:opacity-90 transition"
             >
               <Building2 className="w-4 h-4" /> Crear mi primer edificio
