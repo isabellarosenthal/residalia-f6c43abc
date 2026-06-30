@@ -191,21 +191,6 @@ function ReportesPage() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="crm" className="pt-4 space-y-4">
-            <Card className="p-5">
-              <h3 className="font-display font-bold text-lg text-[#0F172A] mb-4">Prospectos por etapa</h3>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={pipeline}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f0e6e0" />
-                  <XAxis dataKey="etapa" stroke="#64748B" />
-                  <YAxis stroke="#64748B" allowDecimals={false} />
-                  <Tooltip />
-                  <Bar dataKey="total" fill="#9b72cf" />
-                </BarChart>
-              </ResponsiveContainer>
-            </Card>
-          </TabsContent>
-
           <TabsContent value="exportar" className="pt-4">
             <Card className="p-5 space-y-3">
               <h3 className="font-display font-bold text-lg text-[#0F172A]">Exportar a CSV</h3>
