@@ -166,10 +166,32 @@ export function EdificioFormDialog({
             </div>
           </div>
 
-          <div>
-            <Label>Cuota base mensual</Label>
-            <Input type="number" step="0.01" {...form.register("cuota_base")} />
+          <div className="rounded-lg border border-[#E2E8F0] p-3 space-y-3 bg-[#FAFAFB]">
+            <div>
+              <Label>Modo de cobro de mantenimiento</Label>
+              <Select value={form.watch("cuota_modo")} onValueChange={(v) => form.setValue("cuota_modo", v as any, { shouldValidate: true })}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="fijo">Cuota fija mensual</SelectItem>
+                  <SelectItem value="por_m2">Por metro cuadrado de construcción</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            {form.watch("cuota_modo") === "por_m2" ? (
+              <div>
+                <Label>Precio por m² ({form.watch("moneda")})</Label>
+                <Input type="number" step="0.01" {...form.register("cuota_por_m2")} />
+                <p className="text-xs text-[#64748B] mt-1">Se multiplica por los m² de construcción de cada unidad. El campo "Mantenimiento" de la unidad sigue funcionando como override manual.</p>
+              </div>
+            ) : (
+              <div>
+                <Label>Cuota base mensual</Label>
+                <Input type="number" step="0.01" {...form.register("cuota_base")} />
+              </div>
+            )}
           </div>
+
+
 
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
