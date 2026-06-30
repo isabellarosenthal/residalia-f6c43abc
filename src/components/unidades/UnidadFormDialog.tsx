@@ -379,7 +379,7 @@ function PersonasEnUnidad({ personas, residentesById }: { personas: Residente[];
                   </span>
                   <div>
                     <div className="text-sm font-medium text-[#0F172A]">{p.nombre} {p.apellido ?? ""}</div>
-                    <div className="text-xs text-[#64748B] capitalize">{p.tipo_residente} · titular</div>
+                    <div className="text-xs text-[#64748B] capitalize">{(p as any).tipo_residente ?? ""} · titular</div>
                   </div>
                 </div>
                 <div className="text-xs text-[#64748B]">{p.email || p.telefono || ""}</div>
