@@ -53,6 +53,12 @@ function AdminPanel() {
     enabled: role === "super_admin",
   });
 
+  const { data: usuariosData } = useQuery({
+    queryKey: ["admin-usuarios"],
+    queryFn: () => fetchUsuarios(),
+    enabled: role === "super_admin",
+  });
+
   if (loading || role !== "super_admin") return null;
 
   const fmt = (n: number) => new Intl.NumberFormat("es-HN").format(n);
