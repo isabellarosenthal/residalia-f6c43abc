@@ -7,7 +7,6 @@ import { EmptyState } from "@/components/ui-pentos";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ResidentesTable } from "@/components/residentes/ResidentesTable";
 import { useWriteGuard } from "@/hooks/useWriteGuard";
 import { useEdificios, useResidentes, type Residente } from "@/lib/queries";
 
@@ -32,7 +31,7 @@ function ResidentesPage() {
   const [detail, setDetail] = useState<Residente | null>(null);
   const [importOpen, setImportOpen] = useState(false);
   const [search, setSearch] = useState("");
-  const [edificioId, setEdificioId] = useEdificioFilter();
+  const [edificioId] = useEdificioFilter();
   const [tipo, setTipo] = useState("all");
   const [estado, setEstado] = useState("activos");
   const { canWrite, guard } = useWriteGuard();
@@ -61,13 +60,6 @@ function ResidentesPage() {
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#64748B]" />
             <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar por nombre, DNI, teléfono…" className="pl-9" />
           </div>
-          <Select value={edificioId} onValueChange={setEdificioId}>
-            <SelectTrigger className="w-[200px]"><SelectValue /></SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Todos los edificios</SelectItem>
-              {edificios.map((e) => <SelectItem key={e.id} value={e.id}>{e.nombre}</SelectItem>)}
-            </SelectContent>
-          </Select>
           <Select value={tipo} onValueChange={setTipo}>
             <SelectTrigger className="w-[160px]"><SelectValue /></SelectTrigger>
             <SelectContent>
@@ -91,7 +83,7 @@ function ResidentesPage() {
             icon={<Users className="w-7 h-7" />}
             title="Aún no hay residentes"
             hint="Registra el primer propietario o inquilino de tus edificios."
-            action={<Button onClick={() => { setEditing(null); setOpen(true); }} className="bg-[#4A154B] hover:bg-[#350d36]"><Plus className="w-4 h-4 mr-1" />Nuevo residente</Button>}
+            action={<Button disabled={!canWrite} onClick={() => guard(() => { setEditing(null); setOpen(true); })} className="bg-[#4A154B] hover:bg-[#350d36]"><Plus className="w-4 h-4 mr-1" />Nuevo residente</Button>}
           />
         ) : (
           <ResidentesTable

@@ -7,6 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { AlertTriangle, CalendarCheck } from "lucide-react";
+import { PortalLoading, PortalSinResidente } from "@/components/portal/PortalStates";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/portal/reservar")({ component: Reservar });
 
@@ -18,7 +20,7 @@ const nowLocal = (addH = 1) => {
 const fmtDT = (s: string) => new Date(s).toLocaleString("es-HN", { dateStyle: "short", timeStyle: "short" });
 
 function Reservar() {
-  const { data: residente } = useMiResidente();
+  const { data: residente, isLoading } = useMiResidente();
   const condoId = residente?.condominio_id;
   const { data: areas = [] } = useAreas(condoId);
   const { data: reservas = [] } = useReservas(condoId);
@@ -31,7 +33,8 @@ function Reservar() {
   const [personas, setPersonas] = useState(1);
   const [descripcion, setDescripcion] = useState("");
 
-  if (!residente) return <div className="text-sm text-[#7a2a10]">Tu cuenta no está vinculada a un residente.</div>;
+  if (isLoading) return <PortalLoading />;
+  if (!residente) return <PortalSinResidente />;
 
   const area = areas.find((a) => a.id === areaId);
   const excedeCap = !!(area?.capacidad && personas > area.capacidad);
@@ -43,8 +46,7 @@ function Reservar() {
   const horasExtra = horasIncluidas > 0 && costoHora > 0 ? Math.max(0, horasReserva - horasIncluidas) : 0;
   const costoHoras = horasExtra * costoHora;
   const costoExtra = costoPersonas + costoHoras;
-  const permiteExceso = (area as any)?.permite_exceso !== false;
-  const requiereAutorizacion = excedeCap; // horas extra solo cobran, no requieren autorización
+  const permiteExceso = (area as { permite_exceso?: boolean } | undefined)?.permite_exceso !== false;
 
   const conflicto = (() => {
     if (!areaId || !ini || !fin) return null;
@@ -76,23 +78,28 @@ function Reservar() {
     if (excedeCap && !nota.trim()) {
       return; // forzar nota cuando excede
     }
-    await save.mutateAsync({
-      condominio_id: condoId,
-      area_id: areaId,
-      unidad_id: residente.unidad_id,
-      residente_id: residente.id,
-      fecha_inicio: new Date(ini).toISOString(),
-      fecha_fin: new Date(fin).toISOString(),
-      num_personas: personas,
-      estado: requiereAutorizacion ? "pendiente" : "pendiente",
-      descripcion: descripcion || null,
-      excede_capacidad: excedeCap,
-      personas_extra: personasExtra,
-      horas_extra: horasExtra,
-      monto_extra: costoExtra,
-      solicitud_nota: excedeCap ? nota : null,
-    } as any);
-    navigate({ to: "/portal" });
+    try {
+      await save.mutateAsync({
+        condominio_id: condoId,
+        area_id: areaId,
+        unidad_id: residente.unidad_id,
+        residente_id: residente.id,
+        fecha_inicio: new Date(ini).toISOString(),
+        fecha_fin: new Date(fin).toISOString(),
+        num_personas: personas,
+        estado: "pendiente",
+        descripcion: descripcion || null,
+        excede_capacidad: excedeCap,
+        personas_extra: personasExtra,
+        horas_extra: horasExtra,
+        monto_extra: costoExtra,
+        solicitud_nota: excedeCap ? nota : null,
+      } as Parameters<typeof save.mutateAsync>[0]);
+      toast.success(excedeCap ? "Solicitud enviada — espera autorización" : "Reserva solicitada");
+      navigate({ to: "/portal/reservar" });
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "No se pudo crear la reserva");
+    }
   };
 
 

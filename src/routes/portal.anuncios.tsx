@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useComunicadosResidente } from "@/lib/queries";
 import { Megaphone } from "lucide-react";
+import { PortalLoading } from "@/components/portal/PortalStates";
 
 export const Route = createFileRoute("/portal/anuncios")({ component: Anuncios });
 
@@ -8,7 +9,7 @@ const fmtDT = (s: string) => new Date(s).toLocaleString("es-HN", { dateStyle: "m
 
 function Anuncios() {
   const { data: items = [], isLoading } = useComunicadosResidente();
-  if (isLoading) return <div className="text-sm text-[#64748B]">Cargando…</div>;
+  if (isLoading) return <PortalLoading label="Cargando anuncios…" />;
 
   return (
     <div className="space-y-3">

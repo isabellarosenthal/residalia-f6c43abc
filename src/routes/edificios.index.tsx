@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { EdificioCard } from "@/components/edificios/EdificioCard";
 import { EdificiosSkeleton } from "@/components/edificios/EdificiosSkeleton";
 import { useEdificios, useUnidades } from "@/lib/queries";
+import { useWriteGuard } from "@/hooks/useWriteGuard";
 import { PlanLimitsBanner } from "@/components/PlanLimitsBanner";
 
 const EdificiosTable = lazy(() =>
@@ -31,16 +32,15 @@ function EdificiosPage() {
   const [search, setSearch] = useState("");
   const [tipo, setTipo] = useState("all");
   const [view, setView] = useState<"grid" | "table">("grid");
+  const { canWrite, guard } = useWriteGuard();
 
   const statsMap = useMemo(() => {
-    const m = new Map<string, { total: number; ocupadas: number; disponibles: number; enVenta: number; enRenta: number }>();
+    const m = new Map<string, { total: number; ocupadas: number; disponibles: number }>();
     for (const u of allUnidades) {
-      const s = m.get(u.condominio_id) ?? { total: 0, ocupadas: 0, disponibles: 0, enVenta: 0, enRenta: 0 };
+      const s = m.get(u.condominio_id) ?? { total: 0, ocupadas: 0, disponibles: 0 };
       s.total++;
       if (u.estado_administrativo === "ocupada") s.ocupadas++;
       if (u.estado_administrativo === "disponible") s.disponibles++;
-      if (u.estado_comercial === "en_venta" || u.estado_comercial === "en_venta_y_renta") s.enVenta++;
-      if (u.estado_comercial === "en_renta" || u.estado_comercial === "en_venta_y_renta") s.enRenta++;
       m.set(u.condominio_id, s);
     }
     return m;
@@ -63,7 +63,7 @@ function EdificiosPage() {
             <h1 className="font-display font-extrabold text-2xl text-[#0F172A]">Edificios</h1>
             <p className="text-sm text-[#64748B]">Administra todos tus condominios y residenciales desde un solo lugar</p>
           </div>
-          <Button onClick={() => setOpen(true)} className="bg-[#4A154B] hover:bg-[#350d36] text-white">
+          <Button disabled={!canWrite} onClick={() => guard(() => setOpen(true))} className="bg-[#4A154B] hover:bg-[#350d36] text-white">
             <Plus className="w-4 h-4 mr-1" /> Nuevo edificio
           </Button>
         </div>

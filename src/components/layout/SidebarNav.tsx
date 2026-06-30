@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import type { LucideIcon } from "lucide-react";
 import {
   LayoutDashboard, Building2, Users, Wallet, KeyRound, CalendarRange,
-  Wrench, Tag, UserPlus, Kanban, BarChart3, Shield, Settings,
+  Wrench, BarChart3, Shield, Settings,
 } from "lucide-react";
 import type { AppRole } from "@/lib/auth-context";
 
@@ -20,37 +20,27 @@ export type NavSection = {
 };
 
 const ADMIN_ROLES: AppRole[] = ["super_admin", "admin_condominio", "junta_directiva"];
-const CRM_ROLES: AppRole[] = ["super_admin", "admin_condominio", "agente_inmobiliario", "gerente_crm"];
 
 export const navSections: NavSection[] = [
   {
     label: "Administración",
-    roles: [...ADMIN_ROLES, "agente_inmobiliario", "gerente_crm"],
+    roles: ADMIN_ROLES,
     items: [
-      { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard", roles: [...ADMIN_ROLES, "agente_inmobiliario", "gerente_crm"] },
-      { to: "/edificios", icon: Building2, label: "Edificios y Condominios", roles: [...ADMIN_ROLES, "agente_inmobiliario", "gerente_crm"] },
-      { to: "/residentes", icon: Users, label: "Residentes", roles: ADMIN_ROLES },
-      { to: "/finanzas", icon: Wallet, label: "Finanzas", roles: ADMIN_ROLES },
-      { to: "/accesos", icon: KeyRound, label: "Control de Accesos", roles: ADMIN_ROLES },
-      { to: "/areas", icon: CalendarRange, label: "Áreas Comunes", roles: ADMIN_ROLES },
-      { to: "/mantenimiento", icon: Wrench, label: "Mantenimiento", roles: ADMIN_ROLES },
-    ],
-  },
-  {
-    label: "Comercial",
-    roles: CRM_ROLES,
-    items: [
-      { to: "/propiedades", icon: Tag, label: "Propiedades" },
-      { to: "/prospectos", icon: UserPlus, label: "Prospectos" },
-      { to: "/pipeline", icon: Kanban, label: "Pipeline" },
+      { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+      { to: "/edificios", icon: Building2, label: "Edificios y Condominios" },
+      { to: "/residentes", icon: Users, label: "Residentes" },
+      { to: "/finanzas", icon: Wallet, label: "Finanzas" },
+      { to: "/accesos", icon: KeyRound, label: "Control de Accesos" },
+      { to: "/areas", icon: CalendarRange, label: "Áreas Comunes" },
+      { to: "/mantenimiento", icon: Wrench, label: "Mantenimiento" },
     ],
   },
   {
     label: "General",
-    roles: [...ADMIN_ROLES, "agente_inmobiliario", "gerente_crm"],
+    roles: ADMIN_ROLES,
     items: [
       { to: "/reportes", icon: BarChart3, label: "Reportes" },
-      { to: "/configuracion", icon: Settings, label: "Configuración", roles: [...ADMIN_ROLES, "agente_inmobiliario", "gerente_crm"] },
+      { to: "/configuracion", icon: Settings, label: "Configuración" },
     ],
   },
 ];

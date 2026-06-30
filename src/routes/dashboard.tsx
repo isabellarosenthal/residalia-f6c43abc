@@ -3,11 +3,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/layout/AppShell";
 import { Card, KpiCard, Badge } from "@/components/ui-pentos";
 import { useAuth } from "@/lib/auth-context";
-import { Wallet, AlertTriangle, KeyRound, Wrench, Tag, UserPlus, TrendingUp, CheckCircle2, Building2 } from "lucide-react";
+import { Wallet, AlertTriangle, KeyRound, Wrench, Building2, Users, CalendarRange } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { fmtL } from "@/lib/format";
 // onboarding wizard now mounts globally in AppShell
-import { useEdificios, useUnidades, useCobros, usePagosDeEdificio, useAccesos, useIncidencias, useProspectos } from "@/lib/queries";
+import { useEdificios, useUnidades, useCobros, usePagosDeEdificio, useAccesos, useIncidencias, useReservas } from "@/lib/queries";
 import { useEdificioFilter } from "@/hooks/useEdificioFilter";
 import { useWriteGuard } from "@/hooks/useWriteGuard";
 
@@ -29,7 +29,7 @@ function DashboardPage() {
   const { data: pagos = [] } = usePagosDeEdificio(edificioFilter);
   const { data: accesos = [] } = useAccesos(edificioFilter);
   const { data: incidencias = [] } = useIncidencias(edificioFilter);
-  const { data: prospectos = [] } = useProspectos(edificioFilter);
+  const { data: reservas = [] } = useReservas(edificioFilter);
 
   const now = new Date();
   const ym = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
@@ -57,13 +57,8 @@ function DashboardPage() {
   const incidenciasAbiertas = incidencias.filter((i) => i.estado !== "resuelto" && i.estado !== "cerrado");
   const urgentes = incidenciasAbiertas.filter((i) => i.prioridad === "urgente").length;
 
-  // KPIs Comercial
-  const enVenta = unidades.filter((u) => u.estado_comercial === "en_venta" || u.estado_comercial === "en_venta_y_renta").length;
-  const enRenta = unidades.filter((u) => u.estado_comercial === "en_renta" || u.estado_comercial === "en_venta_y_renta").length;
-  const prospectosActivos = prospectos.filter((p) => p.etapa_pipeline !== "ganado" && p.etapa_pipeline !== "perdido");
-  const calientes = prospectosActivos.filter((p) => p.temperatura === "caliente").length;
-  const ganadosMes = prospectos.filter((p) => p.etapa_pipeline === "ganado");
-  const valorPipeline = prospectosActivos.reduce((s, p) => s + Number(p.presupuesto_max ?? p.presupuesto_min ?? 0), 0);
+  const reservasPendientes = reservas.filter((r) => r.estado === "pendiente").length;
+  const residentesActivos = unidades.filter((u) => u.estado_administrativo === "ocupada").length;
 
   // Recaudación 6 meses
   const recaudacion = useMemo(() => {
@@ -86,21 +81,6 @@ function DashboardPage() {
     { name: "Morosos", value: cobros.filter((c) => c.estado === "vencido").length, color: "#be185d" },
     { name: "Parcial", value: cobros.filter((c) => c.estado === "parcial").length, color: "#4A154B" },
   ].filter((e) => e.value > 0);
-
-  // Tabla por edificio
-  const tabla = edificios.map((e) => {
-    const us = unidades.filter((u) => u.condominio_id === e.id);
-    const ps = prospectos.filter((p) => p.condominio_id === e.id);
-    return {
-      e: e.nombre,
-      t: us.length,
-      o: us.filter((u) => u.estado_administrativo === "ocupada").length,
-      v: us.filter((u) => u.estado_comercial === "en_venta" || u.estado_comercial === "en_venta_y_renta").length,
-      r: us.filter((u) => u.estado_comercial === "en_renta" || u.estado_comercial === "en_venta_y_renta").length,
-      p: ps.filter((p) => p.etapa_pipeline !== "ganado" && p.etapa_pipeline !== "perdido").length,
-      c: ps.filter((p) => p.etapa_pipeline === "ganado").length,
-    };
-  });
 
   return (
     <AppShell>
@@ -148,11 +128,13 @@ function DashboardPage() {
           <>
             <section>
               <h2 className="text-xs uppercase tracking-widest text-[#64748B] font-semibold mb-3">Administración</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <KpiCard icon={<Wallet className="w-5 h-5" />} label="Recaudación del mes" value={fmtL(recaudacionMes)} sub={metaMes > 0 ? `${fmtL(recaudacionMes)} de ${fmtL(metaMes)} meta` : "Sin meta configurada"} accent="primary" />
                 <KpiCard icon={<AlertTriangle className="w-5 h-5" />} label="Unidades morosas" value={String(morososUnidades.size)} sub={`${fmtL(morososMonto)} pendiente`} accent="danger" />
                 <KpiCard icon={<KeyRound className="w-5 h-5" />} label="Accesos hoy" value={String(accesosHoy.length)} sub={`${entradas} entradas · ${salidas} salidas`} accent="neutral" />
                 <KpiCard icon={<Wrench className="w-5 h-5" />} label="Incidencias abiertas" value={String(incidenciasAbiertas.length)} sub={urgentes > 0 ? `${urgentes} urgentes` : "Sin urgentes"} accent="primary" />
+                <KpiCard icon={<CalendarRange className="w-5 h-5" />} label="Reservas pendientes" value={String(reservasPendientes)} sub="Por confirmar" accent="neutral" />
+                <KpiCard icon={<Users className="w-5 h-5" />} label="Unidades ocupadas" value={String(residentesActivos)} sub={`de ${unidades.length} en filtro`} accent="success" />
               </div>
             </section>
 

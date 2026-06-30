@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useEdificioFilter } from "@/hooks/useEdificioFilter";
 import { createFileRoute } from "@tanstack/react-router";
 import { Download, TrendingUp, Users, Home, DollarSign, AlertCircle, Wallet } from "lucide-react";
@@ -11,10 +11,8 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, KpiCard } from "@/components/ui-pentos";
 import {
-  useEdificios, useUnidades, useCobros, useEgresos, useProspectos, useResidentes,
-  ETAPAS_PIPELINE, etapaLabel,
+  useEdificios, useUnidades, useCobros, useEgresos, useResidentes,
 } from "@/lib/queries";
-import { EdificioFilterSelect } from "@/components/layout/EdificioFilterSelect";
 
 export const Route = createFileRoute("/reportes")({ component: ReportesPage });
 
@@ -40,13 +38,12 @@ function downloadCSV(filename: string, rows: Record<string, any>[]) {
 
 function ReportesPage() {
   const { data: edificios = [] } = useEdificios();
-  const [edificioId, setEdificioId] = useEdificioFilter();
+  const [edificioId] = useEdificioFilter();
   const filterId = edificioId === "all" ? undefined : edificioId;
 
   const { data: unidades = [] } = useUnidades(filterId);
   const { data: cobros = [] } = useCobros(filterId);
   const { data: egresos = [] } = useEgresos(filterId);
-  const { data: prospectos = [] } = useProspectos(filterId);
   const { data: residentes = [] } = useResidentes();
 
   const kpis = useMemo(() => {
@@ -59,9 +56,8 @@ function ReportesPage() {
       ocupacion: unidades.length ? Math.round((ocupadas / unidades.length) * 100) : 0,
       totalUnidades: unidades.length,
       residentes: residentes.length,
-      prospectosActivos: prospectos.filter(p => !["ganado", "perdido"].includes(p.etapa_pipeline)).length,
     };
-  }, [cobros, egresos, unidades, residentes, prospectos]);
+  }, [cobros, egresos, unidades, residentes]);
 
   // Ingresos vs egresos por mes (últimos 6)
   const flujoMensual = useMemo(() => {
@@ -99,13 +95,6 @@ function ReportesPage() {
     return Array.from(map.entries()).map(([name, value]) => ({ name, value }));
   }, [egresos]);
 
-  const pipeline = useMemo(() => {
-    return ETAPAS_PIPELINE.map((e) => ({
-      etapa: etapaLabel(e),
-      total: prospectos.filter((p) => p.etapa_pipeline === e).length,
-    }));
-  }, [prospectos]);
-
   return (
     <AppShell>
       <div className="space-y-5 max-w-[1400px] mx-auto">
@@ -114,7 +103,6 @@ function ReportesPage() {
             <h1 className="font-display font-extrabold text-2xl text-[#0F172A]">Reportes</h1>
             <p className="text-sm text-[#64748B]">Análisis financiero y de ocupación</p>
           </div>
-          <EdificioFilterSelect />
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
@@ -132,7 +120,6 @@ function ReportesPage() {
           <TabsList className="bg-[#F8FAFC]">
             <TabsTrigger value="financiero">Financiero</TabsTrigger>
             <TabsTrigger value="ocupacion">Ocupación</TabsTrigger>
-            <TabsTrigger value="comercial">Comercial</TabsTrigger>
             <TabsTrigger value="exportar">Exportar</TabsTrigger>
           </TabsList>
 
@@ -183,26 +170,6 @@ function ReportesPage() {
                     <Legend />
                     <Bar dataKey="ocupadas" stackId="a" fill="#166534" name="Ocupadas" />
                     <Bar dataKey="disponibles" stackId="a" fill="#e8a87c" name="Disponibles" />
-                  </BarChart>
-                </ResponsiveContainer>
-              )}
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="comercial" className="pt-4 space-y-4">
-            <Card className="p-5">
-              <h3 className="font-display font-bold text-lg text-[#0F172A] mb-1">Pipeline de prospectos</h3>
-              <p className="text-sm text-[#64748B] mb-4">{kpis.prospectosActivos} activos en el funnel</p>
-              {prospectos.length === 0 ? (
-                <p className="text-sm text-[#64748B]">Sin prospectos registrados</p>
-              ) : (
-                <ResponsiveContainer width="100%" height={320}>
-                  <BarChart data={pipeline}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#f0e6e0" />
-                    <XAxis dataKey="etapa" stroke="#64748B" tick={{ fontSize: 11 }} />
-                    <YAxis stroke="#64748B" allowDecimals={false} />
-                    <Tooltip />
-                    <Bar dataKey="total" fill="#4A154B" name="Prospectos" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               )}

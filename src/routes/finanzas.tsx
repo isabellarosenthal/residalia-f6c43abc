@@ -6,7 +6,6 @@ import { AppShell } from "@/components/layout/AppShell";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { FinanzasResumen } from "@/components/finanzas/FinanzasResumen";
-import { EdificioFilterSelect } from "@/components/layout/EdificioFilterSelect";
 import { useWriteGuard } from "@/hooks/useWriteGuard";
 import { CobrosTable } from "@/components/finanzas/CobrosTable";
 import { EgresosTable } from "@/components/finanzas/EgresosTable";
@@ -23,7 +22,7 @@ export const Route = createFileRoute("/finanzas")({ component: FinanzasPage });
 
 function FinanzasPage() {
   const { data: edificios = [] } = useEdificios();
-  const [edificioId, setEdificioId] = useEdificioFilter();
+  const [edificioId] = useEdificioFilter();
   const { canWrite, guard } = useWriteGuard();
   const [cobroOpen, setCobroOpen] = useState(false);
   const [cobroEdit, setCobroEdit] = useState<Cobro | null>(null);
@@ -39,7 +38,6 @@ function FinanzasPage() {
             <h1 className="font-display font-extrabold text-2xl text-[#0F172A]">Finanzas</h1>
             <p className="text-sm text-[#64748B]">Cobros, egresos y estados de cuenta</p>
           </div>
-          <EdificioFilterSelect />
         </div>
 
         <Tabs defaultValue="resumen">

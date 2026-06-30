@@ -32,6 +32,7 @@ function AppShellInner({ children }: { children: ReactNode }) {
     if (!user) { navigate({ to: "/login" }); return; }
     if (role === "residente") navigate({ to: "/portal" });
     else if (role === "guardia") navigate({ to: "/guardia" });
+    else if (role === "agente_inmobiliario" || role === "gerente_crm") navigate({ to: "/login" });
   }, [user, role, loading, navigate]);
 
   useEffect(() => {

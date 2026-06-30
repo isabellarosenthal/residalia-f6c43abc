@@ -106,7 +106,7 @@ function LoginPage() {
             <span className="text-[#4A154B]">Residalia</span><span className="text-[#4A154B]">Cloud</span>
           </div>
         </div>
-        <p className="text-center text-sm text-[#64748B] mb-5">{isResidenteFlow ? "Ingresa con tu cuenta de residente o regístrate con tu código de invitación" : "Administración de condominios y CRM inmobiliario"}</p>
+        <p className="text-center text-sm text-[#64748B] mb-5">{isResidenteFlow ? "Ingresa con tu cuenta de residente o regístrate con tu código de invitación" : "Administración de condominios y residenciales"}</p>
 
         <div className="grid grid-cols-2 gap-2 p-1 bg-[#F1F5F9] rounded-full mb-6">
           <button
