@@ -147,17 +147,20 @@ export function UnidadesTable({ edificioId, onEdit }: { edificioId: string; onEd
               <TableHead className="text-[#4A154B] font-semibold">Estado admin.</TableHead>
               <TableHead className="text-[#4A154B] font-semibold">Estado comercial</TableHead>
               <TableHead className="text-[#4A154B] font-semibold">Propietario / Inquilino</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold text-right">Mantenimiento</TableHead>
               <TableHead className="text-[#4A154B] font-semibold text-right">Precios</TableHead>
               <TableHead className="text-[#4A154B] font-semibold text-right">Acciones</TableHead>
+
             </TableRow>
           </TableHeader>
           <TableBody>
             {isLoading && (
-              <TableRow><TableCell colSpan={9} className="py-10 text-center text-[#64748B]">Cargando unidades…</TableCell></TableRow>
+              <TableRow><TableCell colSpan={10} className="py-10 text-center text-[#64748B]">Cargando unidades…</TableCell></TableRow>
             )}
             {!isLoading && filtered.length === 0 && (
-              <TableRow><TableCell colSpan={9} className="py-10 text-center text-[#64748B]">Sin unidades para los filtros aplicados.</TableCell></TableRow>
+              <TableRow><TableCell colSpan={10} className="py-10 text-center text-[#64748B]">Sin unidades para los filtros aplicados.</TableCell></TableRow>
             )}
+
             {filtered.map((u) => (
               <TableRow key={u.id} data-state={selected.has(u.id) ? "selected" : undefined}>
                 <TableCell>
@@ -183,10 +186,16 @@ export function UnidadesTable({ edificioId, onEdit }: { edificioId: string; onEd
                   <div className="text-xs text-[#64748B]">{u.inquilino_id ? `Inq: ${residentesMap?.get(u.inquilino_id) ?? "—"}` : ""}</div>
                 </TableCell>
                 <TableCell className="text-right">
+                  {(u as any).mantenimiento_mensual
+                    ? <span className="text-sm font-semibold text-[#0F172A]">{fmtMoney((u as any).mantenimiento_mensual, (u as any).moneda)}</span>
+                    : <span className="text-[#64748B] text-sm">—</span>}
+                </TableCell>
+                <TableCell className="text-right">
                   {u.precio_venta && <div className="text-sm font-semibold text-[#4A154B]">{fmtMoney(u.precio_venta, (u as any).moneda)}</div>}
                   {u.precio_renta && <div className="text-xs text-[#1E293B]">Renta: {fmtMoney(u.precio_renta, (u as any).moneda)}</div>}
                   {!u.precio_venta && !u.precio_renta && <span className="text-[#64748B] text-sm">—</span>}
                 </TableCell>
+
                 <TableCell className="text-right">
                   <Button size="sm" variant="ghost" onClick={() => onEdit(u)} className="h-8 w-8 p-0"><Pencil className="w-4 h-4" /></Button>
                   <Button size="sm" variant="ghost" onClick={() => { if (confirm(`¿Eliminar unidad #${u.numero}?`)) del.mutate(u.id); }} className="h-8 w-8 p-0 text-[#be185d] hover:text-[#be185d]"><Trash2 className="w-4 h-4" /></Button>
