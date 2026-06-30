@@ -50,6 +50,15 @@ export function UnidadFormDialog({
 }: { open: boolean; onOpenChange: (v: boolean) => void; edificioId: string; unidad?: Unidad | null }) {
   const save = useSaveUnidad();
   const { data: residentes = [] } = useResidentes();
+  const residentesById = useMemo(() => {
+    const m = new Map<string, Residente>();
+    residentes.forEach((r) => m.set(r.id, r));
+    return m;
+  }, [residentes]);
+  const personasEnUnidad = useMemo(() => {
+    if (!unidad?.id) return [] as Residente[];
+    return residentes.filter((r) => r.unidad_id === unidad.id);
+  }, [residentes, unidad?.id]);
   const form = useForm<FormVals, any, FormOut>({
     resolver: zodResolver(schema),
     mode: "onChange",
