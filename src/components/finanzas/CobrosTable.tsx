@@ -6,9 +6,9 @@ import { Badge } from "@/components/ui-pentos";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { Pencil, Trash2, DollarSign, Search, Printer, AlertTriangle } from "lucide-react";
+import { Pencil, Trash2, DollarSign, Search, Printer, AlertTriangle, Percent } from "lucide-react";
 import { fmtL, fmtDate } from "@/lib/format";
-import { useCobros, useDeleteCobro, useUnidades, useResidentes, usePagosDeEdificio, useMarcarVencidos, diasMora, type Cobro } from "@/lib/queries";
+import { useCobros, useDeleteCobro, useUnidades, useResidentes, usePagosDeEdificio, useMarcarVencidos, useAplicarMora, diasMora, type Cobro } from "@/lib/queries";
 
 const RegistrarPagoDialog = lazy(() => import("./RegistrarPagoDialog").then((m) => ({ default: m.RegistrarPagoDialog })));
 
