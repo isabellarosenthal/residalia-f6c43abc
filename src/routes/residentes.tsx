@@ -1,7 +1,7 @@
 import { lazy, Suspense, useState } from "react";
 import { useEdificioFilter } from "@/hooks/useEdificioFilter";
 import { createFileRoute } from "@tanstack/react-router";
-import { Plus, Search, Users } from "lucide-react";
+import { Plus, Search, Users, Upload } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import { EmptyState } from "@/components/ui-pentos";
 import { Button } from "@/components/ui/button";
