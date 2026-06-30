@@ -59,6 +59,8 @@ export function CityAutocomplete({ value, onChange, placeholder = "Buscar ciudad
   const [open, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState(value);
 
+  useEffect(() => { setInputValue(value); }, [value]);
+
   const filtered = useMemo(() => {
     const q = inputValue.trim().toLowerCase();
     if (!q) return CIUDADES_CENTROAMERICA;
