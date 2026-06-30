@@ -1,7 +1,7 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/lib/auth-context";
 import { initials } from "@/lib/format";
-import logoUrl from "@/assets/altura-cloud-logo.png";
+import logoUrl from "@/assets/residalia-logo.png";
 import {
   LayoutDashboard, Building2, Users, Wallet, KeyRound, CalendarRange,
   Megaphone, Wrench, Tag, UserPlus, Kanban, CalendarDays,
@@ -59,9 +59,9 @@ export function Sidebar() {
   return (
     <aside className="hidden lg:flex flex-col w-60 h-screen sticky top-0 bg-[#4A154B] text-[#F8FAFC]">
       <div className="px-5 py-6 flex items-center gap-2.5">
-        <img src={logoUrl} alt="Altura Cloud" width={36} height={36} className="w-9 h-9 drop-shadow-[0_0_12px_rgba(167,139,250,0.5)]" />
+        <img src={logoUrl} alt="Residalia" width={36} height={36} className="w-9 h-9 drop-shadow-[0_0_12px_rgba(167,139,250,0.5)]" />
         <div className="font-display font-extrabold text-xl leading-none">
-          <span className="text-white">Altura</span><span className="text-[#ffea5c]"> Cloud</span>
+          <span className="text-white">Residalia</span><span className="text-[#ffea5c]"> Cloud</span>
         </div>
       </div>
 

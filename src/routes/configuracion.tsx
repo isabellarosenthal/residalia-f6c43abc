@@ -5,7 +5,7 @@ import { useServerFn } from "@tanstack/react-start";
 import toast from "react-hot-toast";
 import { User as UserIcon, Building2, Users, Shield, Save, Trash2, Plus, Home, Crown } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
-import logoUrl from "@/assets/altura-cloud-logo.png";
+import logoUrl from "@/assets/residalia-logo.png";
 import { Card } from "@/components/ui-pentos";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -425,7 +425,7 @@ function ResidentesTab() {
       <div className="flex items-center justify-between gap-3">
         <div>
           <h3 className="font-display font-bold text-lg text-[#0F172A]">Residentes</h3>
-          <p className="text-sm text-[#64748B]">{isSuper ? "Todos los residentes de la plataforma" : "Residentes de tus edificios"} · Fecha de ingreso y registro en Altura Cloud</p>
+          <p className="text-sm text-[#64748B]">{isSuper ? "Todos los residentes de la plataforma" : "Residentes de tus edificios"} · Fecha de ingreso y registro en Residalia</p>
         </div>
         <Input placeholder="Buscar..." value={q} onChange={(e) => setQ(e.target.value)} className="max-w-xs" />
       </div>
@@ -443,7 +443,7 @@ function ResidentesTab() {
                 <th className="py-2 pr-3">Email</th>
                 <th className="py-2 pr-3">Edificio</th>
                 <th className="py-2 pr-3">Se unió</th>
-                <th className="py-2 pr-3">Cuenta en Altura Cloud</th>
+                <th className="py-2 pr-3">Cuenta en Residalia</th>
                 <th className="py-2 pr-3">Estado</th>
               </tr>
             </thead>

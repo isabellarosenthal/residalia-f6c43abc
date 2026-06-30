@@ -44,7 +44,7 @@ function PlanesPage() {
   const actual = data?.plan.nombre;
 
   const contactarHref = (plan: string) =>
-    `mailto:ventas@altura.cloud?subject=${encodeURIComponent(`Quiero contratar el plan ${plan}`)}&body=${encodeURIComponent(`Hola, me interesa contratar el plan ${plan} de Altura Cloud.`)}`;
+    `mailto:ventas@residalia.com?subject=${encodeURIComponent(`Quiero contratar el plan ${plan}`)}&body=${encodeURIComponent(`Hola, me interesa contratar el plan ${plan} de Residalia.`)}`;
 
   return (
     <AppShell>
@@ -121,7 +121,7 @@ function PlanesPage() {
 
         <p className="text-center text-xs text-[#64748B]">
           Todos los planes incluyen 14 días de prueba gratis. Para activar tu plan escríbenos a{" "}
-          <a href="mailto:ventas@altura.cloud" className="text-[#4A154B] hover:underline">ventas@altura.cloud</a>.
+          <a href="mailto:ventas@residalia.com" className="text-[#4A154B] hover:underline">ventas@residalia.com</a>.
         </p>
       </div>
     </AppShell>

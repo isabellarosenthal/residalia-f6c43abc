@@ -91,7 +91,7 @@ function LoginPage() {
             <Building className="w-6 h-6 text-white" />
           </div>
           <div className="font-display font-extrabold text-2xl text-[#1D1C1D]">
-            <span className="text-[#4A154B]">Altura</span><span className="text-[#4A154B]">Cloud</span>
+            <span className="text-[#4A154B]">Residalia</span><span className="text-[#4A154B]">Cloud</span>
           </div>
         </div>
         <p className="text-center text-sm text-[#64748B] mb-5">{isResidenteFlow ? "Ingresa con tu cuenta de residente o regístrate con tu código de invitación" : "Administración de condominios y CRM inmobiliario"}</p>
