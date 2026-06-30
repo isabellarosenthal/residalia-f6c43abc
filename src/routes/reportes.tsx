@@ -127,7 +127,7 @@ function ReportesPage() {
           <KpiCard icon={<TrendingUp className="w-4 h-4" />} label="Balance" value={fmtL(kpis.balance)} accent={kpis.balance >= 0 ? "success" : "danger"} />
           <KpiCard icon={<Home className="w-4 h-4" />} label="Ocupación" value={`${kpis.ocupacion}%`} sub={`${kpis.totalUnidades} unidades`} accent="primary" />
           <KpiCard icon={<Users className="w-4 h-4" />} label="Residentes" value={kpis.residentes} accent="neutral" />
-          <KpiCard icon={<Users className="w-4 h-4" />} label="Prospectos activos" value={kpis.prospectosActivos} accent="primary" />
+          
           <KpiCard icon={<Home className="w-4 h-4" />} label="Edificios" value={edificios.length} accent="neutral" />
         </div>
 
