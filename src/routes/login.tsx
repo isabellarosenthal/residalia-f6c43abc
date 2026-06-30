@@ -57,6 +57,7 @@ function LoginPage() {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
         toast.success("Bienvenido");
+        navigate({ to: "/dashboard" });
       } else {
         if (signupRole === "residente" && !invitationCode.trim()) {
           throw new Error("Necesitas un código de invitación del administrador.");
@@ -65,17 +66,28 @@ function LoginPage() {
           await createResident({ data: { email, password, fullName: name, invitationCode } });
           const { error } = await supabase.auth.signInWithPassword({ email, password });
           if (error) throw error;
-          toast.success("¡Cuenta creada! Redirigiendo a tu portal…", { duration: 5000 });
+          toast.success("¡Cuenta creada! Redirigiendo a tu portal…", { duration: 4000 });
+          navigate({ to: "/portal" });
           return;
         }
         const meta: Record<string, any> = { full_name: name, role: signupRole };
         if (signupRole === "admin_condominio") meta.plan_nombre = planNombre;
-        const { error } = await supabase.auth.signUp({
+        const { data: signUpData, error } = await supabase.auth.signUp({
           email, password,
           options: { emailRedirectTo: window.location.origin, data: meta },
         });
         if (error) throw error;
-        toast.success("¡Cuenta creada! Te llevamos al onboarding…", { duration: 5000 });
+        if (!signUpData.session) {
+          // Email enumeration / existing user — try sign in directly
+          const { error: signInErr } = await supabase.auth.signInWithPassword({ email, password });
+          if (signInErr) {
+            toast.error("Este correo ya está registrado. Inicia sesión.");
+            setMode("login");
+            return;
+          }
+        }
+        toast.success("¡Cuenta creada! Te llevamos al onboarding…", { duration: 4000 });
+        navigate({ to: "/dashboard" });
       }
     } catch (err: any) {
       toast.error(err?.message ?? "Error de autenticación");
