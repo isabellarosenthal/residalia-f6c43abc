@@ -51,6 +51,8 @@ export function EdificioFormDialog({
         maps_url: (edificio as any)?.maps_url ?? "",
         moneda: edificio?.moneda ?? "L",
         cuota_base: edificio?.cuota_base ?? 0,
+        cuota_modo: ((edificio as any)?.cuota_modo as any) ?? "fijo",
+        cuota_por_m2: (edificio as any)?.cuota_por_m2 ?? 0,
       });
     }
   }, [open, edificio, form]);
