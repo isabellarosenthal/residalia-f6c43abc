@@ -83,9 +83,7 @@ const FEATURE_ICONS = [
   { i: Wrench, t: "Mantenimiento e incidencias", d: "Levanta tickets, asigna proveedores, controla costos estimados vs reales y cierra órdenes con evidencia.", link: "Ver tickets", iconBg: C.warning },
   { i: MessageSquare, t: "Comunicados al condominio", d: "Envía avisos por grupo de residentes — emergencias, asambleas, cortes de servicio — con historial completo.", link: "Ver comunicados", iconBg: C.info },
   { i: Calendar, t: "Reserva de áreas comunes", d: "Salón social, gimnasio, piscina o cancha: los residentes ven disponibilidad y reservan en minutos.", link: "Ver áreas", iconBg: C.primarySoft },
-  { i: Building2, t: "CRM inmobiliario", d: "Pública las unidades en venta o renta, captura prospectos por origen, asígnales agente y precio.", link: "Ver CRM", iconBg: C.primaryDark },
-  { i: TrendingUp, t: "Pipeline y agenda", d: "Arrastra prospectos entre etapas (nuevo → visita → oferta → cierre) y agenda visitas con recordatorios.", link: "Ver pipeline", iconBg: C.error },
-  { i: BarChart3, t: "Reportes y KPIs", d: "Flujo de caja, ocupación, cartera vencida, conversión del pipeline. Exporta a PDF o CSV.", link: "Ver reportes", iconBg: C.primary },
+  { i: BarChart3, t: "Reportes y KPIs", d: "Flujo de caja, ocupación, cartera vencida y morosidad. Exporta a PDF o CSV.", link: "Ver reportes", iconBg: C.primary },
 ];
 
 export function LandingPage() {
