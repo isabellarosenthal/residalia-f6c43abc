@@ -20,6 +20,8 @@ const schema = z.object({
   activa: z.boolean(),
   permite_exceso: z.boolean(),
   costo_por_persona_extra: z.coerce.number().min(0).default(0),
+  horas_incluidas: z.coerce.number().min(0).optional(),
+  costo_por_hora_extra: z.coerce.number().min(0).default(0),
 });
 
 type FormVals = z.input<typeof schema>;
@@ -35,7 +37,7 @@ export function AreaFormDialog({
     defaultValues: {
       condominio_id: defaultCondominioId ?? "",
       nombre: "", capacidad: 0, horario_inicio: "08:00", horario_fin: "22:00",
-      icono: "sparkles", activa: true, permite_exceso: true, costo_por_persona_extra: 0,
+      icono: "sparkles", activa: true, permite_exceso: true, costo_por_persona_extra: 0, horas_incluidas: undefined, costo_por_hora_extra: 0,
     },
   });
 
@@ -51,6 +53,8 @@ export function AreaFormDialog({
       activa: area?.activa ?? true,
       permite_exceso: (area as any)?.permite_exceso ?? true,
       costo_por_persona_extra: Number((area as any)?.costo_por_persona_extra ?? 0),
+      horas_incluidas: (area as any)?.horas_incluidas == null ? undefined : Number((area as any).horas_incluidas),
+      costo_por_hora_extra: Number((area as any)?.costo_por_hora_extra ?? 0),
     });
   }, [open, area, defaultCondominioId, form]);
 
@@ -66,6 +70,8 @@ export function AreaFormDialog({
       activa: v.activa,
       permite_exceso: v.permite_exceso,
       costo_por_persona_extra: v.costo_por_persona_extra ?? 0,
+      horas_incluidas: v.horas_incluidas ?? null,
+      costo_por_hora_extra: v.costo_por_hora_extra ?? 0,
     } as any);
     onOpenChange(false);
   };
@@ -101,6 +107,18 @@ export function AreaFormDialog({
             <Label>Costo por persona extra (L)</Label>
             <Input type="number" step="0.01" {...form.register("costo_por_persona_extra")} />
             <p className="text-[11px] text-[#64748B] mt-1">Se cobra cuando el residente supera la capacidad y el admin lo autoriza.</p>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <Label>Horas incluidas</Label>
+              <Input type="number" step="0.5" placeholder="Sin límite" {...form.register("horas_incluidas")} />
+              <p className="text-[11px] text-[#64748B] mt-1">Duración base sin costo extra.</p>
+            </div>
+            <div>
+              <Label>Costo por hora extra (L)</Label>
+              <Input type="number" step="0.01" {...form.register("costo_por_hora_extra")} />
+              <p className="text-[11px] text-[#64748B] mt-1">Se cobra automáticamente por cada hora que supere el límite.</p>
+            </div>
           </div>
 
           <DialogFooter>

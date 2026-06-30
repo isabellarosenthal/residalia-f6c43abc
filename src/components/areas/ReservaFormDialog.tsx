@@ -129,6 +129,19 @@ export function ReservaFormDialog({
   const personas = form.watch("num_personas") ?? 0;
   const excedeCap = !!(areaSel?.capacidad && personas > areaSel.capacidad);
   const personasExtra = excedeCap ? personas - (areaSel!.capacidad as number) : 0;
+  const horasReserva = fIni && fFin ? Math.max(0, (new Date(fFin).getTime() - new Date(fIni).getTime()) / 3600000) : 0;
+  const horasIncluidas = Number((areaSel as any)?.horas_incluidas ?? 0);
+  const costoHora = Number((areaSel as any)?.costo_por_hora_extra ?? 0);
+  const horasExtra = horasIncluidas > 0 && costoHora > 0 ? Math.max(0, horasReserva - horasIncluidas) : 0;
+  const costoHoras = horasExtra * costoHora;
+  const costoPersonas = personasExtra * Number((areaSel as any)?.costo_por_persona_extra ?? 0);
+  const montoExtraSugerido = costoPersonas + costoHoras;
+
+  // Auto-actualizar monto_extra cuando cambia área/personas/horas (si no fue editado manualmente y es nueva)
+  useEffect(() => {
+    if (reserva?.id) return; // no sobreescribir al editar
+    form.setValue("monto_extra", montoExtraSugerido);
+  }, [montoExtraSugerido, reserva?.id, form]);
 
   const onSubmit = async (v: FormOut) => {
     // admin puede ignorar conflictos de capacidad/horario; los de overlap igual los bloqueamos
@@ -147,6 +160,7 @@ export function ReservaFormDialog({
       descripcion: v.descripcion || null,
       excede_capacidad: excedeCap,
       personas_extra: personasExtra,
+      horas_extra: horasExtra,
       monto_extra: v.monto_extra ?? 0,
       pagado_extra: v.pagado_extra ?? false,
     } as any);
@@ -242,6 +256,25 @@ export function ReservaFormDialog({
                   <Label htmlFor="pagado_extra" className="cursor-pointer">Marcar como pagado</Label>
                 </div>
               </div>
+            </div>
+          )}
+
+          {horasExtra > 0 && (
+            <div className="bg-[#EFF6FF] border border-[#BFDBFE] text-[#1E3A8A] rounded-lg p-3 text-sm space-y-2">
+              <div className="font-semibold">Horas extra: {horasExtra.toFixed(1)}h ({horasReserva.toFixed(1)}h reservadas − {horasIncluidas}h incluidas)</div>
+              <div className="text-xs">Cargo automático: L {costoHoras.toFixed(2)} ({horasExtra.toFixed(1)}h × L {costoHora.toFixed(2)}).</div>
+              {!excedeCap && (
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label className="text-[#1E3A8A]">Monto extra (L)</Label>
+                    <Input type="number" step="0.01" {...form.register("monto_extra")} />
+                  </div>
+                  <div className="flex items-end gap-2">
+                    <input type="checkbox" id="pagado_extra_h" {...form.register("pagado_extra")} className="w-4 h-4" />
+                    <Label htmlFor="pagado_extra_h" className="cursor-pointer">Marcar como pagado</Label>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
