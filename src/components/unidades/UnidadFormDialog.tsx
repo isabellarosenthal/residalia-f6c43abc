@@ -34,6 +34,12 @@ const schema = z.object({
   descripcion_comercial: z.string().max(2000).optional().or(z.literal("")),
   propietario_id: z.string().nullable().optional(),
   inquilino_id: z.string().nullable().optional(),
+  referido_renta_nombre: z.string().max(120).optional().or(z.literal("")),
+  referido_renta_agencia: z.string().max(120).optional().or(z.literal("")),
+  referido_renta_url: z.string().url("URL inválida").optional().or(z.literal("")),
+  referido_venta_nombre: z.string().max(120).optional().or(z.literal("")),
+  referido_venta_agencia: z.string().max(120).optional().or(z.literal("")),
+  referido_venta_url: z.string().url("URL inválida").optional().or(z.literal("")),
 });
 type FormVals = z.input<typeof schema>;
 type FormOut = z.output<typeof schema>;
