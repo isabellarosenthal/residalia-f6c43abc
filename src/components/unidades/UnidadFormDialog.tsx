@@ -399,7 +399,7 @@ function PersonasEnUnidad({ personas, residentesById }: { personas: Residente[];
         })}
         {afiliados.filter((a) => !residentesById.get(a.relacionado_id || "")).map((p) => (
           <div key={p.id} className="p-3 text-xs text-[#64748B]">
-            {p.nombre} {p.apellido ?? ""} <span className="capitalize">· {p.tipo_residente}</span> (titular no encontrado)
+            {p.nombre} {p.apellido ?? ""} <span className="capitalize">· {(p as any).tipo_residente ?? ""}</span> (titular no encontrado)
           </div>
         ))}
       </div>
