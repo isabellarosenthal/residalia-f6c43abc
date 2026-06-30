@@ -190,20 +190,29 @@ export function UnidadesTable({ edificioId, onEdit }: { edificioId: string; onEd
                   <div className="text-xs text-[#64748B]">{u.inquilino_id ? `Inq: ${residentesMap?.get(u.inquilino_id) ?? "—"}` : ""}</div>
                 </TableCell>
                 <TableCell className="text-right">
-                  {(u as any).mantenimiento_mensual
-                    ? <span className="text-sm font-semibold text-[#0F172A]">{fmtMoney((u as any).mantenimiento_mensual, (u as any).moneda)}</span>
-                    : <span className="text-[#64748B] text-sm">—</span>}
+                  {(() => {
+                    const override = Number((u as any).mantenimiento_mensual ?? 0);
+                    const monto = calcMontoUnidad(u as any, edificio as any);
+                    const moneda = (u as any).moneda ?? (edificio as any)?.moneda;
+                    if (monto <= 0) return <span className="text-[#64748B] text-sm">—</span>;
+                    return (
+                      <div>
+                        <div className="text-sm font-semibold text-[#0F172A]">{fmtMoney(monto, moneda)}</div>
+                        {override <= 0 && edificio?.cuota_modo === "por_m2" && (u as any).area_m2_construccion ? (
+                          <div className="text-[10px] text-[#64748B]">{(u as any).area_m2_construccion} m² × {fmtMoney((edificio as any).cuota_por_m2 ?? 0, moneda)}</div>
+                        ) : override <= 0 ? (
+                          <div className="text-[10px] text-[#64748B]">Cuota base</div>
+                        ) : (
+                          <div className="text-[10px] text-[#64748B]">Manual</div>
+                        )}
+                      </div>
+                    );
+                  })()}
                 </TableCell>
                 <TableCell className="text-right">
-                  {u.precio_venta && <div className="text-sm font-semibold text-[#4A154B]">{fmtMoney(u.precio_venta, (u as any).moneda)}</div>}
-                  {(u as any).referido_venta_agencia && (
-                    <div className="text-[10px] text-[#64748B]">
-                      Ref: {(u as any).referido_venta_url
-                        ? <a href={(u as any).referido_venta_url} target="_blank" rel="noopener noreferrer" className="text-[#4A154B] hover:underline" onClick={(e) => e.stopPropagation()}>{(u as any).referido_venta_agencia}</a>
-                        : (u as any).referido_venta_agencia}
-                    </div>
-                  )}
-                  {u.precio_renta && <div className="text-xs text-[#1E293B]">Renta: {fmtMoney(u.precio_renta, (u as any).moneda)}</div>}
+                  {u.precio_renta
+                    ? <div className="text-sm font-semibold text-[#0F172A]">{fmtMoney(u.precio_renta, (u as any).moneda)}</div>
+                    : <span className="text-[#64748B] text-sm">—</span>}
                   {(u as any).referido_renta_agencia && (
                     <div className="text-[10px] text-[#64748B]">
                       Ref: {(u as any).referido_renta_url
@@ -211,7 +220,18 @@ export function UnidadesTable({ edificioId, onEdit }: { edificioId: string; onEd
                         : (u as any).referido_renta_agencia}
                     </div>
                   )}
-                  {!u.precio_venta && !u.precio_renta && <span className="text-[#64748B] text-sm">—</span>}
+                </TableCell>
+                <TableCell className="text-right">
+                  {u.precio_venta
+                    ? <div className="text-sm font-semibold text-[#0F172A]">{fmtMoney(u.precio_venta, (u as any).moneda)}</div>
+                    : <span className="text-[#64748B] text-sm">—</span>}
+                  {(u as any).referido_venta_agencia && (
+                    <div className="text-[10px] text-[#64748B]">
+                      Ref: {(u as any).referido_venta_url
+                        ? <a href={(u as any).referido_venta_url} target="_blank" rel="noopener noreferrer" className="text-[#4A154B] hover:underline" onClick={(e) => e.stopPropagation()}>{(u as any).referido_venta_agencia}</a>
+                        : (u as any).referido_venta_agencia}
+                    </div>
+                  )}
                 </TableCell>
 
                 <TableCell className="text-right">
