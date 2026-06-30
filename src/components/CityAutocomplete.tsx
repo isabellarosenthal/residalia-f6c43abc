@@ -58,6 +58,7 @@ type CityAutocompleteProps = {
 export function CityAutocomplete({ value, onChange, placeholder = "Buscar ciudad…", className }: CityAutocompleteProps) {
   const [open, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState(value);
+  const justSelected = useRef(false);
 
   useEffect(() => { setInputValue(value); }, [value]);
 
@@ -73,6 +74,7 @@ export function CityAutocomplete({ value, onChange, placeholder = "Buscar ciudad
   const isKnown = FLAT_CITIES.some((c) => c.label.toLowerCase() === inputValue.trim().toLowerCase());
 
   const handleSelect = (city: string) => {
+    justSelected.current = true;
     setInputValue(city);
     onChange(city);
     setOpen(false);
@@ -81,7 +83,14 @@ export function CityAutocomplete({ value, onChange, placeholder = "Buscar ciudad
   const showCustom = inputValue.trim() && !isKnown;
 
   return (
-    <Popover open={open} onOpenChange={(o) => { if (!o && inputValue.trim()) onChange(inputValue.trim()); setOpen(o); }}>
+    <Popover
+      open={open}
+      onOpenChange={(o) => {
+        if (!o && !justSelected.current && inputValue.trim()) onChange(inputValue.trim());
+        justSelected.current = false;
+        setOpen(o);
+      }}
+    >
       <PopoverTrigger asChild>
         <button
           type="button"
