@@ -151,10 +151,12 @@ export type Database = {
           activa: boolean
           capacidad: number | null
           condominio_id: string
+          costo_por_hora_extra: number
           costo_por_persona_extra: number
           created_at: string
           horario_fin: string | null
           horario_inicio: string | null
+          horas_incluidas: number | null
           icono: string | null
           id: string
           nombre: string
@@ -164,10 +166,12 @@ export type Database = {
           activa?: boolean
           capacidad?: number | null
           condominio_id: string
+          costo_por_hora_extra?: number
           costo_por_persona_extra?: number
           created_at?: string
           horario_fin?: string | null
           horario_inicio?: string | null
+          horas_incluidas?: number | null
           icono?: string | null
           id?: string
           nombre: string
@@ -177,10 +181,12 @@ export type Database = {
           activa?: boolean
           capacidad?: number | null
           condominio_id?: string
+          costo_por_hora_extra?: number
           costo_por_persona_extra?: number
           created_at?: string
           horario_fin?: string | null
           horario_inicio?: string | null
+          horas_incluidas?: number | null
           icono?: string | null
           id?: string
           nombre?: string
@@ -1147,6 +1153,7 @@ export type Database = {
           excede_capacidad: boolean
           fecha_fin: string
           fecha_inicio: string
+          horas_extra: number
           id: string
           monto_extra: number
           num_personas: number | null
@@ -1167,6 +1174,7 @@ export type Database = {
           excede_capacidad?: boolean
           fecha_fin: string
           fecha_inicio: string
+          horas_extra?: number
           id?: string
           monto_extra?: number
           num_personas?: number | null
@@ -1187,6 +1195,7 @@ export type Database = {
           excede_capacidad?: boolean
           fecha_fin?: string
           fecha_inicio?: string
+          horas_extra?: number
           id?: string
           monto_extra?: number
           num_personas?: number | null
