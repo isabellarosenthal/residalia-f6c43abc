@@ -60,7 +60,23 @@ export function useSaveEdificio() {
       const { data: userRes } = await supabase.auth.getUser();
       const admin_id = userRes.user?.id;
       if (!admin_id) throw new Error("Sesión expirada, inicia sesión nuevamente.");
-      const { data, error } = await supabase.from("condominios").insert({ ...input, admin_id }).select().single();
+      const { data, error } = await (supabase as any).rpc("crear_condominio", {
+        _nombre: input.nombre,
+        _tipo: input.tipo ?? "edificio",
+        _direccion: input.direccion ?? null,
+        _ciudad: input.ciudad ?? null,
+        _departamento: input.departamento ?? null,
+        _pais: input.pais ?? "Honduras",
+        _total_unidades: input.total_unidades ?? 0,
+        _cuota_base: input.cuota_base ?? 0,
+        _moneda: input.moneda ?? "L",
+        _logo_url: input.logo_url ?? null,
+        _latitud: input.latitud ?? null,
+        _longitud: input.longitud ?? null,
+        _maps_url: input.maps_url ?? null,
+        _recargo_mora_pct: input.recargo_mora_pct ?? 0,
+        _dias_gracia: input.dias_gracia ?? 5,
+      });
       if (error) throw error;
       return data;
     },
