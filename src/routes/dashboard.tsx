@@ -105,7 +105,7 @@ function DashboardPage() {
 
   return (
     <AppShell>
-      <OnboardingWizard open={wizardOpen} onClose={() => setWizardOpen(false)} />
+      
       <div className="space-y-6 max-w-[1400px] mx-auto">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
