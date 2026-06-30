@@ -1543,6 +1543,52 @@ export type Database = {
       }
       can_access_condominio: { Args: { _condo_id: string }; Returns: boolean }
       can_manage_condominio: { Args: { _condo_id: string }; Returns: boolean }
+      crear_condominio: {
+        Args: {
+          _ciudad?: string
+          _cuota_base?: number
+          _departamento?: string
+          _dias_gracia?: number
+          _direccion?: string
+          _latitud?: number
+          _logo_url?: string
+          _longitud?: number
+          _maps_url?: string
+          _moneda?: string
+          _nombre: string
+          _pais?: string
+          _recargo_mora_pct?: number
+          _tipo?: string
+          _total_unidades?: number
+        }
+        Returns: {
+          activo: boolean
+          admin_id: string | null
+          ciudad: string | null
+          created_at: string
+          cuota_base: number | null
+          departamento: string | null
+          dias_gracia: number
+          direccion: string | null
+          id: string
+          latitud: number | null
+          logo_url: string | null
+          longitud: number | null
+          maps_url: string | null
+          moneda: string
+          nombre: string
+          pais: string
+          recargo_mora_pct: number
+          tipo: string
+          total_unidades: number | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "condominios"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       generar_invitacion_residente: {
         Args: { _residente_id: string }
         Returns: {
