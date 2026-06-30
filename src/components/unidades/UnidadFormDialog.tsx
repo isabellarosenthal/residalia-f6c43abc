@@ -274,6 +274,36 @@ export function UnidadFormDialog({
                 <Label>Descripción comercial</Label>
                 <Textarea rows={3} {...form.register("descripcion_comercial")} placeholder="Hermoso apartamento con vista panorámica…" />
               </div>
+
+              <div className="border border-[#E2E8F0] rounded-lg p-3 space-y-3">
+                <div className="text-sm font-semibold text-[#0F172A]">Referido por (agencia de bienes raíces)</div>
+
+                <div className="space-y-2">
+                  <div className="text-xs font-medium text-[#64748B] uppercase">Renta</div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div><Label>Nombre / referente</Label><Input {...form.register("referido_renta_nombre")} placeholder="Juan Pérez" /></div>
+                    <div><Label>Agencia</Label><Input {...form.register("referido_renta_agencia")} placeholder="Century 21" /></div>
+                  </div>
+                  <div>
+                    <Label>Link del listado</Label>
+                    <Input {...form.register("referido_renta_url")} placeholder="https://..." />
+                    {form.formState.errors.referido_renta_url && <p className="text-xs text-red-600 mt-1">{form.formState.errors.referido_renta_url.message}</p>}
+                  </div>
+                </div>
+
+                <div className="space-y-2 pt-2 border-t border-[#F1F5F9]">
+                  <div className="text-xs font-medium text-[#64748B] uppercase">Venta</div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div><Label>Nombre / referente</Label><Input {...form.register("referido_venta_nombre")} placeholder="María López" /></div>
+                    <div><Label>Agencia</Label><Input {...form.register("referido_venta_agencia")} placeholder="RE/MAX" /></div>
+                  </div>
+                  <div>
+                    <Label>Link del listado</Label>
+                    <Input {...form.register("referido_venta_url")} placeholder="https://..." />
+                    {form.formState.errors.referido_venta_url && <p className="text-xs text-red-600 mt-1">{form.formState.errors.referido_venta_url.message}</p>}
+                  </div>
+                </div>
+              </div>
             </TabsContent>
           </Tabs>
 
