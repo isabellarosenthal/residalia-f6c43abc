@@ -20,6 +20,8 @@ const schema = z.object({
   activa: z.boolean(),
   permite_exceso: z.boolean(),
   costo_por_persona_extra: z.coerce.number().min(0).default(0),
+  horas_incluidas: z.coerce.number().min(0).optional(),
+  costo_por_hora_extra: z.coerce.number().min(0).default(0),
 });
 
 type FormVals = z.input<typeof schema>;
