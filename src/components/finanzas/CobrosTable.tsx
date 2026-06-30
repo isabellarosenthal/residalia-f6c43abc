@@ -20,6 +20,7 @@ export function CobrosTable({ edificioId, onEdit }: { edificioId: string; onEdit
   const { data: pagos = [] } = usePagosDeEdificio(filter);
   const del = useDeleteCobro();
   const vencer = useMarcarVencidos();
+  const aplicarMora = useAplicarMora();
 
   const [estado, setEstado] = useState("all");
   const [search, setSearch] = useState("");
