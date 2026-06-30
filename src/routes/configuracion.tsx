@@ -140,13 +140,13 @@ function EdificiosTab() {
   const { data: edificios = [] } = useEdificios();
   const save = useSaveEdificio();
   const [editing, setEditing] = useState<string | null>(null);
-  const [form, setForm] = useState({ nombre: "", cuota_base: 0, moneda: "L" });
+  const [form, setForm] = useState({ nombre: "", ciudad: "", cuota_base: 0, moneda: "L" });
 
   const startEdit = (id: string) => {
     const e = edificios.find(x => x.id === id);
     if (!e) return;
     setEditing(id);
-    setForm({ nombre: e.nombre, cuota_base: Number(e.cuota_base ?? 0), moneda: e.moneda });
+    setForm({ nombre: e.nombre, ciudad: e.ciudad ?? "", cuota_base: Number(e.cuota_base ?? 0), moneda: e.moneda });
   };
 
   return (
@@ -156,8 +156,9 @@ function EdificiosTab() {
         <Card key={e.id} className="p-4">
           {editing === e.id ? (
             <div className="space-y-3">
-              <div className="grid sm:grid-cols-3 gap-3">
+              <div className="grid sm:grid-cols-2 gap-3">
                 <div><Label>Nombre</Label><Input value={form.nombre} onChange={(ev) => setForm({ ...form, nombre: ev.target.value })} /></div>
+                <div><Label>Ciudad</Label><CityAutocomplete value={form.ciudad} onChange={(v) => setForm({ ...form, ciudad: v })} /></div>
                 <div><Label>Cuota base</Label><Input type="number" value={form.cuota_base} onChange={(ev) => setForm({ ...form, cuota_base: Number(ev.target.value) })} /></div>
                 <div><Label>Moneda</Label><Input value={form.moneda} onChange={(ev) => setForm({ ...form, moneda: ev.target.value })} /></div>
               </div>
@@ -173,7 +174,7 @@ function EdificiosTab() {
             <div className="flex items-center justify-between">
               <div>
                 <div className="font-display font-bold text-[#0F172A]">{e.nombre}</div>
-                <div className="text-sm text-[#64748B]">Cuota base: {e.moneda} {Number(e.cuota_base ?? 0).toLocaleString()} · {e.total_unidades ?? 0} unidades</div>
+                <div className="text-sm text-[#64748B]">{e.ciudad} · Cuota base: {e.moneda} {Number(e.cuota_base ?? 0).toLocaleString()} · {e.total_unidades ?? 0} unidades</div>
               </div>
               <Button variant="outline" size="sm" onClick={() => startEdit(e.id)}>Editar</Button>
             </div>
