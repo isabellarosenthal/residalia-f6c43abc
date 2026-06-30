@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import toast from "react-hot-toast";
-import { Building2, Home, Users, Wallet, Check, X, ArrowRight, Sparkles } from "lucide-react";
+import {
+  Building2, Home, Users, Wallet, Check, X, ArrowRight, Sparkles,
+  Rocket, ShieldCheck, KeyRound, Settings, Mail, PartyPopper,
+} from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Button } from "@/components/ui/button";
@@ -17,34 +20,36 @@ import {
 type Props = { open: boolean; onClose: () => void };
 
 const STEPS = [
+  { icon: Rocket, label: "Bienvenida" },
   { icon: Building2, label: "Edificio" },
   { icon: Home, label: "Unidades" },
   { icon: Users, label: "Residente" },
   { icon: Wallet, label: "Cobros" },
+  { icon: PartyPopper, label: "Listo" },
 ];
 
 export function OnboardingWizard({ open, onClose }: Props) {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
 
-  // Step 1: edificio
+  // Edificio
   const [edif, setEdif] = useState({ nombre: "", ciudad: "Tegucigalpa", cuota_base: 2500, moneda: "L" });
   const [edificioId, setEdificioId] = useState<string | null>(null);
   const saveEdif = useSaveEdificio();
 
-  // Step 2: unidades
+  // Unidades
   const [pisos, setPisos] = useState(5);
   const [porPiso, setPorPiso] = useState(4);
   const [tipo, setTipo] = useState("apartamento");
   const bulkUnidades = useBulkCreateUnidades();
   const { data: unidades = [] } = useUnidades(edificioId ?? undefined);
 
-  // Step 3: residente
+  // Residente
   const [res, setRes] = useState({ nombre: "", apellido: "", telefono: "", unidad_id: "" });
   const [tipoRes, setTipoRes] = useState<"propietario" | "inquilino">("propietario");
   const saveRes = useSaveResidente();
 
-  // Step 4: cobros
+  // Cobros
   const [mes, setMes] = useState(new Date().toISOString().slice(0, 7));
   const generarCobros = useGenerarCobrosMensuales();
 
@@ -53,14 +58,14 @@ export function OnboardingWizard({ open, onClose }: Props) {
     onClose();
   };
 
-  const handleStep1 = async () => {
+  const handleEdificio = async () => {
     if (!edif.nombre) return toast.error("Falta nombre");
     const created = await saveEdif.mutateAsync(edif as any);
     setEdificioId(created.id);
-    setStep(1);
+    setStep(2);
   };
 
-  const handleStep2 = async () => {
+  const handleUnidades = async () => {
     if (!edificioId) return;
     const rows = [];
     for (let p = 1; p <= pisos; p++) {
@@ -73,40 +78,43 @@ export function OnboardingWizard({ open, onClose }: Props) {
       }
     }
     await bulkUnidades.mutateAsync(rows);
-    setStep(2);
+    setStep(3);
   };
 
-  const handleStep3 = async () => {
+  const handleResidente = async () => {
     if (!edificioId || !res.nombre || !res.apellido || !res.unidad_id) return toast.error("Completa los campos");
     await saveRes.mutateAsync({
       condominio_id: edificioId,
       nombre: res.nombre, apellido: res.apellido, telefono: res.telefono || null,
       unidad_id: res.unidad_id, tipo: tipoRes,
     } as any);
-    // marcar unidad como ocupada
     const patch: any = tipoRes === "propietario" ? { propietario_id: null } : { inquilino_id: null };
     await supabase.from("unidades").update({ estado_administrativo: "ocupada", ...patch }).eq("id", res.unidad_id);
-    setStep(3);
+    setStep(4);
   };
 
-  const handleStep4 = async () => {
+  const handleCobros = async () => {
     if (!edificioId) return;
     const [y, m] = mes.split("-");
     const venc = `${y}-${m}-05`;
     const { data: us } = await supabase.from("unidades").select("id").eq("condominio_id", edificioId);
     const unidadIds = (us ?? []).map((u) => u.id);
     await generarCobros.mutateAsync({ edificioId, mes, concepto: "Mantenimiento", vencimiento: venc, unidadIds });
-    toast.success("¡Listo! Tu edificio está operando 🎉");
+    toast.success("¡Cobros generados!");
+    setStep(5);
+  };
+
+  const goTo = (to: string) => {
     close();
-    navigate({ to: "/dashboard" });
+    navigate({ to });
   };
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && close()}>
-      <DialogContent className="max-w-2xl bg-[#ffffff] border-[#E2E8F0]">
+      <DialogContent className="max-w-2xl bg-[#ffffff] border-[#E2E8F0] max-h-[90vh] overflow-y-auto">
         <VisuallyHidden>
-          <DialogTitle>Configura tu primer edificio</DialogTitle>
-          <DialogDescription>Asistente de bienvenida en 4 pasos</DialogDescription>
+          <DialogTitle>Bienvenido a Residalia</DialogTitle>
+          <DialogDescription>Asistente de primeros pasos</DialogDescription>
         </VisuallyHidden>
         <button onClick={close} className="absolute right-4 top-4 text-[#64748B] hover:text-[#4A154B]"><X className="w-4 h-4" /></button>
 
@@ -114,7 +122,9 @@ export function OnboardingWizard({ open, onClose }: Props) {
           <Sparkles className="w-5 h-5 text-[#4A154B]" />
           <span className="text-xs uppercase tracking-widest text-[#64748B] font-semibold">Bienvenido a Residalia</span>
         </div>
-        <h2 className="font-display font-extrabold text-2xl text-[#0F172A]">Configura tu primer edificio en 4 pasos</h2>
+        <h2 className="font-display font-extrabold text-2xl text-[#0F172A]">
+          {step === 0 ? "Vamos a configurar tu cuenta" : step === 5 ? "¡Todo listo! 🎉" : "Primeros pasos"}
+        </h2>
 
         {/* Stepper */}
         <div className="flex items-center justify-between my-4 px-1">
@@ -125,12 +135,12 @@ export function OnboardingWizard({ open, onClose }: Props) {
             return (
               <div key={s.label} className="flex items-center flex-1 last:flex-none">
                 <div className="flex flex-col items-center gap-1">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors font-display font-extrabold ${
-                    done ? "bg-[#166534] text-white" : active ? "bg-[#4A154B] text-[#4A154B]" : "bg-[#F8FAFC] text-[#64748B]"
+                  <div className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors font-display font-extrabold ${
+                    done ? "bg-[#166534] text-white" : active ? "bg-[#4A154B] text-white" : "bg-[#F8FAFC] text-[#64748B]"
                   }`}>
-                    {done ? <Check className="w-5 h-5" /> : <Icon className="w-5 h-5" />}
+                    {done ? <Check className="w-4 h-4" /> : <Icon className="w-4 h-4" />}
                   </div>
-                  <span className={`text-xs ${active ? "text-[#4A154B] font-semibold" : "text-[#64748B]"}`}>{s.label}</span>
+                  <span className={`text-[10px] ${active ? "text-[#4A154B] font-semibold" : "text-[#64748B]"}`}>{s.label}</span>
                 </div>
                 {i < STEPS.length - 1 && <div className={`h-0.5 flex-1 mx-2 ${done ? "bg-[#166534]" : "bg-[#F8FAFC]"}`} />}
               </div>
@@ -140,6 +150,34 @@ export function OnboardingWizard({ open, onClose }: Props) {
 
         <div className="bg-white border border-[#E2E8F0] rounded-2xl p-5 space-y-3">
           {step === 0 && (
+            <>
+              <h3 className="font-display font-bold text-[#0F172A]">Te damos la bienvenida</h3>
+              <p className="text-sm text-[#64748B]">
+                Vamos a dejar tu condominio operando en menos de 5 minutos. Estos son los pasos:
+              </p>
+              <div className="grid sm:grid-cols-2 gap-2 pt-2">
+                {[
+                  { i: Building2, t: "Crear tu edificio", d: "Nombre, ciudad y cuota base" },
+                  { i: Home, t: "Generar unidades", d: "Pisos × apartamentos automáticos" },
+                  { i: Users, t: "Tu primer residente", d: "Asignado a una unidad" },
+                  { i: Wallet, t: "Cobros del mes", d: "Mantenimiento para todas las unidades" },
+                ].map(({ i: Ic, t, d }) => (
+                  <div key={t} className="flex gap-3 items-start p-3 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0]">
+                    <Ic className="w-5 h-5 text-[#4A154B] mt-0.5 shrink-0" />
+                    <div>
+                      <div className="text-sm font-semibold text-[#0F172A]">{t}</div>
+                      <div className="text-xs text-[#64748B]">{d}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p className="text-xs text-[#64748B] pt-2">
+                Tienes <b className="text-[#4A154B]">14 días de prueba gratis</b>. Puedes omitir cualquier paso y volver luego.
+              </p>
+            </>
+          )}
+
+          {step === 1 && (
             <>
               <h3 className="font-display font-bold text-[#0F172A]">Datos del edificio</h3>
               <div className="grid sm:grid-cols-2 gap-3">
@@ -151,7 +189,7 @@ export function OnboardingWizard({ open, onClose }: Props) {
             </>
           )}
 
-          {step === 1 && (
+          {step === 2 && (
             <>
               <h3 className="font-display font-bold text-[#0F172A]">Genera tus unidades</h3>
               <p className="text-sm text-[#64748B]">Se crearán <b>{pisos * porPiso}</b> unidades numeradas (101, 102, …)</p>
@@ -174,7 +212,7 @@ export function OnboardingWizard({ open, onClose }: Props) {
             </>
           )}
 
-          {step === 2 && (
+          {step === 3 && (
             <>
               <h3 className="font-display font-bold text-[#0F172A]">Registra tu primer residente</h3>
               <p className="text-sm text-[#64748B]">Puedes agregar más desde el módulo Residentes</p>
@@ -205,11 +243,38 @@ export function OnboardingWizard({ open, onClose }: Props) {
             </>
           )}
 
-          {step === 3 && (
+          {step === 4 && (
             <>
               <h3 className="font-display font-bold text-[#0F172A]">Genera los cobros del mes</h3>
               <p className="text-sm text-[#64748B]">Se crearán cobros de mantenimiento para todas las unidades ocupadas</p>
               <div><Label>Mes (YYYY-MM)</Label><Input value={mes} onChange={(e) => setMes(e.target.value)} /></div>
+            </>
+          )}
+
+          {step === 5 && (
+            <>
+              <h3 className="font-display font-bold text-[#0F172A]">Ya tienes lo básico configurado</h3>
+              <p className="text-sm text-[#64748B]">Ahora explora el resto del sistema. Puedes saltar a cualquier módulo:</p>
+              <div className="grid sm:grid-cols-2 gap-2 pt-2">
+                {[
+                  { i: Mail, t: "Invitar residentes", d: "Envía códigos al portal de residentes", to: "/residentes" },
+                  { i: KeyRound, t: "Control de accesos", d: "Visitas, permisos y QR", to: "/accesos" },
+                  { i: ShieldCheck, t: "Turnos y rondines", d: "Programa guardias y puntos de control", to: "/accesos/turnos" },
+                  { i: Settings, t: "Configuración", d: "Plan, moneda, datos del condominio", to: "/configuracion" },
+                ].map(({ i: Ic, t, d, to }) => (
+                  <button
+                    key={t}
+                    onClick={() => goTo(to)}
+                    className="text-left flex gap-3 items-start p-3 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] hover:border-[#4A154B] hover:bg-[#FAF5FB] transition"
+                  >
+                    <Ic className="w-5 h-5 text-[#4A154B] mt-0.5 shrink-0" />
+                    <div>
+                      <div className="text-sm font-semibold text-[#0F172A]">{t}</div>
+                      <div className="text-xs text-[#64748B]">{d}</div>
+                    </div>
+                  </button>
+                ))}
+              </div>
             </>
           )}
         </div>
@@ -217,11 +282,13 @@ export function OnboardingWizard({ open, onClose }: Props) {
         <div className="flex items-center justify-between gap-2 pt-4">
           <Button variant="ghost" onClick={close} className="text-[#64748B]">Omitir</Button>
           <div className="flex gap-2">
-            {step > 0 && <Button variant="outline" onClick={() => setStep(step - 1)}>Atrás</Button>}
-            {step === 0 && <Button className="bg-[#4A154B] hover:bg-[#350d36]" onClick={handleStep1} disabled={saveEdif.isPending}>Continuar <ArrowRight className="w-4 h-4 ml-1" /></Button>}
-            {step === 1 && <Button className="bg-[#4A154B] hover:bg-[#350d36]" onClick={handleStep2} disabled={bulkUnidades.isPending}>Generar {pisos * porPiso} unidades <ArrowRight className="w-4 h-4 ml-1" /></Button>}
-            {step === 2 && <Button className="bg-[#4A154B] hover:bg-[#350d36]" onClick={handleStep3} disabled={saveRes.isPending}>Continuar <ArrowRight className="w-4 h-4 ml-1" /></Button>}
-            {step === 3 && <Button className="bg-[#166534] hover:bg-[#1f4a1f]" onClick={handleStep4} disabled={generarCobros.isPending}>Finalizar <Check className="w-4 h-4 ml-1" /></Button>}
+            {step > 0 && step < 5 && <Button variant="outline" onClick={() => setStep(step - 1)}>Atrás</Button>}
+            {step === 0 && <Button className="bg-[#4A154B] hover:bg-[#350d36] text-white" onClick={() => setStep(1)}>Empezar <ArrowRight className="w-4 h-4 ml-1" /></Button>}
+            {step === 1 && <Button className="bg-[#4A154B] hover:bg-[#350d36] text-white" onClick={handleEdificio} disabled={saveEdif.isPending}>Continuar <ArrowRight className="w-4 h-4 ml-1" /></Button>}
+            {step === 2 && <Button className="bg-[#4A154B] hover:bg-[#350d36] text-white" onClick={handleUnidades} disabled={bulkUnidades.isPending}>Generar {pisos * porPiso} unidades <ArrowRight className="w-4 h-4 ml-1" /></Button>}
+            {step === 3 && <Button className="bg-[#4A154B] hover:bg-[#350d36] text-white" onClick={handleResidente} disabled={saveRes.isPending}>Continuar <ArrowRight className="w-4 h-4 ml-1" /></Button>}
+            {step === 4 && <Button className="bg-[#4A154B] hover:bg-[#350d36] text-white" onClick={handleCobros} disabled={generarCobros.isPending}>Generar cobros <ArrowRight className="w-4 h-4 ml-1" /></Button>}
+            {step === 5 && <Button className="bg-[#166534] hover:bg-[#1f4a1f] text-white" onClick={() => { close(); navigate({ to: "/dashboard" }); }}>Ir al dashboard <Check className="w-4 h-4 ml-1" /></Button>}
           </div>
         </div>
       </DialogContent>
