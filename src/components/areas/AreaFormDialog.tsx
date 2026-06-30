@@ -93,6 +93,16 @@ export function AreaFormDialog({
             <Label className="cursor-pointer">Área activa para reservas</Label>
             <Switch checked={form.watch("activa")} onCheckedChange={(v) => form.setValue("activa", v)} />
           </div>
+          <div className="flex items-center justify-between">
+            <Label className="cursor-pointer">Permitir exceder capacidad (con autorización)</Label>
+            <Switch checked={form.watch("permite_exceso")} onCheckedChange={(v) => form.setValue("permite_exceso", v)} />
+          </div>
+          <div>
+            <Label>Costo por persona extra (L)</Label>
+            <Input type="number" step="0.01" {...form.register("costo_por_persona_extra")} />
+            <p className="text-[11px] text-[#64748B] mt-1">Se cobra cuando el residente supera la capacidad y el admin lo autoriza.</p>
+          </div>
+
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
             <Button type="submit" disabled={save.isPending} className="bg-[#4A154B] hover:bg-[#350d36]">{save.isPending ? "Guardando…" : "Guardar"}</Button>
