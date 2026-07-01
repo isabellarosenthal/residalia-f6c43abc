@@ -22,8 +22,10 @@ export const QUICK_SERVICES: QuickService[] = [
 
 // Usado solo en Control de Accesos (admin) — no afecta el portal del residente.
 export const ADMIN_QUICK_SERVICES: QuickService[] = [
-  ...QUICK_SERVICES,
-  { key: "farmaciasiman", label: "Farmacia Simán", tipo: "delivery", minutos: 15, icon: Pill,     color: "#0369a1", bg: "#e0f2fe", border: "#93c5fd" },
+  { key: "pedidosya",     label: "PedidosYa",      tipo: "delivery",   minutos: 15, icon: Bike,    color: "#e11d48", bg: "#ffe9ee", border: "#ffb8c8" },
+  { key: "uber",          label: "Uber",           tipo: "transporte", minutos: 20, icon: Car,     color: "#0f172a", bg: "#e8eef7", border: "#b8c8e6" },
+  { key: "indriver",      label: "InDriver",       tipo: "transporte", minutos: 20, icon: Car,     color: "#16a34a", bg: "#e8f7ee", border: "#a8e6c5" },
+  { key: "farmaciakielsa", label: "Farmacia Kielsa", tipo: "delivery", minutos: 15, icon: Pill,     color: "#0369a1", bg: "#e0f2fe", border: "#93c5fd" },
   { key: "mensajeria",    label: "Mensajería",      tipo: "delivery", minutos: 15, icon: Package,  color: "#7c3aed", bg: "#f3e8ff", border: "#d8b4fe" },
   { key: "gas",           label: "Gas",             tipo: "delivery", minutos: 20, icon: Flame,    color: "#ea580c", bg: "#fff0e5", border: "#ffc79e" },
 ];
