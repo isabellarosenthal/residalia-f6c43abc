@@ -2,14 +2,15 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { ExternalLink } from "lucide-react";
+import { useNavigate } from "@tanstack/react-router";
+import { ExternalLink, Trash2 } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CityAutocomplete } from "@/components/CityAutocomplete";
-import { useSaveEdificio, type Condominio } from "@/lib/queries";
+import { useSaveEdificio, useDeleteEdificio, type Condominio } from "@/lib/queries";
 import { DEPARTAMENTOS } from "@/lib/honduras-geo";
 
 const schema = z.object({
@@ -31,6 +32,8 @@ export function EdificioFormDialog({
   open, onOpenChange, edificio,
 }: { open: boolean; onOpenChange: (v: boolean) => void; edificio?: Condominio | null }) {
   const save = useSaveEdificio();
+  const del = useDeleteEdificio();
+  const navigate = useNavigate();
   const form = useForm<FormVals, any, FormOut>({
     resolver: zodResolver(schema),
     mode: "onChange",
@@ -74,6 +77,17 @@ export function EdificioFormDialog({
     onOpenChange(false);
   };
 
+  const handleDelete = () => {
+    if (!edificio) return;
+    if (confirm(`¿Eliminar ${edificio.nombre}? Esta acción es permanente.`)) {
+      del.mutate(edificio.id, {
+        onSuccess: () => {
+          onOpenChange(false);
+          navigate({ to: "/edificios" });
+        },
+      });
+    }
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -193,11 +207,25 @@ export function EdificioFormDialog({
 
 
 
-          <DialogFooter>
-            <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
-            <Button type="submit" disabled={!form.formState.isValid || save.isPending} className="bg-[#4A154B] hover:bg-[#350d36]">
-              {save.isPending ? "Guardando…" : "Guardar"}
-            </Button>
+          <DialogFooter className={edificio ? "sm:justify-between" : undefined}>
+            {edificio ? (
+              <Button
+                type="button"
+                variant="outline"
+                className="text-[#be185d] border-[#be185d]/30 hover:bg-[#fce7f3] hover:text-[#be185d]"
+                disabled={del.isPending}
+                onClick={handleDelete}
+              >
+                <Trash2 className="w-4 h-4 mr-1" />
+                {del.isPending ? "Eliminando…" : "Eliminar"}
+              </Button>
+            ) : null}
+            <div className="flex gap-2">
+              <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>Cancelar</Button>
+              <Button type="submit" disabled={!form.formState.isValid || save.isPending} className="bg-[#4A154B] hover:bg-[#350d36]">
+                {save.isPending ? "Guardando…" : "Guardar"}
+              </Button>
+            </div>
           </DialogFooter>
         </form>
       </DialogContent>
