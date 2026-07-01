@@ -470,6 +470,33 @@ export function useAplicarMora() {
   });
 }
 
+export function useCondonarMora() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (cobroId: string) => {
+      const { data: cobro, error: e1 } = await supabase
+        .from("cobros").select("*").eq("id", cobroId).single();
+      if (e1) throw e1;
+      const mora = Number((cobro as any).mora_aplicada ?? 0);
+      if (mora <= 0) throw new Error("Este cobro no tiene mora aplicada");
+      const nuevoMonto = Math.max(0, Number(cobro.monto) - mora);
+      const nuevoConcepto = cobro.concepto.replace(/\s*\+ mora [\d.]+%/i, "").trim();
+      const { error: e2 } = await supabase.from("cobros").update({
+        monto: nuevoMonto,
+        mora_aplicada: 0,
+        concepto: nuevoConcepto,
+      } as any).eq("id", cobroId);
+      if (e2) throw e2;
+      return mora;
+    },
+    onSuccess: (mora) => {
+      qc.invalidateQueries({ queryKey: ["cobros"] });
+      toast.success(`Mora condonada: L ${mora.toFixed(2)}`);
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error condonando mora"),
+  });
+}
+
 export function useAplicarMoraMasiva() {
   const qc = useQueryClient();
   return useMutation({
