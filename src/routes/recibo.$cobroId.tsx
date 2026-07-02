@@ -92,11 +92,17 @@ function ReciboPage() {
                 <td className="p-3 text-[#4A154B]">{cobro.concepto}<div className="text-xs text-[#64748B]">Vencía: {fmtDate(cobro.fecha_vencimiento)}</div></td>
                 <td className="p-3 text-right font-semibold text-[#4A154B]">{fmtL(Number(cobro.monto))}</td>
               </tr>
+              {Number((cobro as any).mora_aplicada ?? 0) > 0 && (
+                <tr>
+                  <td className="p-3 text-[#be185d]">Mora por atraso</td>
+                  <td className="p-3 text-right font-semibold text-[#be185d]">{fmtL(Number((cobro as any).mora_aplicada))}</td>
+                </tr>
+              )}
             </tbody>
             <tfoot className="bg-[#fbf6f3]">
               <tr>
                 <td className="p-3 text-right font-semibold text-[#4A154B]">Total pagado</td>
-                <td className="p-3 text-right font-display font-extrabold text-xl text-[#0F172A]">{fmtL(Number(cobro.monto))}</td>
+                <td className="p-3 text-right font-display font-extrabold text-xl text-[#0F172A]">{fmtL(Number(cobro.monto) + Number((cobro as any).mora_aplicada ?? 0))}</td>
               </tr>
             </tfoot>
           </table>

@@ -7,16 +7,18 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui-pentos";
 import { fmtL } from "@/lib/format";
 import { useGenerarCobrosMensuales, usePreviewCobrosMensuales } from "@/lib/queries";
+import { ConceptoRapidoButtons, MesPicker } from "./QuickPickers";
 
 export function GenerarCobrosDialog({
   open, onOpenChange, edificioId,
 }: { open: boolean; onOpenChange: (v: boolean) => void; edificioId: string }) {
   const mut = useGenerarCobrosMensuales();
   const today = new Date();
-  const mesActual = today.toLocaleDateString("es-HN", { month: "long", year: "numeric" });
   const venDefault = new Date(today.getFullYear(), today.getMonth() + 1, 5).toISOString().slice(0, 10);
-  const [concepto, setConcepto] = useState("Cuota de mantenimiento");
-  const [mes, setMes] = useState(mesActual);
+  const [concepto, setConcepto] = useState("Mantenimiento");
+  const [year, setYear] = useState(today.getFullYear());
+  const [month, setMonth] = useState(today.getMonth());
+  const mes = new Date(year, month, 1).toLocaleDateString("es-HN", { month: "long", year: "numeric" });
   const [vencimiento, setVencimiento] = useState(venDefault);
   const [stage, setStage] = useState<"form" | "preview">("form");
   const [excluded, setExcluded] = useState<Set<string>>(new Set());
@@ -58,8 +60,18 @@ export function GenerarCobrosDialog({
         {stage === "form" && (
           <div className="space-y-3">
             <p className="text-sm text-[#64748B]">Generaremos un cobro por cada unidad usando su mantenimiento mensual o la cuota base del edificio.</p>
-            <div><Label>Concepto</Label><Input value={concepto} onChange={(e) => setConcepto(e.target.value)} /></div>
-            <div><Label>Periodo</Label><Input value={mes} onChange={(e) => setMes(e.target.value)} placeholder="octubre 2025" /></div>
+            <div>
+              <Label>Concepto</Label>
+              <ConceptoRapidoButtons value={concepto} onPick={setConcepto} />
+              <Input className="mt-2" value={concepto} onChange={(e) => setConcepto(e.target.value)} />
+            </div>
+            <div>
+              <Label>Periodo</Label>
+              <div className="flex justify-center border border-[#E2E8F0] rounded-xl p-3">
+                <MesPicker year={year} month={month} onChange={(y, m) => { setYear(y); setMonth(m); }} />
+              </div>
+              <p className="text-xs text-[#64748B] mt-1 text-center">{mes.charAt(0).toUpperCase() + mes.slice(1)}</p>
+            </div>
             <div><Label>Fecha de vencimiento</Label><Input type="date" value={vencimiento} onChange={(e) => setVencimiento(e.target.value)} /></div>
           </div>
         )}

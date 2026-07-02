@@ -3,12 +3,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Trash2 } from "lucide-react";
 import { fmtL, fmtDate } from "@/lib/format";
 import { usePagosDeCobro, useRegistrarPago, useAnularPago, type Cobro } from "@/lib/queries";
-
-const METODOS = ["efectivo", "transferencia", "cheque", "tarjeta", "depósito", "otro"];
+import { MetodoPagoButtons } from "./QuickPickers";
 
 export function RegistrarPagoDialog({
   open, onOpenChange, cobro,
@@ -18,7 +16,9 @@ export function RegistrarPagoDialog({
   const anular = useAnularPago();
 
   const abonado = useMemo(() => pagos.reduce((a, p) => a + Number(p.monto), 0), [pagos]);
-  const saldo = cobro ? Math.max(0, Number(cobro.monto) - abonado) : 0;
+  const mora = Number((cobro as any)?.mora_aplicada ?? 0);
+  const total = cobro ? Number(cobro.monto) + mora : 0;
+  const saldo = cobro ? Math.max(0, total - abonado) : 0;
 
   const [monto, setMonto] = useState("");
   const [metodo, setMetodo] = useState("efectivo");
@@ -50,8 +50,9 @@ export function RegistrarPagoDialog({
           <DialogTitle>Registrar pago · {cobro.concepto}</DialogTitle>
         </DialogHeader>
 
-        <div className="grid grid-cols-3 gap-2 text-sm mb-3">
-          <div className="p-2 rounded-lg bg-[#F8FAFC]"><div className="text-xs text-[#64748B]">Total</div><div className="font-bold">{fmtL(cobro.monto)}</div></div>
+        <div className={`grid ${mora > 0 ? "grid-cols-4" : "grid-cols-3"} gap-2 text-sm mb-3`}>
+          <div className="p-2 rounded-lg bg-[#F8FAFC]"><div className="text-xs text-[#64748B]">Monto</div><div className="font-bold">{fmtL(cobro.monto)}</div></div>
+          {mora > 0 && <div className="p-2 rounded-lg bg-[#F8FAFC]"><div className="text-xs text-[#64748B]">Mora</div><div className="font-bold text-[#f59e0b]">{fmtL(mora)}</div></div>}
           <div className="p-2 rounded-lg bg-[#F8FAFC]"><div className="text-xs text-[#64748B]">Abonado</div><div className="font-bold text-[#166534]">{fmtL(abonado)}</div></div>
           <div className="p-2 rounded-lg bg-[#F8FAFC]"><div className="text-xs text-[#64748B]">Saldo</div><div className="font-bold text-[#4A154B]">{fmtL(saldo)}</div></div>
         </div>
@@ -68,12 +69,9 @@ export function RegistrarPagoDialog({
                 <Label>Fecha</Label>
                 <Input type="date" value={fecha} onChange={(e) => setFecha(e.target.value)} required />
               </div>
-              <div>
+              <div className="col-span-2">
                 <Label>Método</Label>
-                <Select value={metodo} onValueChange={setMetodo}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>{METODOS.map((m) => <SelectItem key={m} value={m}>{m}</SelectItem>)}</SelectContent>
-                </Select>
+                <MetodoPagoButtons value={metodo} onChange={setMetodo} />
               </div>
               <div>
                 <Label>Referencia</Label>

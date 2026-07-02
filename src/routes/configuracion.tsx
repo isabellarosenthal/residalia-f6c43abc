@@ -136,11 +136,18 @@ function PerfilTab() {
   );
 }
 
+const DIAS_MES = Array.from({ length: 28 }, (_, i) => i + 1);
+
 function EdificiosTab() {
   const { data: edificios = [] } = useEdificios();
   const save = useSaveEdificio();
   const [editing, setEditing] = useState<string | null>(null);
-  const [form, setForm] = useState({ nombre: "", ciudad: "", cuota_base: 0, moneda: "L", cuota_modo: "fijo", cuota_por_m2: 0 });
+  const [form, setForm] = useState({
+    nombre: "", ciudad: "", cuota_base: 0, moneda: "L", cuota_modo: "fijo", cuota_por_m2: 0,
+    recargo_mora_pct: 0, dias_gracia: 5,
+    dia_emision_cobros: 1, dias_plazo_pago: 5, concepto_mensual: "Cuota de mantenimiento",
+    auto_generar_cobros: false, auto_aplicar_mora: false,
+  });
 
   const startEdit = (id: string) => {
     const e = edificios.find(x => x.id === id) as any;
@@ -153,16 +160,24 @@ function EdificiosTab() {
       moneda: e.moneda,
       cuota_modo: e.cuota_modo ?? "fijo",
       cuota_por_m2: Number(e.cuota_por_m2 ?? 0),
+      recargo_mora_pct: Number(e.recargo_mora_pct ?? 0),
+      dias_gracia: Number(e.dias_gracia ?? 5),
+      dia_emision_cobros: Number(e.dia_emision_cobros ?? 1),
+      dias_plazo_pago: Number(e.dias_plazo_pago ?? 5),
+      concepto_mensual: e.concepto_mensual ?? "Cuota de mantenimiento",
+      auto_generar_cobros: !!e.auto_generar_cobros,
+      auto_aplicar_mora: !!e.auto_aplicar_mora,
     });
   };
 
   return (
     <div className="space-y-3">
       <PlanLimitsBanner focus="edificios" />
+      <FacturacionMasivaCard edificios={edificios} />
       {edificios.map(e => (
         <Card key={e.id} className="p-4">
           {editing === e.id ? (
-            <div className="space-y-3">
+            <div className="space-y-4">
               <div className="grid sm:grid-cols-2 gap-3">
                 <div><Label>Nombre</Label><Input value={form.nombre} onChange={(ev) => setForm({ ...form, nombre: ev.target.value })} /></div>
                 <div><Label>Ciudad</Label><CityAutocomplete value={form.ciudad} onChange={(v) => setForm({ ...form, ciudad: v })} /></div>
@@ -180,6 +195,43 @@ function EdificiosTab() {
                   <div><Label>Cuota base mensual</Label><Input type="number" value={form.cuota_base} onChange={(ev) => setForm({ ...form, cuota_base: Number(ev.target.value) })} /></div>
                 )}
               </div>
+
+              <div className="border-t border-[#E2E8F0] pt-3">
+                <div className="text-sm font-semibold text-[#4A154B] mb-2">Facturación automática</div>
+                <label className="flex items-center gap-2 text-sm text-[#0F172A] mb-3">
+                  <input type="checkbox" checked={form.auto_generar_cobros} onChange={(ev) => setForm({ ...form, auto_generar_cobros: ev.target.checked })} />
+                  Emitir cuotas de mantenimiento automáticamente cada mes
+                </label>
+                <div className="grid sm:grid-cols-3 gap-3">
+                  <div>
+                    <Label>Día de emisión</Label>
+                    <select className="w-full h-10 rounded-md border border-[#E2E8F0] px-3 bg-white text-sm" value={form.dia_emision_cobros} onChange={(ev) => setForm({ ...form, dia_emision_cobros: Number(ev.target.value) })}>
+                      {DIAS_MES.map(d => <option key={d} value={d}>Día {d}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <Label>Días para vencer</Label>
+                    <Input type="number" min={0} value={form.dias_plazo_pago} onChange={(ev) => setForm({ ...form, dias_plazo_pago: Number(ev.target.value) })} />
+                  </div>
+                  <div className="sm:col-span-1">
+                    <Label>Concepto</Label>
+                    <Input value={form.concepto_mensual} onChange={(ev) => setForm({ ...form, concepto_mensual: ev.target.value })} />
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-t border-[#E2E8F0] pt-3">
+                <div className="text-sm font-semibold text-[#4A154B] mb-2">Mora automática</div>
+                <label className="flex items-center gap-2 text-sm text-[#0F172A] mb-3">
+                  <input type="checkbox" checked={form.auto_aplicar_mora} onChange={(ev) => setForm({ ...form, auto_aplicar_mora: ev.target.checked })} />
+                  Aplicar mora automáticamente a cobros vencidos
+                </label>
+                <div className="grid sm:grid-cols-2 gap-3">
+                  <div><Label>% de mora por atraso</Label><Input type="number" step="0.01" min={0} value={form.recargo_mora_pct} onChange={(ev) => setForm({ ...form, recargo_mora_pct: Number(ev.target.value) })} /></div>
+                  <div><Label>Días de gracia</Label><Input type="number" min={0} value={form.dias_gracia} onChange={(ev) => setForm({ ...form, dias_gracia: Number(ev.target.value) })} /><p className="text-xs text-[#64748B] mt-1">Días después del vencimiento antes de aplicar mora.</p></div>
+                </div>
+              </div>
+
               <div className="flex justify-end gap-2">
                 <Button variant="outline" onClick={() => setEditing(null)}>Cancelar</Button>
                 <Button className="bg-[#4A154B] hover:bg-[#350d36]" onClick={async () => {
@@ -199,6 +251,11 @@ function EdificiosTab() {
                     : <>Cuota base: {e.moneda} {Number(e.cuota_base ?? 0).toLocaleString()}</>}
                   {" "}· {e.total_unidades ?? 0} unidades
                 </div>
+                <div className="text-xs text-[#64748B] mt-1">
+                  {(e as any).auto_generar_cobros ? `Emisión automática · día ${(e as any).dia_emision_cobros ?? 1}` : "Emisión manual"}
+                  {" · "}
+                  {(e as any).auto_aplicar_mora ? "Mora automática" : "Mora manual"}
+                </div>
               </div>
               <Button variant="outline" size="sm" onClick={() => startEdit(e.id)}>Editar</Button>
             </div>
@@ -207,6 +264,63 @@ function EdificiosTab() {
       ))}
       {edificios.length === 0 && <p className="text-sm text-[#64748B]">No hay edificios. Créalos desde el módulo Edificios.</p>}
     </div>
+  );
+}
+
+function FacturacionMasivaCard({ edificios }: { edificios: { id: string; nombre: string }[] }) {
+  const save = useSaveEdificio();
+  const [dia, setDia] = useState(1);
+  const [autoGenerar, setAutoGenerar] = useState(true);
+  const [autoMora, setAutoMora] = useState(true);
+  const [running, setRunning] = useState(false);
+
+  if (edificios.length === 0) return null;
+
+  const run = async () => {
+    if (!confirm(`¿Configurar emisión automática el día ${dia} de cada mes para los ${edificios.length} edificios?`)) return;
+    setRunning(true);
+    try {
+      for (const e of edificios) {
+        await save.mutateAsync({ id: e.id, dia_emision_cobros: dia, auto_generar_cobros: autoGenerar, auto_aplicar_mora: autoMora } as any);
+      }
+      toast.success(`Facturación automática configurada en ${edificios.length} edificio(s)`);
+    } finally {
+      setRunning(false);
+    }
+  };
+
+  return (
+    <Card className="p-6 space-y-4">
+      <div>
+        <h3 className="font-display font-bold text-lg text-[#0F172A]">Facturación automática — todos los edificios</h3>
+        <p className="text-sm text-[#64748B]">Aplica el mismo día de emisión y activa la automatización en bloque. Si necesitas días distintos por edificio, edítalos individualmente abajo.</p>
+      </div>
+      <div className="grid sm:grid-cols-3 gap-3">
+        <div>
+          <Label>Día de emisión</Label>
+          <select className="w-full h-10 rounded-md border border-[#E2E8F0] px-3 bg-white text-sm" value={dia} onChange={(ev) => setDia(Number(ev.target.value))}>
+            {DIAS_MES.map(d => <option key={d} value={d}>Día {d}</option>)}
+          </select>
+        </div>
+        <div className="flex items-end">
+          <label className="flex items-center gap-2 text-sm text-[#0F172A]">
+            <input type="checkbox" checked={autoGenerar} onChange={(ev) => setAutoGenerar(ev.target.checked)} />
+            Emitir cuotas automáticamente
+          </label>
+        </div>
+        <div className="flex items-end">
+          <label className="flex items-center gap-2 text-sm text-[#0F172A]">
+            <input type="checkbox" checked={autoMora} onChange={(ev) => setAutoMora(ev.target.checked)} />
+            Aplicar mora automáticamente
+          </label>
+        </div>
+      </div>
+      <div className="flex justify-end">
+        <Button onClick={run} disabled={running} className="bg-[#4A154B] hover:bg-[#350d36]">
+          <Check className="w-4 h-4 mr-1" />Aplicar a todos los edificios
+        </Button>
+      </div>
+    </Card>
   );
 }
 

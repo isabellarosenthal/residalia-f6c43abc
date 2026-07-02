@@ -28,9 +28,10 @@ export function EstadoCuentaUnidad({ edificioId }: { edificioId: string }) {
   const unidad = useMemo(() => unidades.find((u) => u.id === unidadId), [unidades, unidadId]);
   const residente = useMemo(() => residentes.find((r) => r.id === (unidad?.inquilino_id ?? unidad?.propietario_id)), [residentes, unidad]);
   const movimientos = useMemo(() => cobros.filter((c) => c.unidad_id === unidadId), [cobros, unidadId]);
-  const totalPendiente = movimientos.filter((c) => c.estado !== "pagado").reduce((a, c) => a + Number(c.monto), 0);
-  const totalPagado = movimientos.filter((c) => c.estado === "pagado").reduce((a, c) => a + Number(c.monto), 0);
-  const totalVencido = movimientos.filter((c) => diasMora(c.fecha_vencimiento, c.estado) > 0).reduce((a, c) => a + Number(c.monto), 0);
+  const totalCon = (c: any) => Number(c.monto) + Number(c.mora_aplicada ?? 0);
+  const totalPendiente = movimientos.filter((c) => c.estado !== "pagado").reduce((a, c) => a + totalCon(c), 0);
+  const totalPagado = movimientos.filter((c) => c.estado === "pagado").reduce((a, c) => a + totalCon(c), 0);
+  const totalVencido = movimientos.filter((c) => diasMora(c.fecha_vencimiento, c.estado) > 0).reduce((a, c) => a + totalCon(c), 0);
 
   const estadoBadge = (c: any) => {
     if (c.estado === "pagado") return <Badge variant="success">Pagado</Badge>;
@@ -118,7 +119,7 @@ export function EstadoCuentaUnidad({ edificioId }: { edificioId: string }) {
                     <TableCell className="text-sm">{c.concepto}</TableCell>
                     <TableCell className="text-sm">{fmtDate(c.fecha_vencimiento)}</TableCell>
                     <TableCell className="text-sm">{fmtDate(c.fecha_pago)}</TableCell>
-                    <TableCell className="text-right font-semibold">{fmtL(c.monto)}</TableCell>
+                    <TableCell className="text-right font-semibold">{fmtL(totalCon(c))}</TableCell>
                     <TableCell>{estadoBadge(c)}</TableCell>
                     <TableCell className="text-xs text-[#64748B]">{c.recibo_numero ?? "—"}</TableCell>
                   </TableRow>

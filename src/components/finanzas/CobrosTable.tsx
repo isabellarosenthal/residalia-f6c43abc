@@ -6,9 +6,9 @@ import { Badge } from "@/components/ui-pentos";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { Pencil, Trash2, DollarSign, Search, Printer, AlertTriangle, Percent } from "lucide-react";
+import { Pencil, Trash2, DollarSign, Search, Printer, AlertTriangle, Percent, HandCoins } from "lucide-react";
 import { fmtL, fmtDate } from "@/lib/format";
-import { useCobros, useDeleteCobro, useUnidades, useResidentes, usePagosDeEdificio, useMarcarVencidos, useAplicarMora, diasMora, type Cobro } from "@/lib/queries";
+import { useCobros, useDeleteCobro, useUnidades, useResidentes, usePagosDeEdificio, useMarcarVencidos, useAplicarMora, useCondonarMora, diasMora, type Cobro } from "@/lib/queries";
 
 const RegistrarPagoDialog = lazy(() => import("./RegistrarPagoDialog").then((m) => ({ default: m.RegistrarPagoDialog })));
 
@@ -21,6 +21,7 @@ export function CobrosTable({ edificioId, onEdit }: { edificioId: string; onEdit
   const del = useDeleteCobro();
   const vencer = useMarcarVencidos();
   const aplicarMora = useAplicarMora();
+  const condonarMora = useCondonarMora();
 
   const [estado, setEstado] = useState("all");
   const [search, setSearch] = useState("");
@@ -101,6 +102,7 @@ export function CobrosTable({ edificioId, onEdit }: { edificioId: string; onEdit
               <TableHead className="text-[#4A154B] font-semibold">Concepto</TableHead>
               <TableHead className="text-[#4A154B] font-semibold">Unidad · Residente</TableHead>
               <TableHead className="text-[#4A154B] font-semibold text-right">Monto</TableHead>
+              <TableHead className="text-[#4A154B] font-semibold text-right">Mora</TableHead>
               <TableHead className="text-[#4A154B] font-semibold text-right">Abonado</TableHead>
               <TableHead className="text-[#4A154B] font-semibold text-right">Saldo</TableHead>
               <TableHead className="text-[#4A154B] font-semibold">Vence</TableHead>
@@ -109,11 +111,12 @@ export function CobrosTable({ edificioId, onEdit }: { edificioId: string; onEdit
             </TableRow>
           </TableHeader>
           <TableBody>
-            {isLoading && <TableRow><TableCell colSpan={8} className="py-10 text-center text-[#64748B]">Cargando…</TableCell></TableRow>}
-            {!isLoading && filtered.length === 0 && <TableRow><TableCell colSpan={8} className="py-10 text-center text-[#64748B]">Sin cobros para los filtros.</TableCell></TableRow>}
+            {isLoading && <TableRow><TableCell colSpan={9} className="py-10 text-center text-[#64748B]">Cargando…</TableCell></TableRow>}
+            {!isLoading && filtered.length === 0 && <TableRow><TableCell colSpan={9} className="py-10 text-center text-[#64748B]">Sin cobros para los filtros.</TableCell></TableRow>}
             {filtered.map((c) => {
               const abonado = abonadoMap.get(c.id) ?? 0;
-              const saldo = Math.max(0, Number(c.monto) - abonado);
+              const mora = Number((c as any).mora_aplicada ?? 0);
+              const saldo = Math.max(0, Number(c.monto) + mora - abonado);
               return (
                 <TableRow key={c.id}>
                   <TableCell><div className="font-medium text-[#4A154B]">{c.concepto}</div>{c.recibo_numero && <div className="text-xs text-[#64748B]">{c.recibo_numero}</div>}</TableCell>
@@ -121,11 +124,14 @@ export function CobrosTable({ edificioId, onEdit }: { edificioId: string; onEdit
                     <div className="text-[#4A154B]">{c.unidad_id ? `#${uniMap.get(c.unidad_id) ?? "—"}` : "—"}</div>
                     <div className="text-xs text-[#64748B]">{c.residente_id ? resMap.get(c.residente_id) ?? "—" : "—"}</div>
                   </TableCell>
-                  <TableCell className="text-right font-semibold text-[#4A154B]">
-                    {fmtL(c.monto)}
-                    {Number((c as any).mora_aplicada ?? 0) > 0 && (
-                      <div className="text-xs font-normal text-[#be185d]">incl. mora {fmtL((c as any).mora_aplicada)}</div>
-                    )}
+                  <TableCell className="text-right font-semibold text-[#4A154B]">{fmtL(c.monto)}</TableCell>
+                  <TableCell className="text-right">
+                    {mora > 0 ? (
+                      <div className="flex items-center justify-end gap-1">
+                        <span className="font-semibold text-[#f59e0b]">{fmtL(mora)}</span>
+                        <Button size="sm" variant="ghost" title="Condonar mora" onClick={() => { if (confirm(`¿Condonar ${fmtL(mora)} de mora?`)) condonarMora.mutate(c.id); }} className="h-7 w-7 p-0 text-[#166534]"><HandCoins className="w-3.5 h-3.5" /></Button>
+                      </div>
+                    ) : "—"}
                   </TableCell>
                   <TableCell className="text-right text-sm text-[#166534]">{abonado > 0 ? fmtL(abonado) : "—"}</TableCell>
                   <TableCell className="text-right font-semibold text-[#4A154B]">{saldo > 0 ? fmtL(saldo) : "—"}</TableCell>
@@ -137,8 +143,8 @@ export function CobrosTable({ edificioId, onEdit }: { edificioId: string; onEdit
                         <Button size="sm" variant="ghost" title="Imprimir recibo" className="h-8 w-8 p-0 text-[#4A154B]"><Printer className="w-4 h-4" /></Button>
                       </Link>
                     )}
-                    {saldo > 0 && diasMora(c.fecha_vencimiento, c.estado) > 0 && (
-                      <Button size="sm" variant="ghost" title="Aplicar mora al saldo" onClick={() => { if (confirm("¿Aplicar mora al saldo vencido?")) aplicarMora.mutate(c.id); }} className="h-8 w-8 p-0 text-[#be185d]"><Percent className="w-4 h-4" /></Button>
+                    {mora === 0 && saldo > 0 && diasMora(c.fecha_vencimiento, c.estado) > 0 && (
+                      <Button size="sm" variant="ghost" title="Aplicar mora al saldo (normalmente se aplica sola)" onClick={() => { if (confirm("¿Aplicar mora al saldo vencido?")) aplicarMora.mutate(c.id); }} className="h-8 w-8 p-0 text-[#be185d]"><Percent className="w-4 h-4" /></Button>
                     )}
                     <Button size="sm" variant="ghost" title={saldo > 0 ? "Registrar pago" : "Ver pagos"} onClick={() => setPagoCobro(c)} className="h-8 w-8 p-0 text-[#166534]"><DollarSign className="w-4 h-4" /></Button>
                     <Button size="sm" variant="ghost" onClick={() => onEdit(c)} className="h-8 w-8 p-0"><Pencil className="w-4 h-4" /></Button>

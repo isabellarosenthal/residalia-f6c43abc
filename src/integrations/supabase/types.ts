@@ -216,6 +216,7 @@ export type Database = {
           monto: number
           mora_aplicada: number
           notas: string | null
+          periodo: string | null
           recibo_numero: string | null
           residente_id: string | null
           unidad_id: string | null
@@ -233,6 +234,7 @@ export type Database = {
           monto: number
           mora_aplicada?: number
           notas?: string | null
+          periodo?: string | null
           recibo_numero?: string | null
           residente_id?: string | null
           unidad_id?: string | null
@@ -250,6 +252,7 @@ export type Database = {
           monto?: number
           mora_aplicada?: number
           notas?: string | null
+          periodo?: string | null
           recibo_numero?: string | null
           residente_id?: string | null
           unidad_id?: string | null
@@ -364,13 +367,18 @@ export type Database = {
         Row: {
           activo: boolean
           admin_id: string | null
+          auto_aplicar_mora: boolean
+          auto_generar_cobros: boolean
           ciudad: string | null
+          concepto_mensual: string
           created_at: string
           cuota_base: number | null
           cuota_modo: string
           cuota_por_m2: number
           departamento: string | null
+          dia_emision_cobros: number
           dias_gracia: number
+          dias_plazo_pago: number
           direccion: string | null
           id: string
           latitud: number | null
@@ -387,13 +395,18 @@ export type Database = {
         Insert: {
           activo?: boolean
           admin_id?: string | null
+          auto_aplicar_mora?: boolean
+          auto_generar_cobros?: boolean
           ciudad?: string | null
+          concepto_mensual?: string
           created_at?: string
           cuota_base?: number | null
           cuota_modo?: string
           cuota_por_m2?: number
           departamento?: string | null
+          dia_emision_cobros?: number
           dias_gracia?: number
+          dias_plazo_pago?: number
           direccion?: string | null
           id?: string
           latitud?: number | null
@@ -410,13 +423,18 @@ export type Database = {
         Update: {
           activo?: boolean
           admin_id?: string | null
+          auto_aplicar_mora?: boolean
+          auto_generar_cobros?: boolean
           ciudad?: string | null
+          concepto_mensual?: string
           created_at?: string
           cuota_base?: number | null
           cuota_modo?: string
           cuota_por_m2?: number
           departamento?: string | null
+          dia_emision_cobros?: number
           dias_gracia?: number
+          dias_plazo_pago?: number
           direccion?: string | null
           id?: string
           latitud?: number | null

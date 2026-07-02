@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 import { Card } from "@/components/ui-pentos";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Download, Percent } from "lucide-react";
 import { fmtL } from "@/lib/format";
 import { useCobros, useResidentes, useUnidades, usePagosDeEdificio, useCondonarMora, diasMora } from "@/lib/queries";
@@ -55,14 +54,15 @@ export function ReporteMora({ edificioId }: { edificioId: string }) {
       .filter((c) => c.fecha_vencimiento.slice(0, 7) === mesEfectivo && c.estado !== "pagado")
       .map((c) => {
         const abonado = abonadoMap.get(c.id) ?? 0;
-        const saldo = Math.max(0, Number(c.monto) - abonado);
+        const mora = Number((c as any).mora_aplicada ?? 0);
+        const saldo = Math.max(0, Number(c.monto) + mora - abonado);
         const u = c.unidad_id ? uniMap.get(c.unidad_id) : null;
         return {
           cobro: c,
           unidad: u ? `#${u.numero}` : "—",
           residente: c.residente_id ? (resMap.get(c.residente_id) ?? "—") : "—",
           saldo,
-          mora: Number((c as any).mora_aplicada ?? 0),
+          mora,
           dias: diasMora(c.fecha_vencimiento, c.estado),
         };
       })
@@ -81,16 +81,23 @@ export function ReporteMora({ edificioId }: { edificioId: string }) {
   return (
     <div className="space-y-5">
       <Card className="p-4">
-        <div className="flex flex-wrap gap-3 items-end justify-between">
-          <div className="space-y-1">
+        <div className="flex flex-wrap gap-3 items-start justify-between">
+          <div className="space-y-1.5">
             <label className="text-xs text-[#64748B]">Mes</label>
-            <Select value={mesEfectivo} onValueChange={setMes}>
-              <SelectTrigger className="w-[200px]"><SelectValue>{labelMes(mesEfectivo)}</SelectValue></SelectTrigger>
-              <SelectContent>
-                {meses.length === 0 && <SelectItem value={mesActual}>{labelMes(mesActual)}</SelectItem>}
-                {meses.map((m) => <SelectItem key={m} value={m}>{labelMes(m)}</SelectItem>)}
-              </SelectContent>
-            </Select>
+            <div className="flex flex-wrap gap-2">
+              {(meses.length === 0 ? [mesActual] : meses).map((m) => (
+                <button
+                  key={m}
+                  type="button"
+                  onClick={() => setMes(m)}
+                  className={`px-3 py-1.5 rounded-full border text-sm font-medium transition capitalize ${
+                    mesEfectivo === m ? "bg-[#4A154B] text-white border-[#4A154B]" : "bg-white text-[#1E293B] border-[#E2E8F0] hover:bg-[#F8FAFC]"
+                  }`}
+                >
+                  {labelMes(m)}
+                </button>
+              ))}
+            </div>
           </div>
           <Button variant="outline" onClick={exportCSV}><Download className="w-4 h-4 mr-1" />CSV</Button>
         </div>

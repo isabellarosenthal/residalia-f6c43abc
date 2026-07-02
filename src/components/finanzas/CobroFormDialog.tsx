@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useSaveCobro, useEdificios, useUnidades, useResidentes, type Cobro } from "@/lib/queries";
+import { ConceptoRapidoButtons, MetodoPagoButtons } from "./QuickPickers";
 
 const schema = z.object({
   condominio_id: z.string().uuid("Selecciona edificio"),
@@ -109,7 +110,11 @@ export function CobroFormDialog({
               </Select>
             </div>
           </div>
-          <div><Label>Concepto *</Label><Input {...form.register("concepto")} placeholder="Cuota mantenimiento octubre" /></div>
+          <div>
+            <Label>Concepto *</Label>
+            <ConceptoRapidoButtons value={form.watch("concepto")} onPick={(c) => form.setValue("concepto", c, { shouldValidate: true })} />
+            <Input className="mt-2" {...form.register("concepto")} placeholder="Cuota mantenimiento octubre" />
+          </div>
           <div className="grid grid-cols-3 gap-3">
             <div><Label>Monto *</Label><Input type="number" step="0.01" {...form.register("monto")} /></div>
             <div><Label>Vencimiento *</Label><Input type="date" {...form.register("fecha_vencimiento")} /></div>
@@ -128,16 +133,7 @@ export function CobroFormDialog({
           </div>
           <div>
             <Label>Método de pago</Label>
-            <Select value={form.watch("metodo_pago") || "__none__"} onValueChange={(v) => form.setValue("metodo_pago", v === "__none__" ? "" : v)}>
-              <SelectTrigger><SelectValue placeholder="—" /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="__none__">—</SelectItem>
-                <SelectItem value="efectivo">Efectivo</SelectItem>
-                <SelectItem value="transferencia">Transferencia</SelectItem>
-                <SelectItem value="tarjeta">Tarjeta</SelectItem>
-                <SelectItem value="cheque">Cheque</SelectItem>
-              </SelectContent>
-            </Select>
+            <MetodoPagoButtons value={form.watch("metodo_pago") ?? ""} onChange={(v) => form.setValue("metodo_pago", v)} allowNone />
           </div>
           <div><Label>Notas</Label><Textarea rows={2} {...form.register("notas")} /></div>
           <DialogFooter>

@@ -451,13 +451,9 @@ export function useAplicarMora() {
       const saldo = Math.max(0, Number(cobro.monto) - abonado);
       if (saldo <= 0) throw new Error("El cobro no tiene saldo pendiente");
       const mora = Math.round(saldo * pct) / 100;
-      const nuevoMonto = Number(cobro.monto) + mora;
       const moraTotal = Number((cobro as any).mora_aplicada ?? 0) + mora;
-      const nuevoConcepto = /\+ mora/i.test(cobro.concepto) ? cobro.concepto : `${cobro.concepto} + mora ${pct}%`;
       const { error: e2 } = await supabase.from("cobros").update({
-        monto: nuevoMonto,
         mora_aplicada: moraTotal,
-        concepto: nuevoConcepto,
       } as any).eq("id", cobroId);
       if (e2) throw e2;
       return mora;
@@ -479,12 +475,8 @@ export function useCondonarMora() {
       if (e1) throw e1;
       const mora = Number((cobro as any).mora_aplicada ?? 0);
       if (mora <= 0) throw new Error("Este cobro no tiene mora aplicada");
-      const nuevoMonto = Math.max(0, Number(cobro.monto) - mora);
-      const nuevoConcepto = cobro.concepto.replace(/\s*\+ mora [\d.]+%/i, "").trim();
       const { error: e2 } = await supabase.from("cobros").update({
-        monto: nuevoMonto,
         mora_aplicada: 0,
-        concepto: nuevoConcepto,
       } as any).eq("id", cobroId);
       if (e2) throw e2;
       return mora;
