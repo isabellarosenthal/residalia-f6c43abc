@@ -1,4 +1,4 @@
-import { Banknote, Landmark, CreditCard, FileText, Wallet, MoreHorizontal, Wrench, Droplet, Zap, Wifi, TriangleAlert, type LucideIcon } from "lucide-react";
+import { Banknote, Landmark, CreditCard, FileText, Wallet, MoreHorizontal, Wrench, Droplet, Zap, Wifi, TriangleAlert, CircleSlash, type LucideIcon } from "lucide-react";
 
 type ConceptoRapido = { label: string; icon: LucideIcon; color: string; bg: string; border: string };
 
@@ -38,19 +38,23 @@ export function ConceptoRapidoButtons({ value, onPick }: { value?: string; onPic
   );
 }
 
-const METODOS_PAGO: { value: string; label: string; icon: LucideIcon }[] = [
-  { value: "efectivo", label: "Efectivo", icon: Banknote },
-  { value: "transferencia", label: "Transferencia", icon: Landmark },
-  { value: "tarjeta", label: "Tarjeta", icon: CreditCard },
-  { value: "cheque", label: "Cheque", icon: FileText },
-  { value: "depósito", label: "Depósito", icon: Wallet },
-  { value: "otro", label: "Otro", icon: MoreHorizontal },
+type Metodo = { value: string; label: string; icon: LucideIcon; color: string; bg: string; border: string };
+
+const METODOS_PAGO: Metodo[] = [
+  { value: "efectivo", label: "Efectivo", icon: Banknote, color: "#0a9d57", bg: "#e6f7ee", border: "#a8e6c5" },
+  { value: "transferencia", label: "Transferencia", icon: Landmark, color: "#0369a1", bg: "#e0f2fe", border: "#93c5fd" },
+  { value: "tarjeta", label: "Tarjeta", icon: CreditCard, color: "#4A154B", bg: "#f3e8ff", border: "#d8b4fe" },
+  { value: "cheque", label: "Cheque", icon: FileText, color: "#b45309", bg: "#fff6e0", border: "#ffd980" },
+  { value: "depósito", label: "Depósito", icon: Wallet, color: "#be185d", bg: "#ffe9ee", border: "#ffb8c8" },
+  { value: "otro", label: "Otro", icon: MoreHorizontal, color: "#475569", bg: "#f1f5f9", border: "#cbd5e1" },
 ];
+
+const METODO_NINGUNO: Metodo = { value: "", label: "Sin especificar", icon: CircleSlash, color: "#94a3b8", bg: "#f8fafc", border: "#e2e8f0" };
 
 export function MetodoPagoButtons({
   value, onChange, allowNone,
 }: { value: string; onChange: (v: string) => void; allowNone?: boolean }) {
-  const opts = allowNone ? [{ value: "", label: "—", icon: MoreHorizontal }, ...METODOS_PAGO] : METODOS_PAGO;
+  const opts = allowNone ? [METODO_NINGUNO, ...METODOS_PAGO] : METODOS_PAGO;
   return (
     <div className="grid grid-cols-3 gap-2">
       {opts.map((m) => {
@@ -61,12 +65,13 @@ export function MetodoPagoButtons({
             key={m.value || "none"}
             type="button"
             onClick={() => onChange(m.value)}
-            className={`flex flex-col items-center gap-1 p-2 rounded-xl border text-xs font-medium transition ${
-              active ? "bg-[#4A154B] text-white border-[#4A154B]" : "bg-white text-[#1E293B] border-[#E2E8F0] hover:bg-[#F8FAFC]"
-            }`}
+            className={`flex flex-col items-center gap-1.5 p-2 rounded-xl border text-xs font-semibold transition active:scale-95 hover:shadow-sm ${active ? "ring-2 ring-offset-1 ring-[#4A154B]" : ""}`}
+            style={{ backgroundColor: m.bg, borderColor: m.border }}
           >
-            <Icon className="w-4 h-4" />
-            {m.label}
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-white/70">
+              <Icon className="w-4 h-4" style={{ color: m.color }} />
+            </div>
+            <span className="text-[#0F172A]">{m.label}</span>
           </button>
         );
       })}
