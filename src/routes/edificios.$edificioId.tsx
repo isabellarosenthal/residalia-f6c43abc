@@ -16,6 +16,7 @@ const EdificioFormDialog = lazy(() => import("@/components/edificios/EdificioFor
 const UnidadFormDialog = lazy(() => import("@/components/unidades/UnidadFormDialog").then(m => ({ default: m.UnidadFormDialog })));
 const GenerarUnidadesDialog = lazy(() => import("@/components/unidades/GenerarUnidadesDialog").then(m => ({ default: m.GenerarUnidadesDialog })));
 const ResidenteFormDialog = lazy(() => import("@/components/residentes/ResidenteFormDialog").then(m => ({ default: m.ResidenteFormDialog })));
+const ResidenteDetailDialog = lazy(() => import("@/components/residentes/ResidenteDetailDialog").then(m => ({ default: m.ResidenteDetailDialog })));
 
 
 import { EdificioDetailSkeleton } from "@/components/edificios/EdificiosSkeleton";
@@ -37,7 +38,7 @@ function EdificioDetail() {
   const [unidadEdit, setUnidadEdit] = useState<Unidad | null>(null);
   const [bulkOpen, setBulkOpen] = useState(false);
   const [residenteOpen, setResidenteOpen] = useState(false);
-  const [residenteEdit, setResidenteEdit] = useState<Residente | null>(null);
+  const [residenteDetail, setResidenteDetail] = useState<Residente | null>(null);
 
   if (isLoading) {
     return <AppShell><div className="h-72 shimmer rounded-2xl" /></AppShell>;
@@ -131,9 +132,13 @@ function EdificioDetail() {
 
           <TabsContent value="residentes" className="space-y-4 pt-4">
             <div className="flex justify-end">
-              <Button onClick={() => { setResidenteEdit(null); setResidenteOpen(true); }} className="bg-[#4A154B] hover:bg-[#350d36]"><Plus className="w-4 h-4 mr-1" />Nuevo residente</Button>
+              <Button onClick={() => setResidenteOpen(true)} className="bg-[#4A154B] hover:bg-[#350d36]"><Plus className="w-4 h-4 mr-1" />Nuevo residente</Button>
             </div>
-            <ResidentesTable search="" edificioId={edificio.id} tipo="all" estado="all" onEdit={(r) => { setResidenteEdit(r); setResidenteOpen(true); }} />
+            <ResidentesTable
+              search="" edificioId={edificio.id} tipo="all" estado="all"
+              onEdit={(r) => setResidenteDetail(r)}
+              onView={(r) => setResidenteDetail(r)}
+            />
           </TabsContent>
 
 
@@ -168,7 +173,8 @@ function EdificioDetail() {
         {editOpen && <EdificioFormDialog open={editOpen} onOpenChange={setEditOpen} edificio={edificio} />}
         {unidadOpen && <UnidadFormDialog open={unidadOpen} onOpenChange={setUnidadOpen} edificioId={edificio.id} unidad={unidadEdit} />}
         {bulkOpen && <GenerarUnidadesDialog open={bulkOpen} onOpenChange={setBulkOpen} edificioId={edificio.id} />}
-        {residenteOpen && <ResidenteFormDialog open={residenteOpen} onOpenChange={setResidenteOpen} residente={residenteEdit} defaultCondominioId={edificio.id} />}
+        {residenteOpen && <ResidenteFormDialog open={residenteOpen} onOpenChange={setResidenteOpen} defaultCondominioId={edificio.id} />}
+        {residenteDetail && <ResidenteDetailDialog open={!!residenteDetail} onOpenChange={(v) => !v && setResidenteDetail(null)} residente={residenteDetail} />}
       </Suspense>
     </AppShell>
   );
