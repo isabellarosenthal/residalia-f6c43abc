@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui-pentos";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Trash2, Plus, User, Car, Wallet, Mail, Phone } from "lucide-react";
+import { Trash2, Plus, User, Car, Wallet, Mail, Phone, IdCard } from "lucide-react";
 import {
   usePersonasAutorizadas, useSavePersonaAutorizada, useDeletePersonaAutorizada,
   useVehiculos, useSaveVehiculo, useDeleteVehiculo,
@@ -14,10 +14,11 @@ import {
   type Residente,
 } from "@/lib/queries";
 import { fmtL, fmtDate } from "@/lib/format";
+import { ResidenteForm } from "./ResidenteFormDialog";
 
 export function ResidenteDetailDialog({
-  open, onOpenChange, residente,
-}: { open: boolean; onOpenChange: (v: boolean) => void; residente: Residente | null }) {
+  open, onOpenChange, residente, defaultTab = "datos",
+}: { open: boolean; onOpenChange: (v: boolean) => void; residente: Residente | null; defaultTab?: string }) {
   if (!residente) return null;
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -27,13 +28,13 @@ export function ResidenteDetailDialog({
             {residente.nombre} {residente.apellido}
           </DialogTitle>
         </DialogHeader>
-        <DetailBody residente={residente} />
+        <DetailBody residente={residente} defaultTab={defaultTab} onClose={() => onOpenChange(false)} />
       </DialogContent>
     </Dialog>
   );
 }
 
-function DetailBody({ residente }: { residente: Residente }) {
+function DetailBody({ residente, defaultTab, onClose }: { residente: Residente; defaultTab: string; onClose: () => void }) {
   const { data: edificios = [] } = useEdificios();
   const { data: unidades = [] } = useUnidades(residente.condominio_id);
   const edif = edificios.find((e) => e.id === residente.condominio_id);
@@ -49,12 +50,14 @@ function DetailBody({ residente }: { residente: Residente }) {
         {residente.email && <span className="flex items-center gap-1"><Mail className="w-3 h-3" />{residente.email}</span>}
       </div>
 
-      <Tabs defaultValue="personas">
+      <Tabs defaultValue={defaultTab}>
         <TabsList>
+          <TabsTrigger value="datos"><IdCard className="w-3.5 h-3.5 mr-1" />Datos</TabsTrigger>
           <TabsTrigger value="personas"><User className="w-3.5 h-3.5 mr-1" />Personas autorizadas</TabsTrigger>
           <TabsTrigger value="vehiculos"><Car className="w-3.5 h-3.5 mr-1" />Vehículos</TabsTrigger>
           <TabsTrigger value="cuenta"><Wallet className="w-3.5 h-3.5 mr-1" />Estado de cuenta</TabsTrigger>
         </TabsList>
+        <TabsContent value="datos" className="mt-3"><ResidenteForm residente={residente} onSaved={onClose} /></TabsContent>
         <TabsContent value="personas" className="mt-3"><PersonasTab residenteId={residente.id} /></TabsContent>
         <TabsContent value="vehiculos" className="mt-3"><VehiculosTab residenteId={residente.id} /></TabsContent>
         <TabsContent value="cuenta" className="mt-3"><CuentaTab residenteId={residente.id} /></TabsContent>

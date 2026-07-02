@@ -27,7 +27,6 @@ function ResidentesPage() {
   const { data: edificios = [] } = useEdificios();
   const { data: residentes = [] } = useResidentes();
   const [open, setOpen] = useState(false);
-  const [editing, setEditing] = useState<Residente | null>(null);
   const [detail, setDetail] = useState<Residente | null>(null);
   const [importOpen, setImportOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -48,7 +47,7 @@ function ResidentesPage() {
             <Button variant="outline" onClick={() => setImportOpen(true)} className="border-[#4A154B] text-[#4A154B]">
               <Upload className="w-4 h-4 mr-1" /> Importar CSV
             </Button>
-            <Button onClick={() => { setEditing(null); setOpen(true); }} className="bg-[#4A154B] hover:bg-[#350d36]">
+            <Button onClick={() => setOpen(true)} className="bg-[#4A154B] hover:bg-[#350d36]">
               <Plus className="w-4 h-4 mr-1" /> Nuevo residente
             </Button>
           </div>
@@ -89,19 +88,19 @@ function ResidentesPage() {
             icon={<Users className="w-7 h-7" />}
             title="Aún no hay residentes"
             hint="Registra el primer propietario o inquilino de tus edificios."
-            action={<Button onClick={() => { setEditing(null); setOpen(true); }} className="bg-[#4A154B] hover:bg-[#350d36]"><Plus className="w-4 h-4 mr-1" />Nuevo residente</Button>}
+            action={<Button onClick={() => setOpen(true)} className="bg-[#4A154B] hover:bg-[#350d36]"><Plus className="w-4 h-4 mr-1" />Nuevo residente</Button>}
           />
         ) : (
           <ResidentesTable
             search={search} edificioId={edificioId} tipo={tipo} estado={estado}
-            onEdit={(r) => { setEditing(r); setOpen(true); }}
+            onEdit={(r) => setDetail(r)}
             onView={(r) => setDetail(r)}
           />
         )}
       </div>
 
       <Suspense fallback={null}>
-        {open && <ResidenteFormDialog open={open} onOpenChange={setOpen} residente={editing} />}
+        {open && <ResidenteFormDialog open={open} onOpenChange={setOpen} />}
         {detail && <ResidenteDetailDialog open={!!detail} onOpenChange={(v) => !v && setDetail(null)} residente={detail} />}
         {importOpen && <BulkImportResidentesDialog open={importOpen} onOpenChange={setImportOpen} defaultEdificioId={edificioId} />}
       </Suspense>
