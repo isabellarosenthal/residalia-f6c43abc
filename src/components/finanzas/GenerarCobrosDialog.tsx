@@ -54,7 +54,7 @@ export function GenerarCobrosDialog({
 
   return (
     <Dialog open={open} onOpenChange={(v) => { if (!v) { setStage("form"); setExcluded(new Set()); } onOpenChange(v); }}>
-      <DialogContent className="sm:max-w-[640px] max-h-[85vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[720px] max-h-[85vh] overflow-y-auto">
         <DialogHeader><DialogTitle className="font-display text-xl text-[#0F172A]">Generar cobros mensuales</DialogTitle></DialogHeader>
 
         {stage === "form" && (
