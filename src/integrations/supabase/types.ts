@@ -998,7 +998,7 @@ export type Database = {
           agente_id: string | null
           apellido: string | null
           caracteristicas_deseadas: string | null
-          condominio_id: string | null
+          condominio_id: string
           created_at: string
           dni: string | null
           email: string | null
@@ -1021,7 +1021,7 @@ export type Database = {
           agente_id?: string | null
           apellido?: string | null
           caracteristicas_deseadas?: string | null
-          condominio_id?: string | null
+          condominio_id: string
           created_at?: string
           dni?: string | null
           email?: string | null
@@ -1044,7 +1044,7 @@ export type Database = {
           agente_id?: string | null
           apellido?: string | null
           caracteristicas_deseadas?: string | null
-          condominio_id?: string | null
+          condominio_id?: string
           created_at?: string
           dni?: string | null
           email?: string | null
@@ -1627,6 +1627,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      aplicar_mora_automatica: { Args: never; Returns: number }
       aplicar_mora_masiva: {
         Args: { _condo_id: string; _pct: number; _solo_vacios?: boolean }
         Returns: number
@@ -1662,13 +1663,18 @@ export type Database = {
         Returns: {
           activo: boolean
           admin_id: string | null
+          auto_aplicar_mora: boolean
+          auto_generar_cobros: boolean
           ciudad: string | null
+          concepto_mensual: string
           created_at: string
           cuota_base: number | null
           cuota_modo: string
           cuota_por_m2: number
           departamento: string | null
+          dia_emision_cobros: number
           dias_gracia: number
+          dias_plazo_pago: number
           direccion: string | null
           id: string
           latitud: number | null
@@ -1689,6 +1695,7 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      generar_cobros_automaticos: { Args: never; Returns: number }
       generar_invitacion_residente: {
         Args: { _residente_id: string }
         Returns: {
