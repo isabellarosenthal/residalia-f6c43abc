@@ -998,7 +998,7 @@ export type Database = {
           agente_id: string | null
           apellido: string | null
           caracteristicas_deseadas: string | null
-          condominio_id: string | null
+          condominio_id: string
           created_at: string
           dni: string | null
           email: string | null
@@ -1021,7 +1021,7 @@ export type Database = {
           agente_id?: string | null
           apellido?: string | null
           caracteristicas_deseadas?: string | null
-          condominio_id?: string | null
+          condominio_id: string
           created_at?: string
           dni?: string | null
           email?: string | null
@@ -1044,7 +1044,7 @@ export type Database = {
           agente_id?: string | null
           apellido?: string | null
           caracteristicas_deseadas?: string | null
-          condominio_id?: string | null
+          condominio_id?: string
           created_at?: string
           dni?: string | null
           email?: string | null
