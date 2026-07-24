@@ -19,6 +19,7 @@ export const Route = createFileRoute("/reportes")({ component: ReportesPage });
 
 const COLORS = ["#4A154B", "#e8a87c", "#9b72cf", "#2d8a9e", "#166534", "#be185d", "#3b82f6", "#ec4899"];
 const fmtL = (n: number) => `L ${n.toLocaleString("es-HN", { maximumFractionDigits: 0 })}`;
+const totalCon = (c: { monto: number; mora_aplicada?: number | null }) => Number(c.monto) + Number(c.mora_aplicada ?? 0);
 
 function toCSV(rows: Record<string, any>[]) {
   if (!rows.length) return "";
@@ -49,8 +50,8 @@ function ReportesPage() {
   const { data: residentes = [] } = useResidentes();
 
   const kpis = useMemo(() => {
-    const ingresos = cobros.filter(c => c.estado === "pagado").reduce((s, c) => s + Number(c.monto), 0);
-    const pendiente = cobros.filter(c => c.estado !== "pagado").reduce((s, c) => s + Number(c.monto), 0);
+    const ingresos = cobros.filter(c => c.estado === "pagado").reduce((s, c) => s + totalCon(c), 0);
+    const pendiente = cobros.filter(c => c.estado !== "pagado").reduce((s, c) => s + totalCon(c), 0);
     const gastos = egresos.reduce((s, e) => s + Number(e.monto), 0);
     const ocupadas = unidades.filter(u => u.estado_administrativo === "ocupada").length;
     return {
@@ -74,7 +75,7 @@ function ReportesPage() {
     cobros.filter(c => c.estado === "pagado" && c.fecha_pago).forEach(c => {
       const key = c.fecha_pago!.slice(0, 7);
       const m = months.find(x => x.key === key);
-      if (m) m.ingresos += Number(c.monto);
+      if (m) m.ingresos += totalCon(c);
     });
     egresos.forEach(e => {
       const key = e.fecha.slice(0, 7);

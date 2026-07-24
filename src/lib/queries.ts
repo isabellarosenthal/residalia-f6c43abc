@@ -556,20 +556,23 @@ export function calcMontoUnidad(
   return Number(edif?.cuota_base ?? 0);
 }
 
-export function usePreviewCobrosMensuales(args: { edificioId: string; mes: string; concepto: string } | null) {
+export function usePreviewCobrosMensuales(args: { edificioId: string; mes: string; periodo: string; concepto: string } | null) {
   return useQuery({
-    queryKey: ["cobros-preview", args?.edificioId, args?.mes, args?.concepto],
+    queryKey: ["cobros-preview", args?.edificioId, args?.periodo, args?.concepto],
     enabled: !!args && !!args.edificioId,
     queryFn: async (): Promise<PreviewCobroRow[]> => {
       if (!args) return [];
-      const { edificioId, mes, concepto } = args;
+      const { edificioId, periodo } = args;
       const [{ data: unidades, error: e1 }, { data: edif }, { data: existentes }] = await Promise.all([
         supabase.from("unidades").select("id, numero, mantenimiento_mensual, area_m2_construccion, propietario_id, inquilino_id").eq("condominio_id", edificioId).order("numero"),
         supabase.from("condominios").select("cuota_base, cuota_modo, cuota_por_m2").eq("id", edificioId).maybeSingle(),
-        supabase.from("cobros").select("unidad_id, concepto").eq("condominio_id", edificioId).ilike("concepto", `%${mes}%`),
+        // Un solo cobro periódico por unidad y periodo — mismo criterio que usa el cron de
+        // facturación automática, para que la generación manual no duplique lo que ya emitió
+        // (o vaya a emitir) `generar_cobros_automaticos()`.
+        supabase.from("cobros").select("unidad_id").eq("condominio_id", edificioId).eq("periodo", periodo),
       ]);
       if (e1) throw e1;
-      const dupSet = new Set((existentes ?? []).filter((c) => c.concepto?.toLowerCase().includes(concepto.toLowerCase())).map((c) => c.unidad_id ?? ""));
+      const dupSet = new Set((existentes ?? []).map((c) => c.unidad_id ?? ""));
       return (unidades ?? []).map((u) => ({
         unidad_id: u.id,
         unidad_numero: u.numero,
@@ -584,7 +587,7 @@ export function usePreviewCobrosMensuales(args: { edificioId: string; mes: strin
 export function useGenerarCobrosMensuales() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ edificioId, mes, concepto, vencimiento, unidadIds }: { edificioId: string; mes: string; concepto: string; vencimiento: string; unidadIds: string[] }) => {
+    mutationFn: async ({ edificioId, mes, periodo, concepto, vencimiento, unidadIds }: { edificioId: string; mes: string; periodo: string; concepto: string; vencimiento: string; unidadIds: string[] }) => {
       if (unidadIds.length === 0) return [];
       const { data: unidades, error: e1 } = await supabase
         .from("unidades")
@@ -600,6 +603,7 @@ export function useGenerarCobrosMensuales() {
         concepto: `${concepto} ${mes} · Unidad ${u.numero}`,
         monto: calcMontoUnidad(u as any, edif as any),
         fecha_vencimiento: vencimiento,
+        periodo,
         estado: "pendiente" as const,
       }));
       if (rows.length === 0) return [];

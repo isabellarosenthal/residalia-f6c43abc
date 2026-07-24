@@ -9,6 +9,7 @@ import { fmtL, fmtDate } from "@/lib/format";
 import { useCobros, useEgresos, useResidentesMap, useUnidades } from "@/lib/queries";
 
 const COLORS = ["#4A154B", "#166534", "#1f6f8b", "#a55b00", "#7d3c98", "#be185d", "#1abc9c", "#f1c40f"];
+const totalCon = (c: { monto: number; mora_aplicada?: number | null }) => Number(c.monto) + Number(c.mora_aplicada ?? 0);
 
 function toCSV(rows: (string | number)[][]) {
   return rows.map((r) => r.map((c) => `"${String(c ?? "").replace(/"/g, '""')}"`).join(",")).join("\n");
@@ -39,12 +40,12 @@ export function ReportesFinancieros({ edificioId }: { edificioId: string }) {
   // P&L
   const ingresosPagados = cobros.filter((c) => c.estado === "pagado" && inRange(c.fecha_pago));
   const egresosRango = egresos.filter((e) => inRange(e.fecha));
-  const totalIngresos = ingresosPagados.reduce((a, c) => a + Number(c.monto), 0);
+  const totalIngresos = ingresosPagados.reduce((a, c) => a + totalCon(c), 0);
   const totalEgresos = egresosRango.reduce((a, e) => a + Number(e.monto), 0);
 
   const ingresosPorConcepto = useMemo(() => {
     const m = new Map<string, number>();
-    ingresosPagados.forEach((c) => m.set(c.concepto, (m.get(c.concepto) ?? 0) + Number(c.monto)));
+    ingresosPagados.forEach((c) => m.set(c.concepto, (m.get(c.concepto) ?? 0) + totalCon(c)));
     return Array.from(m, ([name, value]) => ({ name, value })).sort((a, b) => b.value - a.value);
   }, [ingresosPagados]);
 
@@ -64,7 +65,7 @@ export function ReportesFinancieros({ edificioId }: { edificioId: string }) {
       const residente = c.residente_id ? (residentes?.get(c.residente_id) ?? "—") : "—";
       const dias = Math.floor((today.getTime() - new Date(c.fecha_vencimiento).getTime()) / 86400000);
       const cur = m.get(key) ?? { unidad, residente, monto: 0, cobros: 0, dias: 0 };
-      cur.monto += Number(c.monto);
+      cur.monto += totalCon(c);
       cur.cobros += 1;
       cur.dias = Math.max(cur.dias, dias);
       m.set(key, cur);
@@ -76,7 +77,7 @@ export function ReportesFinancieros({ edificioId }: { edificioId: string }) {
   const flujo = useMemo(() => {
     type Mov = { fecha: string; descripcion: string; ingreso: number; egreso: number };
     const movs: Mov[] = [];
-    ingresosPagados.forEach((c) => movs.push({ fecha: c.fecha_pago!, descripcion: `Cobro: ${c.concepto}`, ingreso: Number(c.monto), egreso: 0 }));
+    ingresosPagados.forEach((c) => movs.push({ fecha: c.fecha_pago!, descripcion: `Cobro: ${c.concepto}`, ingreso: totalCon(c), egreso: 0 }));
     egresosRango.forEach((e) => movs.push({ fecha: e.fecha, descripcion: `${e.categoria}${e.proveedor ? ` · ${e.proveedor}` : ""}`, ingreso: 0, egreso: Number(e.monto) }));
     movs.sort((a, b) => a.fecha.localeCompare(b.fecha));
     let saldo = 0;

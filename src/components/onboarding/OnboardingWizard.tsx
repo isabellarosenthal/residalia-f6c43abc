@@ -147,7 +147,7 @@ export function OnboardingWizard({ open, onClose }: Props) {
         setError("No hay unidades para cobrar. Volvé al paso anterior.");
         return;
       }
-      await generarCobros.mutateAsync({ edificioId, mes, concepto: "Mantenimiento", vencimiento: venc, unidadIds });
+      await generarCobros.mutateAsync({ edificioId, mes, periodo: `${y}-${m}-01`, concepto: "Mantenimiento", vencimiento: venc, unidadIds });
       toast.success("¡Cobros generados!");
       advance(5);
     } catch (e: any) {

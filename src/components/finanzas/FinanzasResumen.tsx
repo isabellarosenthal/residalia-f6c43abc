@@ -5,6 +5,8 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { fmtL } from "@/lib/format";
 import { useCobros, useEgresos } from "@/lib/queries";
 
+const totalCon = (c: { monto: number; mora_aplicada?: number | null }) => Number(c.monto) + Number(c.mora_aplicada ?? 0);
+
 export function FinanzasResumen({ edificioId }: { edificioId: string }) {
   const filter = edificioId === "all" ? undefined : edificioId;
   const { data: cobros = [] } = useCobros(filter);
@@ -17,14 +19,14 @@ export function FinanzasResumen({ edificioId }: { edificioId: string }) {
   const stats = useMemo(() => {
     const ingresosMes = cobros
       .filter((c) => c.estado === "pagado" && c.fecha_pago && new Date(c.fecha_pago).getMonth() === mesActual && new Date(c.fecha_pago).getFullYear() === anioActual)
-      .reduce((a, c) => a + Number(c.monto), 0);
+      .reduce((a, c) => a + totalCon(c), 0);
     const egresosMes = egresos
       .filter((e) => new Date(e.fecha).getMonth() === mesActual && new Date(e.fecha).getFullYear() === anioActual)
       .reduce((a, e) => a + Number(e.monto), 0);
     const pendientes = cobros.filter((c) => c.estado === "pendiente" || c.estado === "vencido" || c.estado === "parcial");
-    const totalPendiente = pendientes.reduce((a, c) => a + Number(c.monto), 0);
+    const totalPendiente = pendientes.reduce((a, c) => a + totalCon(c), 0);
     const vencidos = cobros.filter((c) => c.estado === "vencido" || (c.estado === "pendiente" && new Date(c.fecha_vencimiento) < now));
-    const totalVencido = vencidos.reduce((a, c) => a + Number(c.monto), 0);
+    const totalVencido = vencidos.reduce((a, c) => a + totalCon(c), 0);
     const morosidad = cobros.length > 0 ? Math.round((vencidos.length / cobros.length) * 100) : 0;
     return { ingresosMes, egresosMes, saldo: ingresosMes - egresosMes, pendientes: pendientes.length, totalPendiente, totalVencido, morosidad };
   }, [cobros, egresos, mesActual, anioActual, now]);
@@ -39,7 +41,7 @@ export function FinanzasResumen({ edificioId }: { edificioId: string }) {
     cobros.filter((c) => c.estado === "pagado" && c.fecha_pago).forEach((c) => {
       const d = new Date(c.fecha_pago!);
       const k = `${d.getFullYear()}-${d.getMonth()}`;
-      const i = idx.get(k); if (i != null) months[i].ingresos += Number(c.monto);
+      const i = idx.get(k); if (i != null) months[i].ingresos += totalCon(c);
     });
     egresos.forEach((e) => {
       const d = new Date(e.fecha);

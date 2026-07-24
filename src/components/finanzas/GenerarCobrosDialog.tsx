@@ -19,11 +19,12 @@ export function GenerarCobrosDialog({
   const [year, setYear] = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth());
   const mes = new Date(year, month, 1).toLocaleDateString("es-HN", { month: "long", year: "numeric" });
+  const periodo = new Date(year, month, 1).toISOString().slice(0, 10);
   const [vencimiento, setVencimiento] = useState(venDefault);
   const [stage, setStage] = useState<"form" | "preview">("form");
   const [excluded, setExcluded] = useState<Set<string>>(new Set());
 
-  const previewArgs = stage === "preview" && edificioId ? { edificioId, mes, concepto } : null;
+  const previewArgs = stage === "preview" && edificioId ? { edificioId, mes, periodo, concepto } : null;
   const { data: rows = [], isLoading } = usePreviewCobrosMensuales(previewArgs);
 
   const selectable = useMemo(() => rows.filter((r) => !r.duplicado), [rows]);
@@ -46,7 +47,7 @@ export function GenerarCobrosDialog({
 
   const confirm = async () => {
     if (!edificioId || selectedIds.length === 0) return;
-    await mut.mutateAsync({ edificioId, mes, concepto, vencimiento, unidadIds: selectedIds });
+    await mut.mutateAsync({ edificioId, mes, periodo, concepto, vencimiento, unidadIds: selectedIds });
     onOpenChange(false);
     setStage("form");
     setExcluded(new Set());
@@ -96,7 +97,7 @@ export function GenerarCobrosDialog({
                       />
                       <div className="flex-1">
                         <div className="text-sm font-medium text-[#4A154B]">Unidad #{r.unidad_numero}</div>
-                        {r.duplicado && <div className="text-xs text-[#be185d] mt-0.5">Ya tiene un cobro de este concepto para este periodo</div>}
+                        {r.duplicado && <div className="text-xs text-[#be185d] mt-0.5">Ya tiene un cobro para este periodo</div>}
                       </div>
                       {r.duplicado && <Badge variant="warning">Duplicado</Badge>}
                       <div className="text-sm font-semibold text-[#4A154B] tabular-nums">{fmtL(r.monto)}</div>

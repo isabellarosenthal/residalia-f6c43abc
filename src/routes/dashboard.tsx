@@ -46,7 +46,7 @@ function DashboardPage() {
   );
   const morososMonto = cobros
     .filter((c) => c.estado === "vencido" || c.estado === "parcial")
-    .reduce((s, c) => s + (Number(c.monto ?? 0) - 0), 0);
+    .reduce((s, c) => s + Number(c.monto ?? 0) + Number((c as any).mora_aplicada ?? 0), 0);
 
   const accesosHoy = accesos.filter((a) => new Date(a.created_at).getTime() >= startOfDay);
   const entradas = accesosHoy.filter((a) => a.fecha_entrada).length;

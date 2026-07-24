@@ -21,6 +21,7 @@ type Moroso = {
 };
 
 const cleanPhone = (p: string | null | undefined) => (p ?? "").replace(/\D/g, "");
+const totalCon = (c: { monto: number; mora_aplicada?: number | null }) => Number(c.monto) + Number(c.mora_aplicada ?? 0);
 
 export function RecordatoriosMorosos({ edificioId }: { edificioId: string }) {
   const filter = edificioId === "all" ? undefined : edificioId;
@@ -59,8 +60,8 @@ export function RecordatoriosMorosos({ edificioId }: { edificioId: string }) {
           total: 0,
           diasMax: 0,
         };
-        cur.cobros.push({ concepto: c.concepto, monto: Number(c.monto), fecha_vencimiento: c.fecha_vencimiento, dias });
-        cur.total += Number(c.monto);
+        cur.cobros.push({ concepto: c.concepto, monto: totalCon(c), fecha_vencimiento: c.fecha_vencimiento, dias });
+        cur.total += totalCon(c);
         cur.diasMax = Math.max(cur.diasMax, dias);
         m.set(r.id, cur);
       });

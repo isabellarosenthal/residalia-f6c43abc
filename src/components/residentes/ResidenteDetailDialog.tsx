@@ -167,10 +167,12 @@ function VehiculosTab({ residenteId }: { residenteId: string }) {
   );
 }
 
+const totalCon = (c: { monto: number; mora_aplicada?: number | null }) => Number(c.monto) + Number(c.mora_aplicada ?? 0);
+
 function CuentaTab({ residenteId }: { residenteId: string }) {
   const { data: cobros = [], isLoading } = useCobrosDeResidente(residenteId);
-  const pagado = cobros.filter((c) => c.estado === "pagado").reduce((s, c) => s + Number(c.monto), 0);
-  const pendiente = cobros.filter((c) => c.estado !== "pagado").reduce((s, c) => s + Number(c.monto), 0);
+  const pagado = cobros.filter((c) => c.estado === "pagado").reduce((s, c) => s + totalCon(c), 0);
+  const pendiente = cobros.filter((c) => c.estado !== "pagado").reduce((s, c) => s + totalCon(c), 0);
   const vencidos = cobros.filter((c) => c.estado !== "pagado" && new Date(c.fecha_vencimiento) < new Date());
 
   if (isLoading) return <p className="text-sm text-[#64748B]">Cargando…</p>;
@@ -195,7 +197,7 @@ function CuentaTab({ residenteId }: { residenteId: string }) {
                   <div className="text-xs text-[#64748B]">Vence {fmtDate(c.fecha_vencimiento)}</div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-[#4A154B]">{fmtL(Number(c.monto))}</span>
+                  <span className="font-semibold text-[#4A154B]">{fmtL(totalCon(c))}</span>
                   {c.estado === "pagado" ? <Badge variant="success">Pagado</Badge>
                     : vencido ? <Badge variant="danger">Vencido</Badge>
                     : <Badge variant="warning">Pendiente</Badge>}
