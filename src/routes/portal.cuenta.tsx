@@ -1,12 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMiResidente, useMisCobros } from "@/lib/queries";
-import { Wallet, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Wallet, AlertCircle, CheckCircle2, Receipt } from "lucide-react";
 import { Badge } from "@/components/ui-pentos";
 
 export const Route = createFileRoute("/portal/cuenta")({ component: MiCuenta });
 
 const fmt = (n: number, m = "L") => `${m} ${n.toLocaleString("es-HN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 const fmtD = (s: string) => new Date(s).toLocaleDateString("es-HN", { dateStyle: "medium" });
+const totalCon = (c: { monto: number; mora_aplicada?: number | null }) => Number(c.monto) + Number(c.mora_aplicada ?? 0);
 
 function MiCuenta() {
   const { data: residente } = useMiResidente();
@@ -15,7 +16,7 @@ function MiCuenta() {
 
   const pendientes = cobros.filter((c) => c.estado !== "pagado");
   const pagados = cobros.filter((c) => c.estado === "pagado");
-  const totalPend = pendientes.reduce((s, c) => s + Number(c.monto), 0);
+  const totalPend = pendientes.reduce((s, c) => s + totalCon(c), 0);
   const vencidos = pendientes.filter((c) => c.estado === "vencido").length;
 
   if (isLoading) return <div className="text-sm text-[#64748B]">Cargando…</div>;
@@ -43,7 +44,7 @@ function MiCuenta() {
                   <div className="text-xs text-[#64748B]">Vence {fmtD(c.fecha_vencimiento)}</div>
                 </div>
                 <div className="text-right">
-                  <div className="font-bold text-[#4A154B]">{fmt(Number(c.monto), moneda)}</div>
+                  <div className="font-bold text-[#4A154B]">{fmt(totalCon(c), moneda)}</div>
                   <Badge variant={c.estado === "vencido" ? "danger" : c.estado === "parcial" ? "warning" : "neutral"}>{c.estado}</Badge>
                 </div>
               </div>
@@ -57,12 +58,20 @@ function MiCuenta() {
           <h2 className="font-display font-extrabold text-lg text-[#0F172A] mb-2">Historial</h2>
           <div className="space-y-2">
             {pagados.slice(0, 12).map((c) => (
-              <div key={c.id} className="bg-white border border-[#E2E8F0] rounded-xl p-3 flex items-center justify-between text-sm">
+              <div key={c.id} className="bg-white border border-[#E2E8F0] rounded-xl p-3 flex items-center justify-between text-sm gap-3">
                 <div>
                   <div className="text-[#4A154B]">{c.concepto}</div>
                   <div className="text-xs text-[#64748B]">Pagado {c.fecha_pago ? fmtD(c.fecha_pago) : "—"}</div>
                 </div>
-                <div className="font-semibold text-[#166534]">{fmt(Number(c.monto), moneda)}</div>
+                <div className="flex items-center gap-3 shrink-0">
+                  <div className="font-semibold text-[#166534]">{fmt(totalCon(c), moneda)}</div>
+                  <Link
+                    to="/recibo/$cobroId" params={{ cobroId: c.id }} target="_blank"
+                    className="inline-flex items-center gap-1 text-xs font-semibold text-[#4A154B] hover:underline"
+                  >
+                    <Receipt className="w-3.5 h-3.5" />Recibo
+                  </Link>
+                </div>
               </div>
             ))}
           </div>
