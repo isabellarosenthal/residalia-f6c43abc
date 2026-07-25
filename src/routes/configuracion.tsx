@@ -695,7 +695,7 @@ function MiPlanTab() {
   const pct = (used: number, max: number) => (max >= data.unlimited ? 5 : Math.min(100, (used / Math.max(1, max)) * 100));
   const actual = data.plan.nombre;
   const contactarHref = (plan: string) =>
-    `mailto:ventas@residalia.com?subject=${encodeURIComponent(`Quiero contratar el plan ${plan}`)}&body=${encodeURIComponent(`Hola, me interesa contratar el plan ${plan} de Residalia.`)}`;
+    `mailto:ventas@zafra.cloud?subject=${encodeURIComponent(`Quiero contratar el plan ${plan}`)}&body=${encodeURIComponent(`Hola, me interesa contratar el plan ${plan} de Residalia.`)}`;
 
   return (
     <div className="space-y-4">
@@ -798,7 +798,7 @@ function MiPlanTab() {
         </div>
         <p className="text-center text-xs text-[#64748B] mt-4">
           Todos los planes incluyen 14 días de prueba gratis. Para activar tu plan escríbenos a{" "}
-          <a href="mailto:ventas@residalia.com" className="text-[#4A154B] hover:underline">ventas@residalia.com</a>.
+          <a href="mailto:ventas@zafra.cloud" className="text-[#4A154B] hover:underline">ventas@zafra.cloud</a>.
         </p>
       </div>
     </div>
