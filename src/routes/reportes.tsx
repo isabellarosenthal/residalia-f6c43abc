@@ -99,11 +99,6 @@ function ReportesPage() {
     return Array.from(map.entries()).map(([name, value]) => ({ name, value }));
   }, [egresos]);
 
-  const pipeline = useMemo(() => {
-    const etapas = ["nuevo", "contactado", "calificado", "visita", "propuesta", "negociacion", "ganado", "perdido"];
-    return etapas.map(e => ({ etapa: e, total: prospectos.filter(p => p.etapa_pipeline === e).length }));
-  }, [prospectos]);
-
   return (
     <AppShell>
       <div className="space-y-5 max-w-[1400px] mx-auto">

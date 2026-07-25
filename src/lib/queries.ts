@@ -1351,3 +1351,64 @@ export function useDeleteProveedor() {
     onError: (e: any) => toast.error(e?.message ?? "Error"),
   });
 }
+
+// ============ COMUNICADOS (admin) ============
+export type Comunicado = Database["public"]["Tables"]["comunicados"]["Row"];
+export type ComunicadoInsert = Database["public"]["Tables"]["comunicados"]["Insert"];
+
+export function useComunicados(edificioId?: string) {
+  return useQuery({
+    queryKey: ["comunicados", edificioId ?? "all"],
+    queryFn: async (): Promise<Comunicado[]> => {
+      let q = supabase.from("comunicados").select("*").order("created_at", { ascending: false });
+      if (edificioId) q = q.eq("condominio_id", edificioId);
+      const { data, error } = await q;
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+}
+
+export function useSaveComunicado() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: ComunicadoInsert & { id?: string }) => {
+      if (input.id) {
+        const { id, ...rest } = input;
+        const { data, error } = await supabase.from("comunicados").update(rest).eq("id", id).select().single();
+        if (error) throw error;
+        return data;
+      }
+      const { data: u } = await supabase.auth.getUser();
+      const { data, error } = await supabase
+        .from("comunicados")
+        .insert({ ...input, creado_por: u.user?.id ?? null, enviado_en: new Date().toISOString() })
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: (_d, v) => {
+      qc.invalidateQueries({ queryKey: ["comunicados"] });
+      qc.invalidateQueries({ queryKey: ["mis-comunicados"] });
+      toast.success(v.id ? "Anuncio actualizado" : "Anuncio publicado");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error guardando anuncio"),
+  });
+}
+
+export function useDeleteComunicado() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("comunicados").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["comunicados"] });
+      qc.invalidateQueries({ queryKey: ["mis-comunicados"] });
+      toast.success("Anuncio eliminado");
+    },
+    onError: (e: any) => toast.error(e?.message ?? "Error eliminando"),
+  });
+}
