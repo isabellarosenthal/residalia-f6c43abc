@@ -41,11 +41,12 @@ function DashboardPage() {
 
   const metaMes = unidades.reduce((s, u) => s + Number(u.mantenimiento_mensual ?? 0), 0);
 
-  const morososUnidades = new Set(
-    cobros.filter((c) => c.estado === "vencido" || c.estado === "parcial").map((c) => c.unidad_id),
-  );
+  const esMoroso = (c: { estado: string; fecha_vencimiento: string }) =>
+    c.estado === "vencido" || c.estado === "parcial" || (c.estado === "pendiente" && new Date(c.fecha_vencimiento) < now);
+
+  const morososUnidades = new Set(cobros.filter(esMoroso).map((c) => c.unidad_id));
   const morososMonto = cobros
-    .filter((c) => c.estado === "vencido" || c.estado === "parcial")
+    .filter(esMoroso)
     .reduce((s, c) => s + Number(c.monto ?? 0) + Number((c as any).mora_aplicada ?? 0), 0);
 
   const accesosHoy = accesos.filter((a) => new Date(a.created_at).getTime() >= startOfDay);
